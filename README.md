@@ -71,5 +71,11 @@ import { Scheduler } from "@aldabil/react-scheduler";
 - [Basic](https://codesandbox.io/s/react-scheduler-demo-standard-v96bd)
 - [Remote Data](https://codesandbox.io/s/remote-data-j13ei)
 - [Custom Fields](https://codesandbox.io/s/custom-fields-b2kbv)
-- [Editor Override](https://codesandbox.io/s/customeditor-tt2pf)
-- [More on Github](https://github.com/aldabil21/react-scheduler)
+- [Editor/Viewer Override](https://codesandbox.io/s/customeditor-tt2pf)
+- [Resources/View Mode](https://codesandbox.io/s/resources-7wlcy)
+
+### Todos
+
+- Tests
+- Drag&Drop
+- Recurring events
