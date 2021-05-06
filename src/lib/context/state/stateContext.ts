@@ -65,6 +65,7 @@ export const defaultProps = {
   recourseHeaderComponent: undefined,
   resourceViewMode: "default",
   direction: "ltr",
+  dialogMaxWidth: "md",
 } as SchedulerProps;
 
 const StateContext = createContext<stateContext>({

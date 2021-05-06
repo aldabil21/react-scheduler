@@ -66,6 +66,7 @@ import { Scheduler } from "@aldabil/react-scheduler";
 | recourseHeaderComponent | Function(resource). Override header component of resource                                                                                                                                                                         |
 | resourceViewMode        | Display resources mode. <br>_Options_: "default", "tabs"                                                                                                                                                                          |
 | direction               | string. Table direction. "rtl", "ltr"                                                                                                                                                                                             |
+| dialogMaxWidth          | Edito dialog maxWith. Ex: "lg", "md", "sm"... _Default_:"md"                                                                                                                                                                      |
 
 ### Demos
 

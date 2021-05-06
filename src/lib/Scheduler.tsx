@@ -1,4 +1,4 @@
-import { GridSize } from "@material-ui/core";
+import { DialogProps, GridSize } from "@material-ui/core";
 import { SelectOption } from "./components/inputs/SelectInput";
 import { View } from "./components/nav/Navigation";
 import { AppState } from "./context/state/State";
@@ -177,6 +177,10 @@ export interface SchedulerProps {
   resourceViewMode: "default" | "tabs";
   /**Direction of table */
   direction: "rtl" | "ltr";
+  /**Edito dialog maxWith
+   * @default "md"
+   */
+  dialogMaxWidth: DialogProps["maxWidth"];
 }
 
 const Scheduler = (props: SchedulerProps) => {

@@ -90,6 +90,7 @@ const Editor = () => {
     onConfirm,
     customEditor,
     confirmEvent,
+    dialogMaxWidth,
   } = useAppState();
   const [state, setState] = useState(
     initialState(fields, selectedEvent || selectedRange)
@@ -226,7 +227,12 @@ const Editor = () => {
   };
 
   return (
-    <Dialog open={dialog} fullWidth fullScreen={isMobile}>
+    <Dialog
+      open={dialog}
+      fullWidth
+      fullScreen={isMobile}
+      maxWidth={dialogMaxWidth}
+    >
       {renderEditor()}
     </Dialog>
   );
