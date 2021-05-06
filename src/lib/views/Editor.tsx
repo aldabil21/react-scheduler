@@ -201,7 +201,7 @@ const Editor = () => {
             {selectedEvent ? "Edit Event" : "Add Event"}
           </Typography>
         </DialogTitle>
-        <DialogContent>
+        <DialogContent style={{ overflowX: "hidden" }}>
           <Grid container spacing={1}>
             {Object.keys(state).map((key) => {
               const item = state[key];

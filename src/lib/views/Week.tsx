@@ -47,6 +47,7 @@ const Week = () => {
     handleState,
     resources,
     resourceFields,
+    direction,
   } = useAppState();
 
   const { weekStartOn, weekDays, startHour, endHour } = week!;
@@ -232,7 +233,25 @@ const Week = () => {
               <tbody>
                 <tr>
                   {daysList.map((date, i) => (
-                    <td key={i} className={isToday(date) ? "today_cell" : ""}>
+                    <td
+                      key={i}
+                      className={isToday(date) ? "today_cell" : ""}
+                      style={{
+                        borderBottom: 0,
+                        borderRight:
+                          direction === "rtl"
+                            ? i === 0
+                              ? 0
+                              : "1px solid #eeeeee"
+                            : "",
+                        borderLeft:
+                          direction === "ltr"
+                            ? i === 0
+                              ? 0
+                              : "1px solid #eeeeee"
+                            : "",
+                      }}
+                    >
                       <TodayTypo date={date} onClick={handleGotoDay} />
                       {renderMultiDayEvents(recousedEvents, date)}
                     </td>
@@ -267,6 +286,16 @@ const Week = () => {
           </td>
           <td className="borderd">
             <table className="cells_table">
+              <style>{`
+              .cells_table tr:last-child td {
+                border-width: ${
+                  direction === "rtl" ? "0 1px 0 0" : "0 0 0 1px"
+                };
+              }
+              .cells_table td:first-child {
+                border-${direction === "rtl" ? "right" : "left"}: 0;
+              }
+              `}</style>
               <thead>
                 <tr>
                   {daysList.map((date, i) => {

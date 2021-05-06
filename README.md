@@ -65,6 +65,7 @@ import { Scheduler } from "@aldabil/react-scheduler";
 | resourceFields          | Object. Map the resources correct fields. <br>_Example_: <pre>{<br> idField: "admin_id", <br>textField: "title", <br>subTextField: "mobile", <br>avatarField: "title", <br>colorField: "background",<br> }</pre>                  |
 | recourseHeaderComponent | Function(resource). Override header component of resource                                                                                                                                                                         |
 | resourceViewMode        | Display resources mode. <br>_Options_: "default", "tabs"                                                                                                                                                                          |
+| direction               | string. Table direction. "rtl", "ltr"                                                                                                                                                                                             |
 
 ### Demos
 
@@ -79,3 +80,4 @@ import { Scheduler } from "@aldabil/react-scheduler";
 - Tests
 - Drag&Drop
 - Recurring events
+- Localization

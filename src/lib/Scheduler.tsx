@@ -175,6 +175,8 @@ export interface SchedulerProps {
    * @default "default"
    */
   resourceViewMode: "default" | "tabs";
+  /**Direction of table */
+  direction: "rtl" | "ltr";
 }
 
 const Scheduler = (props: SchedulerProps) => {

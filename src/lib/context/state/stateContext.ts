@@ -64,6 +64,7 @@ export const defaultProps = {
   },
   recourseHeaderComponent: undefined,
   resourceViewMode: "default",
+  direction: "ltr",
 } as SchedulerProps;
 
 const StateContext = createContext<stateContext>({

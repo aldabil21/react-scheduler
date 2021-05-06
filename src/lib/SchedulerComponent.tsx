@@ -9,7 +9,7 @@ import { Month } from "./views/Month";
 import { Day } from "./views/Day";
 
 const SchedulerComponent = () => {
-  const { loading, view, dialog } = useAppState();
+  const { loading, view, dialog, direction } = useAppState();
 
   const renderViews = () => {
     switch (view) {
@@ -36,7 +36,18 @@ const SchedulerComponent = () => {
       )}
       <Navigation />
       <div className="outer-table">
-        <table>{renderViews()}</table>
+        <table>
+          <style>
+            {`
+              table td {
+                border-${
+                  direction === "rtl" ? "right" : "left"
+                }: 1px solid #eeeeee;
+              }
+            `}
+          </style>
+          {renderViews()}
+        </table>
       </div>
       {dialog && <Editor />}
     </div>

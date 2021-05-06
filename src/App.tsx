@@ -3,6 +3,7 @@ import { Scheduler } from "./lib/Scheduler";
 const App = () => {
   return (
     <Scheduler
+    // view="month"
     // loading={loading}
     // view="month"
     // events={EVENTS}
@@ -15,13 +16,13 @@ const App = () => {
     //   });
     // }}
     // resources={[
-    // {
-    //   admin_id: 1,
-    //   title: "One",
-    //   mobile: "555666777",
-    //   avatar: "https://picsum.photos/200/300",
-    //   color: "#ab2d2d",
-    // },
+    //   {
+    //     admin_id: 1,
+    //     title: "One",
+    //     mobile: "555666777",
+    //     avatar: "https://picsum.photos/200/300",
+    //     color: "#ab2d2d",
+    //   },
     //   {
     //     admin_id: 2,
     //     title: "Two",
@@ -131,6 +132,7 @@ const App = () => {
     //   //   </div>
     //   // );
     // }}
+    // direction={dir}
     />
   );
 };

@@ -42,6 +42,7 @@ const Day = () => {
     handleState,
     resources,
     resourceFields,
+    direction,
   } = useAppState();
   const { startHour, endHour } = day!;
   const HOUR_STEP = 60;
@@ -202,7 +203,10 @@ const Day = () => {
             <table className="week_day_table">
               <tbody>
                 <tr>
-                  <td className={isToday(selectedDate) ? "today_cell" : ""}>
+                  <td
+                    className={isToday(selectedDate) ? "today_cell" : ""}
+                    style={{ border: 0 }}
+                  >
                     <TodayTypo date={selectedDate} />
                     {renderMultiDayEvents(recousedEvents)}
                   </td>
@@ -236,6 +240,16 @@ const Day = () => {
           </td>
           <td className="borderd">
             <table className="cells_table">
+              <style>{`
+              .cells_table tr:last-child td {
+                border-width: ${
+                  direction === "rtl" ? "0 1px 0 0" : "0 0 0 1px"
+                };
+              }
+              .cells_table td:first-child {
+                border-${direction === "rtl" ? "right" : "left"}: 0;
+              }
+              `}</style>
               <thead>
                 <tr>
                   <td>{renderTodayEvents(recousedEvents)}</td>

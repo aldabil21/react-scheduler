@@ -37,6 +37,7 @@ const Month = () => {
     handleState,
     resources,
     resourceFields,
+    direction,
   } = useAppState();
 
   const { weekStartOn, weekDays, startHour, endHour } = month!;
@@ -174,6 +175,20 @@ const Month = () => {
         <tr>
           <td>
             <table className="month_cells">
+              <style>{`
+              .month_day_table td {
+                border-bottom: 0;
+                border-${direction === "rtl" ? "left" : "right"}: 0;
+              }
+              .month_cells td {
+                border-width: ${
+                  direction === "rtl" ? "0 1px 1px 0" : "0 0 1px 1px"
+                };
+              }
+              .month_cells td:first-child, .month_day_table td:first-child {
+                border-${direction === "rtl" ? "right" : "left"}: 0
+              }
+              `}</style>
               <tbody>{renderCells(recousedEvents)}</tbody>
             </table>
           </td>

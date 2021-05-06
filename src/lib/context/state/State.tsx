@@ -28,15 +28,16 @@ const initialState = (initial: SchedulerProps): SchedulerState => {
 };
 
 const AppState = ({ initial, children }: AppProps) => {
-  const {
-    events,
-    loading,
-    view,
-    resourceViewMode,
-    fields,
-    resources,
-    selectedDate,
-  } = initial;
+  // const {
+  //   events,
+  //   loading,
+  //   view,
+  //   resourceViewMode,
+  //   fields,
+  //   resources,
+  //   selectedDate,
+  //   direction,
+  // } = initial;
   const [state, dispatch] = useReducer(stateReducer, initialState(initial));
 
   const handleState = (
@@ -50,24 +51,8 @@ const AppState = ({ initial, children }: AppProps) => {
     dispatch({ type: "updateProps", payload: initials });
   };
   useEffect(() => {
-    updateProps({
-      events,
-      loading,
-      view,
-      resourceViewMode,
-      fields,
-      resources,
-      selectedDate,
-    } as SchedulerProps);
-  }, [
-    events,
-    loading,
-    view,
-    resourceViewMode,
-    fields,
-    resources,
-    selectedDate,
-  ]);
+    updateProps(initial);
+  }, [initial]);
 
   const confirmEvent = (event: ProcessedEvent, action: EventActions) => {
     let updatedEvents: ProcessedEvent[];

@@ -13,7 +13,12 @@ interface ResourceHeaderProps {
   resource: DefaultRecourse;
 }
 const ResourceHeader = ({ resource }: ResourceHeaderProps) => {
-  const { recourseHeaderComponent, resourceFields, resources } = useAppState();
+  const {
+    recourseHeaderComponent,
+    resourceFields,
+    resources,
+    direction,
+  } = useAppState();
   const { width } = useWindowResize();
 
   const text = resource[resourceFields.textField];
@@ -26,7 +31,12 @@ const ResourceHeader = ({ resource }: ResourceHeaderProps) => {
   }
 
   return (
-    <ListItem style={{ padding: "2px 10px" }}>
+    <ListItem
+      style={{
+        padding: "2px 10px",
+        textAlign: direction === "rtl" ? "right" : "left",
+      }}
+    >
       <ListItemAvatar>
         <Avatar style={{ background: color }} alt={text} src={avatar} />
       </ListItemAvatar>

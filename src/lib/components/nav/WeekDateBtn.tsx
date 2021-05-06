@@ -1,13 +1,12 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import DateProvider from "../hoc/DateProvider";
 import { DatePicker } from "@material-ui/pickers";
 import { Button, IconButton } from "@material-ui/core";
 import { endOfWeek, format, startOfWeek } from "date-fns";
 import { WeekProps } from "../../views/Week";
-import NavigateBeforeRoundedIcon from "@material-ui/icons/NavigateBeforeRounded";
-import NavigateNextRoundedIcon from "@material-ui/icons/NavigateNextRounded";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 import { addDays } from "date-fns/esm";
+import { LocaleArrow } from "../common/LocaleArrow";
 
 interface WeekDateBtnProps {
   selectedDate: Date;
@@ -42,14 +41,14 @@ const WeekDateBtn = ({
   return (
     <div>
       <IconButton style={{ padding: 2 }} onClick={handlePrev}>
-        <NavigateBeforeRoundedIcon />
+        <LocaleArrow type="prev" />
       </IconButton>
       <Button style={{ padding: 4 }} onClick={toggleDialog}>{`${format(
         weekStart,
         "dd"
       )} - ${format(weekEnd, "dd MMMM yyyy")}`}</Button>
       <IconButton style={{ padding: 2 }} onClick={handleNext}>
-        <NavigateNextRoundedIcon />
+        <LocaleArrow type="next" />
       </IconButton>
       <DateProvider>
         <DatePicker
