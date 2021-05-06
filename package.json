@@ -1,6 +1,6 @@
 {
   "name": "@aldabil/react-scheduler",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "React scheduler component based on Material-UI & date-fns",
   "main": "./dist/Scheduler.js",
   "//types": "./dist/index.d.ts",
