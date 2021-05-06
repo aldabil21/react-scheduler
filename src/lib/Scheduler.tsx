@@ -5,6 +5,7 @@ import { AppState } from "./context/state/State";
 import { defaultProps } from "./context/state/stateContext";
 import { SchedulerComponent } from "./SchedulerComponent";
 import { DayProps } from "./views/Day";
+import { StateItem } from "./views/Editor";
 import { MonthProps } from "./views/Month";
 import { WeekProps } from "./views/Week";
 
@@ -120,6 +121,14 @@ export type ResourceFields = {
   avatarField?: string;
   colorField?: string;
 } & Record<string, string>;
+
+export interface SchedulerHelpers {
+  state: Record<string, StateItem>;
+  close(): void;
+  loading(status: boolean): void;
+  edited?: ProcessedEvent;
+  onConfirm(event: ProcessedEvent, action: EventActions): void;
+}
 export interface SchedulerProps {
   /**Min height of table
    * @default 600
@@ -138,7 +147,7 @@ export interface SchedulerProps {
   /**Events to display */
   events: ProcessedEvent[];
   /**Async function to load remote data */
-  remoteEvents?(query: string): Promise<ProcessedEvent[]>;
+  remoteEvents?(query: string): Promise<ProcessedEvent[]> | void;
   /**Custom additional fields with it's settings */
   fields: FieldProps[];
   /**Table loading state */
@@ -151,7 +160,7 @@ export interface SchedulerProps {
   /**Async function triggered when delete event */
   onDelete?(deletedId: string | number): Promise<string | number>;
   /**Override editor modal */
-  customEditor?(fields: FieldProps[]): JSX.Element;
+  customEditor?(scheduler: SchedulerHelpers): JSX.Element;
   /**Additional component in event viewer popper */
   viewerExtraComponent?:
     | JSX.Element

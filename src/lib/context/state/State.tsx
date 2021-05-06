@@ -1,6 +1,6 @@
-import React, { useReducer } from "react";
+import { useEffect, useReducer, ReactChild } from "react";
 import { getAvailableViews, getOneView } from "../../helpers/generals";
-import { ProcessedEvent, SchedulerProps } from "../../Scheduler";
+import { EventActions, ProcessedEvent, SchedulerProps } from "../../Scheduler";
 import {
   defaultProps,
   SchedulerState,
@@ -10,7 +10,7 @@ import {
 import { stateReducer } from "./stateReducer";
 
 interface AppProps {
-  children: React.ReactNode;
+  children: ReactChild;
   initial: SchedulerProps;
 }
 
@@ -27,17 +27,58 @@ const initialState = (initial: SchedulerProps): SchedulerState => {
   };
 };
 
-const AppState = (props: AppProps) => {
-  const [state, dispatch] = useReducer(
-    stateReducer,
-    initialState(props.initial)
-  );
+const AppState = ({ initial, children }: AppProps) => {
+  const {
+    events,
+    loading,
+    view,
+    resourceViewMode,
+    fields,
+    resources,
+    selectedDate,
+  } = initial;
+  const [state, dispatch] = useReducer(stateReducer, initialState(initial));
 
   const handleState = (
     value: SchedulerState[keyof SchedulerState],
     name: keyof SchedulerState
   ) => {
     dispatch({ type: "set", payload: { name, value } });
+  };
+
+  const updateProps = (initials: SchedulerProps) => {
+    dispatch({ type: "updateProps", payload: initials });
+  };
+  useEffect(() => {
+    updateProps({
+      events,
+      loading,
+      view,
+      resourceViewMode,
+      fields,
+      resources,
+      selectedDate,
+    } as SchedulerProps);
+  }, [
+    events,
+    loading,
+    view,
+    resourceViewMode,
+    fields,
+    resources,
+    selectedDate,
+  ]);
+
+  const confirmEvent = (event: ProcessedEvent, action: EventActions) => {
+    let updatedEvents: ProcessedEvent[];
+    if (action === "edit") {
+      updatedEvents = state.events.map((e) =>
+        e.event_id === event.event_id ? event : e
+      );
+    } else {
+      updatedEvents = [...state.events, event];
+    }
+    handleState(updatedEvents, "events");
   };
 
   const getViews = () => getAvailableViews(state);
@@ -72,9 +113,10 @@ const AppState = (props: AppProps) => {
         triggerDialog,
         triggerLoading,
         handleGotoDay,
+        confirmEvent,
       }}
     >
-      {props.children}
+      {children}
     </StateContext.Provider>
   );
 };

@@ -2,6 +2,7 @@ import { createContext } from "react";
 import { View } from "../../components/nav/Navigation";
 import {
   DefaultRecourse,
+  EventActions,
   ProcessedEvent,
   SchedulerProps,
 } from "../../Scheduler";
@@ -22,6 +23,7 @@ export interface stateContext extends SchedulerState {
   triggerDialog(status?: boolean, event?: SelectedRange | ProcessedEvent): void;
   triggerLoading(status?: boolean): void;
   handleGotoDay(day: Date | string): void;
+  confirmEvent(event: ProcessedEvent, action: EventActions): void;
 }
 
 export const defaultProps = {
@@ -75,6 +77,7 @@ const StateContext = createContext<stateContext>({
   triggerDialog: () => {},
   triggerLoading: () => {},
   handleGotoDay: () => {},
+  confirmEvent: () => {},
 });
 
 export { StateContext };

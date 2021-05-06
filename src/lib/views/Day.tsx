@@ -66,7 +66,9 @@ const Day = () => {
       const end = addDays(END_TIME, 1);
       const query = `?start=${start}&end=${end}`;
       const events = await remoteEvents!(query);
-      handleState(events, "events");
+      if (events && events?.length) {
+        handleState(events, "events");
+      }
     } catch (error) {
       throw error;
     } finally {

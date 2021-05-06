@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -22,10 +22,11 @@ import {
   FieldProps,
   InputTypes,
   ProcessedEvent,
+  SchedulerHelpers,
 } from "../Scheduler";
 import { EditorSelect } from "../components/inputs/SelectInput";
 
-type StateItem = {
+export type StateItem = {
   value: any;
   validity: boolean;
   type: InputTypes;
@@ -86,10 +87,9 @@ const Editor = () => {
     selectedRange,
     selectedEvent,
     triggerLoading,
-    handleState,
-    events,
     onConfirm,
     customEditor,
+    confirmEvent,
   } = useAppState();
   const [state, setState] = useState(
     initialState(fields, selectedEvent || selectedRange)
@@ -122,32 +122,21 @@ const Editor = () => {
         return setTouched(true);
       }
     }
-    triggerLoading(true);
     try {
+      triggerLoading(true);
       // Auto fix date
       body.end = body.start >= body.end ? addHours(body.start, 1) : body.end;
-
+      // Specify action
+      const action: EventActions = selectedEvent?.event_id ? "edit" : "create";
       // Trigger custom/remote when provided
       if (onConfirm) {
-        const action: EventActions = selectedEvent?.event_id
-          ? "edit"
-          : "create";
         body = await onConfirm(body, action);
       } else {
         // Create/Edit local data
         body.event_id =
           selectedEvent?.event_id || randomBytes(6).toString("hex");
       }
-      let updatedEvents: ProcessedEvent[];
-      if (selectedEvent) {
-        updatedEvents = events.map((e) =>
-          e.event_id === body.event_id ? body : e
-        );
-      } else {
-        updatedEvents = [...events, body];
-      }
-
-      handleState(updatedEvents, "events");
+      confirmEvent(body, action);
       handleClose(true);
     } catch (error) {
       console.error(error);
@@ -196,38 +185,49 @@ const Editor = () => {
 
   const renderEditor = () => {
     if (customEditor) {
-      return customEditor(fields);
+      const schedulerHelpers: SchedulerHelpers = {
+        state,
+        close: () => triggerDialog(false),
+        loading: (load) => triggerLoading(load),
+        edited: selectedEvent,
+        onConfirm: confirmEvent,
+      };
+      return customEditor(schedulerHelpers);
     }
     return (
-      <Grid container spacing={1}>
-        {Object.keys(state).map((key) => {
-          const item = state[key];
-          return (
-            <Grid item key={key} sm={item.config?.sm} xs={12}>
-              {renderInputs(key)}
-            </Grid>
-          );
-        })}
-      </Grid>
+      <Fragment>
+        <DialogTitle disableTypography>
+          <Typography align="center" variant="h6">
+            {selectedEvent ? "Edit Event" : "Add Event"}
+          </Typography>
+        </DialogTitle>
+        <DialogContent>
+          <Grid container spacing={1}>
+            {Object.keys(state).map((key) => {
+              const item = state[key];
+              return (
+                <Grid item key={key} sm={item.config?.sm} xs={12}>
+                  {renderInputs(key)}
+                </Grid>
+              );
+            })}
+          </Grid>
+        </DialogContent>
+        <DialogActions>
+          <Button fullWidth onClick={() => handleClose()}>
+            Cancel
+          </Button>
+          <Button color="primary" fullWidth onClick={handleConfirm}>
+            Confirm
+          </Button>
+        </DialogActions>
+      </Fragment>
     );
   };
 
   return (
     <Dialog open={dialog} fullWidth fullScreen={isMobile}>
-      <DialogTitle disableTypography>
-        <Typography align="center" variant="h6">
-          {selectedEvent ? "Edit Event" : "Add Event"}
-        </Typography>
-      </DialogTitle>
-      <DialogContent>{renderEditor()}</DialogContent>
-      <DialogActions>
-        <Button fullWidth onClick={() => handleClose()}>
-          Cancel
-        </Button>
-        <Button color="primary" fullWidth onClick={handleConfirm}>
-          Confirm
-        </Button>
-      </DialogActions>
+      {renderEditor()}
     </Dialog>
   );
 };
