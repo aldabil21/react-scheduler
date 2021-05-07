@@ -185,7 +185,7 @@ export interface SchedulerProps {
 
 const Scheduler = (props: SchedulerProps) => {
   return (
-    <AppState initial={{ ...props }}>
+    <AppState initial={props}>
       <SchedulerComponent />
     </AppState>
   );

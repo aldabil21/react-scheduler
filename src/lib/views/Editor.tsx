@@ -116,7 +116,7 @@ const Editor = () => {
     if (clearState) {
       setState(initialState(fields));
     }
-    triggerDialog();
+    triggerDialog(false);
   };
 
   const handleConfirm = async () => {

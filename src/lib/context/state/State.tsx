@@ -22,22 +22,13 @@ const initialState = (initial: SchedulerProps): SchedulerState => {
     ...initial,
     view: initialView,
     dialog: false,
+    mounted: false,
     selectedRange: undefined,
     fields: [...defaultProps.fields, ...initial.fields],
   };
 };
 
 const AppState = ({ initial, children }: AppProps) => {
-  // const {
-  //   events,
-  //   loading,
-  //   view,
-  //   resourceViewMode,
-  //   fields,
-  //   resources,
-  //   selectedDate,
-  //   direction,
-  // } = initial;
   const [state, dispatch] = useReducer(stateReducer, initialState(initial));
 
   const handleState = (
@@ -51,7 +42,13 @@ const AppState = ({ initial, children }: AppProps) => {
     dispatch({ type: "updateProps", payload: initials });
   };
   useEffect(() => {
-    updateProps(initial);
+    console.log(state.mounted);
+    if (state.mounted) {
+      updateProps(initial);
+    } else {
+      handleState(true, "mounted");
+    }
+    //eslint-disable-next-line
   }, [initial]);
 
   const confirmEvent = (event: ProcessedEvent, action: EventActions) => {
@@ -74,8 +71,8 @@ const AppState = ({ initial, children }: AppProps) => {
   ) => {
     dispatch({ type: "triggerDialog", payload: { status, selected } });
   };
-  const triggerLoading = (status: boolean | undefined) => {
-    dispatch({ type: "triggerLoading", payload: { status } });
+  const triggerLoading = (status: boolean) => {
+    dispatch({ type: "triggerLoading", payload: status });
   };
   const handleGotoDay = (day: Date) => {
     const views = getViews();

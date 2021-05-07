@@ -9,6 +9,7 @@ import {
 
 export type SelectedRange = { start: Date; end: Date };
 export interface SchedulerState extends SchedulerProps {
+  mounted: boolean;
   dialog: boolean;
   selectedRange?: SelectedRange;
   selectedEvent?: ProcessedEvent;
@@ -20,8 +21,8 @@ export interface stateContext extends SchedulerState {
     name: keyof SchedulerState
   ): void;
   getViews(): View[];
-  triggerDialog(status?: boolean, event?: SelectedRange | ProcessedEvent): void;
-  triggerLoading(status?: boolean): void;
+  triggerDialog(status: boolean, event?: SelectedRange | ProcessedEvent): void;
+  triggerLoading(status: boolean): void;
   handleGotoDay(day: Date | string): void;
   confirmEvent(event: ProcessedEvent, action: EventActions): void;
 }
@@ -70,6 +71,7 @@ export const defaultProps = {
 
 const StateContext = createContext<stateContext>({
   ...defaultProps,
+  mounted: false,
   dialog: false,
   selectedRange: undefined,
   selectedEvent: undefined,

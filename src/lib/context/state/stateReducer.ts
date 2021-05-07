@@ -25,7 +25,7 @@ const stateReducer = (
       const selected = action.payload.selected;
       return {
         ...state,
-        dialog: action.payload.status || !state.dialog,
+        dialog: action.payload.status,
         selectedRange: selected?.event_id ? null : selected,
         selectedEvent: selected?.event_id ? selected : null,
       };
@@ -33,7 +33,7 @@ const stateReducer = (
     case "triggerLoading":
       return {
         ...state,
-        loading: action.payload.status || !state.loading,
+        loading: action.payload,
       };
     default:
       return state;
