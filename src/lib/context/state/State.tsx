@@ -42,7 +42,6 @@ const AppState = ({ initial, children }: AppProps) => {
     dispatch({ type: "updateProps", payload: initials });
   };
   useEffect(() => {
-    console.log(state.mounted);
     if (state.mounted) {
       updateProps(initial);
     } else {

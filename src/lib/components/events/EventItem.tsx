@@ -17,6 +17,7 @@ import EditRoundedIcon from "@material-ui/icons/EditRounded";
 import DeleteRoundedIcon from "@material-ui/icons/DeleteRounded";
 import EventNoteRoundedIcon from "@material-ui/icons/EventNoteRounded";
 import ClearRoundedIcon from "@material-ui/icons/ClearRounded";
+import SupervisorAccountRoundedIcon from "@material-ui/icons/SupervisorAccountRounded";
 
 interface EventItemProps {
   event: ProcessedEvent;
@@ -42,6 +43,8 @@ const EventItem = ({
     viewerExtraComponent,
     fields,
     direction,
+    resources,
+    resourceFields,
   } = useAppState();
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState(false);
@@ -132,6 +135,13 @@ const EventItem = ({
   }
 
   const renderViewer = () => {
+    const idKey = resourceFields.idField;
+    const hasResource = resources.filter((res) =>
+      Array.isArray(event[idKey])
+        ? event[idKey].includes(res[idKey])
+        : res[idKey] === event[idKey]
+    );
+
     return (
       <div className="cal__popper">
         <div
@@ -215,6 +225,19 @@ const EventItem = ({
               "dd MMMM yyyy hh:mm a"
             )}`}
           </Typography>
+          {hasResource.length > 0 && (
+            <Typography
+              style={{ display: "flex", alignItems: "center" }}
+              color="textSecondary"
+              variant="caption"
+              noWrap
+            >
+              <SupervisorAccountRoundedIcon />{" "}
+              {hasResource
+                .map((res) => res[resourceFields.textField])
+                .join(", ")}
+            </Typography>
+          )}
           {viewerExtraComponent instanceof Function
             ? viewerExtraComponent(fields, event)
             : viewerExtraComponent}
