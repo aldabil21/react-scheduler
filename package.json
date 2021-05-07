@@ -28,7 +28,7 @@
   ],
   "author": "Aldabil",
   "license": "MIT",
-  "homepage": "https://github.com/aldabil21/react-scheduler#readme",
+  "//homepage": "https://github.com/aldabil21/react-scheduler#readme",
   "bugs": {
     "url": "https://github.com/aldabil21/react-scheduler/issues"
   },

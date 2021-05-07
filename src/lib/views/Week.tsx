@@ -47,6 +47,7 @@ const Week = () => {
     handleState,
     resources,
     resourceFields,
+    fields,
     direction,
   } = useAppState();
 
@@ -221,7 +222,12 @@ const Week = () => {
   const renderTable = (resource?: DefaultRecourse) => {
     let recousedEvents = events;
     if (resource) {
-      recousedEvents = getResourcedEvents(events, resource, resourceFields);
+      recousedEvents = getResourcedEvents(
+        events,
+        resource,
+        resourceFields,
+        fields
+      );
     }
 
     return (
@@ -331,7 +337,12 @@ const Week = () => {
                               "hh:mm a"
                             )}`
                           );
-                          triggerDialog(true, { start, end });
+                          const field = resourceFields.idField;
+                          triggerDialog(true, {
+                            start,
+                            end,
+                            [field]: resource ? resource[field] : null,
+                          });
                         }}
                         className={isToday(date) ? "today_cell" : ""}
                       >

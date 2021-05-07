@@ -4,7 +4,7 @@ export const EVENTS = [
     title: "Event 1",
     start: new Date("2021 5 2 09:30"),
     end: new Date("2021 5 2 10:30"),
-    admin_id: 1,
+    admin_id: [1, 2, 3, 4],
   },
   {
     event_id: 2,

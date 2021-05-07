@@ -1,14 +1,17 @@
 import { Scheduler } from "./lib/Scheduler";
+// import { EVENTS } from "./model/events";
 
 const App = () => {
   return (
     <Scheduler
-    // view="month"
+    // dialogMaxWidth="sm"
     // loading={loading}
     // view="month"
     // events={EVENTS}
+    // week={null}
+    // month={null}
+    // day={null}
     // remoteEvents={async (query) => {
-    //   console.log(query);
     //   return new Promise((res, rej) => {
     //     setTimeout(() => {
     //       res(EVENTS);
@@ -57,12 +60,6 @@ const App = () => {
     //   console.log(recourse);
     //   return <div>HAHA</div>;
     // }}
-    // week={{
-    //   weekDays: [0, 1, 2, 3, 4, 5, 6],
-    //   weekStartOn: 0,
-    //   startHour: 8,
-    //   endHour: 22,
-    // }}
     // fields={[
     //   {
     //     name: "description",
@@ -72,8 +69,8 @@ const App = () => {
     //   {
     //     name: "admin_id",
     //     type: "select",
-    //     config: { label: "Assignee", required: true },
-    //     default: "",
+    //     config: { label: "Assignee", required: true, multiple: "chips" },
+    //     // default: [1, 2],
     //     options: [
     //       {
     //         id: 1,
@@ -87,8 +84,13 @@ const App = () => {
     //       },
     //       {
     //         id: 3,
-    //         text: "Four",
+    //         text: "Three",
     //         value: 3,
+    //       },
+    //       {
+    //         id: 4,
+    //         text: "Four",
+    //         value: 4,
     //       },
     //     ],
     //   },
@@ -132,7 +134,7 @@ const App = () => {
     //   //   </div>
     //   // );
     // }}
-    // direction={dir}
+    // direction="rtl"
     />
   );
 };

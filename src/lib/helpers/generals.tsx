@@ -1,10 +1,12 @@
 import { View } from "../components/nav/Navigation";
 import {
   DefaultRecourse,
+  FieldProps,
   ProcessedEvent,
   ResourceFields,
   SchedulerProps,
 } from "../Scheduler";
+import { StateEvent } from "../views/Editor";
 
 export const getOneView = (state: SchedulerProps): View => {
   if (state.month) {
@@ -31,14 +33,39 @@ export const getAvailableViews = (state: SchedulerProps) => {
   return views;
 };
 
+export const arraytizeFieldVal = (
+  field: FieldProps,
+  val: any,
+  event?: StateEvent
+) => {
+  const arrytize =
+    field.config?.multiple &&
+    !Array.isArray(event?.[field.name] || field.default);
+  const value = arrytize ? (val ? [val] : []) : val;
+  const validity = arrytize ? value.length : value;
+  return { value, validity };
+};
 export const getResourcedEvents = (
   events: ProcessedEvent[],
   resource: DefaultRecourse,
-  resourceFields: ResourceFields
+  resourceFields: ResourceFields,
+  fields: FieldProps[]
 ): ProcessedEvent[] => {
+  const keyName = resourceFields.idField;
+  const resourceField = fields.find((f) => f.name === keyName);
+  const isMultiple = !!resourceField?.config?.multiple;
+
   let recousedEvents = [];
+
   for (const event of events) {
-    if (event[resourceFields.idField] === resource[resourceFields.idField]) {
+    // Handle single select & multiple select accordingly
+    const arrytize = isMultiple && !Array.isArray(event[keyName]);
+    const eventVal = arrytize ? [event[keyName]] : event[keyName];
+    const isThisResource = isMultiple
+      ? eventVal.includes(resource[keyName])
+      : eventVal === resource[keyName];
+
+    if (isThisResource) {
       recousedEvents.push({
         ...event,
         color: resource[resourceFields.colorField || ""],

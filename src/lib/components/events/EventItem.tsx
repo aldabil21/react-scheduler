@@ -41,6 +41,7 @@ const EventItem = ({
     triggerLoading,
     viewerExtraComponent,
     fields,
+    direction,
   } = useAppState();
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState(false);
@@ -174,7 +175,7 @@ const EventItem = ({
               )}
               <Slide
                 in={deleteConfirm}
-                direction="left"
+                direction={direction === "rtl" ? "right" : "left"}
                 mountOnEnter
                 unmountOnExit
               >

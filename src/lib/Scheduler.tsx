@@ -147,7 +147,7 @@ export interface SchedulerProps {
   /**Events to display */
   events: ProcessedEvent[];
   /**Async function to load remote data */
-  remoteEvents?(query: string): Promise<ProcessedEvent[]> | void;
+  remoteEvents?(query: string): Promise<ProcessedEvent[] | void>;
   /**Custom additional fields with it's settings */
   fields: FieldProps[];
   /**Table loading state */

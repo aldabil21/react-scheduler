@@ -25,6 +25,7 @@ import {
   SchedulerHelpers,
 } from "../Scheduler";
 import { EditorSelect } from "../components/inputs/SelectInput";
+import { arraytizeFieldVal } from "../helpers/generals";
 
 export type StateItem = {
   value: any;
@@ -33,7 +34,7 @@ export type StateItem = {
   config?: FieldInputProps;
 };
 
-type StateEvent = (ProcessedEvent & SelectedRange) | Record<string, any>;
+export type StateEvent = (ProcessedEvent & SelectedRange) | Record<string, any>;
 
 const initialState = (
   fields: FieldProps[],
@@ -41,10 +42,13 @@ const initialState = (
 ): Record<string, StateItem> => {
   const customFields = {} as Record<string, StateItem>;
   for (const field of fields) {
+    const defVal = arraytizeFieldVal(field, field.default, event);
+    const eveVal = arraytizeFieldVal(field, event?.[field.name], event);
+
     customFields[field.name] = {
-      value: event?.[field.name] || field.default || "",
+      value: eveVal.value || defVal.value || "",
       validity: field.config?.required
-        ? !!event?.[field.name] || !!field.default
+        ? !!eveVal.validity || !!defVal.validity
         : true,
       type: field.type,
       config: field.config,
@@ -227,12 +231,7 @@ const Editor = () => {
   };
 
   return (
-    <Dialog
-      open={dialog}
-      fullWidth
-      fullScreen={isMobile}
-      maxWidth={dialogMaxWidth}
-    >
+    <Dialog open={dialog} fullScreen={isMobile} maxWidth={dialogMaxWidth}>
       {renderEditor()}
     </Dialog>
   );

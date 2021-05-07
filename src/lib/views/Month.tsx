@@ -12,7 +12,7 @@ import {
 } from "date-fns";
 import MonthEvents from "../components/events/MonthEvents";
 import { useAppState } from "../hooks/useAppState";
-import { DayHours, DefaultRecourse, ProcessedEvent } from "../Scheduler";
+import { DayHours, DefaultRecourse } from "../Scheduler";
 import { getResourcedEvents } from "../helpers/generals";
 import { WithResources } from "../components/common/WithResources";
 
@@ -37,6 +37,7 @@ const Month = () => {
     handleState,
     resources,
     resourceFields,
+    fields,
     direction,
   } = useAppState();
 
@@ -89,7 +90,16 @@ const Month = () => {
     ));
   };
 
-  const renderCells = (events: ProcessedEvent[]) => {
+  const renderCells = (resource?: DefaultRecourse) => {
+    let recousedEvents = events;
+    if (resource) {
+      recousedEvents = getResourcedEvents(
+        events,
+        resource,
+        resourceFields,
+        fields
+      );
+    }
     const rows: JSX.Element[] = [];
 
     for (const startDay of eachWeekStart) {
@@ -107,7 +117,12 @@ const Month = () => {
                 const end = new Date(
                   `${format(setHours(today, endHour), "yyyy MM dd hh:mm a")}`
                 );
-                triggerDialog(true, { start, end });
+                const field = resourceFields.idField;
+                triggerDialog(true, {
+                  start,
+                  end,
+                  [field]: resource ? resource[field] : null,
+                });
               }}
             >
               <Avatar
@@ -140,7 +155,7 @@ const Month = () => {
               </Avatar>
               <div className="events_col">
                 <MonthEvents
-                  events={events}
+                  events={recousedEvents}
                   today={today}
                   eachWeekStart={eachWeekStart}
                   daysList={daysList}
@@ -157,10 +172,6 @@ const Month = () => {
   };
 
   const renderTable = (resource?: DefaultRecourse) => {
-    let recousedEvents = events;
-    if (resource) {
-      recousedEvents = getResourcedEvents(events, resource, resourceFields);
-    }
     return (
       <Fragment>
         <tr>
@@ -189,7 +200,7 @@ const Month = () => {
                 border-${direction === "rtl" ? "right" : "left"}: 0
               }
               `}</style>
-              <tbody>{renderCells(recousedEvents)}</tbody>
+              <tbody>{renderCells(resource)}</tbody>
             </table>
           </td>
         </tr>

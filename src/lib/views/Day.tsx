@@ -42,6 +42,7 @@ const Day = () => {
     handleState,
     resources,
     resourceFields,
+    fields,
     direction,
   } = useAppState();
   const { startHour, endHour } = day!;
@@ -191,7 +192,8 @@ const Day = () => {
       recousedEvents = getResourcedEvents(
         todayEvents,
         resource,
-        resourceFields
+        resourceFields,
+        fields
       );
     }
 
@@ -272,7 +274,12 @@ const Day = () => {
                             "hh:mm a"
                           )}`
                         );
-                        triggerDialog(true, { start, end });
+                        const field = resourceFields.idField;
+                        triggerDialog(true, {
+                          start,
+                          end,
+                          [field]: resource ? resource[field] : null,
+                        });
                       }}
                       className={isToday(selectedDate) ? "today_cell" : ""}
                     >
