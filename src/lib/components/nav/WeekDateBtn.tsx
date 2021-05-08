@@ -7,6 +7,7 @@ import { WeekProps } from "../../views/Week";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 import { addDays } from "date-fns/esm";
 import { LocaleArrow } from "../common/LocaleArrow";
+import { useAppState } from "../../hooks/useAppState";
 
 interface WeekDateBtnProps {
   selectedDate: Date;
@@ -19,6 +20,7 @@ const WeekDateBtn = ({
   onChange,
   weekProps,
 }: WeekDateBtnProps) => {
+  const { locale } = useAppState();
   const [open, setOpen] = useState(false);
   const { weekStartOn } = weekProps;
   const weekStart = startOfWeek(selectedDate, { weekStartsOn: weekStartOn });
@@ -43,10 +45,14 @@ const WeekDateBtn = ({
       <IconButton style={{ padding: 2 }} onClick={handlePrev}>
         <LocaleArrow type="prev" />
       </IconButton>
-      <Button style={{ padding: 4 }} onClick={toggleDialog}>{`${format(
-        weekStart,
-        "dd"
-      )} - ${format(weekEnd, "dd MMMM yyyy")}`}</Button>
+      <Button
+        style={{ padding: 4 }}
+        onClick={toggleDialog}
+      >{`${format(weekStart, "dd", { locale: locale })} - ${format(
+        weekEnd,
+        "dd MMMM yyyy",
+        { locale: locale }
+      )}`}</Button>
       <IconButton style={{ padding: 2 }} onClick={handleNext}>
         <LocaleArrow type="next" />
       </IconButton>

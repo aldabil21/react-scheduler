@@ -1,6 +1,6 @@
+import { Fragment } from "react";
 import { Typography } from "@material-ui/core";
 import { format, isToday } from "date-fns";
-import { Fragment } from "react";
 
 interface TodayTypoProps {
   date: Date;

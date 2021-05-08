@@ -1,3 +1,4 @@
+import { enUS } from "date-fns/locale";
 import { createContext } from "react";
 import { View } from "../../components/nav/Navigation";
 import {
@@ -67,6 +68,7 @@ export const defaultProps = {
   resourceViewMode: "default",
   direction: "ltr",
   dialogMaxWidth: "md",
+  locale: enUS,
 } as SchedulerProps;
 
 const StateContext = createContext<stateContext>({

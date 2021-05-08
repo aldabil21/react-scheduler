@@ -5,6 +5,7 @@ import { Button, IconButton } from "@material-ui/core";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 import { format, addDays } from "date-fns";
 import { LocaleArrow } from "../common/LocaleArrow";
+import { useAppState } from "../../hooks/useAppState";
 
 interface DayDateBtnProps {
   selectedDate: Date;
@@ -12,6 +13,7 @@ interface DayDateBtnProps {
 }
 
 const DayDateBtn = ({ selectedDate, onChange }: DayDateBtnProps) => {
+  const { locale } = useAppState();
   const [open, setOpen] = useState(false);
   const toggleDialog = () => setOpen(!open);
 
@@ -33,10 +35,12 @@ const DayDateBtn = ({ selectedDate, onChange }: DayDateBtnProps) => {
         <IconButton style={{ padding: 2 }} onClick={handlePrev}>
           <LocaleArrow type="prev" />
         </IconButton>
-        <Button style={{ padding: 4 }} onClick={toggleDialog}>{`${format(
-          selectedDate,
-          "dd, MMMM yyyy"
-        )}`}</Button>
+        <Button
+          style={{ padding: 4 }}
+          onClick={toggleDialog}
+        >{`${format(selectedDate, "dd, MMMM yyyy", {
+          locale: locale,
+        })}`}</Button>
         <IconButton style={{ padding: 2 }} onClick={handleNext}>
           <LocaleArrow type="next" />
         </IconButton>

@@ -44,6 +44,7 @@ const Day = () => {
     resourceFields,
     fields,
     direction,
+    locale,
   } = useAppState();
   const { startHour, endHour } = day!;
   const HOUR_STEP = 60;
@@ -231,7 +232,7 @@ const Day = () => {
                     <td>
                       <div style={{ height: CELL_HEIGHT }}>
                         <Typography variant="caption">
-                          {format(h, "hh:mm a")}
+                          {format(h, "hh:mm a", { locale: locale })}
                         </Typography>
                       </div>
                     </td>

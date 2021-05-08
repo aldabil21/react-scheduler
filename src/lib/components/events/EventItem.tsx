@@ -45,6 +45,7 @@ const EventItem = ({
     direction,
     resources,
     resourceFields,
+    locale,
   } = useAppState();
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState(false);
@@ -82,10 +83,9 @@ const EventItem = ({
       </Typography>
       {showdate && (
         <Typography style={{ fontSize: 11 }} noWrap>
-          {`${format(event.start, "hh:mm a")} - ${format(
-            event.end,
-            "hh:mm a"
-          )}`}
+          {`${format(event.start, "hh:mm a", {
+            locale: locale,
+          })} - ${format(event.end, "hh:mm a", { locale: locale })}`}
         </Typography>
       )}
     </div>
@@ -109,7 +109,7 @@ const EventItem = ({
               style={{ display: "flex" }}
             />
           ) : (
-            showdate && format(event.start, "hh:mm a")
+            showdate && format(event.start, "hh:mm a", { locale: locale })
           )}
         </Typography>
         <Typography
@@ -127,7 +127,7 @@ const EventItem = ({
               style={{ display: "flex" }}
             />
           ) : (
-            showdate && format(event.end, "hh:mm a")
+            showdate && format(event.end, "hh:mm a", { locale: locale })
           )}
         </Typography>
       </div>
@@ -220,10 +220,11 @@ const EventItem = ({
             noWrap
           >
             <EventNoteRoundedIcon />{" "}
-            {`${format(event.start, "dd MMMM yyyy hh:mm a")} - ${format(
-              event.end,
-              "dd MMMM yyyy hh:mm a"
-            )}`}
+            {`${format(event.start, "dd MMMM yyyy hh:mm a", {
+              locale: locale,
+            })} - ${format(event.end, "dd MMMM yyyy hh:mm a", {
+              locale: locale,
+            })}`}
           </Typography>
           {hasResource.length > 0 && (
             <Typography

@@ -5,6 +5,7 @@ import { Button, IconButton } from "@material-ui/core";
 import { format, getMonth, setMonth } from "date-fns";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 import { LocaleArrow } from "../common/LocaleArrow";
+import { useAppState } from "../../hooks/useAppState";
 
 interface MonthDateBtnProps {
   selectedDate: Date;
@@ -12,6 +13,7 @@ interface MonthDateBtnProps {
 }
 
 const MonthDateBtn = ({ selectedDate, onChange }: MonthDateBtnProps) => {
+  const { locale } = useAppState();
   const [open, setOpen] = useState(false);
   const currentMonth = getMonth(selectedDate);
 
@@ -35,7 +37,7 @@ const MonthDateBtn = ({ selectedDate, onChange }: MonthDateBtnProps) => {
         <LocaleArrow type="prev" />
       </IconButton>
       <Button style={{ padding: 4 }} onClick={toggleDialog}>
-        {format(selectedDate, "MMMM yyyy")}
+        {format(selectedDate, "MMMM yyyy", { locale: locale })}
       </Button>
       <IconButton style={{ padding: 2 }} onClick={handleNext}>
         <LocaleArrow type="next" />

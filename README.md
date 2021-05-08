@@ -1,4 +1,4 @@
-# Ract Scheduler Component
+# React Scheduler Component
 
 [![npm package](https://img.shields.io/npm/v/@aldabil/react-scheduler/latest.svg)](https://www.npmjs.com/package/@aldabil/react-scheduler)
 [![Follow on Twitter](https://img.shields.io/twitter/follow/aldabil21.svg?label=follow+aldabil21)](https://twitter.com/intent/follow?screen_name=aldabil21)
@@ -67,6 +67,7 @@ import { Scheduler } from "@aldabil/react-scheduler";
 | resourceViewMode        | Display resources mode. <br>_Options_: "default", "tabs"                                                                                                                                                                          |
 | direction               | string. Table direction. "rtl", "ltr"                                                                                                                                                                                             |
 | dialogMaxWidth          | Edito dialog maxWith. Ex: "lg", "md", "sm"... _Default_:"md"                                                                                                                                                                      |
+| locale                  | Locale of date-fns. _Default_:enUS                                                                                                                                                                                                |
 
 ### Demos
 

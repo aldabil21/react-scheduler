@@ -28,7 +28,7 @@
   ],
   "author": "Aldabil",
   "license": "MIT",
-  "homepage": "https://github.com/aldabil21/react-scheduler#readme",
+  "//homepage": "https://github.com/aldabil21/react-scheduler#readme",
   "bugs": {
     "url": "https://github.com/aldabil21/react-scheduler/issues"
   },
@@ -46,7 +46,7 @@
     "@types/node": "^12.0.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
-    "date-fns": "^2.21.1",
+    "date-fns": "^2.21.2",
     "del-cli": "^3.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

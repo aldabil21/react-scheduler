@@ -1,4 +1,5 @@
 import { DialogProps, GridSize } from "@material-ui/core";
+import { Locale } from "date-fns";
 import { SelectOption } from "./components/inputs/SelectInput";
 import { View } from "./components/nav/Navigation";
 import { AppState } from "./context/state/State";
@@ -181,6 +182,10 @@ export interface SchedulerProps {
    * @default "md"
    */
   dialogMaxWidth: DialogProps["maxWidth"];
+  /**
+   * date-fns Locale object
+   */
+  locale: Locale;
 }
 
 const Scheduler = (props: SchedulerProps) => {

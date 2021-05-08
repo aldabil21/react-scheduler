@@ -49,6 +49,7 @@ const Week = () => {
     resourceFields,
     fields,
     direction,
+    locale,
   } = useAppState();
 
   const { weekStartOn, weekDays, startHour, endHour } = week!;
@@ -281,7 +282,7 @@ const Week = () => {
                     <td>
                       <div style={{ height: CELL_HEIGHT }}>
                         <Typography variant="caption">
-                          {format(h, "hh:mm a")}
+                          {format(h, "hh:mm a", { locale: locale })}
                         </Typography>
                       </div>
                     </td>
