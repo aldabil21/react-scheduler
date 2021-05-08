@@ -75,7 +75,7 @@ const Week = () => {
       triggerLoading(true);
       const query = `?start=${weekStart}&end=${weekEnd}`;
       const events = await remoteEvents!(query);
-      if (events && events?.length) {
+      if (Array.isArray(events)) {
         handleState(events, "events");
       }
     } catch (error) {
