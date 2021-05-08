@@ -51,6 +51,11 @@ const EventItem = ({
   const [deleteConfirm, setDeleteConfirm] = useState(false);
   const theme = useTheme();
 
+  const NextArrow =
+    direction === "rtl" ? ArrowLeftRoundedIcon : ArrowRightRoundedIcon;
+  const PrevArrow =
+    direction === "rtl" ? ArrowRightRoundedIcon : ArrowLeftRoundedIcon;
+
   const triggerViewer = (el?: Element) => {
     if (!el && deleteConfirm) {
       setDeleteConfirm(false);
@@ -104,10 +109,7 @@ const EventItem = ({
       >
         <Typography style={{ fontSize: 11 }} noWrap>
           {hasPrev ? (
-            <ArrowLeftRoundedIcon
-              fontSize="small"
-              style={{ display: "flex" }}
-            />
+            <PrevArrow fontSize="small" style={{ display: "flex" }} />
           ) : (
             showdate && format(event.start, "hh:mm a", { locale: locale })
           )}
@@ -122,10 +124,7 @@ const EventItem = ({
         </Typography>
         <Typography style={{ fontSize: 11 }} noWrap>
           {hasNext ? (
-            <ArrowRightRoundedIcon
-              fontSize="small"
-              style={{ display: "flex" }}
-            />
+            <NextArrow fontSize="small" style={{ display: "flex" }} />
           ) : (
             showdate && format(event.end, "hh:mm a", { locale: locale })
           )}
