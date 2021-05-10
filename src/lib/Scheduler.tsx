@@ -159,7 +159,7 @@ export interface SchedulerProps {
     action: EventActions
   ): Promise<ProcessedEvent>;
   /**Async function triggered when delete event */
-  onDelete?(deletedId: string | number): Promise<string | number | void>;
+  onDelete?(deletedId: string | number): Promise<string | number>;
   /**Override editor modal */
   customEditor?(scheduler: SchedulerHelpers): JSX.Element;
   /**Additional component in event viewer popper */
