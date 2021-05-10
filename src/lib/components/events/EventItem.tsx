@@ -69,11 +69,18 @@ const EventItem = ({
       let deletedId = event.event_id;
       // Trigger custom/remote when provided
       if (onDelete) {
-        deletedId = await onDelete(deletedId);
+        const remoteId = await onDelete(deletedId);
+        if (!remoteId) {
+          deletedId = "";
+        } else {
+          deletedId = remoteId;
+        }
       }
       triggerViewer();
-      const updatedEvents = events.filter((e) => e.event_id !== deletedId);
-      handleState(updatedEvents, "events");
+      if (deletedId) {
+        const updatedEvents = events.filter((e) => e.event_id !== deletedId);
+        handleState(updatedEvents, "events");
+      }
     } catch (error) {
       console.error(error);
     } finally {
