@@ -29,6 +29,17 @@ const initialState = (initial: SchedulerProps): SchedulerState => {
 };
 
 const AppState = ({ initial, children }: AppProps) => {
+  const {
+    events,
+    resources,
+    resourceViewMode,
+    month,
+    week,
+    day,
+    fields,
+    locale,
+    direction,
+  } = initial;
   const [state, dispatch] = useReducer(stateReducer, initialState(initial));
 
   const handleState = (
@@ -38,17 +49,37 @@ const AppState = ({ initial, children }: AppProps) => {
     dispatch({ type: "set", payload: { name, value } });
   };
 
-  const updateProps = (initials: SchedulerProps) => {
-    dispatch({ type: "updateProps", payload: initials });
+  const updateProps = (updatedProps: any) => {
+    dispatch({ type: "updateProps", payload: updatedProps });
   };
   useEffect(() => {
     if (state.mounted) {
-      updateProps(initial);
+      updateProps({
+        events,
+        resources,
+        resourceViewMode,
+        month,
+        week,
+        day,
+        fields,
+        locale,
+        direction,
+      });
     } else {
       handleState(true, "mounted");
     }
     //eslint-disable-next-line
-  }, [initial]);
+  }, [
+    events,
+    resources,
+    resourceViewMode,
+    month,
+    week,
+    day,
+    fields,
+    locale,
+    direction,
+  ]);
 
   const confirmEvent = (event: ProcessedEvent, action: EventActions) => {
     let updatedEvents: ProcessedEvent[];
