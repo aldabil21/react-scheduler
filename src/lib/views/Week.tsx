@@ -91,7 +91,8 @@ const Week = () => {
     if (remoteEvents instanceof Function) {
       fetchEvents();
     }
-  }, [fetchEvents, remoteEvents]);
+    // eslint-disable-next-line
+  }, [fetchEvents]);
 
   const renderMultiDayEvents = (events: ProcessedEvent[], today: Date) => {
     const SPACE = 28;
@@ -201,7 +202,9 @@ const Week = () => {
                   width: withinSameDay.length
                     ? `${100 / (withinSameDay.length + 1) + 10}%`
                     : "",
-                  left: alreadyRendered.length
+                  [direction === "rtl"
+                    ? "right"
+                    : "left"]: alreadyRendered.length
                     ? `${
                         alreadyRendered.length *
                         (98 / (alreadyRendered.length + 1.7))

@@ -80,7 +80,8 @@ const Month = () => {
     if (remoteEvents instanceof Function) {
       fetchEvents();
     }
-  }, [fetchEvents, remoteEvents]);
+    // eslint-disable-next-line
+  }, [fetchEvents]);
 
   const renderDays = () => {
     return daysList.map((date, i) => (
