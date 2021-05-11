@@ -35,7 +35,13 @@ export type DayHours =
   | 21
   | 22
   | 23;
-
+export interface CellRenderedProps {
+  day: Date;
+  start: Date;
+  end: Date;
+  height: number;
+  onClick(): void;
+}
 interface CalendarEvent {
   event_id: number | string;
   title: string;

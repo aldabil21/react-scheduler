@@ -1,5 +1,5 @@
 import { useEffect, useCallback, Fragment } from "react";
-import { Paper, Typography, useTheme } from "@material-ui/core";
+import { ButtonBase, Typography } from "@material-ui/core";
 import {
   startOfWeek,
   addDays,
@@ -22,7 +22,12 @@ import {
 import TodayTypo from "../components/common/TodayTypo";
 import EventItem from "../components/events/EventItem";
 import { useAppState } from "../hooks/useAppState";
-import { DayHours, DefaultRecourse, ProcessedEvent } from "../Scheduler";
+import {
+  CellRenderedProps,
+  DayHours,
+  DefaultRecourse,
+  ProcessedEvent,
+} from "../Scheduler";
 import { WeekDays } from "./Month";
 import { getResourcedEvents } from "../helpers/generals";
 import { WithResources } from "../components/common/WithResources";
@@ -32,6 +37,8 @@ export interface WeekProps {
   weekStartOn: WeekDays;
   startHour: DayHours;
   endHour: DayHours;
+  step: number;
+  cellRenderer?(props: CellRenderedProps): JSX.Element;
 }
 
 const Week = () => {
@@ -52,12 +59,12 @@ const Week = () => {
     locale,
   } = useAppState();
 
-  const { weekStartOn, weekDays, startHour, endHour } = week!;
+  const { weekStartOn, weekDays, startHour, endHour, step, cellRenderer } =
+    week!;
   const _weekStart = startOfWeek(selectedDate, { weekStartsOn: weekStartOn });
   const daysList = weekDays.map((d) => addDays(_weekStart, d));
   const weekStart = startOfDay(daysList[0]);
   const weekEnd = endOfDay(daysList[daysList.length - 1]);
-  const HOUR_STEP = 60;
   const START_TIME = setMinutes(setHours(selectedDate, startHour), 0);
   const END_TIME = setMinutes(setHours(selectedDate, endHour), 0);
   const hours = eachMinuteOfInterval(
@@ -65,11 +72,10 @@ const Week = () => {
       start: START_TIME,
       end: END_TIME,
     },
-    { step: HOUR_STEP }
+    { step: step }
   );
   const CELL_HEIGHT = height / hours.length;
-  const MINUTE_HEIGHT = (Math.ceil(CELL_HEIGHT) * 1.042) / HOUR_STEP;
-  const theme = useTheme();
+  const MINUTE_HEIGHT = (Math.ceil(CELL_HEIGHT) * 1.042) / step;
 
   const fetchEvents = useCallback(async () => {
     try {
@@ -141,14 +147,12 @@ const Week = () => {
           }
 
           return (
-            <Paper
+            <div
               key={event.event_id}
               className="allday_event event__item"
               style={{
                 top: index * SPACE,
                 width: `${100 * eventLength}%`,
-                background: event.color || theme.palette.primary.main,
-                color: theme.palette.primary.contrastText,
               }}
             >
               <EventItem
@@ -157,7 +161,7 @@ const Week = () => {
                 hasNext={hasNext}
                 multiday
               />
-            </Paper>
+            </div>
           );
         })}
       </div>
@@ -193,29 +197,24 @@ const Week = () => {
           crossingIds.push(event.event_id);
 
           return (
-            <div key={event.event_id}>
-              <Paper
-                className="event__item"
-                style={{
-                  height: height,
-                  top: top,
-                  width: withinSameDay.length
-                    ? `${100 / (withinSameDay.length + 1) + 10}%`
-                    : "",
-                  [direction === "rtl"
-                    ? "right"
-                    : "left"]: alreadyRendered.length
-                    ? `${
-                        alreadyRendered.length *
-                        (98 / (alreadyRendered.length + 1.7))
-                      }%`
-                    : "",
-                  background: event.color || theme.palette.primary.main,
-                  color: theme.palette.primary.contrastText,
-                }}
-              >
-                <EventItem event={event} />
-              </Paper>
+            <div
+              key={event.event_id}
+              className="event__item"
+              style={{
+                height: height,
+                top: top,
+                width: withinSameDay.length
+                  ? `${100 / (withinSameDay.length + 1) + 10}%`
+                  : "",
+                [direction === "rtl" ? "right" : "left"]: alreadyRendered.length
+                  ? `${
+                      alreadyRendered.length *
+                      (98 / (alreadyRendered.length + 1.7))
+                    }%`
+                  : "",
+              }}
+            >
+              <EventItem event={event} />
             </div>
           );
         })}
@@ -325,37 +324,53 @@ const Week = () => {
               <tbody>
                 {hours.map((h, i) => (
                   <tr key={i}>
-                    {daysList.map((date, i) => (
-                      <td
-                        key={i}
-                        onClick={() => {
-                          const start = new Date(
-                            `${format(date, "yyyy MM dd")} ${format(
-                              h,
-                              "hh:mm a"
-                            )}`
-                          );
-                          const end = new Date(
-                            `${format(date, "yyyy MM dd")} ${format(
-                              addHours(h, 1),
-                              "hh:mm a"
-                            )}`
-                          );
-                          const field = resourceFields.idField;
-                          triggerDialog(true, {
-                            start,
-                            end,
-                            [field]: resource ? resource[field] : null,
-                          });
-                        }}
-                        className={isToday(date) ? "today_cell" : ""}
-                      >
-                        <div
-                          className="c_cell"
-                          style={{ height: CELL_HEIGHT }}
-                        ></div>
-                      </td>
-                    ))}
+                    {daysList.map((date, i) => {
+                      const start = new Date(
+                        `${format(date, "yyyy MM dd")} ${format(h, "hh:mm a")}`
+                      );
+                      const end = new Date(
+                        `${format(date, "yyyy MM dd")} ${format(
+                          addHours(h, 1),
+                          "hh:mm a"
+                        )}`
+                      );
+                      const field = resourceFields.idField;
+                      return (
+                        <td
+                          key={i}
+                          className={isToday(date) ? "today_cell" : ""}
+                        >
+                          {cellRenderer ? (
+                            <div className="c_cell">
+                              {cellRenderer({
+                                day: date,
+                                start,
+                                end,
+                                height: CELL_HEIGHT,
+                                onClick: () =>
+                                  triggerDialog(true, {
+                                    start,
+                                    end,
+                                    [field]: resource ? resource[field] : null,
+                                  }),
+                              })}
+                            </div>
+                          ) : (
+                            <ButtonBase
+                              className="c_cell"
+                              style={{ height: CELL_HEIGHT, width: "100%" }}
+                              onClick={() => {
+                                triggerDialog(true, {
+                                  start,
+                                  end,
+                                  [field]: resource ? resource[field] : null,
+                                });
+                              }}
+                            ></ButtonBase>
+                          )}
+                        </td>
+                      );
+                    })}
                   </tr>
                 ))}
               </tbody>

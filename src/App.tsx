@@ -1,27 +1,50 @@
-// import { arSA } from "date-fns/locale";
+// import { useState } from "react";
 import { EVENTS } from "./model/events";
-import { useState } from "react";
+// import { arSA } from "date-fns/locale";
 import { Scheduler } from "./lib/Scheduler";
+import { ButtonBase } from "@material-ui/core";
 
 const App = () => {
-  const [events, setEvents] = useState([]);
+  // const [events, setEvents] = useState([]);
   return (
     <Scheduler
       // dialogMaxWidth="sm"
       // loading={loading}
       // view="month"
-      events={events}
+      // events={events}
       selectedDate={new Date("2021 5 1")}
-      // week={null}
-      // month={null}
-      // day={null}
+      // height={400}
+      week={{
+        weekDays: [0, 1, 2, 3, 4, 5],
+        weekStartOn: 6,
+        startHour: 10,
+        endHour: 14,
+        step: 120,
+        cellRenderer: (props) => {
+          const { height, onClick } = props;
+          return (
+            <ButtonBase
+              style={{ height: height, width: "100%" }}
+              onClick={onClick}
+              disabled
+            ></ButtonBase>
+          );
+        },
+      }}
+      month={null}
+      day={{
+        startHour: 10,
+        endHour: 14,
+        step: 120,
+      }}
       remoteEvents={async (query) => {
         await new Promise((res, rej) => {
           setTimeout(() => {
-            setEvents(EVENTS);
+            // setEvents(EVENTS);
             res("");
           }, 1000);
         });
+        return EVENTS;
       }}
       // resources={[
       //   {
@@ -114,16 +137,16 @@ const App = () => {
       //     }, 1000);
       //   });
       // }}
-      onDelete={async (id) => {
-        await new Promise((res, rej) => {
-          setTimeout(() => {
-            setEvents((prev) => {
-              return prev.filter((p) => p.event_id !== id);
-            });
-            res("");
-          }, 1000);
-        });
-      }}
+      // onDelete={async (id) => {
+      //   await new Promise((res, rej) => {
+      //     setTimeout(() => {
+      //       setEvents((prev) => {
+      //         return prev.filter((p) => p.event_id !== id);
+      //       });
+      //       res("");
+      //     }, 1000);
+      //   });
+      // }}
       // customEditor={(scheduler) => <CustomEditor scheduler={scheduler} />}
       // viewerExtraComponent={(fields, e) => {
       //   return (

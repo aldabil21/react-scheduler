@@ -1,5 +1,5 @@
 import { useEffect, useCallback, Fragment } from "react";
-import { useTheme, Paper, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import {
   format,
   eachMinuteOfInterval,
@@ -28,6 +28,7 @@ import { WithResources } from "../components/common/WithResources";
 export interface DayProps {
   startHour: DayHours;
   endHour: DayHours;
+  step: number;
 }
 
 const Day = () => {
@@ -46,8 +47,7 @@ const Day = () => {
     direction,
     locale,
   } = useAppState();
-  const { startHour, endHour } = day!;
-  const HOUR_STEP = 60;
+  const { startHour, endHour, step } = day!;
   const START_TIME = setMinutes(setHours(selectedDate, startHour), 0);
   const END_TIME = setMinutes(setHours(selectedDate, endHour), 0);
   const hours = eachMinuteOfInterval(
@@ -55,12 +55,11 @@ const Day = () => {
       start: START_TIME,
       end: END_TIME,
     },
-    { step: HOUR_STEP }
+    { step: step }
   );
   const CELL_HEIGHT = height / hours.length;
-  const MINUTE_HEIGHT = (Math.ceil(CELL_HEIGHT) * 1.042) / HOUR_STEP;
+  const MINUTE_HEIGHT = (Math.ceil(CELL_HEIGHT) * 1.042) / step;
   const todayEvents = events.sort((b, a) => a.end.getTime() - b.end.getTime());
-  const theme = useTheme();
 
   const fetchEvents = useCallback(async () => {
     try {
@@ -104,14 +103,12 @@ const Day = () => {
           const hasPrev = isBefore(event.start, startOfDay(selectedDate));
           const hasNext = isAfter(event.end, endOfDay(selectedDate));
           return (
-            <Paper
+            <div
               key={event.event_id}
               className="allday_event event__item"
               style={{
                 top: i * SPACE,
                 width: "100%",
-                background: event.color || theme.palette.primary.main,
-                color: theme.palette.primary.contrastText,
               }}
             >
               <EventItem
@@ -120,7 +117,7 @@ const Day = () => {
                 hasPrev={hasPrev}
                 hasNext={hasNext}
               />
-            </Paper>
+            </div>
           );
         })}
       </div>
@@ -160,29 +157,24 @@ const Day = () => {
           crossingIds.push(event.event_id);
 
           return (
-            <div key={event.event_id}>
-              <Paper
-                className="event__item"
-                style={{
-                  height: height,
-                  top: top,
-                  width: withinSameDay.length
-                    ? `${100 / (withinSameDay.length + 1) + 10}%`
-                    : "",
-                  [direction === "rtl"
-                    ? "right"
-                    : "left"]: alreadyRendered.length
-                    ? `${
-                        alreadyRendered.length *
-                        (100 / (alreadyRendered.length + 1.7))
-                      }%`
-                    : "",
-                  background: event.color || theme.palette.primary.main,
-                  color: theme.palette.primary.contrastText,
-                }}
-              >
-                <EventItem event={event} />
-              </Paper>
+            <div
+              key={event.event_id}
+              className="event__item"
+              style={{
+                height: height,
+                top: top,
+                width: withinSameDay.length
+                  ? `${100 / (withinSameDay.length + 1) + 10}%`
+                  : "",
+                [direction === "rtl" ? "right" : "left"]: alreadyRendered.length
+                  ? `${
+                      alreadyRendered.length *
+                      (100 / (alreadyRendered.length + 1.7))
+                    }%`
+                  : "",
+              }}
+            >
+              <EventItem event={event} />
             </div>
           );
         })}

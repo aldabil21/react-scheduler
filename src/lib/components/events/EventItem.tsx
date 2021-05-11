@@ -7,6 +7,7 @@ import {
   IconButton,
   Button,
   Slide,
+  Paper,
 } from "@material-ui/core";
 import { format } from "date-fns";
 import { ProcessedEvent } from "../../Scheduler";
@@ -255,20 +256,34 @@ const EventItem = ({
 
   return (
     <Fragment>
-      <ButtonBase
-        onClick={(e) => {
-          e.stopPropagation();
-          triggerViewer(e.currentTarget);
-        }}
+      <Paper
         style={{
           width: "100%",
           height: "100%",
           display: "block",
+          background: event.disabled
+            ? theme.palette.action.disabledBackground
+            : event.color || theme.palette.primary.main,
+          color: event.disabled
+            ? theme.palette.action.disabled
+            : theme.palette.primary.contrastText,
         }}
       >
-        {item}
-        {/* <div style={{ height: "100%", textAlign: "start" }}>{item}</div> */}
-      </ButtonBase>
+        <ButtonBase
+          onClick={(e) => {
+            e.stopPropagation();
+            triggerViewer(e.currentTarget);
+          }}
+          disabled={event.disabled}
+          style={{
+            width: "100%",
+            height: "100%",
+            display: "block",
+          }}
+        >
+          {item}
+        </ButtonBase>
+      </Paper>
 
       {/* Viewer */}
       <Popover

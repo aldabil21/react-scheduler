@@ -8,7 +8,7 @@ import {
   startOfWeek,
 } from "date-fns/esm";
 import { ProcessedEvent } from "../../Scheduler";
-import { Paper, Typography, useTheme } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import EventItem from "./EventItem";
 
 interface MonthEventProps {
@@ -17,7 +17,6 @@ interface MonthEventProps {
   eachWeekStart: Date[];
   daysList: Date[];
   onViewMore(day: Date): void;
-  color?: string;
 }
 
 const LIMIT = 3;
@@ -28,10 +27,7 @@ const MonthEvents = ({
   eachWeekStart,
   daysList,
   onViewMore,
-  color,
 }: MonthEventProps) => {
-  const theme = useTheme();
-
   const eachFirstDayInCalcRow = eachWeekStart.some((date) =>
     isSameDay(date, today)
   )
@@ -104,14 +100,12 @@ const MonthEvents = ({
             {`${Math.abs(todayEvents.length - i)} More...`}
           </Typography>
         ) : (
-          <Paper
+          <div
             key={i}
             className="event__item"
             style={{
               top: index * SPACE,
               width: `${100 * eventLength}%`,
-              background: event.color || theme.palette.primary.main,
-              color: theme.palette.primary.contrastText,
             }}
           >
             <EventItem
@@ -121,7 +115,7 @@ const MonthEvents = ({
               hasPrev={fromPrevWeek}
               hasNext={toNextWeek}
             />
-          </Paper>
+          </div>
         );
       })}
     </Fragment>
