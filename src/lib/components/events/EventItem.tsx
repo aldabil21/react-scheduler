@@ -262,11 +262,12 @@ const EventItem = ({
           height: "100%",
           display: "block",
           background: event.disabled
-            ? theme.palette.action.disabledBackground
+            ? "#d0d0d0"
             : event.color || theme.palette.primary.main,
           color: event.disabled
-            ? theme.palette.action.disabled
+            ? "#808080"
             : theme.palette.primary.contrastText,
+          cursor: event.disabled ? "not-allowed" : "pointer",
         }}
       >
         <ButtonBase

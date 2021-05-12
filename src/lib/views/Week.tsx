@@ -341,20 +341,18 @@ const Week = () => {
                           className={isToday(date) ? "today_cell" : ""}
                         >
                           {cellRenderer ? (
-                            <div className="c_cell">
-                              {cellRenderer({
-                                day: date,
-                                start,
-                                end,
-                                height: CELL_HEIGHT,
-                                onClick: () =>
-                                  triggerDialog(true, {
-                                    start,
-                                    end,
-                                    [field]: resource ? resource[field] : null,
-                                  }),
-                              })}
-                            </div>
+                            cellRenderer({
+                              day: date,
+                              start,
+                              end,
+                              height: CELL_HEIGHT,
+                              onClick: () =>
+                                triggerDialog(true, {
+                                  start,
+                                  end,
+                                  [field]: resource ? resource[field] : null,
+                                }),
+                            })
                           ) : (
                             <ButtonBase
                               className="c_cell"

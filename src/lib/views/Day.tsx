@@ -1,5 +1,5 @@
 import { useEffect, useCallback, Fragment } from "react";
-import { Typography } from "@material-ui/core";
+import { ButtonBase, Typography } from "@material-ui/core";
 import {
   format,
   eachMinuteOfInterval,
@@ -21,7 +21,12 @@ import {
 import TodayTypo from "../components/common/TodayTypo";
 import EventItem from "../components/events/EventItem";
 import { useAppState } from "../hooks/useAppState";
-import { DayHours, DefaultRecourse, ProcessedEvent } from "../Scheduler";
+import {
+  CellRenderedProps,
+  DayHours,
+  DefaultRecourse,
+  ProcessedEvent,
+} from "../Scheduler";
 import { getResourcedEvents } from "../helpers/generals";
 import { WithResources } from "../components/common/WithResources";
 
@@ -29,6 +34,7 @@ export interface DayProps {
   startHour: DayHours;
   endHour: DayHours;
   step: number;
+  cellRenderer?(props: CellRenderedProps): JSX.Element;
 }
 
 const Day = () => {
@@ -47,7 +53,7 @@ const Day = () => {
     direction,
     locale,
   } = useAppState();
-  const { startHour, endHour, step } = day!;
+  const { startHour, endHour, step, cellRenderer } = day!;
   const START_TIME = setMinutes(setHours(selectedDate, startHour), 0);
   const END_TIME = setMinutes(setHours(selectedDate, endHour), 0);
   const hours = eachMinuteOfInterval(
@@ -254,38 +260,53 @@ const Day = () => {
                 </tr>
               </thead>
               <tbody>
-                {hours.map((h, i) => (
-                  <tr key={i}>
-                    <td
-                      onClick={(e) => {
-                        const start = new Date(
-                          `${format(selectedDate, "yyyy MM dd")} ${format(
-                            h,
-                            "hh:mm a"
-                          )}`
-                        );
-                        const end = new Date(
-                          `${format(selectedDate, "yyyy MM dd")} ${format(
-                            addHours(h, 1),
-                            "hh:mm a"
-                          )}`
-                        );
-                        const field = resourceFields.idField;
-                        triggerDialog(true, {
-                          start,
-                          end,
-                          [field]: resource ? resource[field] : null,
-                        });
-                      }}
-                      className={isToday(selectedDate) ? "today_cell" : ""}
-                    >
-                      <div
-                        className="c_cell"
-                        style={{ height: CELL_HEIGHT }}
-                      ></div>
-                    </td>
-                  </tr>
-                ))}
+                {hours.map((h, i) => {
+                  const start = new Date(
+                    `${format(selectedDate, "yyyy MM dd")} ${format(
+                      h,
+                      "hh:mm a"
+                    )}`
+                  );
+                  const end = new Date(
+                    `${format(selectedDate, "yyyy MM dd")} ${format(
+                      addHours(h, 1),
+                      "hh:mm a"
+                    )}`
+                  );
+                  const field = resourceFields.idField;
+                  return (
+                    <tr key={i}>
+                      <td className={isToday(selectedDate) ? "today_cell" : ""}>
+                        {cellRenderer ? (
+                          cellRenderer({
+                            day: selectedDate,
+                            start,
+                            end,
+                            height: CELL_HEIGHT,
+                            onClick: () =>
+                              triggerDialog(true, {
+                                start,
+                                end,
+                                [field]: resource ? resource[field] : null,
+                              }),
+                          })
+                        ) : (
+                          <ButtonBase
+                            className="c_cell"
+                            style={{ height: CELL_HEIGHT, width: "100%" }}
+                            onClick={(e) => {
+                              triggerDialog(true, {
+                                start,
+                                end,
+                                [field]: resource ? resource[field] : null,
+                              });
+                            }}
+                          ></ButtonBase>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </td>

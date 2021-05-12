@@ -2,8 +2,8 @@ export const EVENTS = [
   {
     event_id: 1,
     title: "Event 1",
-    start: new Date("2021 5 2 09:30"),
-    end: new Date("2021 5 2 10:30"),
+    start: new Date("2021 5 2 10:30"),
+    end: new Date("2021 5 2 12:30"),
     admin_id: [1, 2, 3, 4],
     disabled: true,
   },
@@ -38,8 +38,8 @@ export const EVENTS = [
   {
     event_id: 6,
     title: "Event 6",
-    start: new Date("2021 5 2 11:00"),
-    end: new Date("2021 5 2 12:00"),
+    start: new Date("2021 5 2 12:00"),
+    end: new Date("2021 5 2 13:00"),
     admin_id: 2,
   },
   {

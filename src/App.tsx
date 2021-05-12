@@ -1,8 +1,7 @@
 // import { useState } from "react";
-import { EVENTS } from "./model/events";
+// import { EVENTS } from "./model/events";
 // import { arSA } from "date-fns/locale";
 import { Scheduler } from "./lib/Scheduler";
-import { ButtonBase } from "@material-ui/core";
 
 const App = () => {
   // const [events, setEvents] = useState([]);
@@ -14,38 +13,24 @@ const App = () => {
       // events={events}
       selectedDate={new Date("2021 5 1")}
       // height={400}
-      week={{
-        weekDays: [0, 1, 2, 3, 4, 5],
-        weekStartOn: 6,
-        startHour: 10,
-        endHour: 14,
-        step: 120,
-        cellRenderer: (props) => {
-          const { height, onClick } = props;
-          return (
-            <ButtonBase
-              style={{ height: height, width: "100%" }}
-              onClick={onClick}
-              disabled
-            ></ButtonBase>
-          );
-        },
-      }}
-      month={null}
-      day={{
-        startHour: 10,
-        endHour: 14,
-        step: 120,
-      }}
-      remoteEvents={async (query) => {
-        await new Promise((res, rej) => {
-          setTimeout(() => {
-            // setEvents(EVENTS);
-            res("");
-          }, 1000);
-        });
-        return EVENTS;
-      }}
+      // week={{
+      //   weekDays: [0, 1, 2, 3, 4, 5],
+      //   weekStartOn: 6,
+      //   startHour: 10,
+      //   endHour: 14,
+      //   step: 60
+      // }}
+      // month={null}
+      // day={null}
+      // remoteEvents={async (query) => {
+      //   await new Promise((res, rej) => {
+      //     setTimeout(() => {
+      //       // setEvents(EVENTS);
+      //       res("");
+      //     }, 1000);
+      //   });
+      //   return EVENTS;
+      // }}
       // resources={[
       //   {
       //     admin_id: 1,
