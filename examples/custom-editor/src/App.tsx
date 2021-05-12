@@ -4,7 +4,7 @@ import {
   ProcessedEvent,
   Scheduler,
   SchedulerHelpers,
-} from "../../../dist/Scheduler";
+} from "@aldabil/react-scheduler";
 
 interface CustomEditorProps {
   scheduler: SchedulerHelpers;
@@ -17,7 +17,7 @@ const CustomEditor = ({ scheduler }: CustomEditorProps) => {
     title: event?.title || "",
     description: event?.description || "",
   });
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<Record<string, string>>({});
 
   const handleChange = (value: string, name: string) => {
     setState((prev) => {
@@ -70,8 +70,8 @@ const CustomEditor = ({ scheduler }: CustomEditorProps) => {
           label="Title"
           value={state.title}
           onChange={(e) => handleChange(e.target.value, "title")}
-          error={!!error}
-          helperText={!!error && error["title"]}
+          error={!!error["title"]}
+          helperText={error["title"]}
           fullWidth
         />
         <TextField
