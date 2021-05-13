@@ -245,7 +245,7 @@ const Week = () => {
                   {daysList.map((date, i) => (
                     <td
                       key={i}
-                      className={isToday(date) ? "today_cell" : ""}
+                      className={isToday(date) ? CSS.today_cell : ""}
                       style={{
                         borderBottom: 0,
                         borderRight:
@@ -333,7 +333,7 @@ const Week = () => {
                       return (
                         <td
                           key={i}
-                          className={isToday(date) ? "today_cell" : ""}
+                          className={isToday(date) ? CSS.today_cell : ""}
                         >
                           {cellRenderer ? (
                             cellRenderer({

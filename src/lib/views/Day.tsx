@@ -212,7 +212,7 @@ const Day = () => {
               <tbody>
                 <tr>
                   <td
-                    className={isToday(selectedDate) ? "today_cell" : ""}
+                    className={isToday(selectedDate) ? CSS.today_cell : ""}
                     style={{ border: 0 }}
                   >
                     <TodayTypo date={selectedDate} />
@@ -274,7 +274,9 @@ const Day = () => {
                   const field = resourceFields.idField;
                   return (
                     <tr key={i}>
-                      <td className={isToday(selectedDate) ? "today_cell" : ""}>
+                      <td
+                        className={isToday(selectedDate) ? CSS.today_cell : ""}
+                      >
                         {cellRenderer ? (
                           cellRenderer({
                             day: selectedDate,

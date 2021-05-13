@@ -9,12 +9,6 @@
 npm i @aldabil/react-scheduler
 ```
 
-#### Peer Dependencies
-
-```jsx
-npm i @material-ui/core @material-ui/icons date-fns
-```
-
 ## Usage
 
 ```jsx

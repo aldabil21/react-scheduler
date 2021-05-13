@@ -1,12 +1,15 @@
 import { Fragment } from "react";
-import { closestTo, differenceInDays, isBefore, startOfDay } from "date-fns";
 import {
+  closestTo,
+  differenceInDays,
+  isBefore,
+  startOfDay,
   endOfDay,
   isAfter,
   isSameDay,
   isWithinInterval,
   startOfWeek,
-} from "date-fns/esm";
+} from "date-fns";
 import { ProcessedEvent } from "../../Scheduler";
 import { Typography } from "@material-ui/core";
 import EventItem from "./EventItem";

@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 import { Typography } from "@material-ui/core";
 import { format, isToday } from "date-fns";
+import CSS from "../../assets/css/styles.module.css";
 
 interface TodayTypoProps {
   date: Date;
@@ -15,7 +16,7 @@ const TodayTypo = ({ date, onClick }: TodayTypoProps) => {
           fontWeight: isToday(date) ? "bold" : "inherit",
         }}
         color={isToday(date) ? "primary" : "inherit"}
-        className={onClick ? "day_clickable" : ""}
+        className={onClick ? CSS.day_clickable : ""}
         onClick={(e) => {
           e.stopPropagation();
           if (onClick) onClick(date);
