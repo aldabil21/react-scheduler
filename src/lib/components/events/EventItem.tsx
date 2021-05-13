@@ -19,6 +19,7 @@ import DeleteRoundedIcon from "@material-ui/icons/DeleteRounded";
 import EventNoteRoundedIcon from "@material-ui/icons/EventNoteRounded";
 import ClearRoundedIcon from "@material-ui/icons/ClearRounded";
 import SupervisorAccountRoundedIcon from "@material-ui/icons/SupervisorAccountRounded";
+import CSS from "../../assets/css/styles.module.css";
 
 interface EventItemProps {
   event: ProcessedEvent;
@@ -150,15 +151,15 @@ const EventItem = ({
     );
 
     return (
-      <div className="cal__popper">
+      <div className={CSS.cal__popper}>
         <div
           style={{
             background: event.color || theme.palette.primary.main,
             color: theme.palette.primary.contrastText,
           }}
-          className="popper__p"
+          className={CSS.popper__p}
         >
-          <div className="popper__actions">
+          <div className={CSS.popper__actions}>
             <div>
               <IconButton
                 size="small"
@@ -219,7 +220,7 @@ const EventItem = ({
             {event.title}
           </Typography>
         </div>
-        <div className="popper__p">
+        <div className={CSS.popper__p}>
           <Typography
             style={{ display: "flex", alignItems: "center" }}
             color="textSecondary"

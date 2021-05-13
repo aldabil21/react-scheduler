@@ -5,6 +5,7 @@ import { useWindowResize } from "../../hooks/useWindowResize";
 import { DefaultRecourse } from "../../Scheduler";
 import { ResourceHeader } from "./ResourceHeader";
 import { ButtonTabProps, ButtonTabs } from "./Tabs";
+import CSS from "../../assets/css/styles.module.css";
 
 interface WithResourcesProps {
   span?: number;
@@ -30,6 +31,7 @@ const ResourcesTables = ({ span, renderChildren }: WithResourcesProps) => {
       {resources.map((res: DefaultRecourse, i: number) => (
         <td key={`${res[resourceFields.idField]}_${i}`}>
           <table
+            className={CSS.table}
             style={{
               width: width < theme.breakpoints.values.sm ? width : "100%",
             }}
@@ -50,19 +52,15 @@ const ResourcesTables = ({ span, renderChildren }: WithResourcesProps) => {
 };
 
 const ResourcesTabTables = ({ renderChildren }: WithResourcesProps) => {
-  const {
-    resources,
-    resourceFields,
-    selectedResource,
-    handleState,
-  } = useAppState();
+  const { resources, resourceFields, selectedResource, handleState } =
+    useAppState();
 
   const tabs: ButtonTabProps[] = resources.map((res) => {
     return {
       id: res[resourceFields.idField],
       label: <ResourceHeader resource={res} />,
       component: (
-        <table>
+        <table className={CSS.table}>
           <tbody>{renderChildren(res)}</tbody>
         </table>
       ),

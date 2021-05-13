@@ -15,6 +15,7 @@ import { useAppState } from "../hooks/useAppState";
 import { DayHours, DefaultRecourse } from "../Scheduler";
 import { getResourcedEvents } from "../helpers/generals";
 import { WithResources } from "../components/common/WithResources";
+import CSS from "../assets/css/styles.module.css";
 
 export type WeekDays = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 export interface MonthProps {
@@ -110,7 +111,7 @@ const Month = () => {
           <td key={d.toString()}>
             <div
               style={{ height: CELL_HEIGHT }}
-              className="c_cell"
+              className={CSS.c_cell}
               onClick={() => {
                 const start = new Date(
                   `${format(setHours(today, startHour), "yyyy MM dd hh:mm a")}`
@@ -145,7 +146,7 @@ const Month = () => {
                       ? "textSecondary"
                       : "textPrimary"
                   }
-                  className="day_clickable"
+                  className={CSS.day_clickable}
                   onClick={(e) => {
                     e.stopPropagation();
                     handleGotoDay(today);
@@ -154,7 +155,7 @@ const Month = () => {
                   {format(today, "dd")}
                 </Typography>
               </Avatar>
-              <div className="events_col">
+              <div className={CSS.events_col}>
                 <MonthEvents
                   events={recousedEvents}
                   today={today}
@@ -177,7 +178,11 @@ const Month = () => {
       <Fragment>
         <tr>
           <td>
-            <table className="month_day_table">
+            <table
+              className={`${CSS.table} ${CSS.month_day_table} ${
+                CSS[`month_day_table_${direction}`]
+              }`}
+            >
               <tbody>
                 <tr>{renderDays()}</tr>
               </tbody>
@@ -186,21 +191,11 @@ const Month = () => {
         </tr>
         <tr>
           <td>
-            <table className="month_cells">
-              <style>{`
-              .month_day_table td {
-                border-bottom: 0;
-                border-${direction === "rtl" ? "left" : "right"}: 0;
-              }
-              .month_cells td {
-                border-width: ${
-                  direction === "rtl" ? "0 1px 1px 0" : "0 0 1px 1px"
-                };
-              }
-              .month_cells td:first-child, .month_day_table td:first-child {
-                border-${direction === "rtl" ? "right" : "left"}: 0
-              }
-              `}</style>
+            <table
+              className={`${CSS.table} ${CSS.month_cells} ${
+                CSS[`month_cells_${direction}`]
+              }`}
+            >
               <tbody>{renderCells(resource)}</tbody>
             </table>
           </td>
@@ -211,7 +206,7 @@ const Month = () => {
 
   return (
     <Fragment>
-      <tbody className="borderd">
+      <tbody className={CSS.borderd}>
         {resources.length ? (
           <WithResources renderChildren={renderTable} />
         ) : (

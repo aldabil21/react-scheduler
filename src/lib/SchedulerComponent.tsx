@@ -1,5 +1,4 @@
 import { Week } from "./views/Week";
-import "./assets/css/index.css";
 import { Navigation } from "./components/nav/Navigation";
 import { useAppState } from "./hooks/useAppState";
 import Editor from "./views/Editor";
@@ -7,6 +6,7 @@ import { CircularProgress } from "@material-ui/core";
 import { Typography } from "@material-ui/core";
 import { Month } from "./views/Month";
 import { Day } from "./views/Day";
+import CSS from "./assets/css/styles.module.css";
 
 const SchedulerComponent = () => {
   const { loading, view, dialog, direction } = useAppState();
@@ -27,25 +27,16 @@ const SchedulerComponent = () => {
   return (
     <div style={{ position: "relative", overflow: "hidden" }}>
       {loading && (
-        <div className="table_loading">
-          <div className="progress_loading">
+        <div className={CSS.table_loading}>
+          <div className={CSS.progress_loading}>
             <CircularProgress size={50} />
             <Typography align="center">Loading...</Typography>
           </div>
         </div>
       )}
       <Navigation />
-      <div className="outer-table">
-        <table>
-          <style>
-            {`
-              table td {
-                border-${
-                  direction === "rtl" ? "right" : "left"
-                }: 1px solid #eeeeee;
-              }
-            `}
-          </style>
+      <div className={CSS.outerTable}>
+        <table className={`${CSS.table} ${CSS[`table_${direction}`]}`}>
           {renderViews()}
         </table>
       </div>

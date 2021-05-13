@@ -31,6 +31,7 @@ import {
 import { WeekDays } from "./Month";
 import { getResourcedEvents } from "../helpers/generals";
 import { WithResources } from "../components/common/WithResources";
+import CSS from "../assets/css/styles.module.css";
 
 export interface WeekProps {
   weekDays: WeekDays[];
@@ -123,7 +124,7 @@ const Week = () => {
       .sort((a, b) => b.end.getTime() - a.end.getTime());
     return (
       <div
-        className="events_col"
+        className={CSS.events_col}
         style={{ height: SPACE * allWeekMulti.length }}
       >
         {multiDays.map((event, i) => {
@@ -149,7 +150,7 @@ const Week = () => {
           return (
             <div
               key={event.event_id}
-              className="allday_event event__item"
+              className={`${CSS.allday_event} ${CSS.event__item}`}
               style={{
                 top: index * SPACE,
                 width: `${100 * eventLength}%`,
@@ -171,7 +172,7 @@ const Week = () => {
   const renderTodayEvents = (todayEvents: ProcessedEvent[], today: Date) => {
     const crossingIds: Array<number | string> = [];
     return (
-      <div className="events_col">
+      <div className={CSS.events_col}>
         {todayEvents.map((event, i) => {
           const height =
             differenceInMinutes(event.end, event.start) * MINUTE_HEIGHT;
@@ -199,7 +200,7 @@ const Week = () => {
           return (
             <div
               key={event.event_id}
-              className="event__item"
+              className={CSS.event__item}
               style={{
                 height: height,
                 top: top,
@@ -236,9 +237,9 @@ const Week = () => {
     return (
       <Fragment>
         <tr>
-          <td className="indent borderd"></td>
-          <td className="borderd">
-            <table className="week_day_table">
+          <td className={`${CSS.indent} ${CSS.borderd}`}></td>
+          <td className={CSS.borderd}>
+            <table className={`${CSS.table} ${CSS.week_day_table}`}>
               <tbody>
                 <tr>
                   {daysList.map((date, i) => (
@@ -271,8 +272,8 @@ const Week = () => {
           </td>
         </tr>
         <tr>
-          <td className="borderd">
-            <table className="hour_table">
+          <td className={CSS.borderd}>
+            <table className={`${CSS.table} ${CSS.hour_table}`}>
               <thead>
                 <tr>
                   <td></td>
@@ -293,18 +294,12 @@ const Week = () => {
               </tbody>
             </table>
           </td>
-          <td className="borderd">
-            <table className="cells_table">
-              <style>{`
-              .cells_table tr:last-child td {
-                border-width: ${
-                  direction === "rtl" ? "0 1px 0 0" : "0 0 0 1px"
-                };
-              }
-              .cells_table td:first-child {
-                border-${direction === "rtl" ? "right" : "left"}: 0;
-              }
-              `}</style>
+          <td className={CSS.borderd}>
+            <table
+              className={`${CSS.table} ${CSS.cells_table} ${
+                CSS[`cells_table_${direction}`]
+              } `}
+            >
               <thead>
                 <tr>
                   {daysList.map((date, i) => {
@@ -355,7 +350,7 @@ const Week = () => {
                             })
                           ) : (
                             <ButtonBase
-                              className="c_cell"
+                              className={CSS.c_cell}
                               style={{ height: CELL_HEIGHT, width: "100%" }}
                               onClick={() => {
                                 triggerDialog(true, {
@@ -380,7 +375,7 @@ const Week = () => {
   };
 
   return (
-    <tbody className="borderd">
+    <tbody className={CSS.borderd}>
       {resources.length ? (
         <WithResources span={daysList.length} renderChildren={renderTable} />
       ) : (

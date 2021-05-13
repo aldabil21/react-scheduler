@@ -131,7 +131,7 @@ const EditorSelect = ({
                   <Chip
                     key={`${t}_${i}`}
                     label={t}
-                    className="xm"
+                    style={{ margin: "0 2px" }}
                     color="primary"
                   />
                 ));

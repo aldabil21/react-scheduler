@@ -10,6 +10,7 @@ import {
 import { ProcessedEvent } from "../../Scheduler";
 import { Typography } from "@material-ui/core";
 import EventItem from "./EventItem";
+import CSS from "../../assets/css/styles.module.css";
 
 interface MonthEventProps {
   events: ProcessedEvent[];
@@ -90,7 +91,7 @@ const MonthEvents = ({
         ) : index === LIMIT ? (
           <Typography
             key={i}
-            className="event__item day_clickable"
+            className={`${CSS.event__item} ${CSS.day_clickable}`}
             style={{ top: index * SPACE, fontSize: 11 }}
             onClick={(e) => {
               e.stopPropagation();
@@ -102,7 +103,7 @@ const MonthEvents = ({
         ) : (
           <div
             key={i}
-            className="event__item"
+            className={CSS.event__item}
             style={{
               top: index * SPACE,
               width: `${100 * eventLength}%`,
