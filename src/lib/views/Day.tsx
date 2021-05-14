@@ -289,6 +289,7 @@ const Day = () => {
                                 end,
                                 [field]: resource ? resource[field] : null,
                               }),
+                            [field]: resource ? resource[field] : null,
                           })
                         ) : (
                           <ButtonBase

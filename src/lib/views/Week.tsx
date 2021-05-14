@@ -347,6 +347,7 @@ const Week = () => {
                                   end,
                                   [field]: resource ? resource[field] : null,
                                 }),
+                              [field]: resource ? resource[field] : null,
                             })
                           ) : (
                             <ButtonBase
