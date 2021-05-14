@@ -22,7 +22,7 @@ const WithResources = ({ span, renderChildren }: WithResourcesProps) => {
 };
 
 const ResourcesTables = ({ span, renderChildren }: WithResourcesProps) => {
-  const { resources, resourceFields } = useAppState();
+  const { resources, resourceFields, direction } = useAppState();
   const { width } = useWindowResize();
   const theme = useTheme();
 
@@ -31,12 +31,12 @@ const ResourcesTables = ({ span, renderChildren }: WithResourcesProps) => {
       {resources.map((res: DefaultRecourse, i: number) => (
         <td key={`${res[resourceFields.idField]}_${i}`}>
           <table
-            className={CSS.table}
+            className={`${CSS.table} ${CSS[`table_${direction}`]}`}
             style={{
               width: width < theme.breakpoints.values.sm ? width : "100%",
             }}
           >
-            <tbody>
+            <tbody className={CSS.noborder}>
               <tr>
                 <td colSpan={span}>
                   <ResourceHeader resource={res} />
