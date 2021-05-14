@@ -23,7 +23,6 @@
 .hour_table td,
 .cells_table td {
   width: 80px;
-  min-width: 80px;
 }
 .cells_table_rtl tr:last-child td {
   border-width: 0 1px 0 0;
