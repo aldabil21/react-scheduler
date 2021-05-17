@@ -39,6 +39,7 @@ const AppState = ({ initial, children }: AppProps) => {
     fields,
     locale,
     direction,
+    loading,
   } = initial;
   const [state, dispatch] = useReducer(stateReducer, initialState(initial));
 
@@ -64,6 +65,7 @@ const AppState = ({ initial, children }: AppProps) => {
         fields,
         locale,
         direction,
+        loading,
       });
     } else {
       handleState(true, "mounted");
@@ -79,6 +81,7 @@ const AppState = ({ initial, children }: AppProps) => {
     fields,
     locale,
     direction,
+    loading,
   ]);
 
   const confirmEvent = (event: ProcessedEvent, action: EventActions) => {
