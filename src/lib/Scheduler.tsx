@@ -158,7 +158,7 @@ export interface SchedulerProps {
   /**Custom additional fields with it's settings */
   fields: FieldProps[];
   /**Table loading state */
-  loading: boolean;
+  loading?: boolean;
   /**Async function triggered when add/edit event */
   onConfirm?(
     event: ProcessedEvent,

@@ -1,6 +1,6 @@
 {
   "name": "@aldabil/react-scheduler",
-  "version": "1.0.27",
+  "version": "1.0.30",
   "description": "React scheduler component based on Material-UI & date-fns",
   "main": "./dist/Scheduler.js",
   "//types": "./dist/index.d.ts",
@@ -11,7 +11,7 @@
     "start": "react-scripts start",
     "clean": "del ./dist",
     "tsc": "npm run clean && tsc",
-    "pack": "npm run clean && webpack"
+    "pack": "webpack"
   },
   "repository": {
     "type": "git",

@@ -39,6 +39,7 @@ const AppState = ({ initial, children }: AppProps) => {
     fields,
     locale,
     direction,
+    loading,
   } = initial;
   const [state, dispatch] = useReducer(stateReducer, initialState(initial));
 
@@ -64,6 +65,7 @@ const AppState = ({ initial, children }: AppProps) => {
         fields,
         locale,
         direction,
+        loading,
       });
     } else {
       handleState(true, "mounted");
@@ -79,6 +81,7 @@ const AppState = ({ initial, children }: AppProps) => {
     fields,
     locale,
     direction,
+    loading,
   ]);
 
   const confirmEvent = (event: ProcessedEvent, action: EventActions) => {
@@ -102,7 +105,10 @@ const AppState = ({ initial, children }: AppProps) => {
     dispatch({ type: "triggerDialog", payload: { status, selected } });
   };
   const triggerLoading = (status: boolean) => {
-    dispatch({ type: "triggerLoading", payload: status });
+    // Trigger if not out-sourced by props
+    if (typeof loading === "undefined") {
+      dispatch({ type: "triggerLoading", payload: status });
+    }
   };
   const handleGotoDay = (day: Date) => {
     const views = getViews();
