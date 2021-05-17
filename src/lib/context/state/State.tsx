@@ -105,7 +105,10 @@ const AppState = ({ initial, children }: AppProps) => {
     dispatch({ type: "triggerDialog", payload: { status, selected } });
   };
   const triggerLoading = (status: boolean) => {
-    dispatch({ type: "triggerLoading", payload: status });
+    // Trigger if not out-sourced by props
+    if (typeof loading === "undefined") {
+      dispatch({ type: "triggerLoading", payload: status });
+    }
   };
   const handleGotoDay = (day: Date) => {
     const views = getViews();

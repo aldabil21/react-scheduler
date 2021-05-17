@@ -53,7 +53,7 @@ export const defaultProps = {
   events: [],
   remoteEvents: undefined,
   fields: [],
-  loading: false,
+  loading: undefined,
   customEditor: undefined,
   onConfirm: undefined,
   onDelete: undefined,

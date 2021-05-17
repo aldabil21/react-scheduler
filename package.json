@@ -11,7 +11,7 @@
     "start": "react-scripts start",
     "clean": "del ./dist",
     "tsc": "npm run clean && tsc",
-    "pack": "npm run clean && webpack"
+    "pack": "webpack"
   },
   "repository": {
     "type": "git",
