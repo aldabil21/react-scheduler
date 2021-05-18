@@ -22,6 +22,7 @@ const Navigation = () => {
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up("sm"));
+  const views = getViews();
 
   const toggleMoreMenu = (el?: Element) => {
     setAnchorEl(el || null);
@@ -57,59 +58,63 @@ const Navigation = () => {
         <Button onClick={() => handleState(new Date(), "selectedDate")}>
           Today
         </Button>
-
-        {isDesktop ? (
-          getViews().map((v) => (
-            <Button
-              key={v}
-              color={v === view ? "primary" : "default"}
-              onClick={() => handleState(v, "view")}
-            >
-              {v}
-            </Button>
-          ))
-        ) : (
-          <Fragment>
-            <IconButton
-              style={{ padding: 5 }}
-              onClick={(e) => {
-                toggleMoreMenu(e.currentTarget);
-              }}
-            >
-              <MoreVertIcon />
-            </IconButton>
-            <Popover
-              open={Boolean(anchorEl)}
-              anchorEl={anchorEl}
-              onClose={(e) => {
-                toggleMoreMenu();
-              }}
-              anchorOrigin={{
-                vertical: "center",
-                horizontal: "center",
-              }}
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "center",
-              }}
-            >
-              <MenuList autoFocusItem={!!anchorEl} disablePadding>
-                {getViews().map((v) => (
-                  <MenuItem
-                    key={v}
-                    selected={v === view}
-                    onClick={() => {
-                      toggleMoreMenu();
-                      handleState(v, "view");
-                    }}
-                  >
-                    {v}
-                  </MenuItem>
-                ))}
-              </MenuList>
-            </Popover>
-          </Fragment>
-        )}
+        {views.length > 1 &&
+          (isDesktop ? (
+            views.map((v) => (
+              <Button
+                key={v}
+                color={v === view ? "primary" : "default"}
+                onClick={() => handleState(v, "view")}
+                onDragOver={(e) => {
+                  e.preventDefault();
+                  handleState(v, "view");
+                }}
+              >
+                {v}
+              </Button>
+            ))
+          ) : (
+            <Fragment>
+              <IconButton
+                style={{ padding: 5 }}
+                onClick={(e) => {
+                  toggleMoreMenu(e.currentTarget);
+                }}
+              >
+                <MoreVertIcon />
+              </IconButton>
+              <Popover
+                open={Boolean(anchorEl)}
+                anchorEl={anchorEl}
+                onClose={(e) => {
+                  toggleMoreMenu();
+                }}
+                anchorOrigin={{
+                  vertical: "center",
+                  horizontal: "center",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "center",
+                }}
+              >
+                <MenuList autoFocusItem={!!anchorEl} disablePadding>
+                  {views.map((v) => (
+                    <MenuItem
+                      key={v}
+                      selected={v === view}
+                      onClick={() => {
+                        toggleMoreMenu();
+                        handleState(v, "view");
+                      }}
+                    >
+                      {v}
+                    </MenuItem>
+                  ))}
+                </MenuList>
+              </Popover>
+            </Fragment>
+          ))}
       </div>
     </div>
   );

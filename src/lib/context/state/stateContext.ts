@@ -26,6 +26,12 @@ export interface stateContext extends SchedulerState {
   triggerLoading(status: boolean): void;
   handleGotoDay(day: Date | string): void;
   confirmEvent(event: ProcessedEvent, action: EventActions): void;
+  onDrop(
+    eventId: string,
+    droppedStartTime: Date,
+    resourceKey?: string,
+    resourceVal?: string | number
+  ): void;
 }
 
 export const defaultProps = {
@@ -86,6 +92,7 @@ const StateContext = createContext<stateContext>({
   triggerLoading: () => {},
   handleGotoDay: () => {},
   confirmEvent: () => {},
+  onDrop: () => {},
 });
 
 export { StateContext };

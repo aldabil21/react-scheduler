@@ -1,3 +1,4 @@
+import { addMinutes, isWithinInterval } from "date-fns";
 import { View } from "../components/nav/Navigation";
 import {
   DefaultRecourse,
@@ -74,4 +75,30 @@ export const getResourcedEvents = (
   }
 
   return recousedEvents;
+};
+
+export const traversCrossingEvents = (
+  todayEvents: ProcessedEvent[],
+  event: ProcessedEvent
+): ProcessedEvent[] => {
+  return todayEvents.filter(
+    (e) =>
+      e.event_id !== event.event_id &&
+      (isWithinInterval(addMinutes(event.start, 1), {
+        start: e.start,
+        end: e.end,
+      }) ||
+        isWithinInterval(addMinutes(event.end, -1), {
+          start: e.start,
+          end: e.end,
+        }) ||
+        isWithinInterval(addMinutes(e.start, -1), {
+          start: event.start,
+          end: event.end,
+        }) ||
+        isWithinInterval(addMinutes(e.end, -1), {
+          start: event.start,
+          end: event.end,
+        }))
+  );
 };

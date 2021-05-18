@@ -16,6 +16,7 @@ import { DayHours, DefaultRecourse } from "../Scheduler";
 import { getResourcedEvents } from "../helpers/generals";
 import { WithResources } from "../components/common/WithResources";
 import CSS from "../assets/css/styles.module.css";
+import { Cell } from "../components/common/Cell";
 
 export type WeekDays = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 export interface MonthProps {
@@ -31,7 +32,6 @@ const Month = () => {
     selectedDate,
     height,
     events,
-    triggerDialog,
     handleGotoDay,
     remoteEvents,
     triggerLoading,
@@ -107,64 +107,62 @@ const Month = () => {
     for (const startDay of eachWeekStart) {
       const cells = weekDays.map((d) => {
         const today = addDays(startDay, d);
+        const start = new Date(
+          `${format(setHours(today, startHour), "yyyy MM dd hh:mm a")}`
+        );
+        const end = new Date(
+          `${format(setHours(today, endHour), "yyyy MM dd hh:mm a")}`
+        );
+        const field = resourceFields.idField;
         return (
           <td key={d.toString()}>
-            <div
-              style={{ height: CELL_HEIGHT }}
-              className={CSS.c_cell}
-              onClick={() => {
-                const start = new Date(
-                  `${format(setHours(today, startHour), "yyyy MM dd hh:mm a")}`
-                );
-                const end = new Date(
-                  `${format(setHours(today, endHour), "yyyy MM dd hh:mm a")}`
-                );
-                const field = resourceFields.idField;
-                triggerDialog(true, {
-                  start,
-                  end,
-                  [field]: resource ? resource[field] : null,
-                });
-              }}
+            <Cell
+              height={CELL_HEIGHT}
+              start={start}
+              end={end}
+              resourceKey={field}
+              resourceVal={resource ? resource[field] : null}
             >
-              <Avatar
-                style={{
-                  width: 27,
-                  height: 27,
-                  background: isToday(today)
-                    ? theme.palette.secondary.main
-                    : "transparent",
-                  color: isToday(today)
-                    ? theme.palette.secondary.contrastText
-                    : "",
-                  marginBottom: 2,
-                }}
-              >
-                <Typography
-                  color={
-                    !isSameMonth(today, monthStart)
-                      ? "textSecondary"
-                      : "textPrimary"
-                  }
-                  className={CSS.day_clickable}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleGotoDay(today);
+              <Fragment>
+                <Avatar
+                  style={{
+                    width: 27,
+                    height: 27,
+                    background: isToday(today)
+                      ? theme.palette.secondary.main
+                      : "transparent",
+                    color: isToday(today)
+                      ? theme.palette.secondary.contrastText
+                      : "",
+                    marginBottom: 2,
                   }}
                 >
-                  {format(today, "dd")}
-                </Typography>
-              </Avatar>
-              <div className={CSS.events_col}>
-                <MonthEvents
-                  events={recousedEvents}
-                  today={today}
-                  eachWeekStart={eachWeekStart}
-                  daysList={daysList}
-                  onViewMore={handleGotoDay}
-                />
-              </div>
-            </div>
+                  <Typography
+                    color={
+                      !isSameMonth(today, monthStart)
+                        ? "textSecondary"
+                        : "textPrimary"
+                    }
+                    className={CSS.day_clickable}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleGotoDay(today);
+                    }}
+                  >
+                    {format(today, "dd")}
+                  </Typography>
+                </Avatar>
+                <div className={CSS.events_col}>
+                  <MonthEvents
+                    events={recousedEvents}
+                    today={today}
+                    eachWeekStart={eachWeekStart}
+                    daysList={daysList}
+                    onViewMore={handleGotoDay}
+                  />
+                </div>
+              </Fragment>
+            </Cell>
           </td>
         );
       });

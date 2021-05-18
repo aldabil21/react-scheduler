@@ -62,7 +62,7 @@ const MonthEvents = ({
             : event.start;
 
         let eventLength = differenceInDays(event.end, start) + 1;
-        const toNextWeek = eventLength > daysList.length;
+        const toNextWeek = eventLength >= daysList.length;
         if (toNextWeek) {
           const NotAccurateWeekStart = startOfWeek(event.start);
           const closestStart = closestTo(NotAccurateWeekStart, eachWeekStart);

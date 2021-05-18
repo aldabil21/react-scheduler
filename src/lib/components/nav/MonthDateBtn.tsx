@@ -1,7 +1,7 @@
 import { useState } from "react";
 import DateProvider from "../hoc/DateProvider";
 import { DatePicker } from "@material-ui/pickers";
-import { Button, IconButton } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import { format, getMonth, setMonth } from "date-fns";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 import { LocaleArrow } from "../common/LocaleArrow";
@@ -33,15 +33,11 @@ const MonthDateBtn = ({ selectedDate, onChange }: MonthDateBtnProps) => {
   };
   return (
     <div>
-      <IconButton style={{ padding: 2 }} onClick={handlePrev}>
-        <LocaleArrow type="prev" />
-      </IconButton>
+      <LocaleArrow type="prev" onClick={handlePrev} />
       <Button style={{ padding: 4 }} onClick={toggleDialog}>
         {format(selectedDate, "MMMM yyyy", { locale: locale })}
       </Button>
-      <IconButton style={{ padding: 2 }} onClick={handleNext}>
-        <LocaleArrow type="next" />
-      </IconButton>
+      <LocaleArrow type="next" onClick={handleNext} />
       <DateProvider>
         <DatePicker
           open={open}

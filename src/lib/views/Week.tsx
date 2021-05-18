@@ -1,5 +1,5 @@
 import { useEffect, useCallback, Fragment } from "react";
-import { ButtonBase, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import {
   startOfWeek,
   addDays,
@@ -15,7 +15,6 @@ import {
   setHours,
   isWithinInterval,
   isAfter,
-  addMinutes,
   endOfDay,
   startOfDay,
 } from "date-fns";
@@ -29,9 +28,10 @@ import {
   ProcessedEvent,
 } from "../Scheduler";
 import { WeekDays } from "./Month";
-import { getResourcedEvents } from "../helpers/generals";
+import { getResourcedEvents, traversCrossingEvents } from "../helpers/generals";
 import { WithResources } from "../components/common/WithResources";
 import CSS from "../assets/css/styles.module.css";
+import { Cell } from "../components/common/Cell";
 
 export interface WeekProps {
   weekDays: WeekDays[];
@@ -179,20 +179,8 @@ const Week = () => {
           const top =
             differenceInMinutes(event.start, setHours(today, startHour)) *
             MINUTE_HEIGHT;
-          const withinSameDay = todayEvents.filter(
-            (e) =>
-              e.event_id !== event.event_id &&
-              (isWithinInterval(addMinutes(event.start, 1), {
-                start: e.start,
-                end: e.end,
-              }) ||
-                isWithinInterval(addMinutes(event.end, -1), {
-                  start: e.start,
-                  end: e.end,
-                }))
-          );
-
-          const alreadyRendered = withinSameDay.filter((e) =>
+          const crossingEvents = traversCrossingEvents(todayEvents, event);
+          const alreadyRendered = crossingEvents.filter((e) =>
             crossingIds.includes(e.event_id)
           );
           crossingIds.push(event.event_id);
@@ -204,8 +192,8 @@ const Week = () => {
               style={{
                 height: height,
                 top: top,
-                width: withinSameDay.length
-                  ? `${100 / (withinSameDay.length + 1) + 10}%`
+                width: crossingEvents.length
+                  ? `${100 / (crossingEvents.length + 1) + 10}%`
                   : "",
                 [direction === "rtl" ? "right" : "left"]: alreadyRendered.length
                   ? `${
@@ -350,17 +338,13 @@ const Week = () => {
                               [field]: resource ? resource[field] : null,
                             })
                           ) : (
-                            <ButtonBase
-                              className={CSS.c_cell}
-                              style={{ height: CELL_HEIGHT, width: "100%" }}
-                              onClick={() => {
-                                triggerDialog(true, {
-                                  start,
-                                  end,
-                                  [field]: resource ? resource[field] : null,
-                                });
-                              }}
-                            ></ButtonBase>
+                            <Cell
+                              height={CELL_HEIGHT}
+                              start={start}
+                              end={end}
+                              resourceKey={field}
+                              resourceVal={resource ? resource[field] : null}
+                            />
                           )}
                         </td>
                       );

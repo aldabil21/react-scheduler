@@ -269,6 +269,7 @@ const EventItem = ({
             ? "#808080"
             : theme.palette.primary.contrastText,
           cursor: event.disabled ? "not-allowed" : "pointer",
+          overflow: "hidden",
         }}
       >
         <ButtonBase
@@ -283,7 +284,31 @@ const EventItem = ({
             display: "block",
           }}
         >
-          {item}
+          <div
+            style={{
+              height: "100%",
+            }}
+            draggable
+            onDragStart={(e) => {
+              e.stopPropagation();
+              e.dataTransfer.setData("text/plain", `${event.event_id}`);
+              e.currentTarget.style.backgroundColor = theme.palette.error.main;
+            }}
+            onDragEnd={(e) => {
+              e.currentTarget.style.backgroundColor =
+                event.color || theme.palette.primary.main;
+            }}
+            onDragOver={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+            }}
+            onDragEnter={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+            }}
+          >
+            {item}
+          </div>
         </ButtonBase>
       </Paper>
 

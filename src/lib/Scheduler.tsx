@@ -192,6 +192,14 @@ export interface SchedulerProps {
    * date-fns Locale object
    */
   locale: Locale;
+  /**
+   * Triggerd when event is dropped on time slot.
+   */
+  onEventDrop?(
+    droppedOn: Date,
+    updatedEvent: ProcessedEvent,
+    originalEvent: ProcessedEvent
+  ): Promise<ProcessedEvent | void>;
 }
 
 const Scheduler = (props: SchedulerProps) => {

@@ -1,16 +1,16 @@
-// import { useState } from "react";
-// import { EVENTS } from "./model/events";
+import { useState } from "react";
+import { EVENTS } from "./model/events";
 // import { arSA } from "date-fns/locale";
 import { Scheduler } from "./lib/Scheduler";
 
 const App = () => {
-  // const [events, setEvents] = useState([]);
+  const [events, setEvents] = useState(EVENTS);
   return (
     <Scheduler
       // dialogMaxWidth="sm"
       // loading={loading}
       // view="month"
-      // events={events}
+      events={events}
       selectedDate={new Date("2021 5 1")}
       // height={400}
       // week={{
@@ -29,16 +29,17 @@ const App = () => {
       //       res("");
       //     }, 1000);
       //   });
-      //   return EVENTS;
+      //   // return null;
+      //   // return EVENTS;
       // }}
       // resources={[
-      //   {
-      //     admin_id: 1,
-      //     title: "One",
-      //     mobile: "555666777",
-      //     avatar: "https://picsum.photos/200/300",
-      //     color: "#ab2d2d",
-      //   },
+      //   // {
+      //   //   admin_id: 1,
+      //   //   title: "One",
+      //   //   mobile: "555666777",
+      //   //   avatar: "https://picsum.photos/200/300",
+      //   //   color: "#ab2d2d",
+      //   // },
       //   {
       //     admin_id: 2,
       //     title: "Two",
@@ -85,11 +86,11 @@ const App = () => {
       //     config: { label: "Assignee", required: true, multiple: "chips" },
       //     // default: [1, 2],
       //     options: [
-      //       {
-      //         id: 1,
-      //         text: "One",
-      //         value: 1,
-      //       },
+      //       // {
+      //       //   id: 1,
+      //       //   text: "One",
+      //       //   value: 1,
+      //       // },
       //       {
       //         id: 2,
       //         text: "Two",
@@ -152,6 +153,18 @@ const App = () => {
       // }}
       // direction="rtl"
       // locale={arSA}
+      // onEventDrop={async (time, updated) => {
+      //   return new Promise((res) => {
+      //     setTimeout(() => {
+      //       setEvents((prev: any) => {
+      //         return prev.map((e) =>
+      //           e.event_id === updated.event_id ? updated : e
+      //         );
+      //       });
+      //       res();
+      //     }, 1000);
+      //   });
+      // }}
     />
   );
 };
