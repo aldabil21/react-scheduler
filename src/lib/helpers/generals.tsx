@@ -92,7 +92,7 @@ export const traversCrossingEvents = (
           start: e.start,
           end: e.end,
         }) ||
-        isWithinInterval(addMinutes(e.start, -1), {
+        isWithinInterval(addMinutes(e.start, 1), {
           start: event.start,
           end: event.end,
         }) ||
