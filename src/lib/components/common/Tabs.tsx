@@ -105,6 +105,7 @@ const ButtonTabs = ({
             value={tab.id}
             {...a11yProps(tab.id)}
             onClick={() => setTab(tab.id)}
+            onDragEnter={() => setTab(tab.id)}
             classes={
               {
                 // selected: classes[`text_${indicator}`] || "",
