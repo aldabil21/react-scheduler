@@ -151,6 +151,7 @@ const App = () => {
       //   //   </div>
       //   // );
       // }}
+      // viewerTitleComponent={(event) => <>{event.title}</>}
       // direction="rtl"
       // locale={arSA}
       // onEventDrop={async (time, updated) => {

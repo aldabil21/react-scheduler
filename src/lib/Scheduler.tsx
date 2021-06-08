@@ -172,6 +172,8 @@ export interface SchedulerProps {
   viewerExtraComponent?:
     | JSX.Element
     | ((fields: FieldProps[], event: ProcessedEvent) => JSX.Element);
+  /**Override viewer title component */
+  viewerTitleComponent?(event: ProcessedEvent): JSX.Element;
   /**Resources array to split event views with resources */
   resources: DefaultRecourse[];
   /**Map resources fields */
