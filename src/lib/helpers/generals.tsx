@@ -69,7 +69,7 @@ export const getResourcedEvents = (
     if (isThisResource) {
       recousedEvents.push({
         ...event,
-        color: resource[resourceFields.colorField || ""],
+        color: event.color || resource[resourceFields.colorField || ""],
       });
     }
   }
