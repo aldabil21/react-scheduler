@@ -11,7 +11,7 @@ import {
   useMediaQuery,
 } from "@material-ui/core";
 import { randomBytes } from "crypto";
-import { addHours } from "date-fns";
+import { addMinutes, differenceInMinutes } from "date-fns";
 import { EditorDatePicker } from "../components/inputs/DatePicker";
 import { EditorInput } from "../components/inputs/Input";
 import { SelectedRange } from "../context/state/stateContext";
@@ -130,7 +130,13 @@ const Editor = () => {
     try {
       triggerLoading(true);
       // Auto fix date
-      body.end = body.start >= body.end ? addHours(body.start, 1) : body.end;
+      body.end =
+        body.start >= body.end
+          ? addMinutes(
+              body.start,
+              differenceInMinutes(selectedRange?.end!, selectedRange?.start!)
+            )
+          : body.end;
       // Specify action
       const action: EventActions = selectedEvent?.event_id ? "edit" : "create";
       // Trigger custom/remote when provided
