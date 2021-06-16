@@ -46,7 +46,7 @@ export const EVENTS = [
     event_id: 7,
     title: "Event 7",
     start: new Date("2021 5 1 09:00"),
-    end: new Date("2021 5 1 17:00"),
+    end: new Date("2021 5 1 09:20"),
     admin_id: [3],
   },
   {

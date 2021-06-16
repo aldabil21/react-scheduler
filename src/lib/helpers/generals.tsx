@@ -102,3 +102,10 @@ export const traversCrossingEvents = (
         }))
   );
 };
+
+export const calcMinuteHeight = (cellHeight: number, step: number) => {
+  return Math.ceil(cellHeight) / step;
+};
+export const calcCellHeight = (tableHeight: number, hoursLength: number) => {
+  return Math.max(tableHeight / hoursLength, 60);
+};

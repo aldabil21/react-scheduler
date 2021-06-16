@@ -3,9 +3,7 @@ import { Typography } from "@material-ui/core";
 import {
   format,
   eachMinuteOfInterval,
-  addHours,
   isSameDay,
-  differenceInMinutes,
   differenceInDays,
   isToday,
   isWithinInterval,
@@ -16,6 +14,7 @@ import {
   startOfDay,
   endOfDay,
   addDays,
+  addMinutes,
 } from "date-fns";
 import TodayTypo from "../components/common/TodayTypo";
 import EventItem from "../components/events/EventItem";
@@ -26,10 +25,15 @@ import {
   DefaultRecourse,
   ProcessedEvent,
 } from "../Scheduler";
-import { getResourcedEvents, traversCrossingEvents } from "../helpers/generals";
+import {
+  calcCellHeight,
+  calcMinuteHeight,
+  getResourcedEvents,
+} from "../helpers/generals";
 import { WithResources } from "../components/common/WithResources";
 import CSS from "../assets/css/styles.module.css";
 import { Cell } from "../components/common/Cell";
+import TodayEvents from "../components/events/TodayEvents";
 
 export interface DayProps {
   startHour: DayHours;
@@ -64,8 +68,8 @@ const Day = () => {
     },
     { step: step }
   );
-  const CELL_HEIGHT = height / hours.length;
-  const MINUTE_HEIGHT = (Math.ceil(CELL_HEIGHT) * 1.042) / step;
+  const CELL_HEIGHT = calcCellHeight(height, hours.length);
+  const MINUTE_HEIGHT = calcMinuteHeight(CELL_HEIGHT, step);
   const todayEvents = events.sort((b, a) => a.end.getTime() - b.end.getTime());
 
   const fetchEvents = useCallback(async () => {
@@ -127,52 +131,6 @@ const Day = () => {
                 hasPrev={hasPrev}
                 hasNext={hasNext}
               />
-            </div>
-          );
-        })}
-      </div>
-    );
-  };
-
-  const renderTodayEvents = (events: ProcessedEvent[]) => {
-    const crossingIds: Array<number | string> = [];
-    const todayEvents = events.filter(
-      (e) =>
-        !differenceInDays(e.end, e.start) && isSameDay(selectedDate, e.start)
-    );
-
-    return (
-      <div className={CSS.events_col}>
-        {todayEvents.map((event, i) => {
-          const height =
-            differenceInMinutes(event.end, event.start) * MINUTE_HEIGHT;
-          const top =
-            differenceInMinutes(event.start, START_TIME) * MINUTE_HEIGHT;
-          const crossingEvents = traversCrossingEvents(todayEvents, event);
-          const alreadyRendered = crossingEvents.filter((e) =>
-            crossingIds.includes(e.event_id)
-          );
-          crossingIds.push(event.event_id);
-
-          return (
-            <div
-              key={event.event_id}
-              className={CSS.event__item}
-              style={{
-                height: height,
-                top: top,
-                width: crossingEvents.length
-                  ? `${100 / (crossingEvents.length + 1) + 10}%`
-                  : "",
-                [direction === "rtl" ? "right" : "left"]: alreadyRendered.length
-                  ? `${
-                      alreadyRendered.length *
-                      (100 / (alreadyRendered.length + 1.7))
-                    }%`
-                  : "",
-              }}
-            >
-              <EventItem event={event} />
             </div>
           );
         })}
@@ -242,7 +200,20 @@ const Day = () => {
             >
               <thead>
                 <tr>
-                  <td>{renderTodayEvents(recousedEvents)}</td>
+                  <td>
+                    <TodayEvents
+                      todayEvents={recousedEvents.filter(
+                        (e) =>
+                          !differenceInDays(e.end, e.start) &&
+                          isSameDay(selectedDate, e.start)
+                      )}
+                      today={selectedDate}
+                      minuteHeight={MINUTE_HEIGHT}
+                      startHour={startHour}
+                      step={step}
+                      direction={direction}
+                    />
+                  </td>
                 </tr>
               </thead>
               <tbody>
@@ -255,7 +226,7 @@ const Day = () => {
                   );
                   const end = new Date(
                     `${format(selectedDate, "yyyy MM dd")} ${format(
-                      addHours(h, 1),
+                      addMinutes(h, step),
                       "hh:mm a"
                     )}`
                   );
