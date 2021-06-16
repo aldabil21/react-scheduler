@@ -209,6 +209,7 @@ const Day = () => {
                       )}
                       today={selectedDate}
                       minuteHeight={MINUTE_HEIGHT}
+                      cellHeight={CELL_HEIGHT}
                       startHour={startHour}
                       step={step}
                       direction={direction}

@@ -12,6 +12,7 @@ interface TodayEventsProps {
   startHour: number;
   step: number;
   minuteHeight: number;
+  cellHeight: number;
   direction: string;
 }
 const TodayEvents = ({
@@ -20,6 +21,7 @@ const TodayEvents = ({
   startHour,
   step,
   minuteHeight,
+  cellHeight,
   direction,
 }: TodayEventsProps) => {
   const crossingIds: Array<number | string> = [];
@@ -38,7 +40,7 @@ const TodayEvents = ({
          */
         const slotsFromTop = fromTop / step;
         const borderFactor = slotsFromTop * BORDER_HEIGHT;
-        const top = height * slotsFromTop + borderFactor;
+        const top = cellHeight * slotsFromTop + borderFactor;
 
         const crossingEvents = traversCrossingEvents(todayEvents, event);
         const alreadyRendered = crossingEvents.filter((e) =>

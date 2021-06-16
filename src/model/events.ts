@@ -59,9 +59,9 @@ export const EVENTS = [
   // {
   //   event_id: 9,
   //   title: "Event 11",
-  //   start: new Date("2021 5 5 16:00"),
-  //   end: new Date("2021 5 5 17:00"),
-  //   admin_id: 1,
+  //   start: new Date("2021 5 3 10:00"),
+  //   end: new Date("2021 5 3 11:00"),
+  //   admin_id: [1],
   // },
   // {
   //   event_id: 10,

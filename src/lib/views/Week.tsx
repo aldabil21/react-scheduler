@@ -264,6 +264,7 @@ const Week = () => {
                           .sort((a, b) => a.end.getTime() - b.end.getTime())}
                         today={date}
                         minuteHeight={MINUTE_HEIGHT}
+                        cellHeight={CELL_HEIGHT}
                         startHour={startHour}
                         step={step}
                         direction={direction}

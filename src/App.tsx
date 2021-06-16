@@ -12,12 +12,12 @@ const App = () => {
       // view="month"
       events={events}
       selectedDate={new Date("2021 5 1")}
-      // height={600}
+      // height={800}
       // week={{
       //   weekDays: [0, 1, 2, 3, 4, 5],
       //   weekStartOn: 6,
       //   startHour: 8,
-      //   endHour: 18,
+      //   endHour: 17,
       //   step: 20,
       // }}
       // month={null}
