@@ -156,3 +156,11 @@
     min-width: 100%;
   }
 }
+
+/* 
+* Fix conflict with Tinymcs
+*/
+.table:not([cellpadding]) td,
+.table:not([cellpadding]) th {
+  padding: 1px 0 !important;
+}

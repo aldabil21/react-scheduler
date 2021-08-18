@@ -48,6 +48,7 @@ const EventItem = ({
     resources,
     resourceFields,
     locale,
+    viewerTitleComponent,
   } = useAppState();
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState(false);
@@ -216,9 +217,13 @@ const EventItem = ({
               </Slide>
             </div>
           </div>
-          <Typography style={{ padding: "5px 0" }} noWrap>
-            {event.title}
-          </Typography>
+          {viewerTitleComponent instanceof Function ? (
+            viewerTitleComponent(event)
+          ) : (
+            <Typography style={{ padding: "5px 0" }} noWrap>
+              {event.title}
+            </Typography>
+          )}
         </div>
         <div className={CSS.popper__p}>
           <Typography

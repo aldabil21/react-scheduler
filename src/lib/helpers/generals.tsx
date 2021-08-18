@@ -69,7 +69,7 @@ export const getResourcedEvents = (
     if (isThisResource) {
       recousedEvents.push({
         ...event,
-        color: resource[resourceFields.colorField || ""],
+        color: event.color || resource[resourceFields.colorField || ""],
       });
     }
   }
@@ -92,7 +92,7 @@ export const traversCrossingEvents = (
           start: e.start,
           end: e.end,
         }) ||
-        isWithinInterval(addMinutes(e.start, -1), {
+        isWithinInterval(addMinutes(e.start, 1), {
           start: event.start,
           end: event.end,
         }) ||
@@ -101,4 +101,11 @@ export const traversCrossingEvents = (
           end: event.end,
         }))
   );
+};
+
+export const calcMinuteHeight = (cellHeight: number, step: number) => {
+  return Math.ceil(cellHeight) / step;
+};
+export const calcCellHeight = (tableHeight: number, hoursLength: number) => {
+  return Math.max(tableHeight / hoursLength, 60);
 };

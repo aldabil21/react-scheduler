@@ -5,9 +5,7 @@ import {
   addDays,
   format,
   eachMinuteOfInterval,
-  addHours,
   isSameDay,
-  differenceInMinutes,
   differenceInDays,
   isBefore,
   isToday,
@@ -17,6 +15,7 @@ import {
   isAfter,
   endOfDay,
   startOfDay,
+  addMinutes,
 } from "date-fns";
 import TodayTypo from "../components/common/TodayTypo";
 import EventItem from "../components/events/EventItem";
@@ -28,10 +27,15 @@ import {
   ProcessedEvent,
 } from "../Scheduler";
 import { WeekDays } from "./Month";
-import { getResourcedEvents, traversCrossingEvents } from "../helpers/generals";
+import {
+  calcCellHeight,
+  calcMinuteHeight,
+  getResourcedEvents,
+} from "../helpers/generals";
 import { WithResources } from "../components/common/WithResources";
 import CSS from "../assets/css/styles.module.css";
 import { Cell } from "../components/common/Cell";
+import TodayEvents from "../components/events/TodayEvents";
 
 export interface WeekProps {
   weekDays: WeekDays[];
@@ -75,8 +79,8 @@ const Week = () => {
     },
     { step: step }
   );
-  const CELL_HEIGHT = height / hours.length;
-  const MINUTE_HEIGHT = (Math.ceil(CELL_HEIGHT) * 1.042) / step;
+  const CELL_HEIGHT = calcCellHeight(height, hours.length);
+  const MINUTE_HEIGHT = calcMinuteHeight(CELL_HEIGHT, step);
 
   const fetchEvents = useCallback(async () => {
     try {
@@ -169,48 +173,6 @@ const Week = () => {
     );
   };
 
-  const renderTodayEvents = (todayEvents: ProcessedEvent[], today: Date) => {
-    const crossingIds: Array<number | string> = [];
-    return (
-      <div className={CSS.events_col}>
-        {todayEvents.map((event, i) => {
-          const height =
-            differenceInMinutes(event.end, event.start) * MINUTE_HEIGHT;
-          const top =
-            differenceInMinutes(event.start, setHours(today, startHour)) *
-            MINUTE_HEIGHT;
-          const crossingEvents = traversCrossingEvents(todayEvents, event);
-          const alreadyRendered = crossingEvents.filter((e) =>
-            crossingIds.includes(e.event_id)
-          );
-          crossingIds.push(event.event_id);
-
-          return (
-            <div
-              key={event.event_id}
-              className={CSS.event__item}
-              style={{
-                height: height,
-                top: top,
-                width: crossingEvents.length
-                  ? `${100 / (crossingEvents.length + 1) + 10}%`
-                  : "",
-                [direction === "rtl" ? "right" : "left"]: alreadyRendered.length
-                  ? `${
-                      alreadyRendered.length *
-                      (98 / (alreadyRendered.length + 1.7))
-                    }%`
-                  : "",
-              }}
-            >
-              <EventItem event={event} />
-            </div>
-          );
-        })}
-      </div>
-    );
-  };
-
   const renderTable = (resource?: DefaultRecourse) => {
     let recousedEvents = events;
     if (resource) {
@@ -290,18 +252,25 @@ const Week = () => {
             >
               <thead>
                 <tr>
-                  {daysList.map((date, i) => {
-                    const todayEvents = recousedEvents
-                      .filter(
-                        (e) =>
-                          isSameDay(date, e.start) &&
-                          !differenceInDays(e.end, e.start)
-                      )
-                      .sort((a, b) => a.end.getTime() - b.end.getTime());
-                    return (
-                      <td key={i}>{renderTodayEvents(todayEvents, date)}</td>
-                    );
-                  })}
+                  {daysList.map((date, i) => (
+                    <td key={i}>
+                      <TodayEvents
+                        todayEvents={recousedEvents
+                          .filter(
+                            (e) =>
+                              isSameDay(date, e.start) &&
+                              !differenceInDays(e.end, e.start)
+                          )
+                          .sort((a, b) => a.end.getTime() - b.end.getTime())}
+                        today={date}
+                        minuteHeight={MINUTE_HEIGHT}
+                        cellHeight={CELL_HEIGHT}
+                        startHour={startHour}
+                        step={step}
+                        direction={direction}
+                      />
+                    </td>
+                  ))}
                 </tr>
               </thead>
               <tbody>
@@ -313,7 +282,7 @@ const Week = () => {
                       );
                       const end = new Date(
                         `${format(date, "yyyy MM dd")} ${format(
-                          addHours(h, 1),
+                          addMinutes(h, step),
                           "hh:mm a"
                         )}`
                       );

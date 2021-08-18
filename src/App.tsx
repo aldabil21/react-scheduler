@@ -12,16 +12,20 @@ const App = () => {
       // view="month"
       events={events}
       selectedDate={new Date("2021 5 1")}
-      // height={400}
+      // height={800}
       // week={{
       //   weekDays: [0, 1, 2, 3, 4, 5],
       //   weekStartOn: 6,
-      //   startHour: 10,
-      //   endHour: 14,
-      //   step: 60
+      //   startHour: 8,
+      //   endHour: 17,
+      //   step: 20,
       // }}
       // month={null}
-      // day={null}
+      // day={{
+      //   startHour: 8,
+      //   endHour: 18,
+      //   step: 20,
+      // }}
       // remoteEvents={async (query) => {
       //   await new Promise((res, rej) => {
       //     setTimeout(() => {
@@ -151,6 +155,7 @@ const App = () => {
       //   //   </div>
       //   // );
       // }}
+      // viewerTitleComponent={(event) => <>{event.title}</>}
       // direction="rtl"
       // locale={arSA}
       // onEventDrop={async (time, updated) => {
