@@ -1,4 +1,4 @@
-import { enUS } from "date-fns/locale";
+import enUS from "date-fns/locale/en-US";
 import { createContext } from "react";
 import { View } from "../../components/nav/Navigation";
 import {
