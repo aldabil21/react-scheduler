@@ -1,6 +1,7 @@
-import { DatePicker, DateTimePicker } from "@material-ui/pickers";
-import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import DateProvider from "../hoc/DateProvider";
+import DatePicker from "@mui/lab/DatePicker";
+import DateTimePicker from "@mui/lab/DateTimePicker";
+import { TextField } from "@mui/material";
 
 interface EditorDatePickerProps {
   type: "date" | "datetime";
@@ -33,19 +34,17 @@ const EditorDatePicker = ({
         value={value}
         label={label}
         onChange={(e) => onChange(name, new Date(e || ""))}
-        style={{ width: "100%" }}
-        inputVariant={variant}
-        variant={modalVariant}
-        // cancelLabel={t("common:cancel")}
-        // okLabel={t("common:confirm")}
-        format="dd-MMMM-yyyy hh:mm a"
-        InputProps={{
-          endAdornment: <CalendarTodayIcon color="disabled" />,
-        }}
-        helperText={error ? errMsg : ""}
-        error={error}
-        autoOk
+        // variant={modalVariant}
         minutesStep={5}
+        renderInput={(params) => (
+          <TextField
+            variant={variant}
+            helperText={error ? errMsg : ""}
+            error={error}
+            style={{ width: "100%" }}
+            {...params}
+          />
+        )}
       />
     </DateProvider>
   );

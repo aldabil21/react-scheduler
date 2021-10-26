@@ -1,4 +1,4 @@
-import { DialogProps, GridSize } from "@material-ui/core";
+import { DialogProps, GridSize } from "@mui/material";
 import { Locale } from "date-fns";
 import { SelectOption } from "./components/inputs/SelectInput";
 import { View } from "./components/nav/Navigation";

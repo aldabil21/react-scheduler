@@ -11,7 +11,7 @@ import {
   startOfWeek,
 } from "date-fns";
 import { ProcessedEvent } from "../../Scheduler";
-import { Typography } from "@material-ui/core";
+import { Typography } from "@mui/material";
 import EventItem from "./EventItem";
 import CSS from "../../assets/css/styles.module.css";
 

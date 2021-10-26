@@ -6,10 +6,9 @@ import {
   DialogActions,
   Button,
   Grid,
-  Typography,
   useTheme,
   useMediaQuery,
-} from "@material-ui/core";
+} from "@mui/material";
 import { randomBytes } from "crypto";
 import { addMinutes, differenceInMinutes } from "date-fns";
 import { EditorDatePicker } from "../components/inputs/DatePicker";
@@ -101,7 +100,7 @@ const Editor = () => {
   );
   const [touched, setTouched] = useState(false);
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleEditorState = (name: string, value: any, validity: boolean) => {
     setState((prev) => {
@@ -207,11 +206,7 @@ const Editor = () => {
     }
     return (
       <Fragment>
-        <DialogTitle disableTypography>
-          <Typography align="center" variant="h6">
-            {selectedEvent ? "Edit Event" : "Add Event"}
-          </Typography>
-        </DialogTitle>
+        <DialogTitle>{selectedEvent ? "Edit Event" : "Add Event"}</DialogTitle>
         <DialogContent style={{ overflowX: "hidden" }}>
           <Grid container spacing={1}>
             {Object.keys(state).map((key) => {
@@ -225,7 +220,7 @@ const Editor = () => {
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button fullWidth onClick={() => handleClose()}>
+          <Button color="inherit" fullWidth onClick={() => handleClose()}>
             Cancel
           </Button>
           <Button color="primary" fullWidth onClick={handleConfirm}>

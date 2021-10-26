@@ -1,5 +1,5 @@
 import { useEffect, useCallback, Fragment } from "react";
-import { Avatar, Typography, useTheme } from "@material-ui/core";
+import { Avatar, Typography, useTheme } from "@mui/material";
 import {
   addDays,
   eachWeekOfInterval,

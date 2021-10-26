@@ -1,5 +1,5 @@
 import { ReactChild } from "react";
-import { useTheme } from "@material-ui/core";
+import { useTheme } from "@mui/material";
 import { useAppState } from "../../hooks/useAppState";
 import { useWindowResize } from "../../hooks/useWindowResize";
 import { DefaultRecourse } from "../../Scheduler";

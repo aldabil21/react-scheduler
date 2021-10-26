@@ -1,7 +1,7 @@
 import { useAppState } from "../../hooks/useAppState";
-import NavigateBeforeRoundedIcon from "@material-ui/icons/NavigateBeforeRounded";
-import NavigateNextRoundedIcon from "@material-ui/icons/NavigateNextRounded";
-import { IconButton } from "@material-ui/core";
+import NavigateBeforeRoundedIcon from "@mui/icons-material/NavigateBeforeRounded";
+import NavigateNextRoundedIcon from "@mui/icons-material/NavigateNextRounded";
+import { IconButton } from "@mui/material";
 import { MouseEvent } from "react";
 
 interface LocaleArrowProps {

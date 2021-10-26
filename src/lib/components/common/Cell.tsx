@@ -1,4 +1,4 @@
-import { fade, useTheme } from "@material-ui/core";
+import { alpha, useTheme } from "@mui/material";
 import CSS from "../../assets/css/styles.module.css";
 import { useAppState } from "../../hooks/useAppState";
 
@@ -34,14 +34,14 @@ const Cell = ({
         });
       }}
       onDragOver={(e) => {
-        e.currentTarget.style.backgroundColor = fade(
+        e.currentTarget.style.backgroundColor = alpha(
           theme.palette.secondary.main,
           0.3
         );
         e.preventDefault();
       }}
       onDragEnter={(e) => {
-        e.currentTarget.style.backgroundColor = fade(
+        e.currentTarget.style.backgroundColor = alpha(
           theme.palette.secondary.main,
           0.3
         );
