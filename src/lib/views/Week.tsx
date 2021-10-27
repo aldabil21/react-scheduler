@@ -81,6 +81,7 @@ const Week = () => {
   );
   const CELL_HEIGHT = calcCellHeight(height, hours.length);
   const MINUTE_HEIGHT = calcMinuteHeight(CELL_HEIGHT, step);
+  const MULTI_SPACE = 28;
 
   const fetchEvents = useCallback(async () => {
     try {
@@ -106,7 +107,6 @@ const Week = () => {
   }, [fetchEvents]);
 
   const renderMultiDayEvents = (events: ProcessedEvent[], today: Date) => {
-    const SPACE = 28;
     const isFirstDayInWeek = isSameDay(weekStart, today);
     const allWeekMulti = events.filter(
       (e) =>
@@ -129,7 +129,7 @@ const Week = () => {
     return (
       <div
         className={CSS.events_col}
-        style={{ height: SPACE * allWeekMulti.length }}
+        // style={{ height: SPACE * allWeekMulti.length }}
       >
         {multiDays.map((event, i) => {
           const hasPrev = isBefore(startOfDay(event.start), weekStart);
@@ -156,7 +156,7 @@ const Week = () => {
               key={event.event_id}
               className={`${CSS.allday_event} ${CSS.event__item}`}
               style={{
-                top: index * SPACE,
+                top: index * MULTI_SPACE,
                 width: `${100 * eventLength}%`,
               }}
             >
@@ -184,6 +184,17 @@ const Week = () => {
       );
     }
 
+    const allWeekMulti = events.filter(
+      (e) =>
+        differenceInDays(e.end, e.start) > 0 &&
+        daysList.some((weekday) =>
+          isWithinInterval(weekday, {
+            start: startOfDay(e.start),
+            end: endOfDay(e.end),
+          })
+        )
+    );
+
     return (
       <Fragment>
         <tr>
@@ -197,6 +208,7 @@ const Week = () => {
                       key={i}
                       className={isToday(date) ? CSS.today_cell : ""}
                       style={{
+                        height: MULTI_SPACE * allWeekMulti.length + 40,
                         borderBottom: 0,
                         borderRight:
                           direction === "rtl"
