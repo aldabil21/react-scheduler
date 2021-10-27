@@ -4,21 +4,17 @@ import {
   ListItemAvatar,
   ListItemText,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import { useAppState } from "../../hooks/useAppState";
 import { useWindowResize } from "../../hooks/useWindowResize";
-import { DefaultRecourse } from "../../Scheduler";
+import { DefaultRecourse } from "../../types";
 
 interface ResourceHeaderProps {
   resource: DefaultRecourse;
 }
 const ResourceHeader = ({ resource }: ResourceHeaderProps) => {
-  const {
-    recourseHeaderComponent,
-    resourceFields,
-    resources,
-    direction,
-  } = useAppState();
+  const { recourseHeaderComponent, resourceFields, resources, direction } =
+    useAppState();
   const { width } = useWindowResize();
 
   const text = resource[resourceFields.textField];

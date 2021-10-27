@@ -1,5 +1,5 @@
 import { useEffect, useCallback, Fragment } from "react";
-import { Typography } from "@material-ui/core";
+import { Typography } from "@mui/material";
 import {
   format,
   eachMinuteOfInterval,
@@ -24,7 +24,7 @@ import {
   DayHours,
   DefaultRecourse,
   ProcessedEvent,
-} from "../Scheduler";
+} from "../types";
 import {
   calcCellHeight,
   calcMinuteHeight,

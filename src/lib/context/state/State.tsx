@@ -5,7 +5,7 @@ import {
   getOneView,
 } from "../../helpers/generals";
 import { differenceInMinutes, addMinutes, isEqual } from "date-fns";
-import { EventActions, ProcessedEvent, SchedulerProps } from "../../Scheduler";
+import { EventActions, ProcessedEvent, SchedulerProps } from "../../types";
 import {
   defaultProps,
   SchedulerState,
@@ -16,21 +16,20 @@ import { stateReducer } from "./stateReducer";
 
 interface AppProps {
   children: ReactChild;
-  initial: SchedulerProps;
+  initial: Partial<SchedulerProps>;
 }
 
-const initialState = (initial: SchedulerProps): SchedulerState => {
-  const initialView = initial[initial.view]
-    ? initial.view
-    : getOneView(initial);
+const initialState = (initial: Partial<SchedulerProps>): SchedulerState => {
+  const initialView =
+    initial.view && initial[initial.view] ? initial.view : getOneView(initial);
   return {
     ...initial,
     view: initialView,
     dialog: false,
     mounted: false,
     selectedRange: undefined,
-    fields: [...defaultProps.fields, ...initial.fields],
-  };
+    fields: [...defaultProps.fields, ...(initial.fields || [])],
+  } as SchedulerState;
 };
 
 const AppState = ({ initial, children }: AppProps) => {

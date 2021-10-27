@@ -7,12 +7,12 @@ import {
   MenuList,
   MenuItem,
   IconButton,
-} from "@material-ui/core";
+} from "@mui/material";
 import { WeekDateBtn } from "./WeekDateBtn";
 import { DayDateBtn } from "./DayDateBtn";
 import { MonthDateBtn } from "./MonthDateBtn";
 import { useAppState } from "../../hooks/useAppState";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import CSS from "../../assets/css/styles.module.css";
 
 export type View = "month" | "week" | "day";
@@ -63,7 +63,7 @@ const Navigation = () => {
             views.map((v) => (
               <Button
                 key={v}
-                color={v === view ? "primary" : "default"}
+                color={v === view ? "primary" : "inherit"}
                 onClick={() => handleState(v, "view")}
                 onDragOver={(e) => {
                   e.preventDefault();

@@ -1,5 +1,5 @@
 import { useEffect, useCallback, Fragment } from "react";
-import { Avatar, Typography, useTheme } from "@material-ui/core";
+import { Avatar, Typography, useTheme } from "@mui/material";
 import {
   addDays,
   eachWeekOfInterval,
@@ -12,7 +12,7 @@ import {
 } from "date-fns";
 import MonthEvents from "../components/events/MonthEvents";
 import { useAppState } from "../hooks/useAppState";
-import { DayHours, DefaultRecourse } from "../Scheduler";
+import { DayHours, DefaultRecourse } from "../types";
 import { getResourcedEvents } from "../helpers/generals";
 import { WithResources } from "../components/common/WithResources";
 import CSS from "../assets/css/styles.module.css";

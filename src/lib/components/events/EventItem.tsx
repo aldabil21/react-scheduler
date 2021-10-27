@@ -8,17 +8,17 @@ import {
   Button,
   Slide,
   Paper,
-} from "@material-ui/core";
+} from "@mui/material";
 import { format } from "date-fns";
-import { ProcessedEvent } from "../../Scheduler";
+import { ProcessedEvent } from "../../types";
 import { useAppState } from "../../hooks/useAppState";
-import ArrowRightRoundedIcon from "@material-ui/icons/ArrowRightRounded";
-import ArrowLeftRoundedIcon from "@material-ui/icons/ArrowLeftRounded";
-import EditRoundedIcon from "@material-ui/icons/EditRounded";
-import DeleteRoundedIcon from "@material-ui/icons/DeleteRounded";
-import EventNoteRoundedIcon from "@material-ui/icons/EventNoteRounded";
-import ClearRoundedIcon from "@material-ui/icons/ClearRounded";
-import SupervisorAccountRoundedIcon from "@material-ui/icons/SupervisorAccountRounded";
+import ArrowRightRoundedIcon from "@mui/icons-material/ArrowRightRounded";
+import ArrowLeftRoundedIcon from "@mui/icons-material/ArrowLeftRounded";
+import EditRoundedIcon from "@mui/icons-material/EditRounded";
+import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
+import EventNoteRoundedIcon from "@mui/icons-material/EventNoteRounded";
+import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
+import SupervisorAccountRoundedIcon from "@mui/icons-material/SupervisorAccountRounded";
 import CSS from "../../assets/css/styles.module.css";
 
 interface EventItemProps {

@@ -1,7 +1,8 @@
 import { CSSProperties, ReactChild } from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
-import { Tabs, Tab, Box } from "@material-ui/core";
+import { Tabs, Tab, Box } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import { Theme } from "@mui/system";
 
 interface TabPanelProps {
   value: string | number;
@@ -26,41 +27,36 @@ function a11yProps(index: string | number) {
   };
 }
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    width: "100%",
-    backgroundColor: theme.palette.background.paper,
-    alignSelf: "center",
-  },
-  tabs: {
+const StyledTaps = styled("div")(({ theme }: { theme: Theme }) => ({
+  flexGrow: 1,
+  width: "100%",
+  backgroundColor: theme.palette.background.paper,
+  alignSelf: "center",
+  "& .tabs": {
     borderBottom: `1px solid ${theme.palette.divider}`,
   },
-  tab: {
-    minWidth: "auto",
-  },
-  primary: {
+  "& .primary": {
     background: theme.palette.primary.main,
   },
-  secondary: {
+  "& .secondary": {
     background: theme.palette.secondary.main,
   },
-  error: {
+  "& .error": {
     background: theme.palette.error.main,
   },
-  info: {
+  "& .info": {
     background: theme.palette.info.dark,
   },
-  text_primary: {
+  "& .text_primary": {
     color: theme.palette.primary.main,
   },
-  text_secondary: {
+  "& .text_secondary": {
     color: theme.palette.secondary.main,
   },
-  text_error: {
+  "& .text_error": {
     color: theme.palette.error.main,
   },
-  text_info: {
+  "& .text_info": {
     color: theme.palette.info.dark,
   },
 }));
@@ -87,15 +83,14 @@ const ButtonTabs = ({
   indicator,
   style,
 }: ButtonTabsProps) => {
-  const classes = useStyles();
   return (
-    <div className={classes.root} style={style}>
+    <StyledTaps style={style}>
       <Tabs
         value={tab}
         variant={variant}
-        scrollButtons="on"
-        className={classes.tabs}
-        classes={{ indicator: classes[indicator!] }}
+        scrollButtons
+        className="tabs"
+        classes={{ indicator: indicator }}
       >
         {tabs.map((tab: ButtonTabProps, i: number) => (
           <Tab
@@ -106,11 +101,6 @@ const ButtonTabs = ({
             {...a11yProps(tab.id)}
             onClick={() => setTab(tab.id)}
             onDragEnter={() => setTab(tab.id)}
-            classes={
-              {
-                // selected: classes[`text_${indicator}`] || "",
-              }
-            }
           />
         ))}
       </Tabs>
@@ -122,7 +112,7 @@ const ButtonTabs = ({
             </TabPanel>
           )
       )}
-    </div>
+    </StyledTaps>
   );
 };
 

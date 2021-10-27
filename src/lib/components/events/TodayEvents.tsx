@@ -1,5 +1,4 @@
-import React from "react";
-import { ProcessedEvent } from "../../Scheduler";
+import { ProcessedEvent } from "../../types";
 import EventItem from "./EventItem";
 import CSS from "../../assets/css/styles.module.css";
 import { differenceInMinutes, setHours } from "date-fns";

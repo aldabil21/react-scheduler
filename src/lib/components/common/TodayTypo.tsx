@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { Typography } from "@material-ui/core";
+import { Typography } from "@mui/material";
 import { format, isToday } from "date-fns";
 import CSS from "../../assets/css/styles.module.css";
 

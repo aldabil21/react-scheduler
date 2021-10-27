@@ -1,8 +1,8 @@
 import { ReactChild } from "react";
-import { useTheme } from "@material-ui/core";
+import { useTheme } from "@mui/material";
 import { useAppState } from "../../hooks/useAppState";
 import { useWindowResize } from "../../hooks/useWindowResize";
-import { DefaultRecourse } from "../../Scheduler";
+import { DefaultRecourse } from "../../types";
 import { ResourceHeader } from "./ResourceHeader";
 import { ButtonTabProps, ButtonTabs } from "./Tabs";
 import CSS from "../../assets/css/styles.module.css";

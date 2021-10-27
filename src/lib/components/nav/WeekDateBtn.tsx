@@ -1,10 +1,9 @@
 import { useState } from "react";
 import DateProvider from "../hoc/DateProvider";
-import { DatePicker } from "@material-ui/pickers";
-import { Button } from "@material-ui/core";
+import DatePicker from "@mui/lab/DatePicker";
+import { Button } from "@mui/material";
 import { endOfWeek, format, startOfWeek, addDays } from "date-fns";
 import { WeekProps } from "../../views/Week";
-import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 import { LocaleArrow } from "../common/LocaleArrow";
 import { useAppState } from "../../hooks/useAppState";
 
@@ -27,8 +26,8 @@ const WeekDateBtn = ({
 
   const toggleDialog = () => setOpen(!open);
 
-  const handleChange = (e: MaterialUiPickersDate) => {
-    onChange(new Date(e || ""), "selectedDate");
+  const handleChange = (e: Date | null, k?: string) => {
+    onChange(e || new Date(), "selectedDate");
   };
 
   const handlePrev = () => {
@@ -42,24 +41,30 @@ const WeekDateBtn = ({
   return (
     <div>
       <LocaleArrow type="prev" onClick={handlePrev} />
-      <Button style={{ padding: 4 }} onClick={toggleDialog}>{`${format(
-        weekStart,
-        "dd",
-        { locale: locale }
-      )} - ${format(weekEnd, "dd MMMM yyyy", { locale: locale })}`}</Button>
-      <LocaleArrow type="next" onClick={handleNext} />
       <DateProvider>
         <DatePicker
           open={open}
-          variant="inline"
-          inputProps={{ style: { height: 0, padding: 0 } }}
-          style={{ display: "block", height: 0, visibility: "hidden" }}
+          onClose={toggleDialog}
+          openTo="day"
+          views={["month", "day"]}
           value={selectedDate}
           onChange={handleChange}
-          onClose={toggleDialog}
-          autoOk
+          renderInput={(params) => (
+            <Button
+              ref={params.inputRef}
+              style={{ padding: 4 }}
+              onClick={toggleDialog}
+            >{`${format(weekStart, "dd", { locale: locale })} - ${format(
+              weekEnd,
+              "dd MMMM yyyy",
+              {
+                locale: locale,
+              }
+            )}`}</Button>
+          )}
         />
       </DateProvider>
+      <LocaleArrow type="next" onClick={handleNext} />
     </div>
   );
 };

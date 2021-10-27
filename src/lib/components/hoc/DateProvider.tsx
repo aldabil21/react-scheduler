@@ -1,6 +1,5 @@
-import React from "react";
-import Dateutils from "@date-io/date-fns";
-import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import { useAppState } from "../../hooks/useAppState";
 
 interface AuxProps {
@@ -9,9 +8,9 @@ interface AuxProps {
 const DateProvider = ({ children }: AuxProps) => {
   const { locale } = useAppState();
   return (
-    <MuiPickersUtilsProvider utils={Dateutils} locale={locale}>
+    <LocalizationProvider dateAdapter={AdapterDateFns} locale={locale}>
       {children}
-    </MuiPickersUtilsProvider>
+    </LocalizationProvider>
   );
 };
 

@@ -6,7 +6,7 @@ import {
   EventActions,
   ProcessedEvent,
   SchedulerProps,
-} from "../../Scheduler";
+} from "../../types";
 
 export type SelectedRange = { start: Date; end: Date };
 export interface SchedulerState extends SchedulerProps {

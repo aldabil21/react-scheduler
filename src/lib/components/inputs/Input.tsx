@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { TextField, Typography } from "@material-ui/core";
+import { TextField, Typography } from "@mui/material";
 
 interface EditorInputProps {
   variant?: "standard" | "filled" | "outlined";
@@ -53,7 +53,8 @@ const EditorInput = ({
     let isValid = true;
     let errorMsg = "";
     if (email) {
-      const reg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      const reg =
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       isValid = reg.test(val) && isValid;
       errorMsg = "Invalid Email";
     }

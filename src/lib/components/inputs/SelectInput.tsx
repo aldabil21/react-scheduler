@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import {
   FormControl,
   FormHelperText,
@@ -10,8 +10,8 @@ import {
   CircularProgress,
   InputLabel,
   Select,
-} from "@material-ui/core";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+} from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 export type SelectOption = {
   id: string | number;
@@ -56,13 +56,7 @@ const EditorSelect = ({
     valid: !!value,
     errorMsg: errMsg ? errMsg : required ? "Required" : undefined,
   });
-  const inputLabel = useRef<HTMLLabelElement>(null);
-  const [labelWidth, setLabelWidth] = useState(0);
-  useEffect(() => {
-    if (label) {
-      setLabelWidth(inputLabel.current?.offsetWidth || 0);
-    }
-  }, [label]);
+
   useEffect(() => {
     if (touched) {
       handleChange(value);
@@ -99,22 +93,25 @@ const EditorSelect = ({
         disabled={disabled}
       >
         {label && (
-          <InputLabel ref={inputLabel}>
+          <InputLabel id={`input_${name}`}>
             <Typography variant="body2">{`${label} ${
-              required ? "**" : ""
+              required ? "*" : ""
             }`}</Typography>
           </InputLabel>
         )}
         <Select
+          label={label}
+          labelId={`input_${name}`}
           value={value}
           onBlur={handleTouched}
           onChange={(e) => handleChange(e.target.value)}
-          labelWidth={labelWidth}
           IconComponent={
             loading ? () => <CircularProgress size={5} /> : ExpandMoreIcon
           }
           multiple={!!multiple}
-          classes={{ selectMenu: multiple === "chips" ? "flex__wrap" : "" }}
+          classes={{
+            select: multiple === "chips" ? "flex__wrap" : undefined,
+          }}
           renderValue={(selected: string | Array<any> | any) => {
             if (!selected || selected.length === 0) {
               return <em>{label}</em>;
