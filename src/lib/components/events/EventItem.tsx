@@ -10,7 +10,7 @@ import {
   Paper,
 } from "@mui/material";
 import { format } from "date-fns";
-import { ProcessedEvent } from "../../Scheduler";
+import { ProcessedEvent } from "../../types";
 import { useAppState } from "../../hooks/useAppState";
 import ArrowRightRoundedIcon from "@mui/icons-material/ArrowRightRounded";
 import ArrowLeftRoundedIcon from "@mui/icons-material/ArrowLeftRounded";

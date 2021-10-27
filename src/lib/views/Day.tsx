@@ -24,7 +24,7 @@ import {
   DayHours,
   DefaultRecourse,
   ProcessedEvent,
-} from "../Scheduler";
+} from "../types";
 import {
   calcCellHeight,
   calcMinuteHeight,

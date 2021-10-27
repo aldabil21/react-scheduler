@@ -9,8 +9,6 @@
   ],
   "scripts": {
     "start": "react-scripts start",
-    "clean": "del ./dist",
-    "tsc": "npm run clean && tsc",
     "pack": "webpack"
   },
   "repository": {
@@ -44,7 +42,6 @@
     "@types/react-dom": "^17.0.10",
     "css-loader": "^4.3.0",
     "date-fns": "^2.21.2",
-    "del-cli": "^3.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "^4.0.3",
@@ -55,10 +52,10 @@
     "webpack-node-externals": "^3.0.0"
   },
   "peerDependencies": {
-    "@mui/icons-material": "5.x",
-    "@mui/material": "5.x",
-    "@mui/lab": "5.x",
-    "date-fns": "2.2.x"
+    "@mui/icons-material": ">=5.0.0",
+    "@mui/lab": ">=5.0.0-alpha",
+    "@mui/material": ">=5.0.0",
+    "date-fns": ">=2.2"
   },
   "eslintConfig": {
     "extends": [

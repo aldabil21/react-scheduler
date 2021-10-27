@@ -6,10 +6,10 @@ import {
   ProcessedEvent,
   ResourceFields,
   SchedulerProps,
-} from "../Scheduler";
+} from "../types";
 import { StateEvent } from "../views/Editor";
 
-export const getOneView = (state: SchedulerProps): View => {
+export const getOneView = (state: Partial<SchedulerProps>): View => {
   if (state.month) {
     return "month";
   } else if (state.week) {

@@ -22,7 +22,7 @@ import {
   InputTypes,
   ProcessedEvent,
   SchedulerHelpers,
-} from "../Scheduler";
+} from "../types";
 import { EditorSelect } from "../components/inputs/SelectInput";
 import { arraytizeFieldVal } from "../helpers/generals";
 

@@ -25,7 +25,7 @@ import {
   DayHours,
   DefaultRecourse,
   ProcessedEvent,
-} from "../Scheduler";
+} from "../types";
 import { WeekDays } from "./Month";
 import {
   calcCellHeight,
