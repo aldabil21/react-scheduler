@@ -146,6 +146,8 @@ export interface SchedulerProps {
   week: WeekProps | null;
   /**Day view settings */
   day: DayProps | null;
+  /**Override the cell click to show add dialogue*/
+  showAddDialog?: boolean;
   /**Initial date selected */
   selectedDate: Date;
   /**Events to display */

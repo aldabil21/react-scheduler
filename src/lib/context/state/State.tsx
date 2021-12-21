@@ -41,6 +41,7 @@ const AppState = ({ initial, children }: AppProps) => {
     week,
     day,
     fields,
+    showAddDialog,
     locale,
     direction,
     loading,
@@ -67,6 +68,7 @@ const AppState = ({ initial, children }: AppProps) => {
         month,
         week,
         day,
+        showAddDialog,
         fields,
         locale,
         direction,
@@ -83,6 +85,7 @@ const AppState = ({ initial, children }: AppProps) => {
     month,
     week,
     day,
+    showAddDialog,
     fields,
     locale,
     direction,
@@ -107,6 +110,10 @@ const AppState = ({ initial, children }: AppProps) => {
     status: boolean | undefined,
     selected: SelectedRange | ProcessedEvent
   ) => {
+    //Don't dispatch the show dialog if showAddDialog is false
+    if (showAddDialog === false) {
+      return;
+    }
     dispatch({ type: "triggerDialog", payload: { status, selected } });
   };
   const triggerLoading = (status: boolean) => {
