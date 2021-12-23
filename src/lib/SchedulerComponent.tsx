@@ -2,16 +2,16 @@ import { Week } from "./views/Week";
 import { Navigation } from "./components/nav/Navigation";
 import { useAppState } from "./hooks/useAppState";
 import Editor from "./views/Editor";
-import { CircularProgress } from "@mui/material";
-import { Typography } from "@mui/material";
+import { CircularProgress, Typography } from "@mui/material";
 import { Month } from "./views/Month";
 import { Day } from "./views/Day";
-import CSS from "./assets/css/styles.module.css";
+import { Table, Wrapper } from "./styles/styles";
+import { useMemo } from "react";
 
 const SchedulerComponent = () => {
-  const { loading, view, dialog, direction } = useAppState();
+  const { loading, view, dialog, resources, resourceViewMode } = useAppState();
 
-  const renderViews = () => {
+  const Views = useMemo(() => {
     switch (view) {
       case "month":
         return <Month />;
@@ -22,26 +22,28 @@ const SchedulerComponent = () => {
       default:
         return "";
     }
-  };
+  }, [view]);
 
   return (
-    <div style={{ position: "relative", overflow: "hidden" }}>
+    <Wrapper>
       {loading && (
-        <div className={CSS.table_loading}>
-          <div className={CSS.progress_loading}>
+        <div className="rs__table_loading">
+          <span>
             <CircularProgress size={50} />
             <Typography align="center">Loading...</Typography>
-          </div>
+          </span>
         </div>
       )}
       <Navigation />
-      <div className={CSS.outerTable}>
-        <table className={`${CSS.table} ${CSS[`table_${direction}`]}`}>
-          {renderViews()}
-        </table>
+      <div className="rs__outer_table">
+        <Table
+          resource_count={resourceViewMode === "tabs" ? 1 : resources.length}
+        >
+          {Views}
+        </Table>
       </div>
       {dialog && <Editor />}
-    </div>
+    </Wrapper>
   );
 };
 

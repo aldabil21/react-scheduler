@@ -31,9 +31,10 @@ import {
   getResourcedEvents,
 } from "../helpers/generals";
 import { WithResources } from "../components/common/WithResources";
-import CSS from "../assets/css/styles.module.css";
 import { Cell } from "../components/common/Cell";
 import TodayEvents from "../components/events/TodayEvents";
+import { TableGrid } from "../styles/styles";
+import { MULTI_DAY_EVENT_HEIGHT } from "../helpers/constants";
 
 export interface DayProps {
   startHour: DayHours;
@@ -98,7 +99,6 @@ const Day = () => {
   }, [fetchEvents]);
 
   const renderMultiDayEvents = (events: ProcessedEvent[]) => {
-    const SPACE = 28;
     const multiDays = events.filter(
       (e) =>
         differenceInDays(e.end, e.start) > 0 &&
@@ -110,8 +110,8 @@ const Day = () => {
 
     return (
       <div
-        className={CSS.events_col}
-        style={{ height: SPACE * multiDays.length }}
+        className="rs__block_col"
+        style={{ height: MULTI_DAY_EVENT_HEIGHT * multiDays.length }}
       >
         {multiDays.map((event, i) => {
           const hasPrev = isBefore(event.start, startOfDay(selectedDate));
@@ -119,9 +119,9 @@ const Day = () => {
           return (
             <div
               key={event.event_id}
-              className={`${CSS.allday_event} ${CSS.event__item}`}
+              className="rs__multi_day"
               style={{
-                top: i * SPACE,
+                top: i * MULTI_DAY_EVENT_HEIGHT,
                 width: "100%",
               }}
             >
@@ -149,137 +149,110 @@ const Day = () => {
       );
     }
 
+    const allWeekMulti = events.filter(
+      (e) =>
+        differenceInDays(e.end, e.start) > 0 &&
+        isWithinInterval(selectedDate, {
+          start: startOfDay(e.start),
+          end: endOfDay(e.end),
+        })
+    );
+    // Equalizing multi-day section height
+    const headerHeight = MULTI_DAY_EVENT_HEIGHT * allWeekMulti.length + 45;
     return (
-      <Fragment>
-        <tr>
-          <td className={`${CSS.day_indent} ${CSS.borderd}`}></td>
-          <td className={CSS.borderd}>
-            <table className={`${CSS.table} ${CSS.week_day_table}`}>
-              <tbody>
-                <tr>
-                  <td
-                    className={isToday(selectedDate) ? CSS.today_cell : ""}
-                    style={{ border: 0 }}
-                  >
-                    <TodayTypo date={selectedDate} />
-                    {renderMultiDayEvents(recousedEvents)}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </td>
-        </tr>
-        <tr>
-          <td className={CSS.borderd}>
-            <table className={`${CSS.table} ${CSS.hour_table}`}>
-              <thead>
-                <tr>
-                  <td></td>
-                </tr>
-              </thead>
-              <tbody>
-                {hours.map((h, i) => (
-                  <tr key={i}>
-                    <td>
-                      <div style={{ height: CELL_HEIGHT }}>
-                        <Typography variant="caption">
-                          {format(h, "hh:mm a", { locale: locale })}
-                        </Typography>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </td>
-          <td className={CSS.borderd}>
-            <table
-              className={`${CSS.table} ${CSS.cells_table} ${
-                CSS[`cells_table_${direction}`]
-              }`}
-            >
-              <thead>
-                <tr>
-                  <td>
-                    <TodayEvents
-                      todayEvents={recousedEvents.filter(
-                        (e) =>
-                          !differenceInDays(e.end, e.start) &&
-                          isSameDay(selectedDate, e.start)
-                      )}
-                      today={selectedDate}
-                      minuteHeight={MINUTE_HEIGHT}
-                      cellHeight={CELL_HEIGHT}
-                      startHour={startHour}
-                      step={step}
-                      direction={direction}
-                    />
-                  </td>
-                </tr>
-              </thead>
-              <tbody>
-                {hours.map((h, i) => {
-                  const start = new Date(
-                    `${format(selectedDate, "yyyy MM dd")} ${format(
-                      h,
-                      "hh:mm a"
-                    )}`
-                  );
-                  const end = new Date(
-                    `${format(selectedDate, "yyyy MM dd")} ${format(
-                      addMinutes(h, step),
-                      "hh:mm a"
-                    )}`
-                  );
-                  const field = resourceFields.idField;
-                  return (
-                    <tr key={i}>
-                      <td
-                        className={isToday(selectedDate) ? CSS.today_cell : ""}
-                      >
-                        {cellRenderer ? (
-                          cellRenderer({
-                            day: selectedDate,
-                            start,
-                            end,
-                            height: CELL_HEIGHT,
-                            onClick: () =>
-                              triggerDialog(true, {
-                                start,
-                                end,
-                                [field]: resource ? resource[field] : null,
-                              }),
-                            [field]: resource ? resource[field] : null,
-                          })
-                        ) : (
-                          <Cell
-                            height={CELL_HEIGHT}
-                            start={start}
-                            end={end}
-                            resourceKey={field}
-                            resourceVal={resource ? resource[field] : null}
-                          />
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </td>
-        </tr>
-      </Fragment>
+      <TableGrid days={1}>
+        {/* Header */}
+        <span className="rs__cell"></span>
+        <span
+          className={`rs__cell rs__header ${
+            isToday(selectedDate) ? "rs__today_cell" : ""
+          }`}
+          style={{ height: headerHeight }}
+        >
+          <TodayTypo date={selectedDate} />
+          {renderMultiDayEvents(recousedEvents)}
+        </span>
+
+        {/* Body */}
+        {hours.map((h, i) => {
+          const start = new Date(
+            `${format(selectedDate, "yyyy MM dd")} ${format(h, "hh:mm a")}`
+          );
+          const end = new Date(
+            `${format(selectedDate, "yyyy MM dd")} ${format(
+              addMinutes(h, step),
+              "hh:mm a"
+            )}`
+          );
+          const field = resourceFields.idField;
+
+          return (
+            <Fragment key={i}>
+              {/* Time Cells */}
+              <span
+                className="rs__cell rs__header rs__time"
+                style={{ height: CELL_HEIGHT }}
+              >
+                <Typography variant="caption">
+                  {format(h, "hh:mm a", { locale: locale })}
+                </Typography>
+              </span>
+
+              <span
+                className={`rs__cell ${
+                  isToday(selectedDate) ? "rs__today_cell" : ""
+                }`}
+              >
+                {/* Events of this day - run once on the top hour column */}
+                {i === 0 && (
+                  <TodayEvents
+                    todayEvents={recousedEvents.filter(
+                      (e) =>
+                        !differenceInDays(e.end, e.start) &&
+                        isSameDay(selectedDate, e.start)
+                    )}
+                    today={selectedDate}
+                    minuteHeight={MINUTE_HEIGHT}
+                    startHour={startHour}
+                    step={step}
+                    direction={direction}
+                  />
+                )}
+                {/* Cell */}
+                {cellRenderer ? (
+                  cellRenderer({
+                    day: selectedDate,
+                    start,
+                    end,
+                    height: CELL_HEIGHT,
+                    onClick: () =>
+                      triggerDialog(true, {
+                        start,
+                        end,
+                        [field]: resource ? resource[field] : null,
+                      }),
+                    [field]: resource ? resource[field] : null,
+                  })
+                ) : (
+                  <Cell
+                    start={start}
+                    end={end}
+                    resourceKey={field}
+                    resourceVal={resource ? resource[field] : null}
+                  />
+                )}
+              </span>
+            </Fragment>
+          );
+        })}
+      </TableGrid>
     );
   };
 
-  return (
-    <tbody className={CSS.borderd}>
-      {resources.length ? (
-        <WithResources span={2} renderChildren={renderTable} />
-      ) : (
-        renderTable()
-      )}
-    </tbody>
+  return resources.length ? (
+    <WithResources span={2} renderChildren={renderTable} />
+  ) : (
+    renderTable()
   );
 };
 

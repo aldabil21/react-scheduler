@@ -28,11 +28,11 @@
     "url": "https://github.com/aldabil21/react-scheduler/issues"
   },
   "devDependencies": {
-    "@emotion/react": "^11.5.0",
-    "@emotion/styled": "^11.3.0",
-    "@mui/icons-material": "^5.0.5",
+    "@emotion/react": "^11.7.1",
+    "@emotion/styled": "^11.6.0",
+    "@mui/icons-material": "^5.2.5",
     "@mui/lab": "^5.0.0-alpha.52",
-    "@mui/material": "^5.0.5",
+    "@mui/material": "^5.2.5",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",

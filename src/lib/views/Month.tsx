@@ -15,8 +15,8 @@ import { useAppState } from "../hooks/useAppState";
 import { DayHours, DefaultRecourse } from "../types";
 import { getResourcedEvents } from "../helpers/generals";
 import { WithResources } from "../components/common/WithResources";
-import CSS from "../assets/css/styles.module.css";
 import { Cell } from "../components/common/Cell";
+import { TableGrid } from "../styles/styles";
 
 export type WeekDays = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 export interface MonthProps {
@@ -39,7 +39,6 @@ const Month = () => {
     resources,
     resourceFields,
     fields,
-    direction,
   } = useAppState();
 
   const { weekStartOn, weekDays, startHour, endHour } = month!;
@@ -84,14 +83,6 @@ const Month = () => {
     // eslint-disable-next-line
   }, [fetchEvents]);
 
-  const renderDays = () => {
-    return daysList.map((date, i) => (
-      <td key={i} align="center">
-        <div>{format(date, "EE")}</div>
-      </td>
-    ));
-  };
-
   const renderCells = (resource?: DefaultRecourse) => {
     let recousedEvents = events;
     if (resource) {
@@ -115,103 +106,85 @@ const Month = () => {
         );
         const field = resourceFields.idField;
         return (
-          <td key={d.toString()}>
+          <span
+            style={{ height: CELL_HEIGHT }}
+            key={d.toString()}
+            className="rs__cell"
+          >
             <Cell
-              height={CELL_HEIGHT}
               start={start}
               end={end}
               resourceKey={field}
               resourceVal={resource ? resource[field] : null}
-            >
-              <Fragment>
-                <Avatar
-                  style={{
-                    width: 27,
-                    height: 27,
-                    background: isToday(today)
-                      ? theme.palette.secondary.main
-                      : "transparent",
-                    color: isToday(today)
-                      ? theme.palette.secondary.contrastText
-                      : "",
-                    marginBottom: 2,
+            />
+            <Fragment>
+              <Avatar
+                style={{
+                  width: 27,
+                  height: 27,
+                  position: "absolute",
+                  top: 0,
+                  background: isToday(today)
+                    ? theme.palette.secondary.main
+                    : "transparent",
+                  color: isToday(today)
+                    ? theme.palette.secondary.contrastText
+                    : "",
+                  marginBottom: 2,
+                }}
+              >
+                <Typography
+                  color={
+                    !isSameMonth(today, monthStart) ? "#ccc" : "textPrimary"
+                  }
+                  className="rs__hover__op"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleGotoDay(today);
                   }}
                 >
-                  <Typography
-                    color={
-                      !isSameMonth(today, monthStart)
-                        ? "textSecondary"
-                        : "textPrimary"
-                    }
-                    className={CSS.day_clickable}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleGotoDay(today);
-                    }}
-                  >
-                    {format(today, "dd")}
-                  </Typography>
-                </Avatar>
-                <div className={CSS.events_col}>
-                  <MonthEvents
-                    events={recousedEvents}
-                    today={today}
-                    eachWeekStart={eachWeekStart}
-                    daysList={daysList}
-                    onViewMore={handleGotoDay}
-                  />
-                </div>
-              </Fragment>
-            </Cell>
-          </td>
+                  {format(today, "dd")}
+                </Typography>
+              </Avatar>
+              <MonthEvents
+                events={recousedEvents}
+                today={today}
+                eachWeekStart={eachWeekStart}
+                daysList={daysList}
+                onViewMore={handleGotoDay}
+                cellHeight={CELL_HEIGHT}
+              />
+            </Fragment>
+          </span>
         );
       });
-      rows.push(<tr key={startDay.toString()}>{cells}</tr>);
+
+      rows.push(<Fragment key={startDay.toString()}>{cells}</Fragment>);
     }
     return rows;
   };
 
   const renderTable = (resource?: DefaultRecourse) => {
     return (
-      <Fragment>
-        <tr>
-          <td>
-            <table
-              className={`${CSS.table} ${CSS.month_day_table} ${
-                CSS[`month_day_table_${direction}`]
-              }`}
-            >
-              <tbody>
-                <tr>{renderDays()}</tr>
-              </tbody>
-            </table>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <table
-              className={`${CSS.table} ${CSS.month_cells} ${
-                CSS[`month_cells_${direction}`]
-              }`}
-            >
-              <tbody>{renderCells(resource)}</tbody>
-            </table>
-          </td>
-        </tr>
-      </Fragment>
+      <TableGrid days={daysList.length} indent="0">
+        {/* Header Days */}
+        {daysList.map((date, i) => (
+          <span key={i} className="rs__cell rs__header">
+            <Typography align="center" variant="body2">
+              {format(date, "EE")}
+            </Typography>
+          </span>
+        ))}
+
+        {renderCells(resource)}
+      </TableGrid>
     );
   };
 
-  return (
-    <Fragment>
-      <tbody className={CSS.borderd}>
-        {resources.length ? (
-          <WithResources renderChildren={renderTable} />
-        ) : (
-          renderTable()
-        )}
-      </tbody>
-    </Fragment>
+  return resources.length ? (
+    <WithResources renderChildren={renderTable} />
+  ) : (
+    renderTable()
   );
 };
 

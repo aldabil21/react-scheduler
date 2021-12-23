@@ -13,7 +13,10 @@ import {
 import { ProcessedEvent } from "../../types";
 import { Typography } from "@mui/material";
 import EventItem from "./EventItem";
-import CSS from "../../assets/css/styles.module.css";
+import {
+  MONTH_NUMBER_HEIGHT,
+  MULTI_DAY_EVENT_HEIGHT,
+} from "../../helpers/constants";
 
 interface MonthEventProps {
   events: ProcessedEvent[];
@@ -21,17 +24,20 @@ interface MonthEventProps {
   eachWeekStart: Date[];
   daysList: Date[];
   onViewMore(day: Date): void;
+  cellHeight: number;
 }
 
-const LIMIT = 3;
-const SPACE = 25;
 const MonthEvents = ({
   events,
   today,
   eachWeekStart,
   daysList,
   onViewMore,
+  cellHeight,
 }: MonthEventProps) => {
+  const LIMIT = Math.round(
+    (cellHeight - MONTH_NUMBER_HEIGHT) / MULTI_DAY_EVENT_HEIGHT - 1
+  );
   const eachFirstDayInCalcRow = eachWeekStart.some((date) =>
     isSameDay(date, today)
   )
@@ -64,38 +70,45 @@ const MonthEvents = ({
         let eventLength = differenceInDays(event.end, start) + 1;
         const toNextWeek = eventLength >= daysList.length;
         if (toNextWeek) {
+          // Rethink it
           const NotAccurateWeekStart = startOfWeek(event.start);
           const closestStart = closestTo(NotAccurateWeekStart, eachWeekStart);
-          eventLength =
-            daysList.length -
-            (!eachFirstDayInCalcRow
-              ? differenceInDays(event.start, closestStart)
-              : 0);
+          if (closestStart) {
+            eventLength =
+              daysList.length -
+              (!eachFirstDayInCalcRow
+                ? differenceInDays(event.start, closestStart)
+                : 0);
+          }
         }
 
         const prevNextEvents = events.filter((e) => {
           return (
             !eachFirstDayInCalcRow &&
             e.event_id !== event.event_id &&
+            LIMIT > i &&
             isBefore(e.start, startOfDay(today)) &&
             isAfter(e.end, startOfDay(today))
           );
         });
         let index = i;
+
         if (prevNextEvents.length) {
           index += prevNextEvents.length;
           // if (index > LIMIT) {
           //   index = LIMIT;
           // }
         }
+        const topSpace = index * MULTI_DAY_EVENT_HEIGHT + MONTH_NUMBER_HEIGHT;
 
         return index > LIMIT ? (
           ""
         ) : index === LIMIT ? (
           <Typography
             key={i}
-            className={`${CSS.event__item} ${CSS.day_clickable}`}
-            style={{ top: index * SPACE, fontSize: 11 }}
+            width="100%"
+            className="rs__multi_day rs__hover__op"
+            style={{ top: topSpace, fontSize: 11 }}
             onClick={(e) => {
               e.stopPropagation();
               onViewMore(event.start);
@@ -106,9 +119,9 @@ const MonthEvents = ({
         ) : (
           <div
             key={i}
-            className={CSS.event__item}
+            className="rs__multi_day"
             style={{
-              top: index * SPACE,
+              top: topSpace,
               width: `${100 * eventLength}%`,
             }}
           >
