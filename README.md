@@ -70,7 +70,8 @@ import { Scheduler } from "@aldabil/react-scheduler";
 - [Remote Data](https://codesandbox.io/s/remote-data-j13ei)
 - [Custom Fields](https://codesandbox.io/s/custom-fields-b2kbv)
 - [Editor/Viewer Override](https://codesandbox.io/s/customeditor-tt2pf)
-- [Resources/View Mode](https://codesandbox.io/s/resources-7wlcy)
+- [Resources/View Mode](https://codesandbox.io/s/resources-7wlc
+- [Custom Cell Action] (https://codesandbox.io/s/custom-cell-action-n02dv)
 
 ### Todos
 
