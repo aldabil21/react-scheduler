@@ -13,7 +13,6 @@ import { DayDateBtn } from "./DayDateBtn";
 import { MonthDateBtn } from "./MonthDateBtn";
 import { useAppState } from "../../hooks/useAppState";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import CSS from "../../assets/css/styles.module.css";
 
 export type View = "month" | "week" | "day";
 
@@ -52,7 +51,13 @@ const Navigation = () => {
   };
 
   return (
-    <div className={CSS.cal_nav}>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+      }}
+    >
       {renderDateSelector()}
       <div>
         <Button onClick={() => handleState(new Date(), "selectedDate")}>

@@ -19,7 +19,7 @@ import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import EventNoteRoundedIcon from "@mui/icons-material/EventNoteRounded";
 import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 import SupervisorAccountRoundedIcon from "@mui/icons-material/SupervisorAccountRounded";
-import CSS from "../../assets/css/styles.module.css";
+import { PopperInner } from "../../styles/styles";
 
 interface EventItemProps {
   event: ProcessedEvent;
@@ -114,12 +114,11 @@ const EventItem = ({
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          width: "100%",
         }}
       >
-        <Typography style={{ fontSize: 11 }} noWrap>
+        <Typography sx={{ fontSize: 11 }} noWrap>
           {hasPrev ? (
-            <PrevArrow fontSize="small" style={{ display: "flex" }} />
+            <PrevArrow fontSize="small" sx={{ display: "flex" }} />
           ) : (
             showdate && format(event.start, "hh:mm a", { locale: locale })
           )}
@@ -127,14 +126,14 @@ const EventItem = ({
         <Typography
           variant="subtitle2"
           align="center"
-          style={{ fontSize: 12 }}
+          sx={{ fontSize: 12 }}
           noWrap
         >
           {event.title}
         </Typography>
-        <Typography style={{ fontSize: 11 }} noWrap>
+        <Typography sx={{ fontSize: 11 }} noWrap>
           {hasNext ? (
-            <NextArrow fontSize="small" style={{ display: "flex" }} />
+            <NextArrow fontSize="small" sx={{ display: "flex" }} />
           ) : (
             showdate && format(event.end, "hh:mm a", { locale: locale })
           )}
@@ -152,15 +151,14 @@ const EventItem = ({
     );
 
     return (
-      <div className={CSS.cal__popper}>
+      <PopperInner>
         <div
           style={{
             background: event.color || theme.palette.primary.main,
             color: theme.palette.primary.contrastText,
           }}
-          className={CSS.popper__p}
         >
-          <div className={CSS.popper__actions}>
+          <div className="rs__popper_actions">
             <div>
               <IconButton
                 size="small"
@@ -225,7 +223,7 @@ const EventItem = ({
             </Typography>
           )}
         </div>
-        <div className={CSS.popper__p}>
+        <div style={{ padding: "5px 10px" }}>
           <Typography
             style={{ display: "flex", alignItems: "center" }}
             color="textSecondary"
@@ -256,7 +254,7 @@ const EventItem = ({
             ? viewerExtraComponent(fields, event)
             : viewerExtraComponent}
         </div>
-      </div>
+      </PopperInner>
     );
   };
 
@@ -279,6 +277,7 @@ const EventItem = ({
       >
         <ButtonBase
           onClick={(e) => {
+            e.preventDefault();
             e.stopPropagation();
             triggerViewer(e.currentTarget);
           }}

@@ -7,6 +7,9 @@ export function useWindowResize() {
   });
 
   useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
     const handler = () => {
       setState((state) => {
         const { innerWidth, innerHeight } = window;
