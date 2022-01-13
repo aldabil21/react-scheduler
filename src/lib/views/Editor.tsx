@@ -9,7 +9,6 @@ import {
   useTheme,
   useMediaQuery,
 } from "@mui/material";
-import { randomBytes } from "crypto";
 import { addMinutes, differenceInMinutes } from "date-fns";
 import { EditorDatePicker } from "../components/inputs/DatePicker";
 import { EditorInput } from "../components/inputs/Input";
@@ -144,7 +143,8 @@ const Editor = () => {
       } else {
         // Create/Edit local data
         body.event_id =
-          selectedEvent?.event_id || randomBytes(6).toString("hex");
+          selectedEvent?.event_id ||
+          Date.now().toString(36) + Math.random().toString(36).slice(2);
       }
       confirmEvent(body, action);
       handleClose(true);
