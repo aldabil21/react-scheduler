@@ -14,20 +14,33 @@ const App = () => {
       events={events}
       selectedDate={new Date("2021 5 1")}
       // height={800}
-      week={{
-        weekDays: [0, 1, 2, 3, 4, 5],
-        weekStartOn: 6,
-        startHour: 7,
-        endHour: 22,
-        step: 60,
-      }}
-      month={{
-        weekDays: [0, 1, 2, 3, 4, 5],
-        weekStartOn: 6,
-        startHour: 7,
-        endHour: 15,
-      }}
-      // day={null}
+      // week={{
+      //   weekDays: [0, 1, 2, 3, 4, 5],
+      //   weekStartOn: 6,
+      //   startHour: 7,
+      //   endHour: 22,
+      //   step: 60,
+      //   cellRenderer: () => {
+      //     return <>week</>;
+      //   },
+      // }}
+      // month={{
+      //   weekDays: [0, 1, 2, 3, 4, 5],
+      //   weekStartOn: 6,
+      //   startHour: 7,
+      //   endHour: 15,
+      //   cellRenderer: () => {
+      //     return <h1>month</h1>;
+      //   },
+      // }}
+      // day={{
+      //   startHour: 6,
+      //   endHour: 14,
+      //   step: 60,
+      //   cellRenderer: () => {
+      //     return <h1>DAY</h1>;
+      //   },
+      // }}
       // day={{
       //   startHour: 8,
       //   endHour: 18,
