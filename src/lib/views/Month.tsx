@@ -12,7 +12,7 @@ import {
 } from "date-fns";
 import MonthEvents from "../components/events/MonthEvents";
 import { useAppState } from "../hooks/useAppState";
-import { DayHours, DefaultRecourse } from "../types";
+import { CellRenderedProps, DayHours, DefaultRecourse } from "../types";
 import { getResourcedEvents } from "../helpers/generals";
 import { WithResources } from "../components/common/WithResources";
 import { Cell } from "../components/common/Cell";
@@ -24,6 +24,7 @@ export interface MonthProps {
   weekStartOn: WeekDays;
   startHour: DayHours;
   endHour: DayHours;
+  cellRenderer?(props: CellRenderedProps): JSX.Element;
 }
 
 const Month = () => {
@@ -35,13 +36,14 @@ const Month = () => {
     handleGotoDay,
     remoteEvents,
     triggerLoading,
+    triggerDialog,
     handleState,
     resources,
     resourceFields,
     fields,
   } = useAppState();
 
-  const { weekStartOn, weekDays, startHour, endHour } = month!;
+  const { weekStartOn, weekDays, startHour, endHour, cellRenderer } = month!;
   const monthStart = startOfMonth(selectedDate);
   const monthEnd = endOfMonth(selectedDate);
   const eachWeekStart = eachWeekOfInterval(
@@ -111,12 +113,29 @@ const Month = () => {
             key={d.toString()}
             className="rs__cell"
           >
-            <Cell
-              start={start}
-              end={end}
-              resourceKey={field}
-              resourceVal={resource ? resource[field] : null}
-            />
+            {cellRenderer ? (
+              cellRenderer({
+                day: selectedDate,
+                start,
+                end,
+                height: CELL_HEIGHT,
+                onClick: () =>
+                  triggerDialog(true, {
+                    start,
+                    end,
+                    [field]: resource ? resource[field] : null,
+                  }),
+                [field]: resource ? resource[field] : null,
+              })
+            ) : (
+              <Cell
+                start={start}
+                end={end}
+                resourceKey={field}
+                resourceVal={resource ? resource[field] : null}
+              />
+            )}
+
             <Fragment>
               <Avatar
                 style={{
