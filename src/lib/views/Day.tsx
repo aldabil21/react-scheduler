@@ -169,7 +169,7 @@ const Day = () => {
           }`}
           style={{ height: headerHeight }}
         >
-          <TodayTypo date={selectedDate} />
+          <TodayTypo date={selectedDate} locale={locale} />
           {renderMultiDayEvents(recousedEvents)}
         </span>
 

@@ -1,4 +1,5 @@
-dist 
+dist
+.vscode
 # dependencies
 /node_modules
 /.pnp

@@ -41,6 +41,7 @@ const Month = () => {
     resources,
     resourceFields,
     fields,
+    locale
   } = useAppState();
 
   const { weekStartOn, weekDays, startHour, endHour, cellRenderer } = month!;
@@ -190,7 +191,7 @@ const Month = () => {
         {daysList.map((date, i) => (
           <span key={i} className="rs__cell rs__header">
             <Typography align="center" variant="body2">
-              {format(date, "EE")}
+              {format(date, "EE", { locale: locale })}
             </Typography>
           </span>
         ))}
