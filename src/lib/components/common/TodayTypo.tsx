@@ -4,9 +4,10 @@ import { format, isToday } from "date-fns";
 interface TodayTypoProps {
   date: Date;
   onClick?(day: Date): void;
+  locale: Locale;
 }
 
-const TodayTypo = ({ date, onClick }: TodayTypoProps) => {
+const TodayTypo = ({ date, onClick, locale }: TodayTypoProps) => {
   return (
     <div>
       <Typography
@@ -20,7 +21,7 @@ const TodayTypo = ({ date, onClick }: TodayTypoProps) => {
           if (onClick) onClick(date);
         }}
       >
-        {format(date, "dd")}
+        {format(date, "dd", {locale: locale})}
       </Typography>
       <Typography
         color={isToday(date) ? "primary" : "inherit"}
@@ -29,7 +30,7 @@ const TodayTypo = ({ date, onClick }: TodayTypoProps) => {
           fontSize: 11,
         }}
       >
-        {format(date, "eee")}
+        {format(date, "eee", {locale: locale})}
       </Typography>
     </div>
   );
