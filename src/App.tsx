@@ -12,7 +12,7 @@ const App = () => {
       // loading={loading}
       // view="month"
       events={events}
-      selectedDate={new Date("2021 5 1")}
+      selectedDate={new Date("2021/5/1")}
       // height={800}
       // week={{
       //   weekDays: [0, 1, 2, 3, 4, 5],

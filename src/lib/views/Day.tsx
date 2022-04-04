@@ -176,10 +176,10 @@ const Day = () => {
         {/* Body */}
         {hours.map((h, i) => {
           const start = new Date(
-            `${format(selectedDate, "yyyy MM dd")} ${format(h, "hh:mm a")}`
+            `${format(selectedDate, "yyyy/MM/dd")} ${format(h, "hh:mm a")}`
           );
           const end = new Date(
-            `${format(selectedDate, "yyyy MM dd")} ${format(
+            `${format(selectedDate, "yyyy/MM/dd")} ${format(
               addMinutes(h, step),
               "hh:mm a"
             )}`
