@@ -220,10 +220,10 @@ const Week = () => {
             </span>
             {daysList.map((date, ii) => {
               const start = new Date(
-                `${format(date, "yyyy MM dd")} ${format(h, "hh:mm a")}`
+                `${format(date, "yyyy/MM/dd")} ${format(h, "hh:mm a")}`
               );
               const end = new Date(
-                `${format(date, "yyyy MM dd")} ${format(
+                `${format(date, "yyyy/MM/dd")} ${format(
                   addMinutes(h, step),
                   "hh:mm a"
                 )}`
