@@ -1,5 +1,4 @@
-import { styled } from "@mui/material/styles";
-import { alpha } from "@mui/material";
+import { alpha, styled } from "@mui/material";
 
 export const Wrapper = styled("div")(({ theme }) => ({
   position: "relative",
