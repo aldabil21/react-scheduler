@@ -46,6 +46,7 @@ const Cell = ({
         e.currentTarget.style.backgroundColor = "";
       }}
       onDrop={(e) => {
+        e.preventDefault();
         e.currentTarget.style.backgroundColor = "";
         const eventId = e.dataTransfer.getData("text");
         onDrop(eventId, start, resourceKey, resourceVal);
