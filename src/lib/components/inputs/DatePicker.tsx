@@ -7,7 +7,6 @@ interface EditorDatePickerProps {
   type: "date" | "datetime";
   label?: string;
   variant?: "standard" | "filled" | "outlined";
-  modalVariant?: "dialog" | "inline" | "static";
   value: Date | string;
   name: string;
   onChange(name: string, date: Date): void;
@@ -22,7 +21,6 @@ const EditorDatePicker = ({
   name,
   onChange,
   variant,
-  modalVariant,
   error,
   errMsg,
 }: EditorDatePickerProps) => {
@@ -34,7 +32,6 @@ const EditorDatePicker = ({
         value={value}
         label={label}
         onChange={(e) => onChange(name, new Date(e || ""))}
-        // variant={modalVariant}
         minutesStep={5}
         renderInput={(params) => (
           <TextField
@@ -53,6 +50,5 @@ const EditorDatePicker = ({
 EditorDatePicker.defaultProps = {
   type: "datetime",
   variant: "outlined",
-  modalVariant: "inline",
 };
 export { EditorDatePicker };

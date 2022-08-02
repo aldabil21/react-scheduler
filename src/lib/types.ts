@@ -63,7 +63,6 @@ export interface FieldInputProps {
   variant?: "standard" | "filled" | "outlined";
   /** Available to all InputTypes */
   disabled?: boolean;
-
   /** Available when @input="text" ONLY - Minimum length */
   min?: number;
   /** Available when @input="text" ONLY - Maximum length */
@@ -80,11 +79,6 @@ export interface FieldInputProps {
    * @default "datetime"
    */
   type?: "date" | "datetime";
-  /** Available when @input="date" ONLY. Picker types
-   * @default "inline"
-   */
-  modalVariant?: "dialog" | "inline" | "static";
-
   /** Available when @input="select" ONLY - Multi-Select input style.
    * if you use "default" property with this, make sure your "default" property is an instance of Array
    */
@@ -157,10 +151,7 @@ export interface SchedulerProps {
   /**Table loading state */
   loading?: boolean;
   /**Async function triggered when add/edit event */
-  onConfirm?(
-    event: ProcessedEvent,
-    action: EventActions
-  ): Promise<ProcessedEvent>;
+  onConfirm?(event: ProcessedEvent, action: EventActions): Promise<ProcessedEvent>;
   /**Async function triggered when delete event */
   onDelete?(deletedId: string | number): Promise<string | number | void>;
   /**Override editor modal */
