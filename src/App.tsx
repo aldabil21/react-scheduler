@@ -1,10 +1,10 @@
-import { useState } from "react";
+import * as React from "react";
 import { EVENTS } from "./model/events";
 // import arSA from "date-fns/locale/ar-SA";
 import { Scheduler } from "./lib/Scheduler";
 
 const App = () => {
-  const [events, setEvents] = useState(EVENTS);
+  const [events, setEvents] = React.useState(EVENTS);
 
   return (
     <Scheduler
