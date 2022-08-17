@@ -1,6 +1,6 @@
 import { useState } from "react";
 import DateProvider from "../hoc/DateProvider";
-import DatePicker from "@mui/lab/DatePicker";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Button } from "@mui/material";
 import { format, addDays } from "date-fns";
 import { LocaleArrow } from "../common/LocaleArrow";
@@ -40,13 +40,13 @@ const DayDateBtn = ({ selectedDate, onChange }: DayDateBtnProps) => {
           value={selectedDate}
           onChange={handleChange}
           renderInput={(params) => (
-            <Button
-              ref={params.inputRef}
-              style={{ padding: 4 }}
-              onClick={toggleDialog}
-            >{`${format(selectedDate, "dd, MMMM yyyy", {
-              locale: locale,
-            })}`}</Button>
+            <Button ref={params.inputRef} style={{ padding: 4 }} onClick={toggleDialog}>{`${format(
+              selectedDate,
+              "dd, MMMM yyyy",
+              {
+                locale: locale,
+              }
+            )}`}</Button>
           )}
         />
       </DateProvider>
