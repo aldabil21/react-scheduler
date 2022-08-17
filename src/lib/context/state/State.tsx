@@ -1,17 +1,8 @@
 import { useEffect, useReducer, ReactChild } from "react";
-import {
-  arraytizeFieldVal,
-  getAvailableViews,
-  getOneView,
-} from "../../helpers/generals";
+import { arraytizeFieldVal, getAvailableViews, getOneView } from "../../helpers/generals";
 import { differenceInMinutes, addMinutes, isEqual } from "date-fns";
 import { EventActions, ProcessedEvent, SchedulerProps } from "../../types";
-import {
-  defaultProps,
-  SchedulerState,
-  SelectedRange,
-  StateContext,
-} from "./stateContext";
+import { defaultProps, SchedulerState, SelectedRange, StateContext } from "./stateContext";
 import { stateReducer } from "./stateReducer";
 
 interface AppProps {
@@ -20,8 +11,7 @@ interface AppProps {
 }
 
 const initialState = (initial: Partial<SchedulerProps>): SchedulerState => {
-  const initialView =
-    initial.view && initial[initial.view] ? initial.view : getOneView(initial);
+  const initialView = initial.view && initial[initial.view] ? initial.view : getOneView(initial);
   return {
     ...initial,
     view: initialView,
@@ -45,13 +35,11 @@ const AppState = ({ initial, children }: AppProps) => {
     direction,
     loading,
     onEventDrop,
+    selectedDate,
   } = initial;
   const [state, dispatch] = useReducer(stateReducer, initialState(initial));
 
-  const handleState = (
-    value: SchedulerState[keyof SchedulerState],
-    name: keyof SchedulerState
-  ) => {
+  const handleState = (value: SchedulerState[keyof SchedulerState], name: keyof SchedulerState) => {
     dispatch({ type: "set", payload: { name, value } });
   };
 
@@ -62,6 +50,7 @@ const AppState = ({ initial, children }: AppProps) => {
     if (state.mounted) {
       updateProps({
         events,
+        selectedDate,
         resources,
         resourceViewMode,
         month,
@@ -78,6 +67,7 @@ const AppState = ({ initial, children }: AppProps) => {
     //eslint-disable-next-line
   }, [
     events,
+    selectedDate,
     resources,
     resourceViewMode,
     month,
@@ -92,9 +82,7 @@ const AppState = ({ initial, children }: AppProps) => {
   const confirmEvent = (event: ProcessedEvent, action: EventActions) => {
     let updatedEvents: ProcessedEvent[];
     if (action === "edit") {
-      updatedEvents = state.events.map((e) =>
-        e.event_id === event.event_id ? event : e
-      );
+      updatedEvents = state.events.map((e) => (e.event_id === event.event_id ? event : e));
     } else {
       updatedEvents = [...state.events, event];
     }
@@ -103,10 +91,7 @@ const AppState = ({ initial, children }: AppProps) => {
 
   const getViews = () => getAvailableViews(state);
 
-  const triggerDialog = (
-    status: boolean | undefined,
-    selected: SelectedRange | ProcessedEvent
-  ) => {
+  const triggerDialog = (status: boolean | undefined, selected: SelectedRange | ProcessedEvent) => {
     dispatch({ type: "triggerDialog", payload: { status, selected } });
   };
   const triggerLoading = (status: boolean) => {
@@ -147,11 +132,7 @@ const AppState = ({ initial, children }: AppProps) => {
     let newResource = resVal as string | number | string[] | number[];
     if (resField) {
       const eResource = droppedEvent[resKey];
-      const currentRes = arraytizeFieldVal(
-        resField,
-        eResource,
-        droppedEvent
-      ).value;
+      const currentRes = arraytizeFieldVal(resField, eResource, droppedEvent).value;
       if (isMultiple) {
         // if dropped on already owned resource
         if (currentRes.includes(resVal)) {
@@ -162,18 +143,14 @@ const AppState = ({ initial, children }: AppProps) => {
           newResource = currentRes;
         } else {
           // if have multiple resource ? add other : move to other
-          newResource =
-            currentRes.length > 1 ? [...currentRes, resVal] : [resVal];
+          newResource = currentRes.length > 1 ? [...currentRes, resVal] : [resVal];
         }
       }
     }
 
     // Omit if dropped on same time slot for non multiple events
     if (isEqual(droppedEvent.start, startTime)) {
-      if (
-        !newResource ||
-        (!isMultiple && newResource === droppedEvent[resKey])
-      ) {
+      if (!newResource || (!isMultiple && newResource === droppedEvent[resKey])) {
         return;
       }
     }

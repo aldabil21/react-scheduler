@@ -1,7 +1,7 @@
 import DateProvider from "../hoc/DateProvider";
-import DatePicker from "@mui/lab/DatePicker";
-import DateTimePicker from "@mui/lab/DateTimePicker";
 import { TextField } from "@mui/material";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 
 interface EditorDatePickerProps {
   type: "date" | "datetime";

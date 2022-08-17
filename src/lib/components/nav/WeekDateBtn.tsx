@@ -1,6 +1,6 @@
 import { useState } from "react";
 import DateProvider from "../hoc/DateProvider";
-import DatePicker from "@mui/lab/DatePicker";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Button } from "@mui/material";
 import { endOfWeek, format, startOfWeek, addDays } from "date-fns";
 import { WeekProps } from "../../views/Week";
@@ -13,11 +13,7 @@ interface WeekDateBtnProps {
   weekProps: WeekProps;
 }
 
-const WeekDateBtn = ({
-  selectedDate,
-  onChange,
-  weekProps,
-}: WeekDateBtnProps) => {
+const WeekDateBtn = ({ selectedDate, onChange, weekProps }: WeekDateBtnProps) => {
   const { locale } = useAppState();
   const [open, setOpen] = useState(false);
   const { weekStartOn } = weekProps;
@@ -50,17 +46,13 @@ const WeekDateBtn = ({
           value={selectedDate}
           onChange={handleChange}
           renderInput={(params) => (
-            <Button
-              ref={params.inputRef}
-              style={{ padding: 4 }}
-              onClick={toggleDialog}
-            >{`${format(weekStart, "dd", { locale: locale })} - ${format(
-              weekEnd,
-              "dd MMMM yyyy",
-              {
-                locale: locale,
-              }
-            )}`}</Button>
+            <Button ref={params.inputRef} style={{ padding: 4 }} onClick={toggleDialog}>{`${format(
+              weekStart,
+              "dd",
+              { locale: locale }
+            )} - ${format(weekEnd, "dd MMMM yyyy", {
+              locale: locale,
+            })}`}</Button>
           )}
         />
       </DateProvider>
