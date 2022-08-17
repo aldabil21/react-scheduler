@@ -15,17 +15,9 @@
     "jsx": "react-jsx",
     "outDir": "./dist",
     "declaration": true,
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "noEmit": true
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "noEmit": false
   },
-  "include": [
-    "src/lib/**/*"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["src/lib/**/*"],
+  "exclude": ["node_modules"]
 }
