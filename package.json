@@ -5,11 +5,14 @@
   "main": "./dist/Scheduler.js",
   "//types": "./dist/index.d.ts",
   "files": [
-    "/dist/**/*"
+    "*"
   ],
   "scripts": {
     "start": "react-scripts start",
-    "pack": "webpack"
+    "webpack": "webpack",
+    "pack": "rm -rf dist && npm run webpack && cp package.json ./dist",
+    "local:pack": "npm run pack && cd dist && npm pack && mv *.tgz ../",
+    "publish": "npm run pack && cd dist && npm publish"
   },
   "repository": {
     "type": "git",
