@@ -29,13 +29,7 @@ interface EventItemProps {
   showdate?: boolean;
 }
 
-const EventItem = ({
-  event,
-  multiday,
-  hasPrev,
-  hasNext,
-  showdate,
-}: EventItemProps) => {
+const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemProps) => {
   const {
     triggerDialog,
     onDelete,
@@ -54,10 +48,8 @@ const EventItem = ({
   const [deleteConfirm, setDeleteConfirm] = useState(false);
   const theme = useTheme();
 
-  const NextArrow =
-    direction === "rtl" ? ArrowLeftRoundedIcon : ArrowRightRoundedIcon;
-  const PrevArrow =
-    direction === "rtl" ? ArrowRightRoundedIcon : ArrowLeftRoundedIcon;
+  const NextArrow = direction === "rtl" ? ArrowLeftRoundedIcon : ArrowRightRoundedIcon;
+  const PrevArrow = direction === "rtl" ? ArrowRightRoundedIcon : ArrowLeftRoundedIcon;
 
   const triggerViewer = (el?: Element) => {
     if (!el && deleteConfirm) {
@@ -123,12 +115,7 @@ const EventItem = ({
             showdate && format(event.start, "hh:mm a", { locale: locale })
           )}
         </Typography>
-        <Typography
-          variant="subtitle2"
-          align="center"
-          sx={{ fontSize: 12 }}
-          noWrap
-        >
+        <Typography variant="subtitle2" align="center" sx={{ fontSize: 12 }} noWrap>
           {event.title}
         </Typography>
         <Typography sx={{ fontSize: 11 }} noWrap>
@@ -145,9 +132,7 @@ const EventItem = ({
   const renderViewer = () => {
     const idKey = resourceFields.idField;
     const hasResource = resources.filter((res) =>
-      Array.isArray(event[idKey])
-        ? event[idKey].includes(res[idKey])
-        : res[idKey] === event[idKey]
+      Array.isArray(event[idKey]) ? event[idKey].includes(res[idKey]) : res[idKey] === event[idKey]
     );
 
     return (
@@ -245,9 +230,7 @@ const EventItem = ({
               noWrap
             >
               <SupervisorAccountRoundedIcon />{" "}
-              {hasResource
-                .map((res) => res[resourceFields.textField])
-                .join(", ")}
+              {hasResource.map((res) => res[resourceFields.textField]).join(", ")}
             </Typography>
           )}
           {viewerExtraComponent instanceof Function
@@ -265,12 +248,8 @@ const EventItem = ({
           width: "100%",
           height: "100%",
           display: "block",
-          background: event.disabled
-            ? "#d0d0d0"
-            : event.color || theme.palette.primary.main,
-          color: event.disabled
-            ? "#808080"
-            : theme.palette.primary.contrastText,
+          background: event.disabled ? "#d0d0d0" : event.color || theme.palette.primary.main,
+          color: event.disabled ? "#808080" : theme.palette.primary.contrastText,
           cursor: event.disabled ? "not-allowed" : "pointer",
           overflow: "hidden",
         }}
@@ -299,8 +278,7 @@ const EventItem = ({
               e.currentTarget.style.backgroundColor = theme.palette.error.main;
             }}
             onDragEnd={(e) => {
-              e.currentTarget.style.backgroundColor =
-                event.color || theme.palette.primary.main;
+              e.currentTarget.style.backgroundColor = event.color || theme.palette.primary.main;
             }}
             onDragOver={(e) => {
               e.stopPropagation();

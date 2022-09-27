@@ -13,10 +13,7 @@ import {
 import { ProcessedEvent } from "../../types";
 import { Typography } from "@mui/material";
 import EventItem from "./EventItem";
-import {
-  MONTH_NUMBER_HEIGHT,
-  MULTI_DAY_EVENT_HEIGHT,
-} from "../../helpers/constants";
+import { MONTH_NUMBER_HEIGHT, MULTI_DAY_EVENT_HEIGHT } from "../../helpers/constants";
 
 interface MonthEventProps {
   events: ProcessedEvent[];
@@ -35,14 +32,8 @@ const MonthEvents = ({
   onViewMore,
   cellHeight,
 }: MonthEventProps) => {
-  const LIMIT = Math.round(
-    (cellHeight - MONTH_NUMBER_HEIGHT) / MULTI_DAY_EVENT_HEIGHT - 1
-  );
-  const eachFirstDayInCalcRow = eachWeekStart.some((date) =>
-    isSameDay(date, today)
-  )
-    ? today
-    : null;
+  const LIMIT = Math.round((cellHeight - MONTH_NUMBER_HEIGHT) / MULTI_DAY_EVENT_HEIGHT - 1);
+  const eachFirstDayInCalcRow = eachWeekStart.some((date) => isSameDay(date, today)) ? today : null;
 
   const todayEvents = events
     .filter((e) =>
@@ -60,12 +51,8 @@ const MonthEvents = ({
     <Fragment>
       {todayEvents.map((event, i) => {
         const fromPrevWeek =
-          !!eachFirstDayInCalcRow &&
-          isBefore(event.start, eachFirstDayInCalcRow);
-        const start =
-          fromPrevWeek && eachFirstDayInCalcRow
-            ? eachFirstDayInCalcRow
-            : event.start;
+          !!eachFirstDayInCalcRow && isBefore(event.start, eachFirstDayInCalcRow);
+        const start = fromPrevWeek && eachFirstDayInCalcRow ? eachFirstDayInCalcRow : event.start;
 
         let eventLength = differenceInDays(event.end, start) + 1;
         const toNextWeek = eventLength >= daysList.length;
@@ -76,9 +63,7 @@ const MonthEvents = ({
           if (closestStart) {
             eventLength =
               daysList.length -
-              (!eachFirstDayInCalcRow
-                ? differenceInDays(event.start, closestStart)
-                : 0);
+              (!eachFirstDayInCalcRow ? differenceInDays(event.start, closestStart) : 0);
           }
         }
 

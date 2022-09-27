@@ -34,14 +34,8 @@ export const getAvailableViews = (state: SchedulerProps) => {
   return views;
 };
 
-export const arraytizeFieldVal = (
-  field: FieldProps,
-  val: any,
-  event?: StateEvent
-) => {
-  const arrytize =
-    field.config?.multiple &&
-    !Array.isArray(event?.[field.name] || field.default);
+export const arraytizeFieldVal = (field: FieldProps, val: any, event?: StateEvent) => {
+  const arrytize = field.config?.multiple && !Array.isArray(event?.[field.name] || field.default);
   const value = arrytize ? (val ? [val] : []) : val;
   const validity = arrytize ? value.length : value;
   return { value, validity };

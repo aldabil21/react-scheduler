@@ -33,8 +33,7 @@ const ResourcesTables = ({ renderChildren }: WithResourcesProps) => {
 };
 
 const ResourcesTabTables = ({ renderChildren }: WithResourcesProps) => {
-  const { resources, resourceFields, selectedResource, handleState } =
-    useAppState();
+  const { resources, resourceFields, selectedResource, handleState } = useAppState();
 
   const tabs: ButtonTabProps[] = resources.map((res) => {
     return {

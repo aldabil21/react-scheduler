@@ -82,13 +82,7 @@ const EditorInput = ({
   return (
     <TextField
       variant={variant}
-      label={
-        label && (
-          <Typography variant="body2">{`${label} ${
-            required ? "*" : ""
-          }`}</Typography>
-        )
-      }
+      label={label && <Typography variant="body2">{`${label} ${required ? "*" : ""}`}</Typography>}
       value={value}
       name={name}
       onChange={(e) => handleChange(e.target.value)}

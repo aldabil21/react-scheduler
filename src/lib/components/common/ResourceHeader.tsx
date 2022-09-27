@@ -1,10 +1,4 @@
-import {
-  Avatar,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-  Typography,
-} from "@mui/material";
+import { Avatar, ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material";
 import { useAppState } from "../../hooks/useAppState";
 import { useWindowResize } from "../../hooks/useWindowResize";
 import { DefaultRecourse } from "../../types";
@@ -13,13 +7,8 @@ interface ResourceHeaderProps {
   resource: DefaultRecourse;
 }
 const ResourceHeader = ({ resource }: ResourceHeaderProps) => {
-  const {
-    recourseHeaderComponent,
-    resourceFields,
-    resources,
-    direction,
-    resourceViewMode,
-  } = useAppState();
+  const { recourseHeaderComponent, resourceFields, resources, direction, resourceViewMode } =
+    useAppState();
   const { width } = useWindowResize();
 
   const text = resource[resourceFields.textField];

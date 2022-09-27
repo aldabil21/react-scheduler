@@ -21,7 +21,7 @@ const TodayTypo = ({ date, onClick, locale }: TodayTypoProps) => {
           if (onClick) onClick(date);
         }}
       >
-        {format(date, "dd", {locale: locale})}
+        {format(date, "dd", { locale: locale })}
       </Typography>
       <Typography
         color={isToday(date) ? "primary" : "inherit"}
@@ -30,7 +30,7 @@ const TodayTypo = ({ date, onClick, locale }: TodayTypoProps) => {
           fontSize: 11,
         }}
       >
-        {format(date, "eee", {locale: locale})}
+        {format(date, "eee", { locale: locale })}
       </Typography>
     </div>
   );

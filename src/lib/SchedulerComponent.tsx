@@ -36,11 +36,7 @@ const SchedulerComponent = () => {
       )}
       <Navigation />
       <div className="rs__outer_table">
-        <Table
-          resource_count={resourceViewMode === "tabs" ? 1 : resources.length}
-        >
-          {Views}
-        </Table>
+        <Table resource_count={resourceViewMode === "tabs" ? 1 : resources.length}>{Views}</Table>
       </div>
       {dialog && <Editor />}
     </Wrapper>

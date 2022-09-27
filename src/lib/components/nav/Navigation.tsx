@@ -30,21 +30,11 @@ const Navigation = () => {
   const renderDateSelector = () => {
     switch (view) {
       case "month":
-        return (
-          <MonthDateBtn selectedDate={selectedDate} onChange={handleState} />
-        );
+        return <MonthDateBtn selectedDate={selectedDate} onChange={handleState} />;
       case "week":
-        return (
-          <WeekDateBtn
-            selectedDate={selectedDate}
-            onChange={handleState}
-            weekProps={week!}
-          />
-        );
+        return <WeekDateBtn selectedDate={selectedDate} onChange={handleState} weekProps={week!} />;
       case "day":
-        return (
-          <DayDateBtn selectedDate={selectedDate} onChange={handleState} />
-        );
+        return <DayDateBtn selectedDate={selectedDate} onChange={handleState} />;
       default:
         return "";
     }
@@ -60,9 +50,7 @@ const Navigation = () => {
     >
       {renderDateSelector()}
       <div>
-        <Button onClick={() => handleState(new Date(), "selectedDate")}>
-          Today
-        </Button>
+        <Button onClick={() => handleState(new Date(), "selectedDate")}>Today</Button>
         {views.length > 1 &&
           (isDesktop ? (
             views.map((v) => (

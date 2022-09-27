@@ -80,14 +80,7 @@ interface ButtonTabsProps {
   style?: CSSProperties;
 }
 
-const ButtonTabs = ({
-  tabs,
-  variant,
-  tab,
-  setTab,
-  indicator,
-  style,
-}: ButtonTabsProps) => {
+const ButtonTabs = ({ tabs, variant, tab, setTab, indicator, style }: ButtonTabsProps) => {
   return (
     <StyledTaps style={style}>
       <Tabs

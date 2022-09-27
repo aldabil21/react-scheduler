@@ -1,12 +1,7 @@
 import enUS from "date-fns/locale/en-US";
 import { createContext } from "react";
 import { View } from "../../components/nav/Navigation";
-import {
-  DefaultRecourse,
-  EventActions,
-  ProcessedEvent,
-  SchedulerProps,
-} from "../../types";
+import { DefaultRecourse, EventActions, ProcessedEvent, SchedulerProps } from "../../types";
 
 export type SelectedRange = { start: Date; end: Date };
 export interface SchedulerState extends SchedulerProps {
@@ -17,10 +12,7 @@ export interface SchedulerState extends SchedulerProps {
   selectedResource?: DefaultRecourse["assignee"];
 }
 export interface stateContext extends SchedulerState {
-  handleState(
-    value: SchedulerState[keyof SchedulerState],
-    name: keyof SchedulerState
-  ): void;
+  handleState(value: SchedulerState[keyof SchedulerState], name: keyof SchedulerState): void;
   getViews(): View[];
   triggerDialog(status: boolean, event?: SelectedRange | ProcessedEvent): void;
   triggerLoading(status: boolean): void;

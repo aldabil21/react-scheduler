@@ -13,11 +13,9 @@ const LocaleArrow = ({ type, onClick }: LocaleArrowProps) => {
 
   let Arrow = NavigateNextRoundedIcon;
   if (type === "prev") {
-    Arrow =
-      direction === "rtl" ? NavigateNextRoundedIcon : NavigateBeforeRoundedIcon;
+    Arrow = direction === "rtl" ? NavigateNextRoundedIcon : NavigateBeforeRoundedIcon;
   } else if (type === "next") {
-    Arrow =
-      direction === "rtl" ? NavigateBeforeRoundedIcon : NavigateNextRoundedIcon;
+    Arrow = direction === "rtl" ? NavigateBeforeRoundedIcon : NavigateNextRoundedIcon;
   }
 
   return (

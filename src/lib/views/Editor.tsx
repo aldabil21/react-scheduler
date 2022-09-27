@@ -34,10 +34,7 @@ export type StateItem = {
 
 export type StateEvent = (ProcessedEvent & SelectedRange) | Record<string, any>;
 
-const initialState = (
-  fields: FieldProps[],
-  event?: StateEvent
-): Record<string, StateItem> => {
+const initialState = (fields: FieldProps[], event?: StateEvent): Record<string, StateItem> => {
   const customFields = {} as Record<string, StateItem>;
   for (const field of fields) {
     const defVal = arraytizeFieldVal(field, field.default, event);
@@ -45,9 +42,7 @@ const initialState = (
 
     customFields[field.name] = {
       value: eveVal.value || defVal.value || "",
-      validity: field.config?.required
-        ? !!eveVal.validity || !!defVal.validity
-        : true,
+      validity: field.config?.required ? !!eveVal.validity || !!defVal.validity : true,
       type: field.type,
       config: field.config,
     };
@@ -94,9 +89,7 @@ const Editor = () => {
     confirmEvent,
     dialogMaxWidth,
   } = useAppState();
-  const [state, setState] = useState(
-    initialState(fields, selectedEvent || selectedRange)
-  );
+  const [state, setState] = useState(initialState(fields, selectedEvent || selectedRange));
   const [touched, setTouched] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -130,10 +123,7 @@ const Editor = () => {
       // Auto fix date
       body.end =
         body.start >= body.end
-          ? addMinutes(
-              body.start,
-              differenceInMinutes(selectedRange?.end!, selectedRange?.start!)
-            )
+          ? addMinutes(body.start, differenceInMinutes(selectedRange?.end!, selectedRange?.start!))
           : body.end;
       // Specify action
       const action: EventActions = selectedEvent?.event_id ? "edit" : "create";
@@ -143,8 +133,7 @@ const Editor = () => {
       } else {
         // Create/Edit local data
         body.event_id =
-          selectedEvent?.event_id ||
-          Date.now().toString(36) + Math.random().toString(36).slice(2);
+          selectedEvent?.event_id || Date.now().toString(36) + Math.random().toString(36).slice(2);
       }
       confirmEvent(body, action);
       handleClose(true);

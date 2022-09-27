@@ -24,22 +24,19 @@ export const Wrapper = styled("div")(({ theme }) => ({
   },
 }));
 
-export const Table = styled("div")<{ resource_count: number }>(
-  ({ resource_count }) => ({
-    position: "relative",
-    display: "grid",
-    gridTemplateColumns: `repeat(${resource_count}, 1fr)`,
-    width: "100%",
-    overflowX: "auto",
-    overflowY: "hidden",
-  })
-);
+export const Table = styled("div")<{ resource_count: number }>(({ resource_count }) => ({
+  position: "relative",
+  display: "grid",
+  gridTemplateColumns: `repeat(${resource_count}, 1fr)`,
+  width: "100%",
+  overflowX: "auto",
+  overflowY: "hidden",
+}));
 export const TableGrid = styled("div")<{ days: number; indent?: string }>(
   ({ days, indent = "1", theme }) => ({
     position: "relative",
     display: "grid",
-    gridTemplateColumns:
-      +indent > 0 ? `10% repeat(${days}, 1fr)` : `repeat(${days}, 1fr)`,
+    gridTemplateColumns: +indent > 0 ? `10% repeat(${days}, 1fr)` : `repeat(${days}, 1fr)`,
     [theme.breakpoints.down("sm")]: {
       gridTemplateColumns: +indent > 0 ? `30px repeat(${days}, 1fr)` : "",
     },

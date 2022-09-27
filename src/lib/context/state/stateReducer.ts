@@ -5,10 +5,7 @@ interface Action {
   payload: any;
 }
 
-const stateReducer = (
-  state: SchedulerState,
-  action: Action
-): SchedulerState => {
+const stateReducer = (state: SchedulerState, action: Action): SchedulerState => {
   switch (action.type) {
     case "updateProps":
       return {

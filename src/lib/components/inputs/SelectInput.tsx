@@ -94,9 +94,7 @@ const EditorSelect = ({
       >
         {label && (
           <InputLabel id={`input_${name}`}>
-            <Typography variant="body2">{`${label} ${
-              required ? "*" : ""
-            }`}</Typography>
+            <Typography variant="body2">{`${label} ${required ? "*" : ""}`}</Typography>
           </InputLabel>
         )}
         <Select
@@ -105,9 +103,7 @@ const EditorSelect = ({
           value={value}
           onBlur={handleTouched}
           onChange={(e) => handleChange(e.target.value)}
-          IconComponent={
-            loading ? () => <CircularProgress size={5} /> : ExpandMoreIcon
-          }
+          IconComponent={loading ? () => <CircularProgress size={5} /> : ExpandMoreIcon}
           multiple={!!multiple}
           classes={{
             select: multiple === "chips" ? "flex__wrap" : undefined,
@@ -125,12 +121,7 @@ const EditorSelect = ({
               }
               if (multiple === "chips") {
                 return text.map((t, i) => (
-                  <Chip
-                    key={`${t}_${i}`}
-                    label={t}
-                    style={{ margin: "0 2px" }}
-                    color="primary"
-                  />
+                  <Chip key={`${t}_${i}`} label={t} style={{ margin: "0 2px" }} color="primary" />
                 ));
               } else {
                 return text.join(",");
@@ -150,12 +141,7 @@ const EditorSelect = ({
           )}
           {options.map((op) => (
             <MenuItem value={op.value} key={op.id || op.value}>
-              {multiple && (
-                <Checkbox
-                  checked={value.indexOf(op.value) > -1}
-                  color="primary"
-                />
-              )}
+              {multiple && <Checkbox checked={value.indexOf(op.value) > -1} color="primary" />}
               {op.text}
             </MenuItem>
           ))}

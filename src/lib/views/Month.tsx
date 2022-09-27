@@ -41,7 +41,7 @@ const Month = () => {
     resources,
     resourceFields,
     fields,
-    locale
+    locale,
   } = useAppState();
 
   const { weekStartOn, weekDays, startHour, endHour, cellRenderer } = month!;
@@ -62,10 +62,7 @@ const Month = () => {
     try {
       triggerLoading(true);
       const start = eachWeekStart[0];
-      const end = addDays(
-        eachWeekStart[eachWeekStart.length - 1],
-        daysList.length
-      );
+      const end = addDays(eachWeekStart[eachWeekStart.length - 1], daysList.length);
       const query = `?start=${start}&end=${end}`;
       const events = await remoteEvents!(query);
       if (events && events?.length) {
@@ -89,31 +86,18 @@ const Month = () => {
   const renderCells = (resource?: DefaultRecourse) => {
     let recousedEvents = events;
     if (resource) {
-      recousedEvents = getResourcedEvents(
-        events,
-        resource,
-        resourceFields,
-        fields
-      );
+      recousedEvents = getResourcedEvents(events, resource, resourceFields, fields);
     }
     const rows: JSX.Element[] = [];
 
     for (const startDay of eachWeekStart) {
       const cells = weekDays.map((d) => {
         const today = addDays(startDay, d);
-        const start = new Date(
-          `${format(setHours(today, startHour), "yyyy/MM/dd hh:mm a")}`
-        );
-        const end = new Date(
-          `${format(setHours(today, endHour), "yyyy/MM/dd hh:mm a")}`
-        );
+        const start = new Date(`${format(setHours(today, startHour), "yyyy/MM/dd hh:mm a")}`);
+        const end = new Date(`${format(setHours(today, endHour), "yyyy/MM/dd hh:mm a")}`);
         const field = resourceFields.idField;
         return (
-          <span
-            style={{ height: CELL_HEIGHT }}
-            key={d.toString()}
-            className="rs__cell"
-          >
+          <span style={{ height: CELL_HEIGHT }} key={d.toString()} className="rs__cell">
             {cellRenderer ? (
               cellRenderer({
                 day: selectedDate,
@@ -144,19 +128,13 @@ const Month = () => {
                   height: 27,
                   position: "absolute",
                   top: 0,
-                  background: isToday(today)
-                    ? theme.palette.secondary.main
-                    : "transparent",
-                  color: isToday(today)
-                    ? theme.palette.secondary.contrastText
-                    : "",
+                  background: isToday(today) ? theme.palette.secondary.main : "transparent",
+                  color: isToday(today) ? theme.palette.secondary.contrastText : "",
                   marginBottom: 2,
                 }}
               >
                 <Typography
-                  color={
-                    !isSameMonth(today, monthStart) ? "#ccc" : "textPrimary"
-                  }
+                  color={!isSameMonth(today, monthStart) ? "#ccc" : "textPrimary"}
                   className="rs__hover__op"
                   onClick={(e) => {
                     e.stopPropagation();
@@ -201,11 +179,7 @@ const Month = () => {
     );
   };
 
-  return resources.length ? (
-    <WithResources renderChildren={renderTable} />
-  ) : (
-    renderTable()
-  );
+  return resources.length ? <WithResources renderChildren={renderTable} /> : renderTable();
 };
 
 export { Month };

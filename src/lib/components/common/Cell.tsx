@@ -9,13 +9,7 @@ interface CellProps {
   children?: JSX.Element;
 }
 
-const Cell = ({
-  start,
-  end,
-  resourceKey,
-  resourceVal,
-  children,
-}: CellProps) => {
+const Cell = ({ start, end, resourceKey, resourceVal, children }: CellProps) => {
   const { triggerDialog, onDrop } = useAppState();
   const theme = useTheme();
 
@@ -30,17 +24,11 @@ const Cell = ({
         });
       }}
       onDragOver={(e) => {
-        e.currentTarget.style.backgroundColor = alpha(
-          theme.palette.secondary.main,
-          0.3
-        );
+        e.currentTarget.style.backgroundColor = alpha(theme.palette.secondary.main, 0.3);
         e.preventDefault();
       }}
       onDragEnter={(e) => {
-        e.currentTarget.style.backgroundColor = alpha(
-          theme.palette.secondary.main,
-          0.3
-        );
+        e.currentTarget.style.backgroundColor = alpha(theme.palette.secondary.main, 0.3);
       }}
       onDragLeave={(e) => {
         e.currentTarget.style.backgroundColor = "";
