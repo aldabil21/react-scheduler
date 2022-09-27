@@ -12,7 +12,9 @@
     "webpack": "webpack",
     "pack": "rm -rf dist && npm run webpack && cp package.json ./dist",
     "local:pack": "npm run pack && cd dist && npm pack && mv *.tgz ../",
-    "publish": "npm run pack && cd dist && npm publish"
+    "publish": "npm run pack && cd dist && npm publish",
+    "format": "prettier --check .",
+    "format:write": "prettier --write ."
   },
   "repository": {
     "type": "git",
@@ -45,6 +47,7 @@
     "@types/react-dom": "^17.0.10",
     "css-loader": "^4.3.0",
     "date-fns": "^2.21.2",
+    "prettier": "^2.7.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "^4.0.3",
@@ -56,8 +59,8 @@
   },
   "peerDependencies": {
     "@mui/icons-material": ">=5.0.0",
-    "@mui/x-date-pickers": ">=5.0.0-alpha",
     "@mui/material": ">=5.0.0",
+    "@mui/x-date-pickers": ">=5.0.0-alpha",
     "date-fns": ">=2.2"
   },
   "eslintConfig": {
