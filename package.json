@@ -13,7 +13,7 @@
     "pack": "rm -rf dist && npm run webpack && npm run post:pack",
     "local:pack": "npm run pack && cd dist && npm pack && mv *.tgz ../",
     "post:pack": "node ./scripts/post-pack.js",
-    "publish": "npm run pack && cd dist && npm publish",
+    "publish": "cd dist && npm publish",
     "format": "prettier --check .",
     "format:write": "prettier --write ."
   },
