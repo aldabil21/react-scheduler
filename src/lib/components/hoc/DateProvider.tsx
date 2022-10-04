@@ -8,7 +8,7 @@ interface AuxProps {
 const DateProvider = ({ children }: AuxProps) => {
   const { locale } = useAppState();
   return (
-    <LocalizationProvider dateAdapter={AdapterDateFns} locale={locale}>
+    <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={locale}>
       {children}
     </LocalizationProvider>
   );
