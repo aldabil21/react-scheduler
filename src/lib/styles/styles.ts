@@ -1,16 +1,16 @@
 import { alpha, styled } from "@mui/material";
 
-export const Wrapper = styled("div")(({ theme }) => ({
+export const Wrapper = styled("div")<{ dialog: boolean }>(({ theme, dialog }) => ({
   position: "relative",
   overflow: "hidden",
   "& .rs__table_loading": {
-    background: "#ffffff70",
+    background: dialog ? "" : alpha(theme.palette.background.paper, 0.4),
     position: "absolute",
     left: 0,
     right: 0,
     top: 0,
     bottom: 0,
-    zIndex: 9,
+    zIndex: 999999,
     "& > span": {
       height: "100%",
       display: "flex",
