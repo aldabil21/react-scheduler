@@ -25,7 +25,7 @@ const SchedulerComponent = () => {
   }, [view]);
 
   return (
-    <Wrapper dialog={dialog}>
+    <Wrapper dialog={dialog ? 1 : 0}>
       {loading && (
         <div className="rs__table_loading">
           <span>
