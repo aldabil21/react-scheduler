@@ -69,6 +69,8 @@ export const defaultProps = {
   direction: "ltr",
   dialogMaxWidth: "md",
   locale: enUS,
+  deletable: true,
+  editable: true,
 } as SchedulerProps;
 
 const StateContext = createContext<stateContext>({

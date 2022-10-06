@@ -1,25 +1,15 @@
 import { Fragment, useState } from "react";
-import {
-  Popover,
-  Typography,
-  ButtonBase,
-  useTheme,
-  IconButton,
-  Button,
-  Slide,
-  Paper,
-} from "@mui/material";
+import { Popover, Typography, ButtonBase, useTheme, IconButton, Paper } from "@mui/material";
 import { format } from "date-fns";
 import { ProcessedEvent } from "../../types";
 import { useAppState } from "../../hooks/useAppState";
 import ArrowRightRoundedIcon from "@mui/icons-material/ArrowRightRounded";
 import ArrowLeftRoundedIcon from "@mui/icons-material/ArrowLeftRounded";
-import EditRoundedIcon from "@mui/icons-material/EditRounded";
-import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import EventNoteRoundedIcon from "@mui/icons-material/EventNoteRounded";
 import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 import SupervisorAccountRoundedIcon from "@mui/icons-material/SupervisorAccountRounded";
 import { PopperInner } from "../../styles/styles";
+import EventActions from "./Actions";
 
 interface EventItemProps {
   event: ProcessedEvent;
@@ -43,6 +33,8 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
     resourceFields,
     locale,
     viewerTitleComponent,
+    editable,
+    deletable,
   } = useAppState();
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState(false);
@@ -58,7 +50,7 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
     setAnchorEl(el || null);
   };
 
-  const handleConfirmDelete = async () => {
+  const handleDelete = async () => {
     try {
       triggerLoading(true);
       let deletedId = event.event_id;
@@ -147,7 +139,6 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
             <div>
               <IconButton
                 size="small"
-                style={{ color: theme.palette.primary.contrastText }}
                 onClick={() => {
                   triggerViewer();
                 }}
@@ -155,50 +146,17 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
                 <ClearRoundedIcon color="disabled" />
               </IconButton>
             </div>
-            <div style={{ display: "inherit" }}>
-              <IconButton
-                size="small"
-                style={{ color: theme.palette.primary.contrastText }}
-                onClick={() => {
-                  triggerViewer();
-                  triggerDialog(true, event);
-                }}
-              >
-                <EditRoundedIcon />
-              </IconButton>
-              {!deleteConfirm && (
-                <IconButton
-                  size="small"
-                  style={{ color: theme.palette.primary.contrastText }}
-                  onClick={() => setDeleteConfirm(true)}
-                >
-                  <DeleteRoundedIcon />
-                </IconButton>
-              )}
-              <Slide
-                in={deleteConfirm}
-                direction={direction === "rtl" ? "right" : "left"}
-                mountOnEnter
-                unmountOnExit
-              >
-                <div>
-                  <Button
-                    style={{ color: theme.palette.error.main }}
-                    size="small"
-                    onClick={handleConfirmDelete}
-                  >
-                    DELETE
-                  </Button>
-                  <Button
-                    style={{ color: theme.palette.action.disabled }}
-                    size="small"
-                    onClick={() => setDeleteConfirm(false)}
-                  >
-                    CANCEL
-                  </Button>
-                </div>
-              </Slide>
-            </div>
+            <EventActions
+              event={event}
+              onDelete={handleDelete}
+              onEdit={() => {
+                triggerViewer();
+                triggerDialog(true, event);
+              }}
+              direction={direction}
+              deletable={deletable}
+              editable={editable}
+            />
           </div>
           {viewerTitleComponent instanceof Function ? (
             viewerTitleComponent(event)

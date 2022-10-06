@@ -44,7 +44,10 @@ interface CalendarEvent {
   title: string;
   start: Date;
   end: Date;
-  // description?: string;
+  disabled?: boolean;
+  color?: string;
+  editable?: boolean;
+  deletable?: boolean;
 }
 
 export type InputTypes = "input" | "date" | "select" | "hidden";
@@ -190,5 +193,15 @@ export interface SchedulerProps {
     updatedEvent: ProcessedEvent,
     originalEvent: ProcessedEvent
   ): Promise<ProcessedEvent | void>;
+  /**
+   * If event is deletable, applied to all events globally, overridden by event specific deletable prop
+   * @default true
+   */
+  deletable?: boolean;
+  /**
+   * If event is editable, applied to all events globally, overridden by event specific editable prop
+   * @default true
+   */
+  editable?: boolean;
 }
 export interface Scheduler extends Partial<SchedulerProps> {}
