@@ -22,7 +22,7 @@ import { useAppState } from "../hooks/useAppState";
 import { CellRenderedProps, DayHours, DefaultRecourse, ProcessedEvent } from "../types";
 import { calcCellHeight, calcMinuteHeight, getResourcedEvents } from "../helpers/generals";
 import { WithResources } from "../components/common/WithResources";
-import { Cell } from "../components/common/Cell";
+import Cell from "../components/common/Cell";
 import TodayEvents from "../components/events/TodayEvents";
 import { TableGrid } from "../styles/styles";
 import { MULTI_DAY_EVENT_HEIGHT } from "../helpers/constants";
@@ -40,7 +40,6 @@ const Day = () => {
     selectedDate,
     events,
     height,
-    triggerDialog,
     remoteEvents,
     triggerLoading,
     handleState,
@@ -182,28 +181,15 @@ const Day = () => {
                   />
                 )}
                 {/* Cell */}
-                {cellRenderer ? (
-                  cellRenderer({
-                    day: selectedDate,
-                    start,
-                    end,
-                    height: CELL_HEIGHT,
-                    onClick: () =>
-                      triggerDialog(true, {
-                        start,
-                        end,
-                        [field]: resource ? resource[field] : null,
-                      }),
-                    [field]: resource ? resource[field] : null,
-                  })
-                ) : (
-                  <Cell
-                    start={start}
-                    end={end}
-                    resourceKey={field}
-                    resourceVal={resource ? resource[field] : null}
-                  />
-                )}
+                <Cell
+                  start={start}
+                  end={end}
+                  day={selectedDate}
+                  height={CELL_HEIGHT}
+                  resourceKey={field}
+                  resourceVal={resource ? resource[field] : null}
+                  cellRenderer={cellRenderer}
+                />
               </span>
             </Fragment>
           );

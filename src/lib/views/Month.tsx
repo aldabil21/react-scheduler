@@ -15,7 +15,7 @@ import { useAppState } from "../hooks/useAppState";
 import { CellRenderedProps, DayHours, DefaultRecourse } from "../types";
 import { getResourcedEvents } from "../helpers/generals";
 import { WithResources } from "../components/common/WithResources";
-import { Cell } from "../components/common/Cell";
+import Cell from "../components/common/Cell";
 import { TableGrid } from "../styles/styles";
 
 export type WeekDays = 0 | 1 | 2 | 3 | 4 | 5 | 6;
@@ -36,7 +36,6 @@ const Month = () => {
     handleGotoDay,
     remoteEvents,
     triggerLoading,
-    triggerDialog,
     handleState,
     resources,
     resourceFields,
@@ -98,29 +97,15 @@ const Month = () => {
         const field = resourceFields.idField;
         return (
           <span style={{ height: CELL_HEIGHT }} key={d.toString()} className="rs__cell">
-            {cellRenderer ? (
-              cellRenderer({
-                day: selectedDate,
-                start,
-                end,
-                height: CELL_HEIGHT,
-                onClick: () =>
-                  triggerDialog(true, {
-                    start,
-                    end,
-                    [field]: resource ? resource[field] : null,
-                  }),
-                [field]: resource ? resource[field] : null,
-              })
-            ) : (
-              <Cell
-                start={start}
-                end={end}
-                resourceKey={field}
-                resourceVal={resource ? resource[field] : null}
-              />
-            )}
-
+            <Cell
+              start={start}
+              end={end}
+              day={selectedDate}
+              height={CELL_HEIGHT}
+              resourceKey={field}
+              resourceVal={resource ? resource[field] : null}
+              cellRenderer={cellRenderer}
+            />
             <Fragment>
               <Avatar
                 style={{

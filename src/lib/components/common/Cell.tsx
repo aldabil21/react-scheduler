@@ -1,48 +1,44 @@
-import { alpha, Button, useTheme } from "@mui/material";
-import { useAppState } from "../../hooks/useAppState";
+import { Button } from "@mui/material";
+import { useDropAttributes } from "../../hooks/useDropAttributes";
+import { CellRenderedProps } from "../../types";
 
 interface CellProps {
+  day: Date;
   start: Date;
+  height: number;
   end: Date;
   resourceKey: string;
   resourceVal: string | number;
+  cellRenderer?(props: CellRenderedProps): JSX.Element;
   children?: JSX.Element;
 }
 
-const Cell = ({ start, end, resourceKey, resourceVal, children }: CellProps) => {
-  const { triggerDialog, onDrop } = useAppState();
-  const theme = useTheme();
+const Cell = ({
+  day,
+  start,
+  end,
+  resourceKey,
+  resourceVal,
+  cellRenderer,
+  height,
+  children,
+}: CellProps) => {
+  const props = useDropAttributes({ start, end, resourceKey, resourceVal });
 
+  if (cellRenderer) {
+    return cellRenderer({
+      day,
+      start,
+      end,
+      height,
+      ...props,
+    });
+  }
   return (
-    <Button
-      fullWidth
-      onClick={() => {
-        triggerDialog(true, {
-          start,
-          end,
-          [resourceKey]: resourceVal,
-        });
-      }}
-      onDragOver={(e) => {
-        e.currentTarget.style.backgroundColor = alpha(theme.palette.secondary.main, 0.3);
-        e.preventDefault();
-      }}
-      onDragEnter={(e) => {
-        e.currentTarget.style.backgroundColor = alpha(theme.palette.secondary.main, 0.3);
-      }}
-      onDragLeave={(e) => {
-        e.currentTarget.style.backgroundColor = "";
-      }}
-      onDrop={(e) => {
-        e.preventDefault();
-        e.currentTarget.style.backgroundColor = "";
-        const eventId = e.dataTransfer.getData("text");
-        onDrop(eventId, start, resourceKey, resourceVal);
-      }}
-    >
+    <Button fullWidth {...props}>
       {children}
     </Button>
   );
 };
 
-export { Cell };
+export default Cell;
