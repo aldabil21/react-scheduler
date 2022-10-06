@@ -24,7 +24,7 @@ import { CellRenderedProps, DayHours, DefaultRecourse, ProcessedEvent } from "..
 import { WeekDays } from "./Month";
 import { calcCellHeight, calcMinuteHeight, getResourcedEvents } from "../helpers/generals";
 import { WithResources } from "../components/common/WithResources";
-import { Cell } from "../components/common/Cell";
+import Cell from "../components/common/Cell";
 import TodayEvents from "../components/events/TodayEvents";
 import { TableGrid } from "../styles/styles";
 import { MULTI_DAY_EVENT_HEIGHT } from "../helpers/constants";
@@ -44,7 +44,6 @@ const Week = () => {
     selectedDate,
     height,
     events,
-    triggerDialog,
     handleGotoDay,
     remoteEvents,
     triggerLoading,
@@ -207,28 +206,15 @@ const Week = () => {
                       direction={direction}
                     />
                   )}
-                  {cellRenderer ? (
-                    cellRenderer({
-                      day: date,
-                      start,
-                      end,
-                      height: CELL_HEIGHT,
-                      onClick: () =>
-                        triggerDialog(true, {
-                          start,
-                          end,
-                          [field]: resource ? resource[field] : null,
-                        }),
-                      [field]: resource ? resource[field] : null,
-                    })
-                  ) : (
-                    <Cell
-                      start={start}
-                      end={end}
-                      resourceKey={field}
-                      resourceVal={resource ? resource[field] : null}
-                    />
-                  )}
+                  <Cell
+                    start={start}
+                    end={end}
+                    day={date}
+                    height={CELL_HEIGHT}
+                    resourceKey={field}
+                    resourceVal={resource ? resource[field] : null}
+                    cellRenderer={cellRenderer}
+                  />
                 </span>
               );
             })}
