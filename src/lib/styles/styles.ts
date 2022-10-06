@@ -97,7 +97,7 @@ export const TableGrid = styled("div")<{ days: number; indent?: string }>(
   })
 );
 
-export const PopperInner = styled("div")(() => ({
+export const PopperInner = styled("div")(({ theme }) => ({
   minWidth: 400,
   maxWidth: "95%",
   "& > div": {
@@ -106,6 +106,24 @@ export const PopperInner = styled("div")(() => ({
       display: "flex",
       alignItems: "center",
       justifyContent: "space-between",
+      "& .MuiIconButton-root": {
+        color: theme.palette.primary.contrastText,
+      },
+    },
+  },
+}));
+
+export const EventActions = styled("div")(({ theme }) => ({
+  display: "inherit",
+  "& .MuiIconButton-root": {
+    color: theme.palette.primary.contrastText,
+  },
+  "& .MuiButton-root": {
+    "&.delete": {
+      color: theme.palette.error.main,
+    },
+    "&.cancel": {
+      color: theme.palette.action.disabled,
     },
   },
 }));

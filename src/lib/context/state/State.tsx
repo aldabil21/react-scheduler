@@ -82,7 +82,9 @@ const AppState = ({ initial, children }: AppProps) => {
   const confirmEvent = (event: ProcessedEvent, action: EventActions) => {
     let updatedEvents: ProcessedEvent[];
     if (action === "edit") {
-      updatedEvents = state.events.map((e) => (e.event_id === event.event_id ? event : e));
+      updatedEvents = state.events.map((e) =>
+        e.event_id === event.event_id ? { ...e, ...event } : e
+      );
     } else {
       updatedEvents = [...state.events, event];
     }
