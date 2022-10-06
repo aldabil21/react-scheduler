@@ -6,6 +6,7 @@ import { DialogProps, GridSize } from "@mui/material";
 import { Locale } from "date-fns";
 import { SelectOption } from "./components/inputs/SelectInput";
 import { View } from "./components/nav/Navigation";
+import { DragEvent } from "react";
 
 export type DayHours =
   | 0
@@ -38,6 +39,10 @@ export interface CellRenderedProps {
   end: Date;
   height: number;
   onClick(): void;
+  onDragOver(e: DragEvent<HTMLButtonElement>): void;
+  onDragEnter(e: DragEvent<HTMLButtonElement>): void;
+  onDragLeave(e: DragEvent<HTMLButtonElement>): void;
+  onDrop(e: DragEvent<HTMLButtonElement>): void;
 }
 interface CalendarEvent {
   event_id: number | string;

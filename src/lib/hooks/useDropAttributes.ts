@@ -1,4 +1,5 @@
 import { alpha, useTheme } from "@mui/material";
+import { DragEvent } from "react";
 import { useAppState } from "./useAppState";
 
 interface Props {
@@ -19,17 +20,17 @@ export const useDropAttributes = ({ start, end, resourceKey, resourceVal }: Prop
         [resourceKey]: resourceVal,
       });
     },
-    onDragOver: (e: any) => {
+    onDragOver: (e: DragEvent<HTMLButtonElement>) => {
       e.currentTarget.style.backgroundColor = alpha(theme.palette.secondary.main, 0.3);
       e.preventDefault();
     },
-    onDragEnter: (e: any) => {
+    onDragEnter: (e: DragEvent<HTMLButtonElement>) => {
       e.currentTarget.style.backgroundColor = alpha(theme.palette.secondary.main, 0.3);
     },
-    onDragLeave: (e: any) => {
+    onDragLeave: (e: DragEvent<HTMLButtonElement>) => {
       e.currentTarget.style.backgroundColor = "";
     },
-    onDrop: (e: any) => {
+    onDrop: (e: DragEvent<HTMLButtonElement>) => {
       e.preventDefault();
       e.currentTarget.style.backgroundColor = "";
       const eventId = e.dataTransfer.getData("text");
