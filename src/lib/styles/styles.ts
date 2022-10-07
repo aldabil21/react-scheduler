@@ -4,7 +4,7 @@ export const Wrapper = styled("div")<{ dialog: number }>(({ theme, dialog }) => 
   position: "relative",
   overflow: "hidden",
   "& .rs__table_loading": {
-    background: !!dialog ? "" : alpha(theme.palette.background.paper, 0.4),
+    background: dialog ? "" : alpha(theme.palette.background.paper, 0.4),
     position: "absolute",
     left: 0,
     right: 0,

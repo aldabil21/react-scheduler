@@ -18,7 +18,7 @@ const MonthDateBtn = ({ selectedDate, onChange }: MonthDateBtnProps) => {
 
   const toggleDialog = () => setOpen(!open);
 
-  const handleChange = (e: Date | null, k?: string) => {
+  const handleChange = (e: Date | null) => {
     onChange(e || new Date(), "selectedDate");
   };
   const handlePrev = () => {

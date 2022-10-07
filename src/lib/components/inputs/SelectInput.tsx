@@ -71,7 +71,7 @@ const EditorSelect = ({
     }
   };
   const handleChange = (value: string | any) => {
-    let val = value;
+    const val = value;
     let isValid = true;
     let errorMsg = errMsg;
     if (required && (multiple ? !val.length : !val)) {
@@ -112,7 +112,7 @@ const EditorSelect = ({
             if (!selected || selected.length === 0) {
               return <em>{label}</em>;
             }
-            let text = [];
+            const text = [];
             if (multiple) {
               for (const opt of options) {
                 if (selected.includes(opt.value)) {

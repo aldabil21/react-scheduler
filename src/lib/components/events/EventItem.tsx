@@ -256,7 +256,7 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
       <Popover
         open={Boolean(anchorEl)}
         anchorEl={anchorEl}
-        onClose={(e) => {
+        onClose={() => {
           triggerViewer();
         }}
         anchorOrigin={{

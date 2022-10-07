@@ -12,7 +12,9 @@
     "local:pack": "npm run pack && cd dist && npm pack && mv *.tgz ../",
     "post:pack": "node ./scripts/post-pack.js",
     "format": "prettier --check .",
-    "format:write": "prettier --write ."
+    "format:write": "prettier --write .",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "repository": {
     "type": "git",
@@ -41,12 +43,16 @@
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.0.2",
     "@types/react-dom": "^18.0.6",
+    "@typescript-eslint/eslint-plugin": "^5.39.0",
+    "@typescript-eslint/parser": "^5.39.0",
+    "eslint": "^8.24.0",
+    "eslint-plugin-react": "^7.31.8",
     "prettier": "^2.7.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "^5.0.1",
     "ts-loader": "^8.3.0",
-    "typescript": "^4.4.4",
+    "typescript": "^4.8.4",
     "webpack-cli": "^4.7.0",
     "webpack-node-externals": "^3.0.0"
   },

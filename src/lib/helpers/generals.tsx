@@ -21,7 +21,7 @@ export const getOneView = (state: Partial<SchedulerProps>): View => {
 };
 
 export const getAvailableViews = (state: SchedulerProps) => {
-  let views: View[] = [];
+  const views: View[] = [];
   if (state.month) {
     views.push("month");
   }
@@ -50,7 +50,7 @@ export const getResourcedEvents = (
   const resourceField = fields.find((f) => f.name === keyName);
   const isMultiple = !!resourceField?.config?.multiple;
 
-  let recousedEvents = [];
+  const recousedEvents = [];
 
   for (const event of events) {
     // Handle single select & multiple select accordingly

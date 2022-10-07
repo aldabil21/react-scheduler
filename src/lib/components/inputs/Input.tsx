@@ -49,7 +49,7 @@ const EditorInput = ({
     // eslint-disable-next-line
   }, [touched]);
   const handleChange = (value: string) => {
-    let val = value;
+    const val = value;
     let isValid = true;
     let errorMsg = "";
     if (email) {

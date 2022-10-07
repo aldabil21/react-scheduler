@@ -79,7 +79,7 @@ const Navigation = () => {
               <Popover
                 open={Boolean(anchorEl)}
                 anchorEl={anchorEl}
-                onClose={(e) => {
+                onClose={() => {
                   toggleMoreMenu();
                 }}
                 anchorOrigin={{

@@ -25,7 +25,7 @@ const TodayEvents = ({
 
   return (
     <Fragment>
-      {todayEvents.map((event, i) => {
+      {todayEvents.map((event) => {
         const height = differenceInMinutes(event.end, event.start) * minuteHeight;
         const minituesFromTop = differenceInMinutes(event.start, setHours(today, startHour));
         const topSpace = minituesFromTop * minuteHeight; //+ headerHeight;

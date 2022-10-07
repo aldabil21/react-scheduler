@@ -1,9 +1,9 @@
-import * as React from "react";
+// import * as React from "react";
 import { Scheduler } from "./lib";
 import { EVENTS } from "./events";
 
 function App() {
-  const [events, setEvents] = React.useState(EVENTS);
+  // const [events, setEvents] = React.useState(EVENTS);
   return (
     <Scheduler
       events={EVENTS}
