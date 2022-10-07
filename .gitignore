@@ -1,6 +1,6 @@
 dist
 .vscode
-./examples
+examples
 
 # dependencies
 /node_modules
