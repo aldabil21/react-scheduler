@@ -1,4 +1,4 @@
-import type { ProcessedEvent } from "../lib/types";
+import { ProcessedEvent } from "@aldabil/react-scheduler/types";
 
 export const EVENTS: ProcessedEvent[] = [
   {
