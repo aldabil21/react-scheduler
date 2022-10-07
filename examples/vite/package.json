@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@aldabil/react-scheduler": "file:../../dist/aldabil-react-scheduler-2.3.10.tgz",
+    "@aldabil/react-scheduler": "^2.3.10",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
     "@mui/icons-material": "^5.10.6",

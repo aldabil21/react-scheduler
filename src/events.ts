@@ -1,6 +1,6 @@
-// import { ProcessedEvent } from "@aldabil/react-scheduler/dist/types";
+import { ProcessedEvent } from "./lib/types";
 
-export const EVENTS = [
+export const EVENTS: ProcessedEvent[] = [
   {
     event_id: 1,
     title: "Event 1",

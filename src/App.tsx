@@ -1,14 +1,12 @@
-import "./App.css";
-import { Scheduler } from "@aldabil/react-scheduler";
-// import { EVENTS } from "./events";
+import * as React from "react";
+import { Scheduler } from "./lib";
+import { EVENTS } from "./events";
 
 function App() {
+  const [events, setEvents] = React.useState(EVENTS);
   return (
-    <div className="App">
-      <h1>Scheduler</h1>
-
-      <Scheduler
-      // events={EVENTS}
+    <Scheduler
+      events={EVENTS}
       // dialogMaxWidth="sm"
       // loading={loading}
       // view="month"
@@ -192,8 +190,7 @@ function App() {
       //     }, 1000);
       //   });
       // }}
-      />
-    </div>
+    />
   );
 }
 

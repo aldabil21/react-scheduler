@@ -1,16 +1,10 @@
-import { AppState } from "./context/state/State";
-import { defaultProps } from "./context/state/stateContext";
-import { SchedulerComponent } from "./SchedulerComponent";
-import { Scheduler as SchedulerProps } from "./types";
+import * as React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
 
-const Scheduler = (props: SchedulerProps) => {
-  return (
-    <AppState initial={props}>
-      <SchedulerComponent />
-    </AppState>
-  );
-};
-
-Scheduler.defaultProps = defaultProps;
-
-export { Scheduler };
+const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);

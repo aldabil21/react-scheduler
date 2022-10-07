@@ -1,5 +1,6 @@
 dist
 .vscode
+./examples
 
 # dependencies
 /node_modules
