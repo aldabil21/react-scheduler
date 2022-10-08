@@ -30,7 +30,7 @@ const MonthDateBtn = ({ selectedDate, onChange }: MonthDateBtnProps) => {
     onChange(setMonth(selectedDate, nextMonth), "selectedDate");
   };
   return (
-    <div>
+    <>
       <LocaleArrow type="prev" onClick={handlePrev} />
       <DateProvider>
         <DatePicker
@@ -48,7 +48,7 @@ const MonthDateBtn = ({ selectedDate, onChange }: MonthDateBtnProps) => {
         />
       </DateProvider>
       <LocaleArrow type="next" onClick={handleNext} />
-    </div>
+    </>
   );
 };
 

@@ -18,5 +18,5 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "noEmit": false
   },
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "./jest.config.ts"]
 }

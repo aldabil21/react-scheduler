@@ -48,8 +48,8 @@ const Navigation = () => {
         alignItems: "center",
       }}
     >
-      {renderDateSelector()}
-      <div>
+      <div data-testid="date-navigator">{renderDateSelector()}</div>
+      <div data-testid="view-navigator">
         <Button onClick={() => handleState(new Date(), "selectedDate")}>Today</Button>
         {views.length > 1 &&
           (isDesktop ? (
