@@ -9,7 +9,7 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:react/jsx-runtime"
   ],
-  "ignorePatterns": ["**/webpack.config.js", "/scripts", "/dist"],
+  "ignorePatterns": ["**/webpack.config.js", "/scripts", "/dist", "/.husky"],
   "overrides": [],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {

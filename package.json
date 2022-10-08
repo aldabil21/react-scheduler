@@ -14,7 +14,20 @@
     "format": "prettier --check .",
     "format:write": "prettier --write .",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "prepare": "husky install",
+    "pre:commit": "lint-staged"
+  },
+  "lint-staged": {
+    "**/**.{ts,tsx}": [
+      "tsc --noEmit"
+    ],
+    "**/*.{ts,js,tsx,jsx}": [
+      "npm run lint"
+    ],
+    "**/*.{ts,js,tsx,jsx,json,md,yml}": [
+      "npm run format:write"
+    ]
   },
   "repository": {
     "type": "git",
@@ -47,6 +60,7 @@
     "@typescript-eslint/parser": "^5.39.0",
     "eslint": "^8.24.0",
     "eslint-plugin-react": "^7.31.8",
+    "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -54,7 +68,8 @@
     "ts-loader": "^8.3.0",
     "typescript": "^4.8.4",
     "webpack-cli": "^4.7.0",
-    "webpack-node-externals": "^3.0.0"
+    "webpack-node-externals": "^3.0.0",
+    "husky": "^8.0.0"
   },
   "peerDependencies": {
     "@mui/icons-material": ">=5.0.0",
