@@ -41,7 +41,7 @@
   ],
   "author": "Aldabil",
   "license": "MIT",
-  "//homepage": "https://github.com/aldabil21/react-scheduler#readme",
+  "homepage": "",
   "bugs": {
     "url": "https://github.com/aldabil21/react-scheduler/issues"
   },
@@ -60,16 +60,16 @@
     "@typescript-eslint/parser": "^5.39.0",
     "eslint": "^8.24.0",
     "eslint-plugin-react": "^7.31.8",
+    "husky": "^8.0.0",
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "^5.0.1",
-    "ts-loader": "^8.3.0",
+    "ts-loader": "^9.4.1",
     "typescript": "^4.8.4",
     "webpack-cli": "^4.7.0",
-    "webpack-node-externals": "^3.0.0",
-    "husky": "^8.0.0"
+    "webpack-node-externals": "^3.0.0"
   },
   "peerDependencies": {
     "@mui/icons-material": ">=5.0.0",
