@@ -4,6 +4,7 @@ import { EVENTS } from "./events";
 
 function App() {
   // const [events, setEvents] = React.useState(EVENTS);
+
   return (
     <Scheduler
       events={EVENTS}
