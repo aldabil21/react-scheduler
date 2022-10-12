@@ -98,8 +98,8 @@ export const TableGrid = styled("div")<{ days: number; indent?: string }>(
 );
 
 export const PopperInner = styled("div")(({ theme }) => ({
-  minWidth: 400,
-  maxWidth: "95%",
+  width: "100%",
+  maxWidth: 400,
   "& > div": {
     padding: "5px 10px",
     "& .rs__popper_actions": {
