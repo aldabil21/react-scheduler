@@ -2,6 +2,7 @@ import DeleteRounded from "@mui/icons-material/DeleteRounded";
 import EditRounded from "@mui/icons-material/EditRounded";
 import { Button, Grow, IconButton, Slide } from "@mui/material";
 import { useMemo, useState } from "react";
+import { useAppState } from "../../hooks/useAppState";
 import { EventActions as Actions } from "../../styles/styles";
 import { ProcessedEvent } from "../../types";
 
@@ -15,6 +16,7 @@ interface Props {
 }
 
 const EventActions = ({ event, onDelete, onEdit, direction, editable, deletable }: Props) => {
+  const { translations } = useAppState();
   const [deleteConfirm, setDeleteConfirm] = useState(false);
 
   const handleDelete = () => {
@@ -65,10 +67,10 @@ const EventActions = ({ event, onDelete, onEdit, direction, editable, deletable 
       >
         <div>
           <Button className="delete" size="small" onClick={handleDelete}>
-            DELETE
+            {translations.form.delete.toUpperCase()}
           </Button>
           <Button className="cancel" size="small" onClick={() => setDeleteConfirm(false)}>
-            CANCEL
+            {translations.form.cancel.toUpperCase()}
           </Button>
         </div>
       </Slide>

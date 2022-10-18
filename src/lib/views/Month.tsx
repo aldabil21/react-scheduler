@@ -41,6 +41,7 @@ const Month = () => {
     resourceFields,
     fields,
     locale,
+    hourFormat,
   } = useAppState();
 
   const { weekStartOn, weekDays, startHour, endHour, cellRenderer } = month!;
@@ -53,6 +54,7 @@ const Month = () => {
     },
     { weekStartsOn: weekStartOn }
   );
+  const hFormat = hourFormat === "12" ? "hh:mm a" : "HH:mm";
   const daysList = weekDays.map((d) => addDays(eachWeekStart[0], d));
   const CELL_HEIGHT = height / eachWeekStart.length;
   const theme = useTheme();
@@ -92,8 +94,8 @@ const Month = () => {
     for (const startDay of eachWeekStart) {
       const cells = weekDays.map((d) => {
         const today = addDays(startDay, d);
-        const start = new Date(`${format(setHours(today, startHour), "yyyy/MM/dd hh:mm a")}`);
-        const end = new Date(`${format(setHours(today, endHour), "yyyy/MM/dd hh:mm a")}`);
+        const start = new Date(`${format(setHours(today, startHour), `yyyy/MM/dd ${hFormat}`)}`);
+        const end = new Date(`${format(setHours(today, endHour), `yyyy/MM/dd ${hFormat}`)}`);
         const field = resourceFields.idField;
         return (
           <span style={{ height: CELL_HEIGHT }} key={d.toString()} className="rs__cell">

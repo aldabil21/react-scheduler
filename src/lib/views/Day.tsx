@@ -48,6 +48,7 @@ const Day = () => {
     fields,
     direction,
     locale,
+    hourFormat,
   } = useAppState();
 
   const { startHour, endHour, step, cellRenderer } = day!;
@@ -62,6 +63,7 @@ const Day = () => {
   );
   const CELL_HEIGHT = calcCellHeight(height, hours.length);
   const MINUTE_HEIGHT = calcMinuteHeight(CELL_HEIGHT, step);
+  const hFormat = hourFormat === "12" ? "hh:mm a" : "HH:mm";
   const todayEvents = events.sort((b, a) => a.end.getTime() - b.end.getTime());
 
   const fetchEvents = useCallback(async () => {
@@ -151,9 +153,9 @@ const Day = () => {
 
         {/* Body */}
         {hours.map((h, i) => {
-          const start = new Date(`${format(selectedDate, "yyyy/MM/dd")} ${format(h, "hh:mm a")}`);
+          const start = new Date(`${format(selectedDate, "yyyy/MM/dd")} ${format(h, hFormat)}`);
           const end = new Date(
-            `${format(selectedDate, "yyyy/MM/dd")} ${format(addMinutes(h, step), "hh:mm a")}`
+            `${format(selectedDate, "yyyy/MM/dd")} ${format(addMinutes(h, step), hFormat)}`
           );
           const field = resourceFields.idField;
 
@@ -161,9 +163,7 @@ const Day = () => {
             <Fragment key={i}>
               {/* Time Cells */}
               <span className="rs__cell rs__header rs__time" style={{ height: CELL_HEIGHT }}>
-                <Typography variant="caption">
-                  {format(h, "hh:mm a", { locale: locale })}
-                </Typography>
+                <Typography variant="caption">{format(h, hFormat, { locale: locale })}</Typography>
               </span>
 
               <span className={`rs__cell ${isToday(selectedDate) ? "rs__today_cell" : ""}`}>

@@ -14,6 +14,7 @@ import { ProcessedEvent } from "../../types";
 import { Typography } from "@mui/material";
 import EventItem from "./EventItem";
 import { MONTH_NUMBER_HEIGHT, MULTI_DAY_EVENT_HEIGHT } from "../../helpers/constants";
+import { useAppState } from "../../hooks/useAppState";
 
 interface MonthEventProps {
   events: ProcessedEvent[];
@@ -33,6 +34,7 @@ const MonthEvents = ({
   cellHeight,
 }: MonthEventProps) => {
   const LIMIT = Math.round((cellHeight - MONTH_NUMBER_HEIGHT) / MULTI_DAY_EVENT_HEIGHT - 1);
+  const { translations } = useAppState();
   const eachFirstDayInCalcRow = eachWeekStart.some((date) => isSameDay(date, today)) ? today : null;
 
   const todayEvents = events
@@ -99,7 +101,7 @@ const MonthEvents = ({
               onViewMore(event.start);
             }}
           >
-            {`${Math.abs(todayEvents.length - i)} More...`}
+            {`${Math.abs(todayEvents.length - i)} ${translations.moreEvents}`}
           </Typography>
         ) : (
           <div
