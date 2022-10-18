@@ -62,6 +62,8 @@ import { Scheduler } from "@aldabil/react-scheduler";
 | direction               | string. Table direction. "rtl", "ltr"                                                                                                                                                                                                                                                                                                                                                                                     |
 | dialogMaxWidth          | Edito dialog maxWith. Ex: "lg", "md", "sm"... _Default_:"md"                                                                                                                                                                                                                                                                                                                                                              |
 | locale                  | Locale of date-fns. _Default_:enUS                                                                                                                                                                                                                                                                                                                                                                                        |
+| hourFormat              | Hour format. <br>_Options_: "12", "24"..._Default_: "12"                                                                                                                                                                                                                                                                                                                                                                  |
+| translations            | Object. Translations view props. <br> _default_: <pre>{<br> navigation: {<br> month: "Month",<br> week: "Week",<br> day: "Day",<br> today: "Today"<br> },<br> form: {<br> addTitle: "Add Event",<br> editTitle: "Edit Event",<br> confirm: "Confirm",<br> delete: "Delete",<br> cancel: "Cancel"<br> },<br> event: {<br> title: "Title",<br> start: "Start",<br> end: "End"<br> },<br> moreEvents: "More..."<br>}</pre>   |
 | onEventDrop             | Function(droppedOn: Date, updatedEvent: ProcessedEvent, originalEvent: ProcessedEvent). Return a promise, used to update remote data of the dropped event. Return an event to update state internally, or void if event state is managed within component                                                                                                                                                                 |
 
 ### Demos
@@ -79,4 +81,5 @@ import { Scheduler } from "@aldabil/react-scheduler";
 - [x] Drag&Drop - partially
 - [ ] Resizable
 - [ ] Recurring events
-- [ ] Localization
+- [x] Localization
+- [x] Hour format 12 | 24
