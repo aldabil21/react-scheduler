@@ -178,7 +178,29 @@ function App() {
       // }}
       // viewerTitleComponent={(event) => <>{event.title}</>}
       // direction="rtl"
-      // locale={arSA}
+      //  locale={ptBR}
+      //  hourFormat={"24"}
+      //  translations={{
+      //   navigation: {
+      //     month: "Mês",
+      //     week: "Semana",
+      //     day: "Dia",
+      //     today: "Hoje"
+      //   },
+      //   form: {
+      //     addTitle: "Novo Evento",
+      //     editTitle: "Editar Evento",
+      //     confirm: "Confirmar",
+      //     delete: "Excluir",
+      //     cancel: "Cancelar",
+      //   },
+      //   event: {
+      //     title: "Título",
+      //     start: "Início",
+      //     end: "Fim"
+      //   },
+      //   moreEvents: "mais..."
+      // }}
       // onEventDrop={async (time, updated) => {
       //   return new Promise((res) => {
       //     setTimeout(() => {

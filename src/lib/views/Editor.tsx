@@ -88,6 +88,7 @@ const Editor = () => {
     customEditor,
     confirmEvent,
     dialogMaxWidth,
+    translations,
   } = useAppState();
   const [state, setState] = useState(initialState(fields, selectedEvent || selectedRange));
   const [touched, setTouched] = useState(false);
@@ -154,6 +155,7 @@ const Editor = () => {
             onChange={handleEditorState}
             touched={touched}
             {...stateItem.config}
+            label={translations.event[key] || stateItem.config?.label}
           />
         );
       case "date":
@@ -163,6 +165,7 @@ const Editor = () => {
             name={key}
             onChange={(...args) => handleEditorState(...args, true)}
             {...stateItem.config}
+            label={translations.event[key] || stateItem.config?.label}
           />
         );
       case "select":
@@ -175,6 +178,7 @@ const Editor = () => {
             onChange={handleEditorState}
             touched={touched}
             {...stateItem.config}
+            label={translations.event[key] || stateItem.config?.label}
           />
         );
       default:
@@ -195,7 +199,9 @@ const Editor = () => {
     }
     return (
       <Fragment>
-        <DialogTitle>{selectedEvent ? "Edit Event" : "Add Event"}</DialogTitle>
+        <DialogTitle>
+          {selectedEvent ? translations.form.editTitle : translations.form.addTitle}
+        </DialogTitle>
         <DialogContent style={{ overflowX: "hidden" }}>
           <Grid container spacing={1}>
             {Object.keys(state).map((key) => {
@@ -210,10 +216,10 @@ const Editor = () => {
         </DialogContent>
         <DialogActions>
           <Button color="inherit" fullWidth onClick={() => handleClose()}>
-            Cancel
+            {translations.form.cancel}
           </Button>
           <Button color="primary" fullWidth onClick={handleConfirm}>
-            Confirm
+            {translations.form.confirm}
           </Button>
         </DialogActions>
       </Fragment>

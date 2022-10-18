@@ -35,10 +35,12 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
     viewerTitleComponent,
     editable,
     deletable,
+    hourFormat,
   } = useAppState();
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState(false);
   const theme = useTheme();
+  const hFormat = hourFormat === "12" ? "hh:mm a" : "HH:mm";
 
   const NextArrow = direction === "rtl" ? ArrowLeftRoundedIcon : ArrowRightRoundedIcon;
   const PrevArrow = direction === "rtl" ? ArrowRightRoundedIcon : ArrowLeftRoundedIcon;
@@ -82,9 +84,9 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
       </Typography>
       {showdate && (
         <Typography style={{ fontSize: 11 }} noWrap>
-          {`${format(event.start, "hh:mm a", {
+          {`${format(event.start, hFormat, {
             locale: locale,
-          })} - ${format(event.end, "hh:mm a", { locale: locale })}`}
+          })} - ${format(event.end, hFormat, { locale: locale })}`}
         </Typography>
       )}
     </div>
@@ -104,7 +106,7 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
           {hasPrev ? (
             <PrevArrow fontSize="small" sx={{ display: "flex" }} />
           ) : (
-            showdate && format(event.start, "hh:mm a", { locale: locale })
+            showdate && format(event.start, hFormat, { locale: locale })
           )}
         </Typography>
         <Typography variant="subtitle2" align="center" sx={{ fontSize: 12 }} noWrap>
@@ -114,7 +116,7 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
           {hasNext ? (
             <NextArrow fontSize="small" sx={{ display: "flex" }} />
           ) : (
-            showdate && format(event.end, "hh:mm a", { locale: locale })
+            showdate && format(event.end, hFormat, { locale: locale })
           )}
         </Typography>
       </div>
@@ -174,9 +176,9 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
             noWrap
           >
             <EventNoteRoundedIcon />{" "}
-            {`${format(event.start, "dd MMMM yyyy hh:mm a", {
+            {`${format(event.start, `dd MMMM yyyy ${hFormat}`, {
               locale: locale,
-            })} - ${format(event.end, "dd MMMM yyyy hh:mm a", {
+            })} - ${format(event.end, `dd MMMM yyyy ${hFormat}`, {
               locale: locale,
             })}`}
           </Typography>

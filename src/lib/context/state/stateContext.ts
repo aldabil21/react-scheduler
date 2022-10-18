@@ -71,6 +71,28 @@ export const defaultProps = {
   locale: enUS,
   deletable: true,
   editable: true,
+  translations: {
+    navigation: {
+      month: "Month",
+      week: "Week",
+      day: "Day",
+      today: "Today",
+    },
+    form: {
+      addTitle: "Add Event",
+      editTitle: "Edit Event",
+      confirm: "Confirm",
+      delete: "Delete",
+      cancel: "Cancel",
+    },
+    event: {
+      title: "Title",
+      start: "Start",
+      end: "End",
+    },
+    moreEvents: "More...",
+  },
+  hourFormat: "12",
 } as SchedulerProps;
 
 const StateContext = createContext<stateContext>({

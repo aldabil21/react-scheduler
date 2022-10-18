@@ -17,7 +17,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 export type View = "month" | "week" | "day";
 
 const Navigation = () => {
-  const { selectedDate, view, week, handleState, getViews } = useAppState();
+  const { selectedDate, view, week, handleState, getViews, translations } = useAppState();
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up("sm"));
@@ -50,7 +50,9 @@ const Navigation = () => {
     >
       <div data-testid="date-navigator">{renderDateSelector()}</div>
       <div data-testid="view-navigator">
-        <Button onClick={() => handleState(new Date(), "selectedDate")}>Today</Button>
+        <Button onClick={() => handleState(new Date(), "selectedDate")}>
+          {translations.navigation.today}
+        </Button>
         {views.length > 1 &&
           (isDesktop ? (
             views.map((v) => (
@@ -63,7 +65,7 @@ const Navigation = () => {
                   handleState(v, "view");
                 }}
               >
-                {v}
+                {translations.navigation[v]}
               </Button>
             ))
           ) : (
@@ -101,7 +103,7 @@ const Navigation = () => {
                         handleState(v, "view");
                       }}
                     >
-                      {v}
+                      {translations.navigation[v]}
                     </MenuItem>
                   ))}
                 </MenuList>
