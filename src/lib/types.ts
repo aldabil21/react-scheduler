@@ -54,6 +54,22 @@ interface CalendarEvent {
   editable?: boolean;
   deletable?: boolean;
 }
+export interface Translations {
+  navigation: Record<View, string> & { today: string };
+  form: {
+    addTitle: string;
+    editTitle: string;
+    confirm: string;
+    delete: string;
+    cancel: string;
+  };
+  event: Record<string, string> & {
+    title: string;
+    start: string;
+    end: string;
+  };
+  moreEvents: string;
+}
 
 export type InputTypes = "input" | "date" | "select" | "hidden";
 export interface FieldInputProps {
@@ -190,6 +206,14 @@ export interface SchedulerProps {
    * date-fns Locale object
    */
   locale: Locale;
+  /**
+   * Localization
+   */
+  translations: Translations;
+  /**
+   * Hour Format
+   */
+  hourFormat: "12" | "24";
   /**
    * Triggerd when event is dropped on time slot.
    */
