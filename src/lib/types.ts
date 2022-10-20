@@ -1,3 +1,4 @@
+import { DragEvent } from "react";
 import { DayProps } from "./views/Day";
 import { StateItem } from "./views/Editor";
 import { MonthProps } from "./views/Month";
@@ -6,7 +7,6 @@ import { DialogProps, GridSize } from "@mui/material";
 import { Locale } from "date-fns";
 import { SelectOption } from "./components/inputs/SelectInput";
 import { View } from "./components/nav/Navigation";
-import { DragEvent } from "react";
 
 export type DayHours =
   | 0
@@ -168,6 +168,8 @@ export interface SchedulerProps {
   selectedDate: Date;
   /**Events to display */
   events: ProcessedEvent[];
+  /** Custom event render method */
+  eventRenderer?: (event: ProcessedEvent) => JSX.Element | null;
   /**Async function to load remote data */
   remoteEvents?(query: string): Promise<ProcessedEvent[] | void>;
   /**Custom additional fields with it's settings */

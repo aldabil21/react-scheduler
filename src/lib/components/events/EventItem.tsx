@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import { Popover, Typography, ButtonBase, useTheme, IconButton, Paper } from "@mui/material";
 import { format } from "date-fns";
 import { ProcessedEvent } from "../../types";
@@ -36,6 +36,8 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
     editable,
     deletable,
     hourFormat,
+    eventRenderer,
+    view,
   } = useAppState();
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState(false);
@@ -201,6 +203,19 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
     );
   };
 
+  const renderEvent = useMemo(() => {
+    // Check if has custom render event method
+    // only applicable to non-multiday events and not in month-view
+    let ev = item;
+    if (typeof eventRenderer === "function" && !multiday && view !== "month") {
+      const custom = eventRenderer(event);
+      if (custom) {
+        ev = custom;
+      }
+    }
+    return ev;
+  }, []);
+
   return (
     <Fragment>
       <Paper
@@ -249,7 +264,7 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
               e.preventDefault();
             }}
           >
-            {item}
+            {renderEvent}
           </div>
         </ButtonBase>
       </Paper>

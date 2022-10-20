@@ -8,6 +8,7 @@ function App() {
   return (
     <Scheduler
       events={EVENTS}
+      // eventRenderer={(event) => <>{event.title}</>}
       // dialogMaxWidth="sm"
       // loading={loading}
       // view="month"
