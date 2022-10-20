@@ -38,6 +38,7 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
     hourFormat,
     eventRenderer,
     view,
+    draggable,
   } = useAppState();
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState(false);
@@ -215,7 +216,7 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
     }
     return ev;
   }, []);
-
+  const disabledDrag = event.disabledDragAndDrop || draggable;
   return (
     <Fragment>
       <Paper
@@ -242,20 +243,24 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
             display: "block",
           }}
         >
-          <div
+          {/* <div
             style={{
               height: "100%",
             }}
             draggable
             onDragStart={(e) => {
+              console.log("onDragStart");
+
               e.stopPropagation();
               e.dataTransfer.setData("text/plain", `${event.event_id}`);
               e.currentTarget.style.backgroundColor = theme.palette.error.main;
             }}
             onDragEnd={(e) => {
+              console.log("onDragEnd");
               e.currentTarget.style.backgroundColor = event.color || theme.palette.primary.main;
             }}
             onDragOver={(e) => {
+              console.log("onDragOver");
               e.stopPropagation();
               e.preventDefault();
             }}
@@ -265,7 +270,36 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
             }}
           >
             {renderEvent}
-          </div>
+          </div> */}
+
+          {disabledDrag ? (
+            <>{renderEvent}</>
+          ) : (
+            <div
+              style={{
+                height: "100%",
+              }}
+              draggable
+              onDragStart={(e) => {
+                e.stopPropagation();
+                e.dataTransfer.setData("text/plain", `${event.event_id}`);
+                e.currentTarget.style.backgroundColor = theme.palette.error.main;
+              }}
+              onDragEnd={(e) => {
+                e.currentTarget.style.backgroundColor = event.color || theme.palette.primary.main;
+              }}
+              onDragOver={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+              }}
+              onDragEnter={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+              }}
+            >
+              {renderEvent}
+            </div>
+          )}
         </ButtonBase>
       </Paper>
 

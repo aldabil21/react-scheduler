@@ -93,6 +93,7 @@ export const defaultProps = {
     moreEvents: "More...",
   },
   hourFormat: "12",
+  draggable: true,
 } as SchedulerProps;
 
 const StateContext = createContext<stateContext>({

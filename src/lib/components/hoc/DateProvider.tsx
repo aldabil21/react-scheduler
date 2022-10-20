@@ -3,7 +3,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { useAppState } from "../../hooks/useAppState";
 
 interface AuxProps {
-  children: React.ReactChild | React.ReactChildren;
+  children: React.ReactNode;
 }
 const DateProvider = ({ children }: AuxProps) => {
   const { locale } = useAppState();
