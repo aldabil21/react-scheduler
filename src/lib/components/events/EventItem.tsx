@@ -38,6 +38,7 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
     hourFormat,
     eventRenderer,
     view,
+    draggable,
   } = useAppState();
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState(false);
@@ -216,6 +217,20 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
     return ev;
   }, []);
 
+  const isDraggable = useMemo(() => {
+    // if Disabled
+    if (event.disabled) return false;
+
+    // global-wise isDraggable
+    let canDrag = typeof draggable !== "undefined" ? draggable : true;
+    // Override by event-wise
+    if (typeof event.draggable !== "undefined") {
+      canDrag = event.draggable;
+    }
+
+    return canDrag;
+  }, []);
+
   return (
     <Fragment>
       <Paper
@@ -246,7 +261,7 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
             style={{
               height: "100%",
             }}
-            draggable
+            draggable={isDraggable}
             onDragStart={(e) => {
               e.stopPropagation();
               e.dataTransfer.setData("text/plain", `${event.event_id}`);
