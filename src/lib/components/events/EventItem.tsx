@@ -249,18 +249,14 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
             }}
             draggable
             onDragStart={(e) => {
-              console.log("onDragStart");
-
               e.stopPropagation();
               e.dataTransfer.setData("text/plain", `${event.event_id}`);
               e.currentTarget.style.backgroundColor = theme.palette.error.main;
             }}
             onDragEnd={(e) => {
-              console.log("onDragEnd");
               e.currentTarget.style.backgroundColor = event.color || theme.palette.primary.main;
             }}
             onDragOver={(e) => {
-              console.log("onDragOver");
               e.stopPropagation();
               e.preventDefault();
             }}
