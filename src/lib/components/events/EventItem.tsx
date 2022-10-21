@@ -216,7 +216,21 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
     }
     return ev;
   }, []);
-  const disabledDrag = event.disabledDragAndDrop || draggable;
+
+  const isDraggable = useMemo(() => {
+    // if Disabled
+    if (event.disabled) return false;
+
+    // global-wise isDraggable
+    let canDrag = typeof draggable !== "undefined" ? draggable : true;
+    // Override by event-wise
+    if (typeof event.draggable !== "undefined") {
+      canDrag = event.draggable;
+    }
+
+    return canDrag;
+  }, []);
+
   return (
     <Fragment>
       <Paper
@@ -243,11 +257,11 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
             display: "block",
           }}
         >
-          {/* <div
+          <div
             style={{
               height: "100%",
             }}
-            draggable
+            draggable={isDraggable}
             onDragStart={(e) => {
               e.stopPropagation();
               e.dataTransfer.setData("text/plain", `${event.event_id}`);
@@ -266,36 +280,7 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
             }}
           >
             {renderEvent}
-          </div> */}
-
-          {disabledDrag ? (
-            <>{renderEvent}</>
-          ) : (
-            <div
-              style={{
-                height: "100%",
-              }}
-              draggable
-              onDragStart={(e) => {
-                e.stopPropagation();
-                e.dataTransfer.setData("text/plain", `${event.event_id}`);
-                e.currentTarget.style.backgroundColor = theme.palette.error.main;
-              }}
-              onDragEnd={(e) => {
-                e.currentTarget.style.backgroundColor = event.color || theme.palette.primary.main;
-              }}
-              onDragOver={(e) => {
-                e.stopPropagation();
-                e.preventDefault();
-              }}
-              onDragEnter={(e) => {
-                e.stopPropagation();
-                e.preventDefault();
-              }}
-            >
-              {renderEvent}
-            </div>
-          )}
+          </div>
         </ButtonBase>
       </Paper>
 

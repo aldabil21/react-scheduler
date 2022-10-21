@@ -53,7 +53,7 @@ interface CalendarEvent {
   color?: string;
   editable?: boolean;
   deletable?: boolean;
-  disabledDraggable?: boolean;
+  draggable?: boolean;
 }
 export interface Translations {
   navigation: Record<View, string> & { today: string };
@@ -236,7 +236,7 @@ export interface SchedulerProps {
    */
   editable?: boolean;
   /**
-   * If event is draggable, applied to all events globally, overridden by event specific editable prop
+   * If event is draggable, applied to all events globally, overridden by event specific draggable prop
    * @default true
    */
   draggable?: boolean;

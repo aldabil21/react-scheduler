@@ -14,6 +14,7 @@ function App() {
       // view="month"
       // editable={false}
       // deletable={false}
+      // draggable={false}
       // selectedDate={new Date()}
       // height={800}
       // week={{
