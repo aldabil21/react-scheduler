@@ -75,7 +75,7 @@ const Month = () => {
       triggerLoading(false);
     }
     // eslint-disable-next-line
-  }, [selectedDate]);
+  }, [selectedDate, remoteEvents]);
 
   useEffect(() => {
     if (remoteEvents instanceof Function) {
