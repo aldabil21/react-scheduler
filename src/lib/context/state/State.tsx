@@ -25,6 +25,7 @@ const initialState = (initial: Partial<SchedulerProps>): SchedulerState => {
 const AppState = ({ initial, children }: AppProps) => {
   const {
     events,
+    remoteEvents,
     resources,
     resourceViewMode,
     month,
@@ -50,6 +51,7 @@ const AppState = ({ initial, children }: AppProps) => {
     if (state.mounted) {
       updateProps({
         events,
+        remoteEvents,
         selectedDate,
         resources,
         resourceViewMode,
@@ -67,6 +69,7 @@ const AppState = ({ initial, children }: AppProps) => {
     //eslint-disable-next-line
   }, [
     events,
+    remoteEvents,
     selectedDate,
     resources,
     resourceViewMode,
