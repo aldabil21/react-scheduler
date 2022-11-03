@@ -36,7 +36,6 @@ const AppState = ({ initial, children }: AppProps) => {
     direction,
     loading,
     onEventDrop,
-    selectedDate,
   } = initial;
   const [state, dispatch] = useReducer(stateReducer, initialState(initial));
 
@@ -52,7 +51,6 @@ const AppState = ({ initial, children }: AppProps) => {
       updateProps({
         events,
         remoteEvents,
-        selectedDate,
         resources,
         resourceViewMode,
         month,
@@ -70,7 +68,6 @@ const AppState = ({ initial, children }: AppProps) => {
   }, [
     events,
     remoteEvents,
-    selectedDate,
     resources,
     resourceViewMode,
     month,
