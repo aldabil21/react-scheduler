@@ -1,9 +1,10 @@
 import { ProcessedEvent } from "../../types";
 import EventItem from "./EventItem";
-import { differenceInMinutes, setHours } from "date-fns";
+import { differenceInMinutes, setHours, isToday } from "date-fns";
 import { traversCrossingEvents } from "../../helpers/generals";
 import { BORDER_HEIGHT } from "../../helpers/constants";
 import { Fragment } from "react";
+import CurrentTimeBar from "./CurrentTimeBar";
 
 interface TodayEventsProps {
   todayEvents: ProcessedEvent[];
@@ -25,6 +26,15 @@ const TodayEvents = ({
 
   return (
     <Fragment>
+      {isToday(today) && (
+        <CurrentTimeBar
+          today={today}
+          startHour={startHour}
+          step={step}
+          minuteHeight={minuteHeight}
+        />
+      )}
+
       {todayEvents.map((event) => {
         const height = differenceInMinutes(event.end, event.start) * minuteHeight;
         const minituesFromTop = differenceInMinutes(event.start, setHours(today, startHour));
