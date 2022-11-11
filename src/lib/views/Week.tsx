@@ -46,6 +46,7 @@ const Week = () => {
     events,
     handleGotoDay,
     remoteEvents,
+    getRemoteEvents,
     triggerLoading,
     handleState,
     resources,
@@ -78,8 +79,19 @@ const Week = () => {
   const fetchEvents = useCallback(async () => {
     try {
       triggerLoading(true);
-      const query = `?start=${weekStart}&end=${weekEnd}`;
-      const events = await remoteEvents!(query);
+
+      const events = await (async () => {
+        // Remove `remoteEvents` in future release
+        if (remoteEvents) {
+          return await remoteEvents(`?start=${weekStart}&end=${weekEnd}`);
+        } else {
+          return await getRemoteEvents!({
+            start: weekStart,
+            end: weekEnd,
+            view: "week",
+          });
+        }
+      })();
       if (Array.isArray(events)) {
         handleState(events, "events");
       }
@@ -89,14 +101,15 @@ const Week = () => {
       triggerLoading(false);
     }
     // eslint-disable-next-line
-  }, [selectedDate, remoteEvents]);
+  }, [selectedDate, remoteEvents, getRemoteEvents]);
 
   useEffect(() => {
-    if (remoteEvents instanceof Function) {
+    // Remove `remoteEvents` in future release
+    if ((remoteEvents || getRemoteEvents) instanceof Function) {
       fetchEvents();
     }
     // eslint-disable-next-line
-  }, [fetchEvents]);
+  }, [selectedDate, remoteEvents, getRemoteEvents]);
 
   const renderMultiDayEvents = (events: ProcessedEvent[], today: Date) => {
     const isFirstDayInWeek = isSameDay(weekStart, today);

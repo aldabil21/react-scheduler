@@ -41,6 +41,7 @@ const Day = () => {
     events,
     height,
     remoteEvents,
+    getRemoteEvents,
     triggerLoading,
     handleState,
     resources,
@@ -71,8 +72,18 @@ const Day = () => {
       triggerLoading(true);
       const start = addDays(START_TIME, -1);
       const end = addDays(END_TIME, 1);
-      const query = `?start=${start}&end=${end}`;
-      const events = await remoteEvents!(query);
+      const events = await (async () => {
+        // Remove `remoteEvents` in future release
+        if (remoteEvents) {
+          return await remoteEvents(`?start=${start}&end=${end}`);
+        } else {
+          return await getRemoteEvents!({
+            start,
+            end,
+            view: "day",
+          });
+        }
+      })();
       if (events && events?.length) {
         handleState(events, "events");
       }
@@ -82,10 +93,11 @@ const Day = () => {
       triggerLoading(false);
     }
     // eslint-disable-next-line
-  }, [selectedDate, remoteEvents]);
+  }, [selectedDate, remoteEvents, getRemoteEvents]);
 
   useEffect(() => {
-    if (remoteEvents instanceof Function) {
+    // Remove `remoteEvents` in future release
+    if ((remoteEvents || getRemoteEvents) instanceof Function) {
       fetchEvents();
     }
     // eslint-disable-next-line

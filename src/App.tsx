@@ -8,6 +8,9 @@ function App() {
   return (
     <Scheduler
       events={EVENTS}
+      // getRemoteEvents={async () => {
+      //   return EVENTS;
+      // }}
       // eventRenderer={(event) => <>{event.title}</>}
       // dialogMaxWidth="sm"
       // loading={loading}

@@ -130,6 +130,11 @@ export interface FieldProps {
 }
 export type ProcessedEvent = CalendarEvent & Record<string, any>;
 export type EventActions = "create" | "edit";
+export type ViewEvent = {
+  start: Date;
+  end: Date;
+  view: "day" | "week" | "month";
+};
 export type DefaultRecourse = {
   assignee?: string | number;
   text?: string;
@@ -171,8 +176,11 @@ export interface SchedulerProps {
   events: ProcessedEvent[];
   /** Custom event render method */
   eventRenderer?: (event: ProcessedEvent) => JSX.Element | null;
-  /**Async function to load remote data */
+  /**Async function to load remote data
+   * @deprecated User `getRemoteEvents` */
   remoteEvents?(query: string): Promise<ProcessedEvent[] | void>;
+  /**Async function to load remote data with current view data. */
+  getRemoteEvents?(params: ViewEvent): Promise<ProcessedEvent[] | void>;
   /**Custom additional fields with it's settings */
   fields: FieldProps[];
   /**Table loading state */
