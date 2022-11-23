@@ -215,7 +215,7 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
       }
     }
     return ev;
-  }, []);
+  }, [hasPrev, hasNext]);
 
   const isDraggable = useMemo(() => {
     // if Disabled

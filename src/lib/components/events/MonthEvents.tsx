@@ -1,7 +1,6 @@
 import { Fragment } from "react";
 import {
   closestTo,
-  differenceInDays,
   isBefore,
   startOfDay,
   endOfDay,
@@ -15,6 +14,7 @@ import { Typography } from "@mui/material";
 import EventItem from "./EventItem";
 import { MONTH_NUMBER_HEIGHT, MULTI_DAY_EVENT_HEIGHT } from "../../helpers/constants";
 import { useAppState } from "../../hooks/useAppState";
+import { differenceInDaysOmitTime } from "../../helpers/generals";
 
 interface MonthEventProps {
   events: ProcessedEvent[];
@@ -56,7 +56,7 @@ const MonthEvents = ({
           !!eachFirstDayInCalcRow && isBefore(event.start, eachFirstDayInCalcRow);
         const start = fromPrevWeek && eachFirstDayInCalcRow ? eachFirstDayInCalcRow : event.start;
 
-        let eventLength = differenceInDays(event.end, start) + 1;
+        let eventLength = differenceInDaysOmitTime(start, event.end) + 1;
         const toNextWeek = eventLength >= daysList.length;
         if (toNextWeek) {
           // Rethink it
@@ -65,7 +65,7 @@ const MonthEvents = ({
           if (closestStart) {
             eventLength =
               daysList.length -
-              (!eachFirstDayInCalcRow ? differenceInDays(event.start, closestStart) : 0);
+              (!eachFirstDayInCalcRow ? differenceInDaysOmitTime(event.start, closestStart) : 0);
           }
         }
 
@@ -115,7 +115,7 @@ const MonthEvents = ({
             <EventItem
               event={event}
               showdate={false}
-              multiday={differenceInDays(event.end, event.start) > 0}
+              multiday={differenceInDaysOmitTime(event.start, event.end) > 0}
               hasPrev={fromPrevWeek}
               hasNext={toNextWeek}
             />

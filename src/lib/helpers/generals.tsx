@@ -1,4 +1,4 @@
-import { addMinutes, isWithinInterval } from "date-fns";
+import { addMinutes, differenceInDays, endOfDay, isWithinInterval, startOfDay } from "date-fns";
 import { View } from "../components/nav/Navigation";
 import {
   DefaultRecourse,
@@ -40,6 +40,7 @@ export const arraytizeFieldVal = (field: FieldProps, val: any, event?: StateEven
   const validity = arrytize ? value.length : value;
   return { value, validity };
 };
+
 export const getResourcedEvents = (
   events: ProcessedEvent[],
   resource: DefaultRecourse,
@@ -100,6 +101,11 @@ export const traversCrossingEvents = (
 export const calcMinuteHeight = (cellHeight: number, step: number) => {
   return Math.ceil(cellHeight) / step;
 };
+
 export const calcCellHeight = (tableHeight: number, hoursLength: number) => {
   return Math.max(tableHeight / hoursLength, 60);
+};
+
+export const differenceInDaysOmitTime = (start: Date, end: Date) => {
+  return differenceInDays(endOfDay(end), startOfDay(start));
 };

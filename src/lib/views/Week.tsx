@@ -6,7 +6,6 @@ import {
   format,
   eachMinuteOfInterval,
   isSameDay,
-  differenceInDays,
   isBefore,
   isToday,
   setMinutes,
@@ -22,7 +21,12 @@ import EventItem from "../components/events/EventItem";
 import { useAppState } from "../hooks/useAppState";
 import { CellRenderedProps, DayHours, DefaultRecourse, ProcessedEvent } from "../types";
 import { WeekDays } from "./Month";
-import { calcCellHeight, calcMinuteHeight, getResourcedEvents } from "../helpers/generals";
+import {
+  calcCellHeight,
+  calcMinuteHeight,
+  differenceInDaysOmitTime,
+  getResourcedEvents,
+} from "../helpers/generals";
 import { WithResources } from "../components/common/WithResources";
 import Cell from "../components/common/Cell";
 import TodayEvents from "../components/events/TodayEvents";
@@ -115,7 +119,7 @@ const Week = () => {
     const isFirstDayInWeek = isSameDay(weekStart, today);
     const allWeekMulti = events.filter(
       (e) =>
-        differenceInDays(e.end, e.start) > 0 &&
+        differenceInDaysOmitTime(e.start, e.end) > 0 &&
         daysList.some((weekday) =>
           isWithinInterval(weekday, {
             start: startOfDay(e.start),
@@ -131,7 +135,8 @@ const Week = () => {
       const hasPrev = isBefore(startOfDay(event.start), weekStart);
       const hasNext = isAfter(endOfDay(event.end), weekEnd);
       const eventLength =
-        differenceInDays(hasNext ? weekEnd : event.end, hasPrev ? weekStart : event.start) + 1;
+        differenceInDaysOmitTime(hasPrev ? weekStart : event.start, hasNext ? weekEnd : event.end) +
+        1;
       const prevNextEvents = events.filter((e) =>
         isFirstDayInWeek
           ? false
@@ -167,7 +172,7 @@ const Week = () => {
 
     const allWeekMulti = events.filter(
       (e) =>
-        differenceInDays(e.end, e.start) > 0 &&
+        differenceInDaysOmitTime(e.start, e.end) > 0 &&
         daysList.some((weekday) =>
           isWithinInterval(weekday, {
             start: startOfDay(e.start),
@@ -211,7 +216,8 @@ const Week = () => {
                     <TodayEvents
                       todayEvents={recousedEvents
                         .filter(
-                          (e) => isSameDay(date, e.start) && !differenceInDays(e.end, e.start)
+                          (e) =>
+                            isSameDay(date, e.start) && !differenceInDaysOmitTime(e.start, e.end)
                         )
                         .sort((a, b) => a.end.getTime() - b.end.getTime())}
                       today={date}
