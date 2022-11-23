@@ -55,6 +55,7 @@ interface CalendarEvent {
   editable?: boolean;
   deletable?: boolean;
   draggable?: boolean;
+  allDay?: boolean;
 }
 export interface Translations {
   navigation: Record<View, string> & { today: string };
@@ -69,6 +70,7 @@ export interface Translations {
     title: string;
     start: string;
     end: string;
+    allDay: string;
   };
   moreEvents: string;
 }

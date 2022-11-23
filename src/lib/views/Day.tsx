@@ -3,9 +3,7 @@ import { Typography } from "@mui/material";
 import {
   format,
   eachMinuteOfInterval,
-  isSameDay,
   isToday,
-  isWithinInterval,
   setHours,
   setMinutes,
   isBefore,
@@ -22,7 +20,8 @@ import { CellRenderedProps, DayHours, DefaultRecourse, ProcessedEvent } from "..
 import {
   calcCellHeight,
   calcMinuteHeight,
-  differenceInDaysOmitTime,
+  filterMultiDaySlot,
+  filterTodayEvents,
   getResourcedEvents,
 } from "../helpers/generals";
 import { WithResources } from "../components/common/WithResources";
@@ -108,16 +107,7 @@ const Day = () => {
     // eslint-disable-next-line
   }, [fetchEvents]);
 
-  const renderMultiDayEvents = (events: ProcessedEvent[]) => {
-    const multiDays = events.filter(
-      (e) =>
-        differenceInDaysOmitTime(e.start, e.end) > 0 &&
-        isWithinInterval(selectedDate, {
-          start: startOfDay(e.start),
-          end: endOfDay(e.end),
-        })
-    );
-
+  const renderMultiDayEvents = (multiDays: ProcessedEvent[]) => {
     return (
       <div className="rs__block_col" style={{ height: MULTI_DAY_EVENT_HEIGHT * multiDays.length }}>
         {multiDays.map((event, i) => {
@@ -146,14 +136,8 @@ const Day = () => {
       recousedEvents = getResourcedEvents(todayEvents, resource, resourceFields, fields);
     }
 
-    const allWeekMulti = events.filter(
-      (e) =>
-        differenceInDaysOmitTime(e.start, e.end) > 0 &&
-        isWithinInterval(selectedDate, {
-          start: startOfDay(e.start),
-          end: endOfDay(e.end),
-        })
-    );
+    const allWeekMulti = filterMultiDaySlot(events, selectedDate);
+
     // Equalizing multi-day section height
     const headerHeight = MULTI_DAY_EVENT_HEIGHT * allWeekMulti.length + 45;
     return (
@@ -165,7 +149,7 @@ const Day = () => {
           style={{ height: headerHeight }}
         >
           <TodayTypo date={selectedDate} locale={locale} />
-          {renderMultiDayEvents(recousedEvents)}
+          {renderMultiDayEvents(allWeekMulti)}
         </span>
 
         {/* Body */}
@@ -187,11 +171,7 @@ const Day = () => {
                 {/* Events of this day - run once on the top hour column */}
                 {i === 0 && (
                   <TodayEvents
-                    todayEvents={recousedEvents.filter(
-                      (e) =>
-                        !differenceInDaysOmitTime(e.start, e.end) &&
-                        isSameDay(selectedDate, e.start)
-                    )}
+                    todayEvents={filterTodayEvents(recousedEvents, selectedDate)}
                     today={START_TIME}
                     minuteHeight={MINUTE_HEIGHT}
                     startHour={startHour}
