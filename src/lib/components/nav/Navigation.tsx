@@ -17,7 +17,8 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 export type View = "month" | "week" | "day";
 
 const Navigation = () => {
-  const { selectedDate, view, week, handleState, getViews, translations } = useAppState();
+  const { selectedDate, view, week, handleState, getViews, translations, navigation } =
+    useAppState();
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up("sm"));
@@ -48,7 +49,7 @@ const Navigation = () => {
         alignItems: "center",
       }}
     >
-      <div data-testid="date-navigator">{renderDateSelector()}</div>
+      <div data-testid="date-navigator">{navigation && renderDateSelector()}</div>
       <div data-testid="view-navigator">
         <Button onClick={() => handleState(new Date(), "selectedDate")}>
           {translations.navigation.today}

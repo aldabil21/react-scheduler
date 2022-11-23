@@ -47,6 +47,7 @@ export const defaultProps = {
     step: 60,
   },
   view: "week",
+  navigation: true,
   selectedDate: new Date(),
   events: [],
   remoteEvents: undefined,

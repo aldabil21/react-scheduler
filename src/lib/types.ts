@@ -172,6 +172,8 @@ export interface SchedulerProps {
   day: DayProps | null;
   /**Initial date selected */
   selectedDate: Date;
+  /** Show/Hide date navigation */
+  navigation?: boolean;
   /**Events to display */
   events: ProcessedEvent[];
   /** Custom event render method */
