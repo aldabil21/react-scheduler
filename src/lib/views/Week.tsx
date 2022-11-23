@@ -40,6 +40,7 @@ export interface WeekProps {
   endHour: DayHours;
   step: number;
   cellRenderer?(props: CellRenderedProps): JSX.Element;
+  navigation?: boolean;
 }
 
 const Week = () => {

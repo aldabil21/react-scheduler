@@ -17,7 +17,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 export type View = "month" | "week" | "day";
 
 const Navigation = () => {
-  const { selectedDate, view, week, handleState, getViews, translations, navigation } =
+  const { selectedDate, view, week, handleState, getViews, translations, navigation, day, month } =
     useAppState();
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const theme = useTheme();
@@ -31,11 +31,17 @@ const Navigation = () => {
   const renderDateSelector = () => {
     switch (view) {
       case "month":
-        return <MonthDateBtn selectedDate={selectedDate} onChange={handleState} />;
+        return (
+          month?.navigation && <MonthDateBtn selectedDate={selectedDate} onChange={handleState} />
+        );
       case "week":
-        return <WeekDateBtn selectedDate={selectedDate} onChange={handleState} weekProps={week!} />;
+        return (
+          week?.navigation && (
+            <WeekDateBtn selectedDate={selectedDate} onChange={handleState} weekProps={week!} />
+          )
+        );
       case "day":
-        return <DayDateBtn selectedDate={selectedDate} onChange={handleState} />;
+        return day?.navigation && <DayDateBtn selectedDate={selectedDate} onChange={handleState} />;
       default:
         return "";
     }

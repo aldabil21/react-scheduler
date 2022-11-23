@@ -25,6 +25,7 @@ export interface MonthProps {
   startHour: DayHours;
   endHour: DayHours;
   cellRenderer?(props: CellRenderedProps): JSX.Element;
+  navigation?: boolean;
 }
 
 const Month = () => {
