@@ -37,6 +37,7 @@ export const EVENTS: ProcessedEvent[] = [
     ),
     admin_id: 2,
     color: "#900000",
+    allDay: true,
   },
   {
     event_id: 5,
@@ -58,6 +59,7 @@ export const EVENTS: ProcessedEvent[] = [
     ),
     end: new Date(new Date(new Date().setHours(14)).setMinutes(0)),
     admin_id: 2,
+    allDay: true,
   },
   {
     event_id: 7,

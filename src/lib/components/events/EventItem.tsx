@@ -10,6 +10,7 @@ import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 import SupervisorAccountRoundedIcon from "@mui/icons-material/SupervisorAccountRounded";
 import { PopperInner } from "../../styles/styles";
 import EventActions from "./Actions";
+import { differenceInDaysOmitTime } from "../../helpers/generals";
 
 interface EventItemProps {
   event: ProcessedEvent;
@@ -39,6 +40,7 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
     eventRenderer,
     view,
     draggable,
+    translations,
   } = useAppState();
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState(false);
@@ -47,6 +49,7 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
 
   const NextArrow = direction === "rtl" ? ArrowLeftRoundedIcon : ArrowRightRoundedIcon;
   const PrevArrow = direction === "rtl" ? ArrowRightRoundedIcon : ArrowLeftRoundedIcon;
+  const hideDates = differenceInDaysOmitTime(event.start, event.end) <= 0 && event.allDay;
 
   const triggerViewer = (el?: Element) => {
     if (!el && deleteConfirm) {
@@ -109,7 +112,7 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
           {hasPrev ? (
             <PrevArrow fontSize="small" sx={{ display: "flex" }} />
           ) : (
-            showdate && format(event.start, hFormat, { locale: locale })
+            showdate && !hideDates && format(event.start, hFormat, { locale: locale })
           )}
         </Typography>
         <Typography variant="subtitle2" align="center" sx={{ fontSize: 12 }} noWrap>
@@ -119,7 +122,7 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
           {hasNext ? (
             <NextArrow fontSize="small" sx={{ display: "flex" }} />
           ) : (
-            showdate && format(event.end, hFormat, { locale: locale })
+            showdate && !hideDates && format(event.end, hFormat, { locale: locale })
           )}
         </Typography>
       </div>
@@ -173,26 +176,28 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
         </div>
         <div style={{ padding: "5px 10px" }}>
           <Typography
-            style={{ display: "flex", alignItems: "center" }}
+            style={{ display: "flex", alignItems: "center", gap: 8 }}
             color="textSecondary"
             variant="caption"
             noWrap
           >
-            <EventNoteRoundedIcon />{" "}
-            {`${format(event.start, `dd MMMM yyyy ${hFormat}`, {
-              locale: locale,
-            })} - ${format(event.end, `dd MMMM yyyy ${hFormat}`, {
-              locale: locale,
-            })}`}
+            <EventNoteRoundedIcon />
+            {hideDates
+              ? translations.event.allDay
+              : `${format(event.start, `dd MMMM yyyy ${hFormat}`, {
+                  locale: locale,
+                })} - ${format(event.end, `dd MMMM yyyy ${hFormat}`, {
+                  locale: locale,
+                })}`}
           </Typography>
           {hasResource.length > 0 && (
             <Typography
-              style={{ display: "flex", alignItems: "center" }}
+              style={{ display: "flex", alignItems: "center", gap: 8 }}
               color="textSecondary"
               variant="caption"
               noWrap
             >
-              <SupervisorAccountRoundedIcon />{" "}
+              <SupervisorAccountRoundedIcon />
               {hasResource.map((res) => res[resourceFields.textField]).join(", ")}
             </Typography>
           )}

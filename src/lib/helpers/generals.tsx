@@ -1,4 +1,11 @@
-import { addMinutes, differenceInDays, endOfDay, isWithinInterval, startOfDay } from "date-fns";
+import {
+  addMinutes,
+  differenceInDays,
+  endOfDay,
+  isSameDay,
+  isWithinInterval,
+  startOfDay,
+} from "date-fns";
 import { View } from "../components/nav/Navigation";
 import {
   DefaultRecourse,
@@ -108,4 +115,35 @@ export const calcCellHeight = (tableHeight: number, hoursLength: number) => {
 
 export const differenceInDaysOmitTime = (start: Date, end: Date) => {
   return differenceInDays(endOfDay(end), startOfDay(start));
+};
+
+export const filterTodayEvents = (events: ProcessedEvent[], today: Date) => {
+  return events
+    .filter(
+      (e) => !e.allDay && isSameDay(today, e.start) && !differenceInDaysOmitTime(e.start, e.end)
+    )
+    .sort((a, b) => a.end.getTime() - b.end.getTime());
+};
+
+export const filterMultiDaySlot = (events: ProcessedEvent[], date: Date | Date[]) => {
+  if (Array.isArray(date)) {
+    return events.filter(
+      (e) =>
+        (e.allDay || differenceInDaysOmitTime(e.start, e.end) > 0) &&
+        date.some((weekday) =>
+          isWithinInterval(weekday, {
+            start: startOfDay(e.start),
+            end: endOfDay(e.end),
+          })
+        )
+    );
+  }
+  return events.filter(
+    (e) =>
+      (e.allDay || differenceInDaysOmitTime(e.start, e.end) > 0) &&
+      isWithinInterval(date, {
+        start: startOfDay(e.start),
+        end: endOfDay(e.end),
+      })
+  );
 };

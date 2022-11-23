@@ -25,6 +25,8 @@ import {
   calcCellHeight,
   calcMinuteHeight,
   differenceInDaysOmitTime,
+  filterMultiDaySlot,
+  filterTodayEvents,
   getResourcedEvents,
 } from "../helpers/generals";
 import { WithResources } from "../components/common/WithResources";
@@ -118,16 +120,7 @@ const Week = () => {
 
   const renderMultiDayEvents = (events: ProcessedEvent[], today: Date) => {
     const isFirstDayInWeek = isSameDay(weekStart, today);
-    const allWeekMulti = events.filter(
-      (e) =>
-        differenceInDaysOmitTime(e.start, e.end) > 0 &&
-        daysList.some((weekday) =>
-          isWithinInterval(weekday, {
-            start: startOfDay(e.start),
-            end: endOfDay(e.end),
-          })
-        )
-    );
+    const allWeekMulti = filterMultiDaySlot(events, daysList);
 
     const multiDays = allWeekMulti
       .filter((e) => (isBefore(e.start, weekStart) ? isFirstDayInWeek : isSameDay(e.start, today)))
@@ -173,13 +166,14 @@ const Week = () => {
 
     const allWeekMulti = events.filter(
       (e) =>
-        differenceInDaysOmitTime(e.start, e.end) > 0 &&
-        daysList.some((weekday) =>
-          isWithinInterval(weekday, {
-            start: startOfDay(e.start),
-            end: endOfDay(e.end),
-          })
-        )
+        e.allDay ||
+        (differenceInDaysOmitTime(e.start, e.end) > 0 &&
+          daysList.some((weekday) =>
+            isWithinInterval(weekday, {
+              start: startOfDay(e.start),
+              end: endOfDay(e.end),
+            })
+          ))
     );
     // Equalizing multi-day section height
     const headerHeight = MULTI_SPACE * allWeekMulti.length + 45;
@@ -215,12 +209,7 @@ const Week = () => {
                   {/* Events of each day - run once on the top hour column */}
                   {i === 0 && (
                     <TodayEvents
-                      todayEvents={recousedEvents
-                        .filter(
-                          (e) =>
-                            isSameDay(date, e.start) && !differenceInDaysOmitTime(e.start, e.end)
-                        )
-                        .sort((a, b) => a.end.getTime() - b.end.getTime())}
+                      todayEvents={filterTodayEvents(recousedEvents, date)}
                       today={date}
                       minuteHeight={MINUTE_HEIGHT}
                       startHour={startHour}
