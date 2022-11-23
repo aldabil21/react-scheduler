@@ -4,7 +4,6 @@ import {
   format,
   eachMinuteOfInterval,
   isSameDay,
-  differenceInDays,
   isToday,
   isWithinInterval,
   setHours,
@@ -20,7 +19,12 @@ import TodayTypo from "../components/common/TodayTypo";
 import EventItem from "../components/events/EventItem";
 import { useAppState } from "../hooks/useAppState";
 import { CellRenderedProps, DayHours, DefaultRecourse, ProcessedEvent } from "../types";
-import { calcCellHeight, calcMinuteHeight, getResourcedEvents } from "../helpers/generals";
+import {
+  calcCellHeight,
+  calcMinuteHeight,
+  differenceInDaysOmitTime,
+  getResourcedEvents,
+} from "../helpers/generals";
 import { WithResources } from "../components/common/WithResources";
 import Cell from "../components/common/Cell";
 import TodayEvents from "../components/events/TodayEvents";
@@ -106,7 +110,7 @@ const Day = () => {
   const renderMultiDayEvents = (events: ProcessedEvent[]) => {
     const multiDays = events.filter(
       (e) =>
-        differenceInDays(e.end, e.start) > 0 &&
+        differenceInDaysOmitTime(e.start, e.end) > 0 &&
         isWithinInterval(selectedDate, {
           start: startOfDay(e.start),
           end: endOfDay(e.end),
@@ -143,7 +147,7 @@ const Day = () => {
 
     const allWeekMulti = events.filter(
       (e) =>
-        differenceInDays(e.end, e.start) > 0 &&
+        differenceInDaysOmitTime(e.start, e.end) > 0 &&
         isWithinInterval(selectedDate, {
           start: startOfDay(e.start),
           end: endOfDay(e.end),
@@ -183,7 +187,9 @@ const Day = () => {
                 {i === 0 && (
                   <TodayEvents
                     todayEvents={recousedEvents.filter(
-                      (e) => !differenceInDays(e.end, e.start) && isSameDay(selectedDate, e.start)
+                      (e) =>
+                        !differenceInDaysOmitTime(e.start, e.end) &&
+                        isSameDay(selectedDate, e.start)
                     )}
                     today={START_TIME}
                     minuteHeight={MINUTE_HEIGHT}
