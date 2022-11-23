@@ -7,6 +7,7 @@ import { DialogProps, GridSize } from "@mui/material";
 import { Locale } from "date-fns";
 import { SelectOption } from "./components/inputs/SelectInput";
 import { View } from "./components/nav/Navigation";
+import { CalendarPickerProps } from "@mui/x-date-pickers";
 
 export type DayHours =
   | 0
@@ -172,6 +173,15 @@ export interface SchedulerProps {
   day: DayProps | null;
   /**Initial date selected */
   selectedDate: Date;
+  /** Show/Hide date navigation */
+  navigation?: boolean;
+  /** */
+  navigationPickerProps?: Partial<
+    Omit<
+      CalendarPickerProps<Date>,
+      "open" | "onClose" | "openTo" | "views" | "value" | "readOnly" | "onChange" | "renderInput"
+    >
+  >;
   /**Events to display */
   events: ProcessedEvent[];
   /** Custom event render method */

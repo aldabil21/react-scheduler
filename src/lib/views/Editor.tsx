@@ -203,7 +203,7 @@ const Editor = () => {
           {selectedEvent ? translations.form.editTitle : translations.form.addTitle}
         </DialogTitle>
         <DialogContent style={{ overflowX: "hidden" }}>
-          <Grid container spacing={1}>
+          <Grid container spacing={2}>
             {Object.keys(state).map((key) => {
               const item = state[key];
               return (

@@ -52,6 +52,12 @@ function App() {
       //   endHour: 18,
       //   step: 20,
       // }}
+      // navigation={false}
+      // navigationPickerProps={{
+      //   shouldDisableDate(day) {
+      //     return true;
+      //   },
+      // }}
       // remoteEvents={async (query) => {
       //   await new Promise((res, rej) => {
       //     setTimeout(() => {

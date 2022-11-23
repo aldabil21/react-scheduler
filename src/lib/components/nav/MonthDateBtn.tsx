@@ -12,7 +12,7 @@ interface MonthDateBtnProps {
 }
 
 const MonthDateBtn = ({ selectedDate, onChange }: MonthDateBtnProps) => {
-  const { locale } = useAppState();
+  const { locale, navigationPickerProps } = useAppState();
   const [open, setOpen] = useState(false);
   const currentMonth = getMonth(selectedDate);
 
@@ -34,11 +34,13 @@ const MonthDateBtn = ({ selectedDate, onChange }: MonthDateBtnProps) => {
       <LocaleArrow type="prev" onClick={handlePrev} />
       <DateProvider>
         <DatePicker
+          {...navigationPickerProps}
           open={open}
           onClose={toggleDialog}
           openTo="month"
           views={["year", "month"]}
           value={selectedDate}
+          readOnly
           onChange={handleChange}
           renderInput={(params) => (
             <Button ref={params.inputRef} style={{ padding: 4 }} onClick={toggleDialog}>
