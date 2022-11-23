@@ -12,7 +12,7 @@ interface DayDateBtnProps {
 }
 
 const DayDateBtn = ({ selectedDate, onChange }: DayDateBtnProps) => {
-  const { locale } = useAppState();
+  const { locale, navigationPickerProps } = useAppState();
   const [open, setOpen] = useState(false);
   const toggleDialog = () => setOpen(!open);
 
@@ -33,6 +33,7 @@ const DayDateBtn = ({ selectedDate, onChange }: DayDateBtnProps) => {
       <LocaleArrow type="prev" onClick={handlePrev} />
       <DateProvider>
         <DatePicker
+          {...navigationPickerProps}
           open={open}
           onClose={toggleDialog}
           openTo="day"

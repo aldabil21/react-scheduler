@@ -14,7 +14,7 @@ interface WeekDateBtnProps {
 }
 
 const WeekDateBtn = ({ selectedDate, onChange, weekProps }: WeekDateBtnProps) => {
-  const { locale } = useAppState();
+  const { locale, navigationPickerProps } = useAppState();
   const [open, setOpen] = useState(false);
   const { weekStartOn } = weekProps;
   const weekStart = startOfWeek(selectedDate, { weekStartsOn: weekStartOn });
@@ -39,6 +39,7 @@ const WeekDateBtn = ({ selectedDate, onChange, weekProps }: WeekDateBtnProps) =>
       <LocaleArrow type="prev" onClick={handlePrev} />
       <DateProvider>
         <DatePicker
+          {...navigationPickerProps}
           open={open}
           onClose={toggleDialog}
           openTo="day"
