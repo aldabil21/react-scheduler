@@ -83,52 +83,6 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
     }
   };
 
-  let item = (
-    <div style={{ padding: 2 }}>
-      <Typography variant="subtitle2" style={{ fontSize: 12 }} noWrap>
-        {event.title}
-      </Typography>
-      {showdate && (
-        <Typography style={{ fontSize: 11 }} noWrap>
-          {`${format(event.start, hFormat, {
-            locale: locale,
-          })} - ${format(event.end, hFormat, { locale: locale })}`}
-        </Typography>
-      )}
-    </div>
-  );
-
-  if (multiday) {
-    item = (
-      <div
-        style={{
-          padding: 2,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <Typography sx={{ fontSize: 11 }} noWrap>
-          {hasPrev ? (
-            <PrevArrow fontSize="small" sx={{ display: "flex" }} />
-          ) : (
-            showdate && !hideDates && format(event.start, hFormat, { locale: locale })
-          )}
-        </Typography>
-        <Typography variant="subtitle2" align="center" sx={{ fontSize: 12 }} noWrap>
-          {event.title}
-        </Typography>
-        <Typography sx={{ fontSize: 11 }} noWrap>
-          {hasNext ? (
-            <NextArrow fontSize="small" sx={{ display: "flex" }} />
-          ) : (
-            showdate && !hideDates && format(event.end, hFormat, { locale: locale })
-          )}
-        </Typography>
-      </div>
-    );
-  }
-
   const renderViewer = () => {
     const idKey = resourceFields.idField;
     const hasResource = resources.filter((res) =>
@@ -212,15 +166,60 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
   const renderEvent = useMemo(() => {
     // Check if has custom render event method
     // only applicable to non-multiday events and not in month-view
-    let ev = item;
     if (typeof eventRenderer === "function" && !multiday && view !== "month") {
       const custom = eventRenderer(event);
       if (custom) {
-        ev = custom;
+        return custom;
       }
     }
-    return ev;
-  }, [hasPrev, hasNext]);
+
+    let item = (
+      <div style={{ padding: 2 }}>
+        <Typography variant="subtitle2" style={{ fontSize: 12 }} noWrap>
+          {event.title}
+        </Typography>
+        {console.log(event.start)}
+        {showdate && (
+          <Typography style={{ fontSize: 11 }} noWrap>
+            {`${format(event.start, hFormat, {
+              locale: locale,
+            })} - ${format(event.end, hFormat, { locale: locale })}`}
+          </Typography>
+        )}
+      </div>
+    );
+    if (multiday) {
+      item = (
+        <div
+          style={{
+            padding: 2,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <Typography sx={{ fontSize: 11 }} noWrap>
+            {hasPrev ? (
+              <PrevArrow fontSize="small" sx={{ display: "flex" }} />
+            ) : (
+              showdate && !hideDates && format(event.start, hFormat, { locale: locale })
+            )}
+          </Typography>
+          <Typography variant="subtitle2" align="center" sx={{ fontSize: 12 }} noWrap>
+            {event.title}
+          </Typography>
+          <Typography sx={{ fontSize: 11 }} noWrap>
+            {hasNext ? (
+              <NextArrow fontSize="small" sx={{ display: "flex" }} />
+            ) : (
+              showdate && !hideDates && format(event.end, hFormat, { locale: locale })
+            )}
+          </Typography>
+        </div>
+      );
+    }
+    return item;
+  }, [hasPrev, hasNext, event]);
 
   const isDraggable = useMemo(() => {
     // if Disabled
