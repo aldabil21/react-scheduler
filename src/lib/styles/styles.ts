@@ -31,7 +31,9 @@ export const Table = styled("div")<{ resource_count: number }>(({ resource_count
   width: "100%",
   overflowX: "auto",
   overflowY: "hidden",
+  boxSizing: "content-box",
 }));
+
 export const TableGrid = styled("div")<{ days: number; indent?: string }>(
   ({ days, indent = "1", theme }) => ({
     position: "relative",
