@@ -21,14 +21,14 @@ function App() {
       // selectedDate={new Date()}
       // height={800}
       // week={{
-      //   weekDays: [0, 1, 2, 3, 4, 5],
+      //   weekDays: [0, 1, 2, 3, 4, 5, 6],
       //   weekStartOn: 6,
-      //   startHour: 7,
-      //   endHour: 22,
-      //   step: 60,
-      //   cellRenderer: () => {
-      //     return <>week</>;
-      //   },
+      //   startHour: 10,
+      //   endHour: 11,
+      //   step: 1,
+      // cellRenderer: () => {
+      //   return <>week</>;
+      // },
       // }}
       // month={{
       //   weekDays: [0, 1, 2, 3, 4, 5],
