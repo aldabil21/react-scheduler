@@ -19,6 +19,7 @@ const MonthDateBtn = ({ selectedDate, onChange }: MonthDateBtnProps) => {
   const toggleDialog = () => setOpen(!open);
 
   const handleChange = (e: Date | null) => {
+    console.log(e);
     onChange(e || new Date(), "selectedDate");
   };
   const handlePrev = () => {
@@ -40,7 +41,6 @@ const MonthDateBtn = ({ selectedDate, onChange }: MonthDateBtnProps) => {
           openTo="month"
           views={["year", "month"]}
           value={selectedDate}
-          readOnly
           onChange={handleChange}
           renderInput={(params) => (
             <Button ref={params.inputRef} style={{ padding: 4 }} onClick={toggleDialog}>
