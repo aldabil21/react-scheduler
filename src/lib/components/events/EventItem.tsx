@@ -178,7 +178,6 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
         <Typography variant="subtitle2" style={{ fontSize: 12 }} noWrap>
           {event.title}
         </Typography>
-        {console.log(event.start)}
         {showdate && (
           <Typography style={{ fontSize: 11 }} noWrap>
             {`${format(event.start, hFormat, {
