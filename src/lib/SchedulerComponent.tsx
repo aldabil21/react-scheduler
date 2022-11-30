@@ -9,7 +9,7 @@ import { Table, Wrapper } from "./styles/styles";
 import { useMemo } from "react";
 
 const SchedulerComponent = () => {
-  const { loading, view, dialog, resources, resourceViewMode } = useAppState();
+  const { loading, view, dialog, resources, resourceViewMode, translations } = useAppState();
 
   const Views = useMemo(() => {
     switch (view) {
@@ -30,7 +30,7 @@ const SchedulerComponent = () => {
         <div className="rs__table_loading">
           <span>
             <CircularProgress size={50} />
-            <Typography align="center">Loading...</Typography>
+            <Typography align="center">{translations.loading}</Typography>
           </span>
         </div>
       )}
