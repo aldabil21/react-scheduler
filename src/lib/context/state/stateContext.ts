@@ -96,6 +96,7 @@ export const defaultProps = {
       allDay: "All Day",
     },
     moreEvents: "More...",
+    loading: "Loading...",
   },
   hourFormat: "12",
   draggable: true,
