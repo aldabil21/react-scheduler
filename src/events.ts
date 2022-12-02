@@ -35,7 +35,7 @@ export const EVENTS: ProcessedEvent[] = [
     end: new Date(
       new Date(new Date(new Date().setHours(11)).setMinutes(0)).setDate(new Date().getDate() - 2)
     ),
-    admin_id: 2,
+    admin_id: [2, 3],
     color: "#900000",
     allDay: true,
   },
@@ -73,5 +73,36 @@ export const EVENTS: ProcessedEvent[] = [
     admin_id: 1,
     draggable: false,
     color: "#8000cc",
+  },
+];
+
+export const RECOURCES = [
+  {
+    admin_id: 1,
+    title: "One",
+    mobile: "555666777",
+    avatar: "https://picsum.photos/200/300",
+    color: "#ab2d2d",
+  },
+  {
+    admin_id: 2,
+    title: "Two",
+    mobile: "555666777",
+    avatar: "https://picsum.photos/200/300",
+    color: "#58ab2d",
+  },
+  {
+    admin_id: 3,
+    title: "Three",
+    mobile: "555666777",
+    avatar: "https://picsum.photos/200/300",
+    color: "#a001a2",
+  },
+  {
+    admin_id: 4,
+    title: "Four",
+    mobile: "555666777",
+    avatar: "https://picsum.photos/200/300",
+    color: "#08c5bd",
   },
 ];

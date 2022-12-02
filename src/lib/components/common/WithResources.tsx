@@ -1,4 +1,4 @@
-import { ReactChild } from "react";
+import { ReactChild, useMemo } from "react";
 import { useAppState } from "../../hooks/useAppState";
 import { DefaultRecourse } from "../../types";
 import { ResourceHeader } from "./ResourceHeader";
@@ -47,13 +47,22 @@ const ResourcesTabTables = ({ renderChildren }: WithResourcesProps) => {
     handleState(tab, "selectedResource");
   };
 
+  const currentTabSafeId = useMemo(() => {
+    const firstId = resources[0][resourceFields.idField];
+    if (!selectedResource) {
+      return firstId;
+    }
+    // Make sure current selected id is within the resources array
+    const idx = resources.findIndex((re) => re[resourceFields.idField] === selectedResource);
+    if (idx < 0) {
+      return firstId;
+    }
+
+    return selectedResource;
+  }, [resources, selectedResource, resourceFields.idField]);
+
   return (
-    <ButtonTabs
-      tabs={tabs}
-      tab={selectedResource || resources[0][resourceFields.idField]}
-      setTab={setTab}
-      style={{ display: "grid" }}
-    />
+    <ButtonTabs tabs={tabs} tab={currentTabSafeId} setTab={setTab} style={{ display: "grid" }} />
   );
 };
 WithResources.defaultProps = {
