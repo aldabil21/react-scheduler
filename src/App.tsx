@@ -1,6 +1,9 @@
 // import * as React from "react";
 import { Scheduler } from "./lib";
-import { EVENTS } from "./events";
+import {
+  EVENTS,
+  // , RECOURCES
+} from "./events";
 
 function App() {
   // const [events, setEvents] = React.useState(EVENTS);
@@ -68,36 +71,7 @@ function App() {
       //   // return null;
       //   // return EVENTS;
       // }}
-      // resources={[
-      // {
-      //   admin_id: 1,
-      //   title: "One",
-      //   mobile: "555666777",
-      //   avatar: "https://picsum.photos/200/300",
-      //   color: "#ab2d2d",
-      // },
-      // {
-      //   admin_id: 2,
-      //   title: "Two",
-      //   mobile: "555666777",
-      //   avatar: "https://picsum.photos/200/300",
-      //   color: "#58ab2d",
-      // },
-      //   {
-      //     admin_id: 3,
-      //     title: "Three",
-      //     mobile: "555666777",
-      //     avatar: "https://picsum.photos/200/300",
-      //     color: "#a001a2",
-      //   },
-      //   {
-      //     admin_id: 4,
-      //     title: "Four",
-      //     mobile: "555666777",
-      //     avatar: "https://picsum.photos/200/300",
-      //     color: "#08c5bd",
-      //   },
-      // ]}
+      // resources={RECOURCES}
       // resourceFields={{
       //   idField: "admin_id",
       //   textField: "title",

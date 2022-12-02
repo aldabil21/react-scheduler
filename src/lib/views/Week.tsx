@@ -58,6 +58,7 @@ const Week = () => {
     handleState,
     resources,
     resourceFields,
+    resourceViewMode,
     fields,
     direction,
     locale,
@@ -164,18 +165,9 @@ const Week = () => {
       recousedEvents = getResourcedEvents(events, resource, resourceFields, fields);
     }
 
-    const allWeekMulti = events.filter(
-      (e) =>
-        e.allDay ||
-        (differenceInDaysOmitTime(e.start, e.end) > 0 &&
-          daysList.some((weekday) =>
-            isWithinInterval(weekday, {
-              start: startOfDay(e.start),
-              end: endOfDay(e.end),
-            })
-          ))
-    );
-    // Equalizing multi-day section height
+    // Equalizing multi-day section height except in resource/tabs mode
+    const shouldEqualize = resources.length && resourceViewMode !== "tabs";
+    const allWeekMulti = filterMultiDaySlot(shouldEqualize ? events : recousedEvents, daysList);
     const headerHeight = MULTI_SPACE * allWeekMulti.length + 45;
     return (
       <TableGrid days={daysList.length}>
