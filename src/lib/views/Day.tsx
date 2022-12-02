@@ -50,6 +50,7 @@ const Day = () => {
     handleState,
     resources,
     resourceFields,
+    resourceViewMode,
     fields,
     direction,
     locale,
@@ -108,9 +109,10 @@ const Day = () => {
   }, [fetchEvents]);
 
   const renderMultiDayEvents = (multiDays: ProcessedEvent[]) => {
+    const todayMulti = filterMultiDaySlot(multiDays, selectedDate);
     return (
       <div className="rs__block_col" style={{ height: MULTI_DAY_EVENT_HEIGHT * multiDays.length }}>
-        {multiDays.map((event, i) => {
+        {todayMulti.map((event, i) => {
           const hasPrev = isBefore(event.start, startOfDay(selectedDate));
           const hasNext = isAfter(event.end, endOfDay(selectedDate));
           return (
@@ -136,9 +138,12 @@ const Day = () => {
       recousedEvents = getResourcedEvents(todayEvents, resource, resourceFields, fields);
     }
 
-    const allWeekMulti = filterMultiDaySlot(events, selectedDate);
-
     // Equalizing multi-day section height
+    const shouldEqualize = resources.length && resourceViewMode !== "tabs";
+    const allWeekMulti = filterMultiDaySlot(
+      shouldEqualize ? todayEvents : recousedEvents,
+      selectedDate
+    );
     const headerHeight = MULTI_DAY_EVENT_HEIGHT * allWeekMulti.length + 45;
     return (
       <TableGrid days={1}>
@@ -149,7 +154,7 @@ const Day = () => {
           style={{ height: headerHeight }}
         >
           <TodayTypo date={selectedDate} locale={locale} />
-          {renderMultiDayEvents(allWeekMulti)}
+          {renderMultiDayEvents(recousedEvents)}
         </span>
 
         {/* Body */}
