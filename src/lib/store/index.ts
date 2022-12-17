@@ -66,10 +66,16 @@ export const useStore = createStore((get, set) => ({
   },
   triggerDialog: (status, selected) => {
     const isEvent = selected as ProcessedEvent;
+
     set((prev) => ({
       ...prev,
       dialog: status,
-      selectedRange: isEvent?.event_id ? undefined : isEvent,
+      selectedRange: isEvent?.event_id
+        ? undefined
+        : isEvent || {
+            start: new Date(),
+            end: new Date(Date.now() + 60 * 60 * 1000),
+          },
       selectedEvent: isEvent?.event_id ? isEvent : undefined,
     }));
   },
