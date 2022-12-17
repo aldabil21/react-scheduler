@@ -5,7 +5,7 @@ import { Button } from "@mui/material";
 import { endOfWeek, format, startOfWeek, addDays } from "date-fns";
 import { WeekProps } from "../../views/Week";
 import { LocaleArrow } from "../common/LocaleArrow";
-import { useAppState } from "../../hooks/useAppState";
+import { useStore } from "../../store";
 
 interface WeekDateBtnProps {
   selectedDate: Date;
@@ -14,7 +14,7 @@ interface WeekDateBtnProps {
 }
 
 const WeekDateBtn = ({ selectedDate, onChange, weekProps }: WeekDateBtnProps) => {
-  const { locale, navigationPickerProps } = useAppState();
+  const { locale, navigationPickerProps } = useStore();
   const [open, setOpen] = useState(false);
   const { weekStartOn } = weekProps;
   const weekStart = startOfWeek(selectedDate, { weekStartsOn: weekStartOn });
@@ -50,9 +50,9 @@ const WeekDateBtn = ({ selectedDate, onChange, weekProps }: WeekDateBtnProps) =>
             <Button ref={params.inputRef} style={{ padding: 4 }} onClick={toggleDialog}>{`${format(
               weekStart,
               "dd",
-              { locale: locale }
+              { locale }
             )} - ${format(weekEnd, "dd MMMM yyyy", {
-              locale: locale,
+              locale,
             })}`}</Button>
           )}
         />

@@ -11,12 +11,12 @@ import {
   startOfMonth,
 } from "date-fns";
 import MonthEvents from "../components/events/MonthEvents";
-import { useAppState } from "../hooks/useAppState";
 import { CellRenderedProps, DayHours, DefaultRecourse } from "../types";
 import { getResourcedEvents } from "../helpers/generals";
 import { WithResources } from "../components/common/WithResources";
 import Cell from "../components/common/Cell";
 import { TableGrid } from "../styles/styles";
+import { useStore } from "../store";
 
 export type WeekDays = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 export interface MonthProps {
@@ -44,7 +44,7 @@ const Month = () => {
     fields,
     locale,
     hourFormat,
-  } = useAppState();
+  } = useStore();
 
   const { weekStartOn, weekDays, startHour, endHour, cellRenderer } = month!;
   const monthStart = startOfMonth(selectedDate);

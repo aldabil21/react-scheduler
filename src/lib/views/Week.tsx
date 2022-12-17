@@ -18,7 +18,6 @@ import {
 } from "date-fns";
 import TodayTypo from "../components/common/TodayTypo";
 import EventItem from "../components/events/EventItem";
-import { useAppState } from "../hooks/useAppState";
 import { CellRenderedProps, DayHours, DefaultRecourse, ProcessedEvent } from "../types";
 import { WeekDays } from "./Month";
 import {
@@ -34,6 +33,7 @@ import Cell from "../components/common/Cell";
 import TodayEvents from "../components/events/TodayEvents";
 import { TableGrid } from "../styles/styles";
 import { MULTI_DAY_EVENT_HEIGHT } from "../helpers/constants";
+import { useStore } from "../store";
 
 export interface WeekProps {
   weekDays: WeekDays[];
@@ -63,7 +63,7 @@ const Week = () => {
     direction,
     locale,
     hourFormat,
-  } = useAppState();
+  } = useStore();
 
   const { weekStartOn, weekDays, startHour, endHour, step, cellRenderer } = week!;
   const _weekStart = startOfWeek(selectedDate, { weekStartsOn: weekStartOn });

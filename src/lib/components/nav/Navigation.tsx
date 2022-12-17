@@ -11,14 +11,14 @@ import {
 import { WeekDateBtn } from "./WeekDateBtn";
 import { DayDateBtn } from "./DayDateBtn";
 import { MonthDateBtn } from "./MonthDateBtn";
-import { useAppState } from "../../hooks/useAppState";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { useStore } from "../../store";
 
 export type View = "month" | "week" | "day";
 
 const Navigation = () => {
   const { selectedDate, view, week, handleState, getViews, translations, navigation, day, month } =
-    useAppState();
+    useStore();
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up("sm"));

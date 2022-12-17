@@ -2,7 +2,6 @@ import { Fragment, useMemo, useState } from "react";
 import { Popover, Typography, ButtonBase, useTheme, IconButton, Paper } from "@mui/material";
 import { format } from "date-fns";
 import { ProcessedEvent } from "../../types";
-import { useAppState } from "../../hooks/useAppState";
 import ArrowRightRoundedIcon from "@mui/icons-material/ArrowRightRounded";
 import ArrowLeftRoundedIcon from "@mui/icons-material/ArrowLeftRounded";
 import EventNoteRoundedIcon from "@mui/icons-material/EventNoteRounded";
@@ -11,6 +10,7 @@ import SupervisorAccountRoundedIcon from "@mui/icons-material/SupervisorAccountR
 import { PopperInner } from "../../styles/styles";
 import EventActions from "./Actions";
 import { differenceInDaysOmitTime } from "../../helpers/generals";
+import { useStore } from "../../store";
 
 interface EventItemProps {
   event: ProcessedEvent;
@@ -41,7 +41,7 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
     view,
     draggable,
     translations,
-  } = useAppState();
+  } = useStore();
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState(false);
   const theme = useTheme();
@@ -218,6 +218,7 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
       );
     }
     return item;
+    // eslint-disable-next-line
   }, [hasPrev, hasNext, event]);
 
   const isDraggable = useMemo(() => {
@@ -232,7 +233,7 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
     }
 
     return canDrag;
-  }, []);
+  }, [draggable, event.disabled, event.draggable]);
 
   return (
     <Fragment>

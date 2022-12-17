@@ -1,15 +1,15 @@
-import { useAppState } from "../../hooks/useAppState";
 import NavigateBeforeRoundedIcon from "@mui/icons-material/NavigateBeforeRounded";
 import NavigateNextRoundedIcon from "@mui/icons-material/NavigateNextRounded";
 import { IconButton } from "@mui/material";
 import { MouseEvent } from "react";
+import { useStore } from "../../store";
 
 interface LocaleArrowProps {
   type: "prev" | "next";
   onClick?(e?: MouseEvent): void;
 }
 const LocaleArrow = ({ type, onClick }: LocaleArrowProps) => {
-  const { direction } = useAppState();
+  const { direction } = useStore();
 
   let Arrow = NavigateNextRoundedIcon;
   if (type === "prev") {

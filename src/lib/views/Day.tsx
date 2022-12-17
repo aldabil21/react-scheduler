@@ -15,7 +15,6 @@ import {
 } from "date-fns";
 import TodayTypo from "../components/common/TodayTypo";
 import EventItem from "../components/events/EventItem";
-import { useAppState } from "../hooks/useAppState";
 import { CellRenderedProps, DayHours, DefaultRecourse, ProcessedEvent } from "../types";
 import {
   calcCellHeight,
@@ -29,6 +28,7 @@ import Cell from "../components/common/Cell";
 import TodayEvents from "../components/events/TodayEvents";
 import { TableGrid } from "../styles/styles";
 import { MULTI_DAY_EVENT_HEIGHT } from "../helpers/constants";
+import { useStore } from "../store";
 
 export interface DayProps {
   startHour: DayHours;
@@ -55,7 +55,7 @@ const Day = () => {
     direction,
     locale,
     hourFormat,
-  } = useAppState();
+  } = useStore();
 
   const { startHour, endHour, step, cellRenderer } = day!;
   const START_TIME = setMinutes(setHours(selectedDate, startHour), 0);

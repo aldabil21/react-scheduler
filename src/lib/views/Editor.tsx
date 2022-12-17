@@ -12,8 +12,6 @@ import {
 import { addMinutes, differenceInMinutes } from "date-fns";
 import { EditorDatePicker } from "../components/inputs/DatePicker";
 import { EditorInput } from "../components/inputs/Input";
-import { SelectedRange } from "../context/state/stateContext";
-import { useAppState } from "../hooks/useAppState";
 import {
   EventActions,
   FieldInputProps,
@@ -24,6 +22,8 @@ import {
 } from "../types";
 import { EditorSelect } from "../components/inputs/SelectInput";
 import { arraytizeFieldVal } from "../helpers/generals";
+import { useStore } from "../store";
+import { SelectedRange } from "../store/types";
 
 export type StateItem = {
   value: any;
@@ -89,7 +89,7 @@ const Editor = () => {
     confirmEvent,
     dialogMaxWidth,
     translations,
-  } = useAppState();
+  } = useStore();
   const [state, setState] = useState(initialState(fields, selectedEvent || selectedRange));
   const [touched, setTouched] = useState(false);
   const theme = useTheme();
