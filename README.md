@@ -73,6 +73,7 @@ import { Scheduler } from "@aldabil/react-scheduler";
 | onEventDrop             | Function(droppedOn: Date, updatedEvent: ProcessedEvent, originalEvent: ProcessedEvent). Return a promise, used to update remote data of the dropped event. Return an event to update state internally, or void if event state is managed within component                                                                                                                                                                                     |
 
 <br>
+
 ### useScheduler Hook
 
 used to help manage and control the internal state of the `Scheduler` component from another component outside of `Scheduler` props, Example:
