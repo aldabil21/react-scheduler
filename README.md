@@ -37,9 +37,9 @@ import { Scheduler } from "@aldabil/react-scheduler";
 />
 ```
 
-#### Options
+### Scheduler Props
 
-| Option                  | Value                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| Prop                    | Value                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | height                  | number. Min height of table. <br> _Default_: 600                                                                                                                                                                                                                                                                                                                                                                                              |
 | view                    | string. Initial view to load. options: "week", "month", "day". <br> _Default_: "week" (if it's not null)                                                                                                                                                                                                                                                                                                                                      |
@@ -71,6 +71,41 @@ import { Scheduler } from "@aldabil/react-scheduler";
 | hourFormat              | Hour format. <br>_Options_: "12", "24"..._Default_: "12"                                                                                                                                                                                                                                                                                                                                                                                      |
 | translations            | Object. Translations view props. <br> _default_: <pre>{<br> navigation: {<br> month: "Month",<br> week: "Week",<br> day: "Day",<br> today: "Today"<br> },<br> form: {<br> addTitle: "Add Event",<br> editTitle: "Edit Event",<br> confirm: "Confirm",<br> delete: "Delete",<br> cancel: "Cancel"<br> },<br> event: {<br> title: "Title",<br> start: "Start",<br> end: "End",<br> allDay: "All Day"<br>},<br> moreEvents: "More..."<br>}</pre> |
 | onEventDrop             | Function(droppedOn: Date, updatedEvent: ProcessedEvent, originalEvent: ProcessedEvent). Return a promise, used to update remote data of the dropped event. Return an event to update state internally, or void if event state is managed within component                                                                                                                                                                                     |
+
+<br>
+### useScheduler Hook
+used to help manage and control the internal state of the `Scheduler` component from another component outside of `Scheduler` props, Example:
+
+```js
+import { Scheduler, useScheduler } from "@aldabil/react-scheduler";
+
+const SomeComponent = () => {
+  const { triggerDialog, setView } = useScheduler();
+
+  return <Fragment>
+    <div>
+      <Button onClick={()=>{
+        setView("day");
+      }}>
+        Change View
+      </Button>
+      <Button onClick={()=>{
+        triggerDialog(true, {
+          start: /*Put the start date*/,
+          end: /*Put the end date*/
+        })
+      }}>
+        Add Event Tomorrow
+      </Button>
+    </div>
+
+    <Scheduler
+      events={EVENTS}
+      //...
+    />
+  </Fragment>
+};
+```
 
 ### Demos
 
