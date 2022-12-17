@@ -15,7 +15,6 @@ import {
 } from "date-fns";
 import TodayTypo from "../components/common/TodayTypo";
 import EventItem from "../components/events/EventItem";
-import { useAppState } from "../hooks/useAppState";
 import { CellRenderedProps, DayHours, DefaultRecourse, ProcessedEvent } from "../types";
 import {
   calcCellHeight,
@@ -29,6 +28,7 @@ import Cell from "../components/common/Cell";
 import TodayEvents from "../components/events/TodayEvents";
 import { TableGrid } from "../styles/styles";
 import { MULTI_DAY_EVENT_HEIGHT } from "../helpers/constants";
+import { useStore } from "../store";
 
 export interface DayProps {
   startHour: DayHours;
@@ -44,7 +44,6 @@ const Day = () => {
     selectedDate,
     events,
     height,
-    remoteEvents,
     getRemoteEvents,
     triggerLoading,
     handleState,
@@ -55,7 +54,7 @@ const Day = () => {
     direction,
     locale,
     hourFormat,
-  } = useAppState();
+  } = useStore();
 
   const { startHour, endHour, step, cellRenderer } = day!;
   const START_TIME = setMinutes(setHours(selectedDate, startHour), 0);
@@ -77,18 +76,11 @@ const Day = () => {
       triggerLoading(true);
       const start = addDays(START_TIME, -1);
       const end = addDays(END_TIME, 1);
-      const events = await (async () => {
-        // Remove `remoteEvents` in future release
-        if (remoteEvents) {
-          return await remoteEvents(`?start=${start}&end=${end}`);
-        } else {
-          return await getRemoteEvents!({
-            start,
-            end,
-            view: "day",
-          });
-        }
-      })();
+      const events = await getRemoteEvents!({
+        start,
+        end,
+        view: "day",
+      });
       if (events && events?.length) {
         handleState(events, "events");
       }
@@ -98,15 +90,13 @@ const Day = () => {
       triggerLoading(false);
     }
     // eslint-disable-next-line
-  }, [selectedDate, remoteEvents, getRemoteEvents]);
+  }, [selectedDate, getRemoteEvents]);
 
   useEffect(() => {
-    // Remove `remoteEvents` in future release
-    if ((remoteEvents || getRemoteEvents) instanceof Function) {
+    if (getRemoteEvents instanceof Function) {
       fetchEvents();
     }
-    // eslint-disable-next-line
-  }, [fetchEvents]);
+  }, [fetchEvents, getRemoteEvents]);
 
   const renderMultiDayEvents = (multiDays: ProcessedEvent[]) => {
     const todayMulti = filterMultiDaySlot(multiDays, selectedDate);

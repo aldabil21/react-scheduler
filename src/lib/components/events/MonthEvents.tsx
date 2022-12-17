@@ -8,13 +8,15 @@ import {
   isSameDay,
   isWithinInterval,
   startOfWeek,
+  differenceInDays,
+  differenceInCalendarWeeks,
 } from "date-fns";
 import { ProcessedEvent } from "../../types";
 import { Typography } from "@mui/material";
 import EventItem from "./EventItem";
 import { MONTH_NUMBER_HEIGHT, MULTI_DAY_EVENT_HEIGHT } from "../../helpers/constants";
-import { useAppState } from "../../hooks/useAppState";
 import { differenceInDaysOmitTime } from "../../helpers/generals";
+import { useStore } from "../../store";
 
 interface MonthEventProps {
   events: ProcessedEvent[];
@@ -34,7 +36,7 @@ const MonthEvents = ({
   cellHeight,
 }: MonthEventProps) => {
   const LIMIT = Math.round((cellHeight - MONTH_NUMBER_HEIGHT) / MULTI_DAY_EVENT_HEIGHT - 1);
-  const { translations } = useAppState();
+  const { translations, month, locale } = useStore();
   const eachFirstDayInCalcRow = eachWeekStart.some((date) => isSameDay(date, today)) ? today : null;
 
   const todayEvents = events
@@ -55,9 +57,15 @@ const MonthEvents = ({
         const fromPrevWeek =
           !!eachFirstDayInCalcRow && isBefore(event.start, eachFirstDayInCalcRow);
         const start = fromPrevWeek && eachFirstDayInCalcRow ? eachFirstDayInCalcRow : event.start;
-
+        //&& isBefore(eachFirstDayInCalcRow, event.end)
         let eventLength = differenceInDaysOmitTime(start, event.end) + 1;
-        const toNextWeek = eventLength >= daysList.length;
+
+        const toNextWeek =
+          differenceInCalendarWeeks(event.end, start, {
+            weekStartsOn: month?.weekStartOn,
+            locale,
+          }) > 0;
+
         if (toNextWeek) {
           // Rethink it
           const NotAccurateWeekStart = startOfWeek(event.start);
@@ -65,7 +73,7 @@ const MonthEvents = ({
           if (closestStart) {
             eventLength =
               daysList.length -
-              (!eachFirstDayInCalcRow ? differenceInDaysOmitTime(event.start, closestStart) : 0);
+              (!eachFirstDayInCalcRow ? differenceInDays(event.start, closestStart) : 0);
           }
         }
 

@@ -1,15 +1,15 @@
 import { Week } from "./views/Week";
 import { Navigation } from "./components/nav/Navigation";
-import { useAppState } from "./hooks/useAppState";
 import Editor from "./views/Editor";
 import { CircularProgress, Typography } from "@mui/material";
 import { Month } from "./views/Month";
 import { Day } from "./views/Day";
 import { Table, Wrapper } from "./styles/styles";
 import { useMemo } from "react";
+import { useStore } from "./store";
 
 const SchedulerComponent = () => {
-  const { loading, view, dialog, resources, resourceViewMode } = useAppState();
+  const { loading, view, dialog, resources, resourceViewMode } = useStore();
 
   const Views = useMemo(() => {
     switch (view) {

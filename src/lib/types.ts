@@ -188,9 +188,6 @@ export interface SchedulerProps {
   events: ProcessedEvent[];
   /** Custom event render method */
   eventRenderer?: (event: ProcessedEvent) => JSX.Element | null;
-  /**Async function to load remote data
-   * @deprecated User `getRemoteEvents` */
-  remoteEvents?(query: string): Promise<ProcessedEvent[] | void>;
   /**Async function to load remote data with current view data. */
   getRemoteEvents?(params: ViewEvent): Promise<ProcessedEvent[] | void>;
   /**Custom additional fields with it's settings */

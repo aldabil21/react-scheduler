@@ -18,7 +18,6 @@ import {
 } from "date-fns";
 import TodayTypo from "../components/common/TodayTypo";
 import EventItem from "../components/events/EventItem";
-import { useAppState } from "../hooks/useAppState";
 import { CellRenderedProps, DayHours, DefaultRecourse, ProcessedEvent } from "../types";
 import { WeekDays } from "./Month";
 import {
@@ -34,6 +33,7 @@ import Cell from "../components/common/Cell";
 import TodayEvents from "../components/events/TodayEvents";
 import { TableGrid } from "../styles/styles";
 import { MULTI_DAY_EVENT_HEIGHT } from "../helpers/constants";
+import { useStore } from "../store";
 
 export interface WeekProps {
   weekDays: WeekDays[];
@@ -52,7 +52,6 @@ const Week = () => {
     height,
     events,
     handleGotoDay,
-    remoteEvents,
     getRemoteEvents,
     triggerLoading,
     handleState,
@@ -63,7 +62,7 @@ const Week = () => {
     direction,
     locale,
     hourFormat,
-  } = useAppState();
+  } = useStore();
 
   const { weekStartOn, weekDays, startHour, endHour, step, cellRenderer } = week!;
   const _weekStart = startOfWeek(selectedDate, { weekStartsOn: weekStartOn });
@@ -88,18 +87,11 @@ const Week = () => {
     try {
       triggerLoading(true);
 
-      const events = await (async () => {
-        // Remove `remoteEvents` in future release
-        if (remoteEvents) {
-          return await remoteEvents(`?start=${weekStart}&end=${weekEnd}`);
-        } else {
-          return await getRemoteEvents!({
-            start: weekStart,
-            end: weekEnd,
-            view: "week",
-          });
-        }
-      })();
+      const events = await getRemoteEvents!({
+        start: weekStart,
+        end: weekEnd,
+        view: "week",
+      });
       if (Array.isArray(events)) {
         handleState(events, "events");
       }
@@ -109,15 +101,13 @@ const Week = () => {
       triggerLoading(false);
     }
     // eslint-disable-next-line
-  }, [selectedDate, remoteEvents, getRemoteEvents]);
+  }, [selectedDate, getRemoteEvents]);
 
   useEffect(() => {
-    // Remove `remoteEvents` in future release
-    if ((remoteEvents || getRemoteEvents) instanceof Function) {
+    if (getRemoteEvents instanceof Function) {
       fetchEvents();
     }
-    // eslint-disable-next-line
-  }, [selectedDate, remoteEvents, getRemoteEvents]);
+  }, [fetchEvents, getRemoteEvents]);
 
   const renderMultiDayEvents = (events: ProcessedEvent[], today: Date) => {
     const isFirstDayInWeek = isSameDay(weekStart, today);

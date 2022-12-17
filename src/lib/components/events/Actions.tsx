@@ -2,9 +2,9 @@ import DeleteRounded from "@mui/icons-material/DeleteRounded";
 import EditRounded from "@mui/icons-material/EditRounded";
 import { Button, Grow, IconButton, Slide } from "@mui/material";
 import { useMemo, useState } from "react";
-import { useAppState } from "../../hooks/useAppState";
 import { EventActions as Actions } from "../../styles/styles";
 import { ProcessedEvent } from "../../types";
+import { useStore } from "../../store";
 
 interface Props {
   event: ProcessedEvent;
@@ -16,7 +16,7 @@ interface Props {
 }
 
 const EventActions = ({ event, onDelete, onEdit, direction, editable, deletable }: Props) => {
-  const { translations } = useAppState();
+  const { translations } = useStore();
   const [deleteConfirm, setDeleteConfirm] = useState(false);
 
   const handleDelete = () => {

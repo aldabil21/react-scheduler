@@ -11,12 +11,12 @@ import {
   startOfMonth,
 } from "date-fns";
 import MonthEvents from "../components/events/MonthEvents";
-import { useAppState } from "../hooks/useAppState";
 import { CellRenderedProps, DayHours, DefaultRecourse } from "../types";
 import { getResourcedEvents } from "../helpers/generals";
 import { WithResources } from "../components/common/WithResources";
 import Cell from "../components/common/Cell";
 import { TableGrid } from "../styles/styles";
+import { useStore } from "../store";
 
 export type WeekDays = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 export interface MonthProps {
@@ -35,7 +35,6 @@ const Month = () => {
     height,
     events,
     handleGotoDay,
-    remoteEvents,
     getRemoteEvents,
     triggerLoading,
     handleState,
@@ -44,7 +43,7 @@ const Month = () => {
     fields,
     locale,
     hourFormat,
-  } = useAppState();
+  } = useStore();
 
   const { weekStartOn, weekDays, startHour, endHour, cellRenderer } = month!;
   const monthStart = startOfMonth(selectedDate);
@@ -66,18 +65,11 @@ const Month = () => {
       triggerLoading(true);
       const start = eachWeekStart[0];
       const end = addDays(eachWeekStart[eachWeekStart.length - 1], daysList.length);
-      const events = await (async () => {
-        // Remove `remoteEvents` in future release
-        if (remoteEvents) {
-          return await remoteEvents(`?start=${start}&end=${end}`);
-        } else {
-          return await getRemoteEvents!({
-            start,
-            end,
-            view: "month",
-          });
-        }
-      })();
+      const events = await getRemoteEvents!({
+        start,
+        end,
+        view: "month",
+      });
       if (events && events?.length) {
         handleState(events, "events");
       }
@@ -87,15 +79,13 @@ const Month = () => {
       triggerLoading(false);
     }
     // eslint-disable-next-line
-  }, [selectedDate, remoteEvents, getRemoteEvents]);
+  }, [selectedDate, getRemoteEvents]);
 
   useEffect(() => {
-    // Remove `remoteEvents` in future release
-    if ((remoteEvents || getRemoteEvents) instanceof Function) {
+    if (getRemoteEvents instanceof Function) {
       fetchEvents();
     }
-    // eslint-disable-next-line
-  }, [fetchEvents]);
+  }, [fetchEvents, getRemoteEvents]);
 
   const renderCells = (resource?: DefaultRecourse) => {
     let recousedEvents = events;

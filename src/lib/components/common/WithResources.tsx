@@ -1,14 +1,14 @@
 import { ReactChild, useMemo } from "react";
-import { useAppState } from "../../hooks/useAppState";
 import { DefaultRecourse } from "../../types";
 import { ResourceHeader } from "./ResourceHeader";
 import { ButtonTabProps, ButtonTabs } from "./Tabs";
+import { useStore } from "../../store";
 
 interface WithResourcesProps {
   renderChildren(resource: DefaultRecourse): ReactChild;
 }
 const WithResources = ({ renderChildren }: WithResourcesProps) => {
-  const { resourceViewMode } = useAppState();
+  const { resourceViewMode } = useStore();
 
   if (resourceViewMode === "tabs") {
     return <ResourcesTabTables renderChildren={renderChildren} />;
@@ -18,7 +18,7 @@ const WithResources = ({ renderChildren }: WithResourcesProps) => {
 };
 
 const ResourcesTables = ({ renderChildren }: WithResourcesProps) => {
-  const { resources, resourceFields } = useAppState();
+  const { resources, resourceFields } = useStore();
 
   return (
     <>
@@ -33,7 +33,7 @@ const ResourcesTables = ({ renderChildren }: WithResourcesProps) => {
 };
 
 const ResourcesTabTables = ({ renderChildren }: WithResourcesProps) => {
-  const { resources, resourceFields, selectedResource, handleState } = useAppState();
+  const { resources, resourceFields, selectedResource, handleState } = useStore();
 
   const tabs: ButtonTabProps[] = resources.map((res) => {
     return {

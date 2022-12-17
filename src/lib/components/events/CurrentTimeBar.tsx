@@ -29,6 +29,7 @@ const CurrentTimeBar = (props: CurrentTimeBarProps) => {
   useEffect(() => {
     const interval = setInterval(() => setTop(calculateTop(props)), 60 * 1000);
     return () => clearInterval(interval);
+    // eslint-disable-next-line
   }, []);
 
   // Prevent showing bar on top of days/header

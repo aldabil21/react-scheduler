@@ -1,6 +1,6 @@
 import { alpha, useTheme } from "@mui/material";
 import { DragEvent } from "react";
-import { useAppState } from "./useAppState";
+import { useStore } from "../store";
 
 interface Props {
   start: Date;
@@ -9,7 +9,7 @@ interface Props {
   resourceVal: string | number;
 }
 export const useDropAttributes = ({ start, end, resourceKey, resourceVal }: Props) => {
-  const { triggerDialog, onDrop } = useAppState();
+  const { triggerDialog, onDrop } = useStore();
   const theme = useTheme();
 
   return {

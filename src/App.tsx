@@ -1,4 +1,3 @@
-// import * as React from "react";
 import { Scheduler } from "./lib";
 import {
   EVENTS,
@@ -6,13 +5,16 @@ import {
 } from "./events";
 
 function App() {
-  // const [events, setEvents] = React.useState(EVENTS);
-
   return (
     <Scheduler
       events={EVENTS}
-      // getRemoteEvents={async () => {
-      //   return EVENTS;
+      // getRemoteEvents={async (query) => {
+      //   console.log(query);
+      //   return new Promise((res) => {
+      //     setTimeout(() => {
+      //       res(EVENTS);
+      //     }, 1000);
+      //   });
       // }}
       // eventRenderer={(event) => <>{event.title}</>}
       // dialogMaxWidth="sm"
@@ -60,16 +62,6 @@ function App() {
       //   shouldDisableDate(day) {
       //     return true;
       //   },
-      // }}
-      // remoteEvents={async (query) => {
-      //   await new Promise((res, rej) => {
-      //     setTimeout(() => {
-      //       // setEvents(EVENTS);
-      //       res("");
-      //     }, 1000);
-      //   });
-      //   // return null;
-      //   // return EVENTS;
       // }}
       // resources={RECOURCES}
       // resourceFields={{
@@ -134,12 +126,12 @@ function App() {
       //   });
       // }}
       // onDelete={async (id) => {
-      //   await new Promise((res, rej) => {
+      //   return new Promise((res, rej) => {
       //     setTimeout(() => {
-      //       setEvents((prev) => {
-      //         return prev.filter((p) => p.event_id !== id);
-      //       });
-      //       res("");
+      //       // setEvents((prev) => {
+      //       //   return prev.filter((p) => p.event_id !== id);
+      //       // });
+      //       res(id);
       //     }, 1000);
       //   });
       // }}
@@ -189,12 +181,12 @@ function App() {
       // onEventDrop={async (time, updated) => {
       //   return new Promise((res) => {
       //     setTimeout(() => {
-      //       setEvents((prev: any) => {
-      //         return prev.map((e) =>
-      //           e.event_id === updated.event_id ? updated : e
-      //         );
-      //       });
-      //       res();
+      //       // setEvents((prev: any) => {
+      //       //   return prev.map((e) =>
+      //       //     e.event_id === updated.event_id ? updated : e
+      //       //   );
+      //       // });
+      //       res(updated);
       //     }, 1000);
       //   });
       // }}

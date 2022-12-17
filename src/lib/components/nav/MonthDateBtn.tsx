@@ -4,7 +4,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Button } from "@mui/material";
 import { format, getMonth, setMonth } from "date-fns";
 import { LocaleArrow } from "../common/LocaleArrow";
-import { useAppState } from "../../hooks/useAppState";
+import { useStore } from "../../store";
 
 interface MonthDateBtnProps {
   selectedDate: Date;
@@ -12,7 +12,7 @@ interface MonthDateBtnProps {
 }
 
 const MonthDateBtn = ({ selectedDate, onChange }: MonthDateBtnProps) => {
-  const { locale, navigationPickerProps } = useAppState();
+  const { locale, navigationPickerProps } = useStore();
   const [open, setOpen] = useState(false);
   const currentMonth = getMonth(selectedDate);
 

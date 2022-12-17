@@ -1,16 +1,18 @@
-import { AppState } from "./context/state/State";
-import { defaultProps } from "./context/state/stateContext";
+import { useEffect } from "react";
 import { SchedulerComponent } from "./SchedulerComponent";
+import { useStore } from "./store";
 import { Scheduler as SchedulerProps } from "./types";
+import { useScheduler } from "./hooks/useScheduler";
 
 const Scheduler = (props: SchedulerProps) => {
-  return (
-    <AppState initial={props}>
-      <SchedulerComponent />
-    </AppState>
-  );
+  const { initiateProps } = useStore();
+
+  useEffect(() => {
+    initiateProps(props);
+    // eslint-disable-next-line
+  }, []);
+
+  return <SchedulerComponent />;
 };
 
-Scheduler.defaultProps = defaultProps;
-
-export { Scheduler };
+export { Scheduler, useScheduler };
