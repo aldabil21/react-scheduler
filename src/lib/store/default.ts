@@ -70,16 +70,22 @@ const defaultTranslations = (trans: Partial<SchedulerProps["translations"]> = {}
   };
 };
 
+const defaultViews = (props: Partial<SchedulerProps>) => {
+  const { month, week, day } = props;
+  return {
+    month: month !== null ? Object.assign(defaultMonth, month) : null,
+    week: week !== null ? Object.assign(defaultWeek, week) : null,
+    day: day !== null ? Object.assign(defaultDay, day) : null,
+  };
+};
+
 export const defaultProps = (props: Partial<SchedulerProps>) => {
   const { month, week, day, translations, resourceFields, view, ...otherProps } = props;
-  const _month = month !== null ? Object.assign(defaultMonth, month) : null;
-  const _week = week !== null ? Object.assign(defaultWeek, week) : null;
-  const _day = day !== null ? Object.assign(defaultDay, day) : null;
-  const initialView = getOneView({ month: _month, week: _week, day: _day });
+  const views = defaultViews(props);
+  const defaultView = view || "week";
+  const initialView = views[defaultView] ? defaultView : getOneView(views);
   return {
-    month: _month,
-    week: _week,
-    day: _day,
+    ...views,
     translations: defaultTranslations(translations),
     resourceFields: Object.assign(defaultResourceFields, resourceFields),
     view: initialView,
