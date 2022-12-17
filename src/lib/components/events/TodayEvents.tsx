@@ -47,6 +47,10 @@ const TodayEvents = ({
         const borderFactor = slotsFromTop + BORDER_HEIGHT;
         const top = topSpace + borderFactor;
 
+        if (top < 0) {
+          return null;
+        }
+
         const crossingEvents = traversCrossingEvents(todayEvents, event);
         const alreadyRendered = crossingEvents.filter((e) => crossingIds.includes(e.event_id));
         crossingIds.push(event.event_id);
