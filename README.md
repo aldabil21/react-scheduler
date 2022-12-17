@@ -74,6 +74,7 @@ import { Scheduler } from "@aldabil/react-scheduler";
 
 <br>
 ### useScheduler Hook
+
 used to help manage and control the internal state of the `Scheduler` component from another component outside of `Scheduler` props, Example:
 
 ```js
