@@ -3,12 +3,13 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { useStore } from "../../store";
 
 interface AuxProps {
-  children: React.ReactNode;
+  children: any;
 }
+
 const DateProvider = ({ children }: AuxProps) => {
   const { locale } = useStore();
   return (
-    <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={locale}>
+    <LocalizationProvider dateAdapter={AdapterDateFns as any} adapterLocale={locale}>
       {children}
     </LocalizationProvider>
   );
