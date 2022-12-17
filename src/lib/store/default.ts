@@ -1,5 +1,6 @@
 import enUS from "date-fns/locale/en-US";
 import { SchedulerProps } from "../types";
+import { getOneView } from "../helpers/generals";
 
 const defaultMonth = {
   weekDays: [0, 1, 2, 3, 4, 5, 6],
@@ -71,11 +72,14 @@ const defaultTranslations = (trans: Partial<SchedulerProps["translations"]> = {}
 
 export const defaultProps = (props: Partial<SchedulerProps>) => {
   const { month, week, day, translations, resourceFields, view, ...otherProps } = props;
-  const initialView = view || "week";
+  const _month = month !== null ? Object.assign(defaultMonth, month) : null;
+  const _week = week !== null ? Object.assign(defaultWeek, week) : null;
+  const _day = day !== null ? Object.assign(defaultDay, day) : null;
+  const initialView = getOneView({ month: _month, week: _week, day: _day });
   return {
-    month: Object.assign(defaultMonth, month),
-    week: Object.assign(defaultWeek, week),
-    day: Object.assign(defaultDay, day),
+    month: _month,
+    week: _week,
+    day: _day,
     translations: defaultTranslations(translations),
     resourceFields: Object.assign(defaultResourceFields, resourceFields),
     view: initialView,
