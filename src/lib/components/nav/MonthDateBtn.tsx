@@ -44,7 +44,7 @@ const MonthDateBtn = ({ selectedDate, onChange }: MonthDateBtnProps) => {
           onChange={handleChange}
           renderInput={(params) => (
             <Button ref={params.inputRef} style={{ padding: 4 }} onClick={toggleDialog}>
-              {format(selectedDate, "MMMM yyyy", { locale: locale })}
+              {format(selectedDate, "MMMM yyyy", { locale })}
             </Button>
           )}
         />
