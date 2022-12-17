@@ -85,7 +85,6 @@ export const defaultProps = (props: Partial<SchedulerProps>) => {
         navigation: true,
         selectedDate: new Date(),
         events: [],
-        remoteEvents: undefined,
         fields: [],
         loading: undefined,
         customEditor: undefined,

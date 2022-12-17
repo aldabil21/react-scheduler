@@ -44,7 +44,6 @@ const Day = () => {
     selectedDate,
     events,
     height,
-    remoteEvents,
     getRemoteEvents,
     triggerLoading,
     handleState,
@@ -77,18 +76,11 @@ const Day = () => {
       triggerLoading(true);
       const start = addDays(START_TIME, -1);
       const end = addDays(END_TIME, 1);
-      const events = await (async () => {
-        // Remove `remoteEvents` in future release
-        if (remoteEvents) {
-          return await remoteEvents(`?start=${start}&end=${end}`);
-        } else {
-          return await getRemoteEvents!({
-            start,
-            end,
-            view: "day",
-          });
-        }
-      })();
+      const events = await getRemoteEvents!({
+        start,
+        end,
+        view: "day",
+      });
       if (events && events?.length) {
         handleState(events, "events");
       }
@@ -98,15 +90,13 @@ const Day = () => {
       triggerLoading(false);
     }
     // eslint-disable-next-line
-  }, [selectedDate, remoteEvents, getRemoteEvents]);
+  }, [selectedDate, getRemoteEvents]);
 
   useEffect(() => {
-    // Remove `remoteEvents` in future release
-    if ((remoteEvents || getRemoteEvents) instanceof Function) {
+    if (getRemoteEvents instanceof Function) {
       fetchEvents();
     }
-    // eslint-disable-next-line
-  }, [fetchEvents]);
+  }, [fetchEvents, getRemoteEvents]);
 
   const renderMultiDayEvents = (multiDays: ProcessedEvent[]) => {
     const todayMulti = filterMultiDaySlot(multiDays, selectedDate);

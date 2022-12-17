@@ -8,8 +8,8 @@ function App() {
   return (
     <Scheduler
       events={EVENTS}
-      // getRemoteEvents={async (q) => {
-      //   console.log(q);
+      // getRemoteEvents={async (query) => {
+      //   console.log(query);
       //   return new Promise((res) => {
       //     setTimeout(() => {
       //       res(EVENTS);
@@ -62,16 +62,6 @@ function App() {
       //   shouldDisableDate(day) {
       //     return true;
       //   },
-      // }}
-      // remoteEvents={async (query) => {
-      //   await new Promise((res, rej) => {
-      //     setTimeout(() => {
-      //       // setEvents(EVENTS);
-      //       res("");
-      //     }, 1000);
-      //   });
-      //   // return null;
-      //   // return EVENTS;
       // }}
       // resources={RECOURCES}
       // resourceFields={{

@@ -35,7 +35,6 @@ const Month = () => {
     height,
     events,
     handleGotoDay,
-    remoteEvents,
     getRemoteEvents,
     triggerLoading,
     handleState,
@@ -66,18 +65,11 @@ const Month = () => {
       triggerLoading(true);
       const start = eachWeekStart[0];
       const end = addDays(eachWeekStart[eachWeekStart.length - 1], daysList.length);
-      const events = await (async () => {
-        // Remove `remoteEvents` in future release
-        if (remoteEvents) {
-          return await remoteEvents(`?start=${start}&end=${end}`);
-        } else {
-          return await getRemoteEvents!({
-            start,
-            end,
-            view: "month",
-          });
-        }
-      })();
+      const events = await getRemoteEvents!({
+        start,
+        end,
+        view: "month",
+      });
       if (events && events?.length) {
         handleState(events, "events");
       }
@@ -87,15 +79,13 @@ const Month = () => {
       triggerLoading(false);
     }
     // eslint-disable-next-line
-  }, [selectedDate, remoteEvents, getRemoteEvents]);
+  }, [selectedDate, getRemoteEvents]);
 
   useEffect(() => {
-    // Remove `remoteEvents` in future release
-    if ((remoteEvents || getRemoteEvents) instanceof Function) {
+    if (getRemoteEvents instanceof Function) {
       fetchEvents();
     }
-    // eslint-disable-next-line
-  }, [fetchEvents]);
+  }, [fetchEvents, getRemoteEvents]);
 
   const renderCells = (resource?: DefaultRecourse) => {
     let recousedEvents = events;
