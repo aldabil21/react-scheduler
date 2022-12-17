@@ -178,18 +178,29 @@ function App() {
       //   },
       //   moreEvents: "mais..."
       // }}
-      // onEventDrop={async (time, updated) => {
-      //   return new Promise((res) => {
-      //     setTimeout(() => {
-      //       // setEvents((prev: any) => {
-      //       //   return prev.map((e) =>
-      //       //     e.event_id === updated.event_id ? updated : e
-      //       //   );
-      //       // });
-      //       res(updated);
-      //     }, 1000);
-      //   });
-      // }}
+      onEventDrop={async (time, updated) => {
+        if (updated.color === "green") {
+          updated.color = "red";
+          updated.draggable = false;
+        } else {
+          updated.color = "green";
+        }
+        return new Promise((res, rej) => {
+          setTimeout(() => {
+            res(updated);
+          }, 1000);
+        });
+        // return new Promise((res) => {
+        //   setTimeout(() => {
+        //     // setEvents((prev: any) => {
+        //     //   return prev.map((e) =>
+        //     //     e.event_id === updated.event_id ? updated : e
+        //     //   );
+        //     // });
+        //     res(updated);
+        //   }, 1000);
+        // });
+      }}
     />
   );
 }

@@ -163,6 +163,20 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
     );
   };
 
+  const isDraggable = useMemo(() => {
+    // if Disabled
+    if (event.disabled) return false;
+
+    // global-wise isDraggable
+    let canDrag = typeof draggable !== "undefined" ? draggable : true;
+    // Override by event-wise
+    if (typeof event.draggable !== "undefined") {
+      canDrag = event.draggable;
+    }
+
+    return canDrag;
+  }, [draggable, event.disabled, event.draggable]);
+
   const renderEvent = useMemo(() => {
     // Check if has custom render event method
     // only applicable to non-multiday events and not in month-view
@@ -181,8 +195,8 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
         {showdate && (
           <Typography style={{ fontSize: 11 }} noWrap>
             {`${format(event.start, hFormat, {
-              locale: locale,
-            })} - ${format(event.end, hFormat, { locale: locale })}`}
+              locale,
+            })} - ${format(event.end, hFormat, { locale })}`}
           </Typography>
         )}
       </div>
@@ -201,7 +215,7 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
             {hasPrev ? (
               <PrevArrow fontSize="small" sx={{ display: "flex" }} />
             ) : (
-              showdate && !hideDates && format(event.start, hFormat, { locale: locale })
+              showdate && !hideDates && format(event.start, hFormat, { locale })
             )}
           </Typography>
           <Typography variant="subtitle2" align="center" sx={{ fontSize: 12 }} noWrap>
@@ -211,33 +225,15 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
             {hasNext ? (
               <NextArrow fontSize="small" sx={{ display: "flex" }} />
             ) : (
-              showdate && !hideDates && format(event.end, hFormat, { locale: locale })
+              showdate && !hideDates && format(event.end, hFormat, { locale })
             )}
           </Typography>
         </div>
       );
     }
-    return item;
-    // eslint-disable-next-line
-  }, [hasPrev, hasNext, event]);
-
-  const isDraggable = useMemo(() => {
-    // if Disabled
-    if (event.disabled) return false;
-
-    // global-wise isDraggable
-    let canDrag = typeof draggable !== "undefined" ? draggable : true;
-    // Override by event-wise
-    if (typeof event.draggable !== "undefined") {
-      canDrag = event.draggable;
-    }
-
-    return canDrag;
-  }, [draggable, event.disabled, event.draggable]);
-
-  return (
-    <Fragment>
+    return (
       <Paper
+        key={`${event.start.getTime()}_${event.end.getTime()}`}
         style={{
           width: "100%",
           height: "100%",
@@ -283,11 +279,17 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
               e.preventDefault();
             }}
           >
-            {renderEvent}
+            {item}
           </div>
         </ButtonBase>
       </Paper>
+    );
+    // eslint-disable-next-line
+  }, [hasPrev, hasNext, event, isDraggable, locale, theme.palette]);
 
+  return (
+    <Fragment>
+      {renderEvent}
       {/* Viewer */}
       <Popover
         open={Boolean(anchorEl)}

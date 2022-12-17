@@ -159,7 +159,7 @@ const Month = () => {
         {daysList.map((date, i) => (
           <span key={i} className="rs__cell rs__header">
             <Typography align="center" variant="body2">
-              {format(date, "EE", { locale: locale })}
+              {format(date, "EE", { locale })}
             </Typography>
           </span>
         ))}
