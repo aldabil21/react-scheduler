@@ -4,6 +4,8 @@ import { useStore } from "../store";
 const useScheduler = () => {
   const {
     handleState,
+    selectedDate,
+    handleGotoDay,
     triggerDialog,
     triggerLoading,
     events,
@@ -17,6 +19,10 @@ const useScheduler = () => {
 
   const setEvents = (events: SchedulerProps["events"]) => {
     handleState(events, "events");
+  };
+
+  const setSelectedDate = (date: SchedulerProps["selectedDate"]) => {
+    handleState(date, "selectedDate");
   };
 
   const setView = (view: SchedulerProps["view"]) => {
@@ -50,6 +56,9 @@ const useScheduler = () => {
   return {
     events,
     setEvents,
+    selectedDate,
+    setSelectedDate,
+    goToDay: handleGotoDay,
     view,
     setView,
     schedulerLocale: locale,

@@ -17,7 +17,7 @@ export interface Store extends SchedulerState {
   getViews(): View[];
   triggerDialog(status: boolean, event?: SelectedRange | ProcessedEvent): void;
   triggerLoading(status: boolean): void;
-  handleGotoDay(day: Date | string): void;
+  handleGotoDay(day: Date): void;
   confirmEvent(event: ProcessedEvent, action: EventActions): void;
   onDrop(
     eventId: string,
