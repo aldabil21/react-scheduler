@@ -73,6 +73,7 @@ export interface Translations {
     allDay: string;
   };
   moreEvents: string;
+  loading: string;
 }
 
 export type InputTypes = "input" | "date" | "select" | "hidden";
