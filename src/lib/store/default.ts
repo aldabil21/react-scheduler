@@ -68,7 +68,7 @@ const defaultTranslations = (trans: Partial<SchedulerProps["translations"]> = {}
       },
       event
     ),
-    ...Object.assign({ moreEvents: "More..." }, other),
+    ...Object.assign({ moreEvents: "More...", loading: "Loading..." }, other),
   };
 };
 
