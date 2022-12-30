@@ -26,6 +26,7 @@ export interface MonthProps {
   endHour: DayHours;
   cellRenderer?(props: CellRenderedProps): JSX.Element;
   navigation?: boolean;
+  disableGoToDay?: boolean;
 }
 
 const Month = () => {
@@ -45,7 +46,7 @@ const Month = () => {
     hourFormat,
   } = useStore();
 
-  const { weekStartOn, weekDays, startHour, endHour, cellRenderer } = month!;
+  const { weekStartOn, weekDays, startHour, endHour, cellRenderer, disableGoToDay } = month!;
   const monthStart = startOfMonth(selectedDate);
   const monthEnd = endOfMonth(selectedDate);
   const eachWeekStart = eachWeekOfInterval(
@@ -125,10 +126,12 @@ const Month = () => {
               >
                 <Typography
                   color={!isSameMonth(today, monthStart) ? "#ccc" : "textPrimary"}
-                  className="rs__hover__op"
+                  className={!disableGoToDay ? "rs__hover__op" : ""}
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleGotoDay(today);
+                    if (!disableGoToDay) {
+                      handleGotoDay(today);
+                    }
                   }}
                 >
                   {format(today, "dd")}

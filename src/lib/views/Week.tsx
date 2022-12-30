@@ -43,6 +43,7 @@ export interface WeekProps {
   step: number;
   cellRenderer?(props: CellRenderedProps): JSX.Element;
   navigation?: boolean;
+  disableGoToDay?: boolean;
 }
 
 const Week = () => {
@@ -64,7 +65,7 @@ const Week = () => {
     hourFormat,
   } = useStore();
 
-  const { weekStartOn, weekDays, startHour, endHour, step, cellRenderer } = week!;
+  const { weekStartOn, weekDays, startHour, endHour, step, cellRenderer, disableGoToDay } = week!;
   const _weekStart = startOfWeek(selectedDate, { weekStartsOn: weekStartOn });
   const daysList = weekDays.map((d) => addDays(_weekStart, d));
   const weekStart = startOfDay(daysList[0]);
@@ -169,7 +170,11 @@ const Week = () => {
             className={`rs__cell rs__header ${isToday(date) ? "rs__today_cell" : ""}`}
             style={{ height: headerHeight }}
           >
-            <TodayTypo date={date} onClick={handleGotoDay} locale={locale} />
+            <TodayTypo
+              date={date}
+              onClick={!disableGoToDay ? handleGotoDay : undefined}
+              locale={locale}
+            />
             {renderMultiDayEvents(recousedEvents, date)}
           </span>
         ))}

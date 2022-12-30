@@ -8,6 +8,7 @@ const defaultMonth = {
   startHour: 9,
   endHour: 17,
   navigation: true,
+  disableGoToDay: true,
 };
 
 const defaultWeek = {
@@ -17,6 +18,7 @@ const defaultWeek = {
   endHour: 17,
   step: 60,
   navigation: true,
+  disableGoToDay: true,
 };
 
 const defaultDay = {
