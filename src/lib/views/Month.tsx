@@ -17,6 +17,7 @@ import { WithResources } from "../components/common/WithResources";
 import Cell from "../components/common/Cell";
 import { TableGrid } from "../styles/styles";
 import { useStore } from "../store";
+import useSyncScroll from "../hooks/useSyncScroll";
 
 export type WeekDays = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 export interface MonthProps {
@@ -60,6 +61,7 @@ const Month = () => {
   const daysList = weekDays.map((d) => addDays(eachWeekStart[0], d));
   const CELL_HEIGHT = height / eachWeekStart.length;
   const theme = useTheme();
+  const { headersRef, bodyRef } = useSyncScroll();
 
   const fetchEvents = useCallback(async () => {
     try {
@@ -157,18 +159,25 @@ const Month = () => {
 
   const renderTable = (resource?: DefaultRecourse) => {
     return (
-      <TableGrid days={daysList.length} indent="0">
+      <>
         {/* Header Days */}
-        {daysList.map((date, i) => (
-          <span key={i} className="rs__cell rs__header">
-            <Typography align="center" variant="body2">
+        <TableGrid days={daysList.length} ref={headersRef} indent="0" sticky>
+          {daysList.map((date, i) => (
+            <Typography
+              key={i}
+              className="rs__cell rs__header rs__header__center"
+              align="center"
+              variant="body2"
+            >
               {format(date, "EE", { locale })}
             </Typography>
-          </span>
-        ))}
-
-        {renderCells(resource)}
-      </TableGrid>
+          ))}
+        </TableGrid>
+        {/* Time Cells */}
+        <TableGrid days={daysList.length} ref={bodyRef} indent="0">
+          {renderCells(resource)}
+        </TableGrid>
+      </>
     );
   };
 
