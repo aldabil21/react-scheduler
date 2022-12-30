@@ -1,10 +1,12 @@
-import { Scheduler } from "./lib";
+import { Scheduler, useScheduler } from "./lib";
 import {
   EVENTS,
   // , RECOURCES
 } from "./events";
 
 function App() {
+  const { selectedDate } = useScheduler();
+  console.log({ selectedDate });
   return (
     <Scheduler
       events={EVENTS}
@@ -57,7 +59,7 @@ function App() {
       //   endHour: 18,
       //   step: 20,
       // }}
-      // navigation={false}
+      navigation={false}
       // navigationPickerProps={{
       //   shouldDisableDate(day) {
       //     return true;
