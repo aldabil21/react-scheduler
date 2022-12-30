@@ -178,6 +178,8 @@ export interface SchedulerProps {
   selectedDate: Date;
   /** Show/Hide date navigation */
   navigation?: boolean;
+  /** Show/Hide view navigator */
+  disableViewNavigator?: boolean;
   /** */
   navigationPickerProps?: Partial<
     Omit<

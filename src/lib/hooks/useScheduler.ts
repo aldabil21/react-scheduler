@@ -5,6 +5,7 @@ const useScheduler = () => {
   const {
     handleState,
     selectedDate,
+    disableViewNavigator,
     handleGotoDay,
     triggerDialog,
     triggerLoading,
@@ -23,6 +24,12 @@ const useScheduler = () => {
 
   const setSelectedDate = (date: SchedulerProps["selectedDate"]) => {
     handleState(date, "selectedDate");
+  };
+
+  const setDisableViewNavigator = (
+    disableViewNavigator: SchedulerProps["disableViewNavigator"]
+  ) => {
+    handleState(disableViewNavigator, "disableViewNavigator");
   };
 
   const setView = (view: SchedulerProps["view"]) => {
@@ -56,6 +63,8 @@ const useScheduler = () => {
   return {
     events,
     setEvents,
+    disableViewNavigator,
+    setDisableViewNavigator,
     selectedDate,
     setSelectedDate,
     goToDay: handleGotoDay,

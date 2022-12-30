@@ -17,8 +17,18 @@ import { useStore } from "../../store";
 export type View = "month" | "week" | "day";
 
 const Navigation = () => {
-  const { selectedDate, view, week, handleState, getViews, translations, navigation, day, month } =
-    useStore();
+  const {
+    selectedDate,
+    view,
+    week,
+    handleState,
+    getViews,
+    translations,
+    navigation,
+    day,
+    month,
+    disableViewNavigator,
+  } = useStore();
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up("sm"));
@@ -56,7 +66,13 @@ const Navigation = () => {
       }}
     >
       <div data-testid="date-navigator">{navigation && renderDateSelector()}</div>
-      <div data-testid="view-navigator">
+
+      <div
+        data-testid="view-navigator"
+        style={{
+          visibility: disableViewNavigator ? "hidden" : "visible",
+        }}
+      >
         <Button onClick={() => handleState(new Date(), "selectedDate")}>
           {translations.navigation.today}
         </Button>
