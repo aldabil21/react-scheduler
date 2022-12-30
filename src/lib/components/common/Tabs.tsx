@@ -1,6 +1,6 @@
 import { CSSProperties, ReactChild } from "react";
 import PropTypes from "prop-types";
-import { Tabs, Tab, Box } from "@mui/material";
+import { Tabs, Tab } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Theme } from "@mui/system";
 
@@ -10,8 +10,8 @@ interface TabPanelProps {
   children: ReactChild;
 }
 function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-  return value === index ? <Box {...other}>{children}</Box> : <></>;
+  const { children, value, index } = props;
+  return value === index ? <>{children}</> : <></>;
 }
 
 TabPanel.propTypes = {
@@ -33,11 +33,13 @@ const StyledTaps = styled("div")(({ theme }: { theme: Theme }) => ({
   backgroundColor: theme.palette.background.paper,
   alignSelf: "center",
   "& .tabs": {
-    borderColor: "#eee",
+    borderColor: theme.palette.grey[300],
     borderStyle: "solid",
-    borderWidth: `1px 1px 0 1px`,
+    borderWidth: 1,
     "& button.MuiTab-root": {
-      borderRight: "1px solid #eee",
+      borderColor: theme.palette.grey[300],
+      borderRightStyle: "solid",
+      borderWidth: 1,
     },
   },
   "& .primary": {

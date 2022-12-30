@@ -34,6 +34,7 @@ import TodayEvents from "../components/events/TodayEvents";
 import { TableGrid } from "../styles/styles";
 import { MULTI_DAY_EVENT_HEIGHT } from "../helpers/constants";
 import { useStore } from "../store";
+import useSyncScroll from "../hooks/useSyncScroll";
 
 export interface WeekProps {
   weekDays: WeekDays[];
@@ -83,6 +84,7 @@ const Week = () => {
   const MINUTE_HEIGHT = calcMinuteHeight(CELL_HEIGHT, step);
   const MULTI_SPACE = MULTI_DAY_EVENT_HEIGHT;
   const hFormat = hourFormat === "12" ? "hh:mm a" : "HH:mm";
+  const { headersRef, bodyRef } = useSyncScroll();
 
   const fetchEvents = useCallback(async () => {
     try {
@@ -161,66 +163,70 @@ const Week = () => {
     const allWeekMulti = filterMultiDaySlot(shouldEqualize ? events : recousedEvents, daysList);
     const headerHeight = MULTI_SPACE * allWeekMulti.length + 45;
     return (
-      <TableGrid days={daysList.length}>
+      <>
         {/* Header days */}
-        <span className="rs__cell"></span>
-        {daysList.map((date, i) => (
-          <span
-            key={i}
-            className={`rs__cell rs__header ${isToday(date) ? "rs__today_cell" : ""}`}
-            style={{ height: headerHeight }}
-          >
-            <TodayTypo
-              date={date}
-              onClick={!disableGoToDay ? handleGotoDay : undefined}
-              locale={locale}
-            />
-            {renderMultiDayEvents(recousedEvents, date)}
-          </span>
-        ))}
-
-        {/* Time Cells */}
-        {hours.map((h, i) => (
-          <Fragment key={i}>
-            <span style={{ height: CELL_HEIGHT }} className="rs__cell rs__header rs__time">
-              <Typography variant="caption">{format(h, hFormat, { locale })}</Typography>
+        <TableGrid days={daysList.length} ref={headersRef} sticky>
+          <span className="rs__cell rs__time"></span>
+          {daysList.map((date, i) => (
+            <span
+              key={i}
+              className={`rs__cell rs__header ${isToday(date) ? "rs__today_cell" : ""}`}
+              style={{ height: headerHeight }}
+            >
+              <TodayTypo
+                date={date}
+                onClick={!disableGoToDay ? handleGotoDay : undefined}
+                locale={locale}
+              />
+              {renderMultiDayEvents(recousedEvents, date)}
             </span>
-            {daysList.map((date, ii) => {
-              const start = new Date(`${format(date, "yyyy/MM/dd")} ${format(h, hFormat)}`);
-              const end = new Date(
-                `${format(date, "yyyy/MM/dd")} ${format(addMinutes(h, step), hFormat)}`
-              );
-              const field = resourceFields.idField;
-              return (
-                <span key={ii} className={`rs__cell ${isToday(date) ? "rs__today_cell" : ""}`}>
-                  {/* Events of each day - run once on the top hour column */}
-                  {i === 0 && (
-                    <TodayEvents
-                      todayEvents={filterTodayEvents(recousedEvents, date)}
-                      today={date}
-                      minuteHeight={MINUTE_HEIGHT}
-                      startHour={startHour}
-                      step={step}
-                      direction={direction}
+          ))}
+        </TableGrid>
+        {/* Time Cells */}
+        <TableGrid days={daysList.length} ref={bodyRef}>
+          {hours.map((h, i) => (
+            <Fragment key={i}>
+              <span style={{ height: CELL_HEIGHT }} className="rs__cell rs__header rs__time">
+                <Typography variant="caption">{format(h, hFormat, { locale })}</Typography>
+              </span>
+              {daysList.map((date, ii) => {
+                const start = new Date(`${format(date, "yyyy/MM/dd")} ${format(h, hFormat)}`);
+                const end = new Date(
+                  `${format(date, "yyyy/MM/dd")} ${format(addMinutes(h, step), hFormat)}`
+                );
+                const field = resourceFields.idField;
+                return (
+                  <span key={ii} className={`rs__cell ${isToday(date) ? "rs__today_cell" : ""}`}>
+                    {/* Events of each day - run once on the top hour column */}
+                    {i === 0 && (
+                      <TodayEvents
+                        todayEvents={filterTodayEvents(recousedEvents, date)}
+                        today={date}
+                        minuteHeight={MINUTE_HEIGHT}
+                        startHour={startHour}
+                        step={step}
+                        direction={direction}
+                      />
+                    )}
+                    <Cell
+                      start={start}
+                      end={end}
+                      day={date}
+                      height={CELL_HEIGHT}
+                      resourceKey={field}
+                      resourceVal={resource ? resource[field] : null}
+                      cellRenderer={cellRenderer}
                     />
-                  )}
-                  <Cell
-                    start={start}
-                    end={end}
-                    day={date}
-                    height={CELL_HEIGHT}
-                    resourceKey={field}
-                    resourceVal={resource ? resource[field] : null}
-                    cellRenderer={cellRenderer}
-                  />
-                </span>
-              );
-            })}
-          </Fragment>
-        ))}
-      </TableGrid>
+                  </span>
+                );
+              })}
+            </Fragment>
+          ))}
+        </TableGrid>
+      </>
     );
   };
+
   return resources.length ? <WithResources renderChildren={renderTable} /> : renderTable();
 };
 

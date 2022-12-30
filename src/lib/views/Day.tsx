@@ -29,6 +29,7 @@ import TodayEvents from "../components/events/TodayEvents";
 import { TableGrid } from "../styles/styles";
 import { MULTI_DAY_EVENT_HEIGHT } from "../helpers/constants";
 import { useStore } from "../store";
+import useSyncScroll from "../hooks/useSyncScroll";
 
 export interface DayProps {
   startHour: DayHours;
@@ -70,6 +71,7 @@ const Day = () => {
   const MINUTE_HEIGHT = calcMinuteHeight(CELL_HEIGHT, step);
   const hFormat = hourFormat === "12" ? "hh:mm a" : "HH:mm";
   const todayEvents = events.sort((b, a) => a.end.getTime() - b.end.getTime());
+  const { headersRef, bodyRef } = useSyncScroll();
 
   const fetchEvents = useCallback(async () => {
     try {
@@ -136,59 +138,62 @@ const Day = () => {
     );
     const headerHeight = MULTI_DAY_EVENT_HEIGHT * allWeekMulti.length + 45;
     return (
-      <TableGrid days={1}>
+      <>
         {/* Header */}
-        <span className="rs__cell"></span>
-        <span
-          className={`rs__cell rs__header ${isToday(selectedDate) ? "rs__today_cell" : ""}`}
-          style={{ height: headerHeight }}
-        >
-          <TodayTypo date={selectedDate} locale={locale} />
-          {renderMultiDayEvents(recousedEvents)}
-        </span>
+        <TableGrid days={1} ref={headersRef} sticky>
+          <span className="rs__cell"></span>
+          <span
+            className={`rs__cell rs__header ${isToday(selectedDate) ? "rs__today_cell" : ""}`}
+            style={{ height: headerHeight }}
+          >
+            <TodayTypo date={selectedDate} locale={locale} />
+            {renderMultiDayEvents(recousedEvents)}
+          </span>
+        </TableGrid>
+        <TableGrid days={1} ref={bodyRef}>
+          {/* Body */}
+          {hours.map((h, i) => {
+            const start = new Date(`${format(selectedDate, "yyyy/MM/dd")} ${format(h, hFormat)}`);
+            const end = new Date(
+              `${format(selectedDate, "yyyy/MM/dd")} ${format(addMinutes(h, step), hFormat)}`
+            );
+            const field = resourceFields.idField;
 
-        {/* Body */}
-        {hours.map((h, i) => {
-          const start = new Date(`${format(selectedDate, "yyyy/MM/dd")} ${format(h, hFormat)}`);
-          const end = new Date(
-            `${format(selectedDate, "yyyy/MM/dd")} ${format(addMinutes(h, step), hFormat)}`
-          );
-          const field = resourceFields.idField;
+            return (
+              <Fragment key={i}>
+                {/* Time Cells */}
+                <span className="rs__cell rs__header rs__time" style={{ height: CELL_HEIGHT }}>
+                  <Typography variant="caption">{format(h, hFormat, { locale })}</Typography>
+                </span>
 
-          return (
-            <Fragment key={i}>
-              {/* Time Cells */}
-              <span className="rs__cell rs__header rs__time" style={{ height: CELL_HEIGHT }}>
-                <Typography variant="caption">{format(h, hFormat, { locale })}</Typography>
-              </span>
-
-              <span className={`rs__cell ${isToday(selectedDate) ? "rs__today_cell" : ""}`}>
-                {/* Events of this day - run once on the top hour column */}
-                {i === 0 && (
-                  <TodayEvents
-                    todayEvents={filterTodayEvents(recousedEvents, selectedDate)}
-                    today={START_TIME}
-                    minuteHeight={MINUTE_HEIGHT}
-                    startHour={startHour}
-                    step={step}
-                    direction={direction}
+                <span className={`rs__cell ${isToday(selectedDate) ? "rs__today_cell" : ""}`}>
+                  {/* Events of this day - run once on the top hour column */}
+                  {i === 0 && (
+                    <TodayEvents
+                      todayEvents={filterTodayEvents(recousedEvents, selectedDate)}
+                      today={START_TIME}
+                      minuteHeight={MINUTE_HEIGHT}
+                      startHour={startHour}
+                      step={step}
+                      direction={direction}
+                    />
+                  )}
+                  {/* Cell */}
+                  <Cell
+                    start={start}
+                    end={end}
+                    day={selectedDate}
+                    height={CELL_HEIGHT}
+                    resourceKey={field}
+                    resourceVal={resource ? resource[field] : null}
+                    cellRenderer={cellRenderer}
                   />
-                )}
-                {/* Cell */}
-                <Cell
-                  start={start}
-                  end={end}
-                  day={selectedDate}
-                  height={CELL_HEIGHT}
-                  resourceKey={field}
-                  resourceVal={resource ? resource[field] : null}
-                  cellRenderer={cellRenderer}
-                />
-              </span>
-            </Fragment>
-          );
-        })}
-      </TableGrid>
+                </span>
+              </Fragment>
+            );
+          })}
+        </TableGrid>
+      </>
     );
   };
 

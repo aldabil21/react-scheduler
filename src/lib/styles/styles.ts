@@ -2,7 +2,6 @@ import { alpha, styled } from "@mui/material";
 
 export const Wrapper = styled("div")<{ dialog: number }>(({ theme, dialog }) => ({
   position: "relative",
-  overflow: "hidden",
   "& .rs__table_loading": {
     background: dialog ? "" : alpha(theme.palette.background.paper, 0.4),
     position: "absolute",
@@ -26,46 +25,62 @@ export const Wrapper = styled("div")<{ dialog: number }>(({ theme, dialog }) => 
 
 export const Table = styled("div")<{ resource_count: number }>(({ resource_count }) => ({
   position: "relative",
-  display: "grid",
-  gridTemplateColumns: `repeat(${resource_count}, 1fr)`,
+  display: "flex",
+  flexDirection: resource_count > 1 ? "row" : "column",
   width: "100%",
-  overflowX: "auto",
-  overflowY: "hidden",
   boxSizing: "content-box",
+  "& > div": {
+    flexShrink: 0,
+    flexGrow: 1,
+  },
 }));
 
-export const TableGrid = styled("div")<{ days: number; indent?: string }>(
-  ({ days, indent = "1", theme }) => ({
-    position: "relative",
+export const TableGrid = styled("div")<{ days: number; sticky?: boolean; indent?: string }>(
+  ({ days, sticky, indent = "1", theme }) => ({
     display: "grid",
     gridTemplateColumns: +indent > 0 ? `10% repeat(${days}, 1fr)` : `repeat(${days}, 1fr)`,
+    overflowX: "auto",
+    overflowY: "hidden",
+    position: sticky ? "sticky" : "relative",
+    top: sticky ? 0 : undefined,
+    zIndex: sticky ? 3 : undefined,
     [theme.breakpoints.down("sm")]: {
       gridTemplateColumns: +indent > 0 ? `30px repeat(${days}, 1fr)` : "",
     },
+    borderStyle: "solid",
+    borderColor: theme.palette.grey[300],
+    borderWidth: "0 0 0 1px",
     "&:first-of-type": {
-      borderStyle: "solid",
-      borderColor: "#eee",
-      borderWidth: "0 1px 1px 0",
+      borderWidth: "1px 0 0 1px",
+    },
+    "&:last-of-type": {
+      borderWidth: "0 0 1px 1px",
     },
     "& .rs__cell": {
+      background: theme.palette.background.paper,
       position: "relative",
-      "&.rs__header > :first-of-type": {
-        padding: "2px 5px",
+      borderStyle: "solid",
+      borderColor: theme.palette.grey[300],
+      borderWidth: "0 1px 1px 0",
+      "&.rs__header": {
+        "& > :first-of-type": {
+          padding: "2px 5px",
+        },
+      },
+      "&.rs__header__center": {
+        padding: "6px 0px",
       },
       "&.rs__time": {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        position: "sticky",
+        left: 0,
+        zIndex: 2,
         [theme.breakpoints.down("sm")]: {
           writingMode: "vertical-rl",
         },
       },
-      borderColor: "#eee",
-      borderWidth: "1px 0px 0px 1px",
-      borderStyle: "solid",
-      // [`&:nth-of-type(${days + 1}n)`]: {
-      //   borderWidth: "1px 1px 0px 1px",
-      // },
       "& > button": {
         width: "100%",
         height: "100%",
@@ -94,6 +109,9 @@ export const TableGrid = styled("div")<{ days: number; indent?: string }>(
           opacity: 0.7,
           textDecoration: "underline",
         },
+      },
+      "&:not(.rs__time)": {
+        minWidth: 65,
       },
     },
   })
@@ -132,7 +150,7 @@ export const EventActions = styled("div")(({ theme }) => ({
 
 export const TimeIndicatorBar = styled("div")(({ theme }) => ({
   position: "absolute",
-  zIndex: theme.zIndex.appBar,
+  zIndex: 2,
   width: "100%",
   display: "flex",
   "& > div:first-of-type": {

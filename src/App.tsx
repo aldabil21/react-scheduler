@@ -9,17 +9,7 @@ function App() {
   console.log({ selectedDate });
   return (
     <Scheduler
-      week={{
-        weekDays: [0, 1, 2, 3, 4, 5, 6],
-        weekStartOn: 0,
-        startHour: 1,
-        endHour: 17,
-        step: 30,
-        navigation: true,
-        disableGoToDay: true,
-      }}
       events={EVENTS}
-      disableViewNavigator={true}
       // getRemoteEvents={async (query) => {
       //   console.log(query);
       //   return new Promise((res) => {
@@ -69,13 +59,13 @@ function App() {
       //   endHour: 18,
       //   step: 20,
       // }}
-
-      navigation={true}
+      // navigation={false}
       // navigationPickerProps={{
       //   shouldDisableDate(day) {
       //     return true;
       //   },
       // }}
+      // disableViewNavigator
       // resources={RECOURCES}
       // resourceFields={{
       //   idField: "admin_id",

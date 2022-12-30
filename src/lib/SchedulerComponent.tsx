@@ -35,9 +35,16 @@ const SchedulerComponent = () => {
         </div>
       )}
       <Navigation />
-      <div className="rs__outer_table" data-testid="grid">
-        <Table resource_count={resourceViewMode === "tabs" ? 1 : resources.length}>{Views}</Table>
-      </div>
+      <Table
+        resource_count={resourceViewMode === "tabs" ? 1 : resources.length}
+        // Temp resources/default `sticky` wontfix
+        sx={{
+          overflowX: resourceViewMode === "default" && resources.length > 1 ? "auto" : undefined,
+        }}
+        data-testid="grid"
+      >
+        {Views}
+      </Table>
       {dialog && <Editor />}
     </Wrapper>
   );
