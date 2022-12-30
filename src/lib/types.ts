@@ -58,7 +58,7 @@ interface CalendarEvent {
   allDay?: boolean;
 }
 export interface Translations {
-  navigation: Record<View, string> & { today: string };
+  navigation: Record<View, string> & { today: string; isVisible: boolean };
   form: {
     addTitle: string;
     editTitle: string;
@@ -178,6 +178,8 @@ export interface SchedulerProps {
   selectedDate: Date;
   /** Show/Hide date navigation */
   navigation?: boolean;
+  /** Show/Hide view navigator */
+  disableViewNavigator?: boolean;
   /** */
   navigationPickerProps?: Partial<
     Omit<
