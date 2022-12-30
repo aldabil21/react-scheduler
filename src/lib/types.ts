@@ -58,7 +58,7 @@ interface CalendarEvent {
   allDay?: boolean;
 }
 export interface Translations {
-  navigation: Record<View, string> & { today: string; isVisible: boolean };
+  navigation: Record<View, string> & { today: string };
   form: {
     addTitle: string;
     editTitle: string;
