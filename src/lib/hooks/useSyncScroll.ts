@@ -15,13 +15,11 @@ const useSyncScroll = () => {
       body?.scroll({ left: el.scrollLeft });
       header?.scroll({ left: el.scrollLeft });
     };
-    console.log("Sync", body?.id);
 
     header?.addEventListener("scroll", handleScroll);
     body?.addEventListener("scroll", handleScroll);
 
     return () => {
-      console.log("UnSync");
       header?.removeEventListener("scroll", handleScroll);
       body?.removeEventListener("scroll", handleScroll);
     };
