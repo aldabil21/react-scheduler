@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useMemo } from "react";
 import {
   closestTo,
   isBefore,
@@ -15,7 +15,7 @@ import { ProcessedEvent } from "../../types";
 import { Typography } from "@mui/material";
 import EventItem from "./EventItem";
 import { MONTH_NUMBER_HEIGHT, MULTI_DAY_EVENT_HEIGHT } from "../../helpers/constants";
-import { differenceInDaysOmitTime } from "../../helpers/generals";
+import { convertEventTimeZone, differenceInDaysOmitTime } from "../../helpers/generals";
 import { useStore } from "../../store";
 
 interface MonthEventProps {
@@ -36,20 +36,26 @@ const MonthEvents = ({
   cellHeight,
 }: MonthEventProps) => {
   const LIMIT = Math.round((cellHeight - MONTH_NUMBER_HEIGHT) / MULTI_DAY_EVENT_HEIGHT - 1);
-  const { translations, month, locale } = useStore();
+  const { translations, month, locale, timeZone } = useStore();
   const eachFirstDayInCalcRow = eachWeekStart.some((date) => isSameDay(date, today)) ? today : null;
 
-  const todayEvents = events
-    .filter((e) =>
-      eachFirstDayInCalcRow &&
-      isWithinInterval(eachFirstDayInCalcRow, {
-        start: startOfDay(e.start),
-        end: endOfDay(e.end),
-      })
-        ? true
-        : isSameDay(e.start, today)
-    )
-    .sort((a, b) => b.end.getTime() - a.end.getTime());
+  const todayEvents = useMemo(() => {
+    const list: ProcessedEvent[] = [];
+    for (let i = 0; i < events.length; i++) {
+      const event = convertEventTimeZone(events[i], timeZone);
+      if (
+        (eachFirstDayInCalcRow &&
+          isWithinInterval(eachFirstDayInCalcRow, {
+            start: startOfDay(event.start),
+            end: endOfDay(event.end),
+          })) ||
+        isSameDay(event.start, today)
+      ) {
+        list.push(event);
+      }
+    }
+    return list.sort((a, b) => b.end.getTime() - a.end.getTime());
+  }, [eachFirstDayInCalcRow, events, today, timeZone]);
 
   return (
     <Fragment>

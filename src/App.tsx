@@ -6,7 +6,7 @@ import {
 
 function App() {
   const { selectedDate } = useScheduler();
-  console.log({ selectedDate });
+  // console.log({ selectedDate });
   return (
     <Scheduler
       events={EVENTS}

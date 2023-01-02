@@ -91,9 +91,9 @@ const Month = () => {
   }, [fetchEvents, getRemoteEvents]);
 
   const renderCells = (resource?: DefaultRecourse) => {
-    let recousedEvents = events;
+    let resourcedEvents = events;
     if (resource) {
-      recousedEvents = getResourcedEvents(events, resource, resourceFields, fields);
+      resourcedEvents = getResourcedEvents(events, resource, resourceFields, fields);
     }
     const rows: JSX.Element[] = [];
 
@@ -140,7 +140,7 @@ const Month = () => {
                 </Typography>
               </Avatar>
               <MonthEvents
-                events={recousedEvents}
+                events={resourcedEvents}
                 today={today}
                 eachWeekStart={eachWeekStart}
                 daysList={daysList}

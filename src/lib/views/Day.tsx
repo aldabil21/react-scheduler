@@ -55,6 +55,7 @@ const Day = () => {
     direction,
     locale,
     hourFormat,
+    timeZone,
   } = useStore();
 
   const { startHour, endHour, step, cellRenderer } = day!;
@@ -101,7 +102,7 @@ const Day = () => {
   }, [fetchEvents, getRemoteEvents]);
 
   const renderMultiDayEvents = (multiDays: ProcessedEvent[]) => {
-    const todayMulti = filterMultiDaySlot(multiDays, selectedDate);
+    const todayMulti = filterMultiDaySlot(multiDays, selectedDate, timeZone);
     return (
       <div className="rs__block_col" style={{ height: MULTI_DAY_EVENT_HEIGHT * multiDays.length }}>
         {todayMulti.map((event, i) => {
@@ -134,7 +135,8 @@ const Day = () => {
     const shouldEqualize = resources.length && resourceViewMode !== "tabs";
     const allWeekMulti = filterMultiDaySlot(
       shouldEqualize ? todayEvents : recousedEvents,
-      selectedDate
+      selectedDate,
+      timeZone
     );
     const headerHeight = MULTI_DAY_EVENT_HEIGHT * allWeekMulti.length + 45;
     return (
@@ -170,7 +172,7 @@ const Day = () => {
                   {/* Events of this day - run once on the top hour column */}
                   {i === 0 && (
                     <TodayEvents
-                      todayEvents={filterTodayEvents(recousedEvents, selectedDate)}
+                      todayEvents={filterTodayEvents(recousedEvents, selectedDate, timeZone)}
                       today={START_TIME}
                       minuteHeight={MINUTE_HEIGHT}
                       startHour={startHour}

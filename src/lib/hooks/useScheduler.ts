@@ -14,6 +14,7 @@ const useScheduler = () => {
     resources,
     resourceViewMode,
     hourFormat,
+    timeZone,
     view,
     height,
   } = useStore();
@@ -52,6 +53,10 @@ const useScheduler = () => {
     handleState(format, "hourFormat");
   };
 
+  const setTimeZone = (timeZone: SchedulerProps["timeZone"]) => {
+    handleState(timeZone, "timeZone");
+  };
+
   const setHeight = (height: SchedulerProps["height"]) => {
     handleState(height, "height");
   };
@@ -79,6 +84,8 @@ const useScheduler = () => {
     setResourceViewMode,
     hourFormat,
     setHourFormat,
+    timeZone,
+    setTimeZone,
     triggerLoading,
     height,
     setHeight,
