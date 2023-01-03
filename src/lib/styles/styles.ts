@@ -35,15 +35,15 @@ export const Table = styled("div")<{ resource_count: number }>(({ resource_count
   },
 }));
 
-export const TableGrid = styled("div")<{ days: number; sticky?: boolean; indent?: string }>(
-  ({ days, sticky, indent = "1", theme }) => ({
+export const TableGrid = styled("div")<{ days: number; sticky?: string; indent?: string }>(
+  ({ days, sticky = "0", indent = "1", theme }) => ({
     display: "grid",
     gridTemplateColumns: +indent > 0 ? `10% repeat(${days}, 1fr)` : `repeat(${days}, 1fr)`,
     overflowX: "auto",
     overflowY: "hidden",
-    position: sticky ? "sticky" : "relative",
-    top: sticky ? 0 : undefined,
-    zIndex: sticky ? 3 : undefined,
+    position: sticky === "1" ? "sticky" : "relative",
+    top: sticky === "1" ? 0 : undefined,
+    zIndex: sticky === "1" ? 3 : undefined,
     [theme.breakpoints.down("sm")]: {
       gridTemplateColumns: +indent > 0 ? `30px repeat(${days}, 1fr)` : "",
     },
