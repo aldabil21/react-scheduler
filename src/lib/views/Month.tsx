@@ -161,7 +161,7 @@ const Month = () => {
     return (
       <>
         {/* Header Days */}
-        <TableGrid days={daysList.length} ref={headersRef} indent="0" sticky>
+        <TableGrid days={daysList.length} ref={headersRef} indent="0" sticky="1">
           {daysList.map((date, i) => (
             <Typography
               key={i}

@@ -231,9 +231,14 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
         </div>
       );
     }
-    return (
+    return item;
+    // eslint-disable-next-line
+  }, [hasPrev, hasNext, event, isDraggable, locale, theme.palette]);
+
+  return (
+    <Fragment>
       <Paper
-        key={`${event.start.getTime()}_${event.end.getTime()}`}
+        key={`${event.start.getTime()}_${event.end.getTime()}_${event.event_id}`}
         style={{
           width: "100%",
           height: "100%",
@@ -244,52 +249,45 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
           overflow: "hidden",
         }}
       >
-        {item}
-      </Paper>
-    );
-    // eslint-disable-next-line
-  }, [hasPrev, hasNext, event, isDraggable, locale, theme.palette]);
-
-  return (
-    <Fragment>
-      <ButtonBase
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          triggerViewer(e.currentTarget);
-        }}
-        disabled={event.disabled}
-        style={{
-          width: "100%",
-          height: "100%",
-          display: "block",
-        }}
-      >
-        <div
+        <ButtonBase
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            triggerViewer(e.currentTarget);
+          }}
+          disabled={event.disabled}
           style={{
+            width: "100%",
             height: "100%",
-          }}
-          draggable={isDraggable}
-          onDragStart={(e) => {
-            e.stopPropagation();
-            e.dataTransfer.setData("text/plain", `${event.event_id}`);
-            e.currentTarget.style.backgroundColor = theme.palette.error.main;
-          }}
-          onDragEnd={(e) => {
-            e.currentTarget.style.backgroundColor = event.color || theme.palette.primary.main;
-          }}
-          onDragOver={(e) => {
-            e.stopPropagation();
-            e.preventDefault();
-          }}
-          onDragEnter={(e) => {
-            e.stopPropagation();
-            e.preventDefault();
+            display: "block",
           }}
         >
-          {renderEvent}
-        </div>
-      </ButtonBase>
+          <div
+            style={{
+              height: "100%",
+            }}
+            draggable={isDraggable}
+            onDragStart={(e) => {
+              e.stopPropagation();
+              e.dataTransfer.setData("text/plain", `${event.event_id}`);
+              e.currentTarget.style.backgroundColor = theme.palette.error.main;
+            }}
+            onDragEnd={(e) => {
+              e.currentTarget.style.backgroundColor = event.color || theme.palette.primary.main;
+            }}
+            onDragOver={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+            }}
+            onDragEnter={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+            }}
+          >
+            {renderEvent}
+          </div>
+        </ButtonBase>
+      </Paper>
 
       {/* Viewer */}
       <Popover

@@ -174,7 +174,7 @@ const Week = () => {
     return (
       <>
         {/* Header days */}
-        <TableGrid days={daysList.length} ref={headersRef} sticky>
+        <TableGrid days={daysList.length} ref={headersRef} sticky="1">
           <span className="rs__cell rs__time"></span>
           {daysList.map((date, i) => (
             <span
