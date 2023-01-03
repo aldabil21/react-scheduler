@@ -55,9 +55,9 @@ export const EVENTS: ProcessedEvent[] = [
     event_id: 6,
     title: "Event 6",
     start: new Date(
-      new Date(new Date(new Date().setHours(10)).setMinutes(30)).setDate(new Date().getDate() - 4)
+      new Date(new Date(new Date().setHours(20)).setMinutes(30)).setDate(new Date().getDate() - 3)
     ),
-    end: new Date(new Date(new Date().setHours(14)).setMinutes(0)),
+    end: new Date(new Date(new Date().setHours(23)).setMinutes(0)),
     admin_id: 2,
     allDay: true,
   },

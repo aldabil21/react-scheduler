@@ -27,6 +27,7 @@ import {
   filterMultiDaySlot,
   filterTodayEvents,
   getResourcedEvents,
+  getTimeZonedDate,
 } from "../helpers/generals";
 import { WithResources } from "../components/common/WithResources";
 import Cell from "../components/common/Cell";
@@ -64,6 +65,7 @@ const Week = () => {
     direction,
     locale,
     hourFormat,
+    timeZone,
   } = useStore();
 
   const { weekStartOn, weekDays, startHour, endHour, step, cellRenderer, disableGoToDay } = week!;
@@ -114,7 +116,7 @@ const Week = () => {
 
   const renderMultiDayEvents = (events: ProcessedEvent[], today: Date) => {
     const isFirstDayInWeek = isSameDay(weekStart, today);
-    const allWeekMulti = filterMultiDaySlot(events, daysList);
+    const allWeekMulti = filterMultiDaySlot(events, daysList, timeZone);
 
     const multiDays = allWeekMulti
       .filter((e) => (isBefore(e.start, weekStart) ? isFirstDayInWeek : isSameDay(e.start, today)))
@@ -129,7 +131,10 @@ const Week = () => {
         isFirstDayInWeek
           ? false
           : e.event_id !== event.event_id && //Exclude it's self
-            isWithinInterval(today, { start: e.start, end: e.end })
+            isWithinInterval(today, {
+              start: getTimeZonedDate(e.start, timeZone),
+              end: getTimeZonedDate(e.end, timeZone),
+            })
       );
 
       let index = i;
@@ -160,7 +165,11 @@ const Week = () => {
 
     // Equalizing multi-day section height except in resource/tabs mode
     const shouldEqualize = resources.length && resourceViewMode !== "tabs";
-    const allWeekMulti = filterMultiDaySlot(shouldEqualize ? events : recousedEvents, daysList);
+    const allWeekMulti = filterMultiDaySlot(
+      shouldEqualize ? events : recousedEvents,
+      daysList,
+      timeZone
+    );
     const headerHeight = MULTI_SPACE * allWeekMulti.length + 45;
     return (
       <>
@@ -200,7 +209,7 @@ const Week = () => {
                     {/* Events of each day - run once on the top hour column */}
                     {i === 0 && (
                       <TodayEvents
-                        todayEvents={filterTodayEvents(recousedEvents, date)}
+                        todayEvents={filterTodayEvents(recousedEvents, date, timeZone)}
                         today={date}
                         minuteHeight={MINUTE_HEIGHT}
                         startHour={startHour}

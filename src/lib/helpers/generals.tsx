@@ -117,33 +117,67 @@ export const differenceInDaysOmitTime = (start: Date, end: Date) => {
   return differenceInDays(endOfDay(end), startOfDay(start));
 };
 
-export const filterTodayEvents = (events: ProcessedEvent[], today: Date) => {
-  return events
-    .filter(
-      (e) => !e.allDay && isSameDay(today, e.start) && !differenceInDaysOmitTime(e.start, e.end)
-    )
-    .sort((a, b) => a.end.getTime() - b.end.getTime());
+export const filterTodayEvents = (events: ProcessedEvent[], today: Date, timeZone?: string) => {
+  const list: ProcessedEvent[] = [];
+  for (let i = 0; i < events.length; i++) {
+    const event = convertEventTimeZone(events[i], timeZone);
+    if (
+      !event.allDay &&
+      isSameDay(today, event.start) &&
+      !differenceInDaysOmitTime(event.start, event.end)
+    ) {
+      list.push(event);
+    }
+  }
+  return list.sort((a, b) => a.end.getTime() - b.end.getTime());
 };
 
-export const filterMultiDaySlot = (events: ProcessedEvent[], date: Date | Date[]) => {
-  if (Array.isArray(date)) {
-    return events.filter(
-      (e) =>
-        (e.allDay || differenceInDaysOmitTime(e.start, e.end) > 0) &&
-        date.some((weekday) =>
-          isWithinInterval(weekday, {
-            start: startOfDay(e.start),
-            end: endOfDay(e.end),
-          })
-        )
-    );
+export const filterMultiDaySlot = (
+  events: ProcessedEvent[],
+  date: Date | Date[],
+  timeZone?: string
+) => {
+  const list: ProcessedEvent[] = [];
+  for (let i = 0; i < events.length; i++) {
+    const event = convertEventTimeZone(events[i], timeZone);
+    let withinSlot = event.allDay || differenceInDaysOmitTime(event.start, event.end) > 0;
+    if (!withinSlot) continue;
+    if (Array.isArray(date)) {
+      withinSlot = date.some((weekday) =>
+        isWithinInterval(weekday, {
+          start: startOfDay(event.start),
+          end: endOfDay(event.end),
+        })
+      );
+    } else {
+      withinSlot = isWithinInterval(date, {
+        start: startOfDay(event.start),
+        end: endOfDay(event.end),
+      });
+    }
+
+    if (withinSlot) {
+      list.push(event);
+    }
   }
-  return events.filter(
-    (e) =>
-      (e.allDay || differenceInDaysOmitTime(e.start, e.end) > 0) &&
-      isWithinInterval(date, {
-        start: startOfDay(e.start),
-        end: endOfDay(e.end),
-      })
+
+  return list;
+};
+
+export const convertEventTimeZone = (event: ProcessedEvent, timeZone?: string) => {
+  return {
+    ...event,
+    start: getTimeZonedDate(event.start, timeZone),
+    end: getTimeZonedDate(event.end, timeZone),
+  };
+};
+
+export const getTimeZonedDate = (date: Date, timeZone?: string) => {
+  return new Date(
+    new Intl.DateTimeFormat("en-US", {
+      dateStyle: "short",
+      timeStyle: "medium",
+      timeZone,
+    }).format(date)
   );
 };

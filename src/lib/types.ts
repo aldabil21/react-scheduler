@@ -238,6 +238,10 @@ export interface SchedulerProps {
    */
   hourFormat: "12" | "24";
   /**
+   * Time zone IANA ID: https://data.iana.org/time-zones/releases
+   */
+  timeZone?: string;
+  /**
    * Triggerd when event is dropped on time slot.
    */
   onEventDrop?(
