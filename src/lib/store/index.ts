@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { defaultProps, initialStore } from "./default";
 import { Store } from "./types";
 import { arraytizeFieldVal, getAvailableViews } from "../helpers/generals";
-import { ProcessedEvent } from "../types";
+import { ProcessedEvent, Scheduler } from "../types";
 import { addMinutes, differenceInMinutes, isEqual } from "date-fns";
 
 const createEmitter = () => {
@@ -37,9 +37,11 @@ const createStore = (
   };
   store = init(get, set);
 
-  const useStore = () => {
-    // intitialize component with latest store
-    const [localStore, setLocalStore] = useState(get());
+  const useStore = (initial?: Scheduler) => {
+    // intitialize component with initial props or latest store
+    const prev = get();
+    const initVals = (initial ? { ...prev, ...defaultProps(initial) } : prev) as Store;
+    const [localStore, setLocalStore] = useState(initVals);
 
     // update our local store when the global
     // store updates.
@@ -48,16 +50,21 @@ const createStore = (
     // function, so react will clean this
     // up on unmount.
     useEffect(() => emitter.subscribe(setLocalStore), []);
+
+    useEffect(() => {
+      if (initial) {
+        set((s) => initVals);
+      }
+      // eslint-disable-next-line
+    }, []);
+
     return localStore;
   };
   return useStore;
 };
 
 export const useStore = createStore((get, set) => ({
-  ...initialStore,
-  initiateProps(props) {
-    set((prev) => ({ ...prev, ...defaultProps(props) }));
-  },
+  ...get(),
   handleState: (value, name) => {
     set((prev) => ({ ...prev, [name]: value }));
   },
