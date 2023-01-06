@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { defaultProps, initialStore } from "./default";
 import { Store } from "./types";
 import { arraytizeFieldVal, getAvailableViews } from "../helpers/generals";
-import { ProcessedEvent } from "../types";
+import { ProcessedEvent, Scheduler } from "../types";
 import { addMinutes, differenceInMinutes, isEqual } from "date-fns";
 
 const createEmitter = () => {
@@ -28,7 +28,7 @@ const createStore = (
   // create an emitter
   const emitter = createEmitter();
 
-  let store: Store = initialStore;
+  let store: Store = initialStore({});
   const get = () => store;
   const set = (op: (store: Store) => Store) => {
     store = op(store);
@@ -37,9 +37,10 @@ const createStore = (
   };
   store = init(get, set);
 
-  const useStore = () => {
-    // intitialize component with latest store
-    const [localStore, setLocalStore] = useState(get());
+  const useStore = (initial?: Scheduler) => {
+    // intitialize component with initial props or latest store
+    const initVals = (initial ? initialStore(initial) : get()) as Store;
+    const [localStore, setLocalStore] = useState(initVals);
 
     // update our local store when the global
     // store updates.
@@ -48,16 +49,21 @@ const createStore = (
     // function, so react will clean this
     // up on unmount.
     useEffect(() => emitter.subscribe(setLocalStore), []);
+
+    useEffect(() => {
+      if (initial) {
+        set((s) => ({ ...s, ...defaultProps(initial) }));
+      }
+      // eslint-disable-next-line
+    }, []);
+
     return localStore;
   };
   return useStore;
 };
 
 export const useStore = createStore((get, set) => ({
-  ...initialStore,
-  initiateProps(props) {
-    set((prev) => ({ ...prev, ...defaultProps(props) }));
-  },
+  ...get(),
   handleState: (value, name) => {
     set((prev) => ({ ...prev, [name]: value }));
   },
@@ -81,7 +87,7 @@ export const useStore = createStore((get, set) => ({
   },
   triggerLoading: (status) => {
     // Trigger if not out-sourced by props
-    if (typeof initialStore.loading === "undefined") {
+    if (typeof initialStore({}).loading === "undefined") {
       set((prev) => ({ ...prev, loading: status }));
     }
   },
