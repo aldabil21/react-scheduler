@@ -120,8 +120,8 @@ export const defaultProps = (props: Partial<SchedulerProps>) => {
   };
 };
 
-export const initialStore = (props: Partial<SchedulerProps>) => ({
-  ...defaultProps(props),
+export const initialStore = {
+  ...defaultProps({}),
   initiateProps: () => {},
   dialog: false,
   selectedRange: undefined,
@@ -134,4 +134,4 @@ export const initialStore = (props: Partial<SchedulerProps>) => ({
   handleGotoDay: () => {},
   confirmEvent: () => {},
   onDrop: () => {},
-});
+};

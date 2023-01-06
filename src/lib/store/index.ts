@@ -28,7 +28,7 @@ const createStore = (
   // create an emitter
   const emitter = createEmitter();
 
-  let store: Store = initialStore({});
+  let store: Store = initialStore;
   const get = () => store;
   const set = (op: (store: Store) => Store) => {
     store = op(store);
@@ -39,7 +39,8 @@ const createStore = (
 
   const useStore = (initial?: Scheduler) => {
     // intitialize component with initial props or latest store
-    const initVals = (initial ? initialStore(initial) : get()) as Store;
+    const prev = get();
+    const initVals = (initial ? { ...prev, ...defaultProps(initial) } : prev) as Store;
     const [localStore, setLocalStore] = useState(initVals);
 
     // update our local store when the global
@@ -52,7 +53,7 @@ const createStore = (
 
     useEffect(() => {
       if (initial) {
-        set((s) => ({ ...s, ...defaultProps(initial) }));
+        set((s) => initVals);
       }
       // eslint-disable-next-line
     }, []);
@@ -87,7 +88,7 @@ export const useStore = createStore((get, set) => ({
   },
   triggerLoading: (status) => {
     // Trigger if not out-sourced by props
-    if (typeof initialStore({}).loading === "undefined") {
+    if (typeof initialStore.loading === "undefined") {
       set((prev) => ({ ...prev, loading: status }));
     }
   },

@@ -30,7 +30,7 @@ function App() {
       // week={{
       //   weekDays: [0, 1, 2, 3, 4, 5, 6],
       //   weekStartOn: 6,
-      //   startHour: 9,
+      //   startHour: 8,
       //   endHour: 20,
       //   step: 60,
       //   // cellRenderer: () => {
