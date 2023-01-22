@@ -18,7 +18,10 @@ function App() {
       //     }, 1000);
       //   });
       // }}
-      // eventRenderer={(event) => <>{event.title}</>}
+      // eventRenderer={(event) => <p onClick={() => console.log("?")}>{event.title}</p>}
+      // onEventClick={(event) => {
+      //   console.log(event);
+      // }}
       // dialogMaxWidth="sm"
       // loading={loading}
       // view="month"
