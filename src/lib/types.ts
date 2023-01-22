@@ -250,6 +250,10 @@ export interface SchedulerProps {
     originalEvent: ProcessedEvent
   ): Promise<ProcessedEvent | void>;
   /**
+   *
+   */
+  onEventClick?(event: ProcessedEvent): void;
+  /**
    * If event is deletable, applied to all events globally, overridden by event specific deletable prop
    * @default true
    */

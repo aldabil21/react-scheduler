@@ -38,6 +38,7 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
     deletable,
     hourFormat,
     eventRenderer,
+    onEventClick,
     view,
     draggable,
     translations,
@@ -254,6 +255,9 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
             e.preventDefault();
             e.stopPropagation();
             triggerViewer(e.currentTarget);
+            if (typeof onEventClick === "function") {
+              onEventClick(event);
+            }
           }}
           disabled={event.disabled}
           style={{
