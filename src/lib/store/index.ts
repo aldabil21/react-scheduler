@@ -106,11 +106,18 @@ export const useStore = createStore((get, set) => ({
     const state = get();
     let updatedEvents: ProcessedEvent[];
     if (action === "edit") {
-      updatedEvents = state.events.map((e) =>
-        e.event_id === event.event_id ? { ...e, ...event } : e
-      );
+      if (Array.isArray(event)) {
+        updatedEvents = state.events.map((e) => {
+          const exist = event.find((ex) => ex.event_id === e.event_id);
+          return exist ? { ...e, ...exist } : e;
+        });
+      } else {
+        updatedEvents = state.events.map((e) =>
+          e.event_id === event.event_id ? { ...e, ...event } : e
+        );
+      }
     } else {
-      updatedEvents = [...state.events, event];
+      updatedEvents = state.events.concat(event);
     }
     set((prev) => ({ ...prev, events: updatedEvents }));
   },
