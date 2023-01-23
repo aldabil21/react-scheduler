@@ -159,7 +159,7 @@ export interface SchedulerHelpers {
   close(): void;
   loading(status: boolean): void;
   edited?: ProcessedEvent;
-  onConfirm(event: ProcessedEvent, action: EventActions): void;
+  onConfirm(event: ProcessedEvent | ProcessedEvent[], action: EventActions): void;
 }
 export interface SchedulerProps {
   /**Min height of table
