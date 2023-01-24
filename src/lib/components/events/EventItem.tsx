@@ -75,7 +75,7 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
       if (deletedId) {
         const updatedEvents = events.filter((e) => e.event_id !== deletedId);
         handleState(updatedEvents, "events");
-        triggerViewer();
+        // triggerViewer();
       }
     } catch (error) {
       console.error(error);
