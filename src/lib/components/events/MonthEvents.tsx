@@ -119,7 +119,7 @@ const MonthEvents = ({
           </Typography>
         ) : (
           <div
-            key={i}
+            key={event.event_id}
             className="rs__multi_day"
             style={{
               top: topSpace,
