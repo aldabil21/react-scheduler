@@ -32,7 +32,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/aldabil21/react-scheduler.git"
+    "url": "https://github.com/madhurdev/react-scheduler.git"
   },
   "keywords": [
     "react",
@@ -44,7 +44,7 @@
   "license": "MIT",
   "homepage": "",
   "bugs": {
-    "url": "https://github.com/aldabil21/react-scheduler/issues"
+    "url": "https://github.com/madhurdev/react-scheduler/issues"
   },
   "devDependencies": {
     "@emotion/react": "^11.10.4",
