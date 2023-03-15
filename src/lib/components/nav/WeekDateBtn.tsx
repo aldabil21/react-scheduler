@@ -46,15 +46,15 @@ const WeekDateBtn = ({ selectedDate, onChange, weekProps }: WeekDateBtnProps) =>
           views={["month", "day"]}
           value={selectedDate}
           onChange={handleChange}
-          renderInput={(params) => (
-            <Button ref={params.inputRef} style={{ padding: 4 }} onClick={toggleDialog}>{`${format(
-              weekStart,
-              "dd",
-              { locale }
-            )} - ${format(weekEnd, "dd MMMM yyyy", {
-              locale,
-            })}`}</Button>
-          )}
+          slots={{
+            textField: (params) => (
+              <Button ref={params.inputRef} style={{ padding: 4 }} onClick={toggleDialog}>
+                {`${format(weekStart, "dd", { locale })} - ${format(weekEnd, "dd MMMM yyyy", {
+                  locale,
+                })}`}
+              </Button>
+            ),
+          }}
         />
       </DateProvider>
       <LocaleArrow type="next" onClick={handleNext} />

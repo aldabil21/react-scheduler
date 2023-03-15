@@ -40,15 +40,17 @@ const DayDateBtn = ({ selectedDate, onChange }: DayDateBtnProps) => {
           views={["month", "day"]}
           value={selectedDate}
           onChange={handleChange}
-          renderInput={(params) => (
-            <Button ref={params.inputRef} style={{ padding: 4 }} onClick={toggleDialog}>{`${format(
-              selectedDate,
-              "dd, MMMM yyyy",
-              {
+          slots={{
+            textField: (params) => (
+              <Button
+                ref={params.inputRef}
+                style={{ padding: 4 }}
+                onClick={toggleDialog}
+              >{`${format(selectedDate, "dd, MMMM yyyy", {
                 locale: locale,
-              }
-            )}`}</Button>
-          )}
+              })}`}</Button>
+            ),
+          }}
         />
       </DateProvider>
       <LocaleArrow type="next" onClick={handleNext} />

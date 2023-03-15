@@ -1,5 +1,4 @@
 import DateProvider from "../hoc/DateProvider";
-import { TextField } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 
@@ -33,15 +32,9 @@ const EditorDatePicker = ({
         label={label}
         onChange={(e) => onChange(name, new Date(e || ""))}
         minutesStep={5}
-        renderInput={(params) => (
-          <TextField
-            variant={variant}
-            helperText={error ? errMsg : ""}
-            error={error}
-            style={{ width: "100%" }}
-            {...params}
-          />
-        )}
+        slotProps={{
+          textField: { variant, helperText: error ? errMsg : "", error, fullWidth: true },
+        }}
       />
     </DateProvider>
   );

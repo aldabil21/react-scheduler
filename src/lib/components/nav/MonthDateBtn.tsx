@@ -41,11 +41,13 @@ const MonthDateBtn = ({ selectedDate, onChange }: MonthDateBtnProps) => {
           views={["year", "month"]}
           value={selectedDate}
           onChange={handleChange}
-          renderInput={(params) => (
-            <Button ref={params.inputRef} style={{ padding: 4 }} onClick={toggleDialog}>
-              {format(selectedDate, "MMMM yyyy", { locale })}
-            </Button>
-          )}
+          slots={{
+            textField: (params) => (
+              <Button ref={params.inputRef} style={{ padding: 4 }} onClick={toggleDialog}>
+                {format(selectedDate, "MMMM yyyy", { locale })}
+              </Button>
+            ),
+          }}
         />
       </DateProvider>
       <LocaleArrow type="next" onClick={handleNext} />
