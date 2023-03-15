@@ -70,7 +70,7 @@ const Day = () => {
   );
   const CELL_HEIGHT = calcCellHeight(height, hours.length);
   const MINUTE_HEIGHT = calcMinuteHeight(CELL_HEIGHT, step);
-  const hFormat = hourFormat === "12" ? "hh:mm a" : "HH:mm";
+  const hFormat = hourFormat === "12" ? "h a" : "HH:mm";
   const todayEvents = events.sort((b, a) => a.end.getTime() - b.end.getTime());
   const { headersRef, bodyRef } = useSyncScroll();
 
@@ -165,7 +165,12 @@ const Day = () => {
               <Fragment key={i}>
                 {/* Time Cells */}
                 <span className="rs__cell rs__header rs__time" style={{ height: CELL_HEIGHT }}>
-                  <Typography variant="caption">{format(h, hFormat, { locale })}</Typography>
+                  <Typography
+                    style={{ fontSize: "0.65rem", fontWeight: "800", textAlign: "center" }}
+                    variant="caption"
+                  >
+                    {format(h, hFormat, { locale })}
+                  </Typography>
                 </span>
 
                 <span className={`rs__cell ${isToday(selectedDate) ? "rs__today_cell" : ""}`}>

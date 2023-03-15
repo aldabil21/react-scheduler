@@ -196,7 +196,12 @@ const Week = () => {
           {hours.map((h, i) => (
             <Fragment key={i}>
               <span style={{ height: CELL_HEIGHT }} className="rs__cell rs__header rs__time">
-                <Typography variant="caption">{format(h, hFormat, { locale })}</Typography>
+                <Typography
+                  style={{ fontSize: "0.65rem", fontWeight: "800", textAlign: "center" }}
+                  variant="caption"
+                >
+                  {format(h, hFormat, { locale })}
+                </Typography>
               </span>
               {daysList.map((date, ii) => {
                 const start = new Date(`${format(date, "yyyy/MM/dd")} ${format(h, hFormat)}`);

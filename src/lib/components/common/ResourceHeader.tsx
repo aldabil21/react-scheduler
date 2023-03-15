@@ -37,8 +37,12 @@ const ResourceHeader = ({ resource }: ResourceHeaderProps) => {
       }}
       component="span"
     >
-      <ListItemAvatar>
-        <Avatar style={{ background: color }} alt={text} src={avatar} />
+      <ListItemAvatar style={{ display: "flex", justifyContent: "center" }}>
+        <Avatar
+          style={{ background: color, width: "35px", height: "35px" }}
+          alt={text}
+          src={avatar}
+        />
       </ListItemAvatar>
       <ListItemText
         primary={
@@ -51,7 +55,7 @@ const ResourceHeader = ({ resource }: ResourceHeaderProps) => {
             {subtext}
           </Typography>
         }
-        style={{ width: width / (resources.length + 1) }}
+        style={{ width: width / (resources.length + 1), padding: 0 }}
       />
     </ListItem>
   );

@@ -45,7 +45,7 @@ export const TableGrid = styled("div")<{ days: number; sticky?: string; indent?:
     top: sticky === "1" ? 0 : undefined,
     zIndex: sticky === "1" ? 3 : undefined,
     [theme.breakpoints.down("sm")]: {
-      gridTemplateColumns: +indent > 0 ? `30px repeat(${days}, 1fr)` : "",
+      gridTemplateColumns: +indent > 0 ? `auto repeat(${days}, 1fr)` : "",
     },
     borderStyle: "solid",
     borderColor: theme.palette.grey[300],
@@ -77,9 +77,9 @@ export const TableGrid = styled("div")<{ days: number; sticky?: string; indent?:
         position: "sticky",
         left: 0,
         zIndex: 2,
-        [theme.breakpoints.down("sm")]: {
-          writingMode: "vertical-rl",
-        },
+        // [theme.breakpoints.down("sm")]: {
+        //   writingMode: "vertical-rl",
+        // },
       },
       "& > button": {
         width: "100%",
