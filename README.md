@@ -8,13 +8,13 @@
 ## Installation
 
 ```jsx
-npm i @aldabil/react-scheduler
+npm i @madhurdev/react-scheduler
 ```
 
 ## Usage
 
 ```jsx
-import { Scheduler } from "@aldabil/react-scheduler";
+import { Scheduler } from "@madhurdev/react-scheduler";
 ```
 
 ## Example

@@ -248,6 +248,7 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
           color: event.disabled ? "#808080" : theme.palette.primary.contrastText,
           cursor: event.disabled ? "not-allowed" : "pointer",
           overflow: "hidden",
+          borderLeft: "4px solid black",
         }}
       >
         <ButtonBase
