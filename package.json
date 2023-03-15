@@ -1,6 +1,6 @@
 {
   "name": "@madhurdev/react-scheduler",
-  "version": "2.6.13",
+  "version": "1.0.0",
   "description": "React scheduler component based on Material-UI & date-fns",
   "files": [
     "*"
@@ -40,7 +40,7 @@
     "calendar",
     "scheduler"
   ],
-  "author": "Aldabil",
+  "author": "Madhur",
   "license": "MIT",
   "homepage": "",
   "bugs": {
