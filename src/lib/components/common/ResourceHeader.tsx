@@ -37,25 +37,40 @@ const ResourceHeader = ({ resource }: ResourceHeaderProps) => {
       }}
       component="span"
     >
-      <ListItemAvatar style={{ display: "flex", justifyContent: "center" }}>
+      <ListItemAvatar style={{ display: "flex", justifyContent: "center", minWidth: "45px" }}>
         <Avatar
-          style={{ background: color, width: "35px", height: "35px" }}
+          style={{ background: color, width: "35px", height: "35px", textTransform: "capitalize" }}
           alt={text}
           src={avatar}
         />
       </ListItemAvatar>
       <ListItemText
         primary={
-          <Typography variant="body2" noWrap>
+          <Typography
+            variant="body2"
+            style={{ fontSize: "0.65rem", textTransform: "capitalize" }}
+            noWrap
+          >
             {text}
           </Typography>
         }
         secondary={
-          <Typography variant="caption" color="textSecondary" noWrap>
+          <Typography
+            variant="caption"
+            style={{ fontSize: "0.55rem", textTransform: "capitalize" }}
+            color="textSecondary"
+            noWrap
+          >
             {subtext}
           </Typography>
         }
-        style={{ width: width / (resources.length + 1), padding: 0 }}
+        style={{
+          width: width / (resources.length + 1),
+          padding: 0,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "stretch",
+        }}
       />
     </ListItem>
   );

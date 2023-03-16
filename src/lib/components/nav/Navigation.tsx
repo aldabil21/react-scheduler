@@ -73,7 +73,10 @@ const Navigation = () => {
           visibility: disableViewNavigator ? "hidden" : "visible",
         }}
       >
-        <Button onClick={() => handleState(new Date(), "selectedDate")}>
+        <Button
+          style={{ fontSize: "0.65rem" }}
+          onClick={() => handleState(new Date(), "selectedDate")}
+        >
           {translations.navigation.today}
         </Button>
         {views.length > 1 &&

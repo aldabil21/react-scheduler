@@ -47,11 +47,11 @@ const WeekDateBtn = ({ selectedDate, onChange, weekProps }: WeekDateBtnProps) =>
           value={selectedDate}
           onChange={handleChange}
           renderInput={(params) => (
-            <Button ref={params.inputRef} style={{ padding: 4 }} onClick={toggleDialog}>{`${format(
-              weekStart,
-              "dd",
-              { locale }
-            )} - ${format(weekEnd, "dd MMMM yyyy", {
+            <Button
+              ref={params.inputRef}
+              style={{ padding: 4, fontSize: "0.65rem" }}
+              onClick={toggleDialog}
+            >{`${format(weekStart, "dd", { locale })} - ${format(weekEnd, "dd MMMM yyyy", {
               locale,
             })}`}</Button>
           )}

@@ -79,14 +79,14 @@ export const EVENTS: ProcessedEvent[] = [
 export const RECOURCES = [
   {
     admin_id: 1,
-    title: "One",
+    title: "one",
     mobile: "555666777",
     avatar: "https://picsum.photos/200/300",
     color: "#ab2d2d",
   },
   {
     admin_id: 2,
-    title: "Two",
+    title: "two",
     mobile: "555666777",
     avatar: "https://picsum.photos/200/300",
     color: "#58ab2d",
