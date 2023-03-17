@@ -1,7 +1,6 @@
-import { useState } from "react";
 import DateProvider from "../hoc/DateProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { Button } from "@mui/material";
+import { Box, Button, IconButtonProps, TextFieldProps } from "@mui/material";
 import { format, getMonth, setMonth } from "date-fns";
 import { LocaleArrow } from "../common/LocaleArrow";
 import { useStore } from "../../store";
@@ -13,10 +12,7 @@ interface MonthDateBtnProps {
 
 const MonthDateBtn = ({ selectedDate, onChange }: MonthDateBtnProps) => {
   const { locale, navigationPickerProps } = useStore();
-  const [open, setOpen] = useState(false);
   const currentMonth = getMonth(selectedDate);
-
-  const toggleDialog = () => setOpen(!open);
 
   const handleChange = (e: Date | null) => {
     onChange(e || new Date(), "selectedDate");
@@ -35,15 +31,18 @@ const MonthDateBtn = ({ selectedDate, onChange }: MonthDateBtnProps) => {
       <DateProvider>
         <DatePicker
           {...navigationPickerProps}
-          open={open}
-          onClose={toggleDialog}
           openTo="month"
           views={["year", "month"]}
           value={selectedDate}
           onChange={handleChange}
           slots={{
-            textField: (params) => (
-              <Button ref={params.inputRef} style={{ padding: 4 }} onClick={toggleDialog}>
+            textField: (params: TextFieldProps) => (
+              <Box display="inline-block" ref={params.InputProps?.ref}>
+                {params.InputProps?.endAdornment}
+              </Box>
+            ),
+            openPickerButton: (params: IconButtonProps) => (
+              <Button style={{ padding: 4 }} onClick={params.onClick}>
                 {format(selectedDate, "MMMM yyyy", { locale })}
               </Button>
             ),
