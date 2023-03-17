@@ -122,7 +122,7 @@ export const defaultProps = (props: Partial<SchedulerProps>) => {
 
 export const initialStore = {
   ...defaultProps({}),
-  initiateProps: () => {},
+  setProps: () => {},
   dialog: false,
   selectedRange: undefined,
   selectedEvent: undefined,
