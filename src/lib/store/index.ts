@@ -68,6 +68,9 @@ export const useStore = createStore((get, set) => ({
   handleState: (value, name) => {
     set((prev) => ({ ...prev, [name]: value }));
   },
+  setProps: (props) => {
+    set((prev) => ({ ...prev, ...props }));
+  },
   getViews: () => {
     return getAvailableViews(get());
   },

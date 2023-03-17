@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { SchedulerProps } from "../types";
 import { useStore } from "../store";
 
@@ -19,51 +20,96 @@ const useScheduler = () => {
     height,
   } = useStore();
 
-  const setEvents = (events: SchedulerProps["events"]) => {
-    handleState(events, "events");
-  };
+  const setEvents = useCallback(
+    (events: SchedulerProps["events"]) => {
+      handleState(events, "events");
+    },
+    [handleState]
+  );
 
-  const setSelectedDate = (date: SchedulerProps["selectedDate"]) => {
-    handleState(date, "selectedDate");
-  };
+  const setSelectedDate = useCallback(
+    (date: SchedulerProps["selectedDate"]) => {
+      handleState(date, "selectedDate");
+    },
+    [handleState]
+  );
 
-  const setDisableViewNavigator = (
-    disableViewNavigator: SchedulerProps["disableViewNavigator"]
-  ) => {
-    handleState(disableViewNavigator, "disableViewNavigator");
-  };
+  const setDisableViewNavigator = useCallback(
+    (disableViewNavigator: SchedulerProps["disableViewNavigator"]) => {
+      handleState(disableViewNavigator, "disableViewNavigator");
+    },
+    [handleState]
+  );
 
-  const setView = (view: SchedulerProps["view"]) => {
-    handleState(view, "view");
-  };
+  const setView = useCallback(
+    (view: SchedulerProps["view"]) => {
+      handleState(view, "view");
+    },
+    [handleState]
+  );
 
-  const setResourceViewMode = (mode: SchedulerProps["resourceViewMode"]) => {
-    handleState(mode, "resourceViewMode");
-  };
+  const setResourceViewMode = useCallback(
+    (mode: SchedulerProps["resourceViewMode"]) => {
+      handleState(mode, "resourceViewMode");
+    },
+    [handleState]
+  );
 
-  const setSchedulerLocale = (locale: SchedulerProps["locale"]) => {
-    handleState(locale, "locale");
-  };
+  const setSchedulerLocale = useCallback(
+    (locale: SchedulerProps["locale"]) => {
+      handleState(locale, "locale");
+    },
+    [handleState]
+  );
 
-  const serResources = (resources: SchedulerProps["resources"]) => {
-    handleState(resources, "resources");
-  };
+  const setResources = useCallback(
+    (resources: SchedulerProps["resources"]) => {
+      handleState(resources, "resources");
+    },
+    [handleState]
+  );
 
-  const setHourFormat = (format: SchedulerProps["hourFormat"]) => {
-    handleState(format, "hourFormat");
-  };
+  const setHourFormat = useCallback(
+    (format: SchedulerProps["hourFormat"]) => {
+      handleState(format, "hourFormat");
+    },
+    [handleState]
+  );
 
-  const setTimeZone = (timeZone: SchedulerProps["timeZone"]) => {
-    handleState(timeZone, "timeZone");
-  };
+  const setTimeZone = useCallback(
+    (timeZone: SchedulerProps["timeZone"]) => {
+      handleState(timeZone, "timeZone");
+    },
+    [handleState]
+  );
 
-  const setHeight = (height: SchedulerProps["height"]) => {
-    handleState(height, "height");
-  };
+  const setHeight = useCallback(
+    (height: SchedulerProps["height"]) => {
+      handleState(height, "height");
+    },
+    [handleState]
+  );
 
-  const setDirection = (direction: SchedulerProps["direction"]) => {
-    handleState(direction, "direction");
-  };
+  const setDirection = useCallback(
+    (direction: SchedulerProps["direction"]) => {
+      handleState(direction, "direction");
+    },
+    [handleState]
+  );
+
+  const setOnEventDrop = useCallback(
+    (onEventDrop: SchedulerProps["onEventDrop"]) => {
+      handleState(onEventDrop, "onEventDrop");
+    },
+    [handleState]
+  );
+
+  const setOnEventClick = useCallback(
+    (onEventClick: SchedulerProps["onEventClick"]) => {
+      handleState(onEventClick, "onEventClick");
+    },
+    [handleState]
+  );
 
   return {
     events,
@@ -79,7 +125,7 @@ const useScheduler = () => {
     setSchedulerLocale,
     triggerDialog,
     resources,
-    serResources,
+    setResources,
     resourceViewMode,
     setResourceViewMode,
     hourFormat,
@@ -90,6 +136,8 @@ const useScheduler = () => {
     height,
     setHeight,
     setDirection,
+    setOnEventDrop,
+    setOnEventClick,
   };
 };
 
