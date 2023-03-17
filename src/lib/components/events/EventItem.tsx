@@ -27,6 +27,7 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
     events,
     handleState,
     triggerLoading,
+    customViewer,
     viewerExtraComponent,
     fields,
     direction,
@@ -312,7 +313,9 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
           e.stopPropagation();
         }}
       >
-        {renderViewer()}
+        {typeof customViewer === "function"
+          ? customViewer(event, () => triggerViewer())
+          : renderViewer()}
       </Popover>
     </Fragment>
   );
