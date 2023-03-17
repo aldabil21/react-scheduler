@@ -1,11 +1,14 @@
-import { Scheduler, useScheduler } from "./lib";
+import {
+  Scheduler,
+  //  useScheduler
+} from "./lib";
 import {
   EVENTS,
   // , RECOURCES
 } from "./events";
 
 function App() {
-  const { selectedDate } = useScheduler();
+  // const { selectedDate } = useScheduler();
   // console.log({ selectedDate });
   return (
     <Scheduler

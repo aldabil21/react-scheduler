@@ -268,5 +268,9 @@ export interface SchedulerProps {
    * @default true
    */
   draggable?: boolean;
+  /**
+   * Deps array to re-render Scheduler
+   */
+  renderDeps?: unknown[];
 }
 export interface Scheduler extends Partial<SchedulerProps> {}
