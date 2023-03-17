@@ -26,6 +26,7 @@ export interface MonthProps {
   startHour: DayHours;
   endHour: DayHours;
   cellRenderer?(props: CellRenderedProps): JSX.Element;
+  headRenderer?(day: Date): JSX.Element;
   navigation?: boolean;
   disableGoToDay?: boolean;
 }
@@ -47,7 +48,8 @@ const Month = () => {
     hourFormat,
   } = useStore();
 
-  const { weekStartOn, weekDays, startHour, endHour, cellRenderer, disableGoToDay } = month!;
+  const { weekStartOn, weekDays, startHour, endHour, cellRenderer, headRenderer, disableGoToDay } =
+    month!;
   const monthStart = startOfMonth(selectedDate);
   const monthEnd = endOfMonth(selectedDate);
   const eachWeekStart = eachWeekOfInterval(
@@ -115,30 +117,34 @@ const Month = () => {
               cellRenderer={cellRenderer}
             />
             <Fragment>
-              <Avatar
-                style={{
-                  width: 27,
-                  height: 27,
-                  position: "absolute",
-                  top: 0,
-                  background: isToday(today) ? theme.palette.secondary.main : "transparent",
-                  color: isToday(today) ? theme.palette.secondary.contrastText : "",
-                  marginBottom: 2,
-                }}
-              >
-                <Typography
-                  color={!isSameMonth(today, monthStart) ? "#ccc" : "textPrimary"}
-                  className={!disableGoToDay ? "rs__hover__op" : ""}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    if (!disableGoToDay) {
-                      handleGotoDay(today);
-                    }
+              {typeof headRenderer === "function" ? (
+                <div style={{ position: "absolute", top: 0 }}>{headRenderer(today)}</div>
+              ) : (
+                <Avatar
+                  style={{
+                    width: 27,
+                    height: 27,
+                    position: "absolute",
+                    top: 0,
+                    background: isToday(today) ? theme.palette.secondary.main : "transparent",
+                    color: isToday(today) ? theme.palette.secondary.contrastText : "",
+                    marginBottom: 2,
                   }}
                 >
-                  {format(today, "dd")}
-                </Typography>
-              </Avatar>
+                  <Typography
+                    color={!isSameMonth(today, monthStart) ? "#ccc" : "textPrimary"}
+                    className={!disableGoToDay ? "rs__hover__op" : ""}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (!disableGoToDay) {
+                        handleGotoDay(today);
+                      }
+                    }}
+                  >
+                    {format(today, "dd")}
+                  </Typography>
+                </Avatar>
+              )}
               <MonthEvents
                 events={resourcedEvents}
                 today={today}
