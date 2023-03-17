@@ -8,7 +8,7 @@ const defaultMonth = {
   startHour: 9,
   endHour: 17,
   navigation: true,
-  disableGoToDay: true,
+  disableGoToDay: false,
 };
 
 const defaultWeek = {
