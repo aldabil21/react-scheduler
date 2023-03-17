@@ -80,7 +80,7 @@
   "peerDependencies": {
     "@mui/icons-material": ">=5.0.0",
     "@mui/material": ">=5.0.0",
-    "@mui/x-date-pickers": ">=5.0.0-alpha",
+    "@mui/x-date-pickers": ">=6.0.0-alpha",
     "date-fns": ">=2.2",
     "react": ">=17.0.0"
   },
