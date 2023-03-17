@@ -203,6 +203,8 @@ export interface SchedulerProps {
   onDelete?(deletedId: string | number): Promise<string | number | void>;
   /**Override editor modal */
   customEditor?(scheduler: SchedulerHelpers): JSX.Element;
+  /** Custom viewer/popper component. If used, `viewerExtraComponent` & `viewerTitleComponent` will be ignored */
+  customViewer?(event: ProcessedEvent, close: () => void): JSX.Element;
   /**Additional component in event viewer popper */
   viewerExtraComponent?:
     | JSX.Element
