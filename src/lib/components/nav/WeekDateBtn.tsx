@@ -1,11 +1,11 @@
 import { useState } from "react";
 import DateProvider from "../hoc/DateProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { Button } from "@mui/material";
+import { Button, Popover } from "@mui/material";
 import { endOfWeek, format, startOfWeek, addDays } from "date-fns";
 import { WeekProps } from "../../views/Week";
 import { LocaleArrow } from "../common/LocaleArrow";
 import { useStore } from "../../store";
+import { DateCalendar } from "@mui/x-date-pickers";
 
 interface WeekDateBtnProps {
   selectedDate: Date;
@@ -15,15 +15,21 @@ interface WeekDateBtnProps {
 
 const WeekDateBtn = ({ selectedDate, onChange, weekProps }: WeekDateBtnProps) => {
   const { locale, navigationPickerProps } = useStore();
-  const [open, setOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const { weekStartOn } = weekProps;
   const weekStart = startOfWeek(selectedDate, { weekStartsOn: weekStartOn });
   const weekEnd = endOfWeek(selectedDate, { weekStartsOn: weekStartOn });
 
-  const toggleDialog = () => setOpen(!open);
+  const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const handleChange = (e: Date | null) => {
     onChange(e || new Date(), "selectedDate");
+    handleClose();
   };
 
   const handlePrev = () => {
@@ -37,26 +43,30 @@ const WeekDateBtn = ({ selectedDate, onChange, weekProps }: WeekDateBtnProps) =>
   return (
     <>
       <LocaleArrow type="prev" onClick={handlePrev} />
-      <DateProvider>
-        <DatePicker
-          {...navigationPickerProps}
-          open={open}
-          onClose={toggleDialog}
-          openTo="day"
-          views={["month", "day"]}
-          value={selectedDate}
-          onChange={handleChange}
-          renderInput={(params) => (
-            <Button ref={params.inputRef} style={{ padding: 4 }} onClick={toggleDialog}>{`${format(
-              weekStart,
-              "dd",
-              { locale }
-            )} - ${format(weekEnd, "dd MMMM yyyy", {
-              locale,
-            })}`}</Button>
-          )}
-        />
-      </DateProvider>
+      <Button style={{ padding: 4 }} onClick={handleOpen}>
+        {`${format(weekStart, "dd", { locale })} - ${format(weekEnd, "dd MMMM yyyy", {
+          locale,
+        })}`}
+      </Button>
+      <Popover
+        open={Boolean(anchorEl)}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
+      >
+        <DateProvider>
+          <DateCalendar
+            {...navigationPickerProps}
+            openTo="day"
+            views={["month", "day"]}
+            value={selectedDate}
+            onChange={handleChange}
+          />
+        </DateProvider>
+      </Popover>
       <LocaleArrow type="next" onClick={handleNext} />
     </>
   );
