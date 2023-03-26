@@ -39,6 +39,10 @@ const TodayEvents = ({
         const height = differenceInMinutes(event.end, event.start) * minuteHeight;
         const minituesFromTop = differenceInMinutes(event.start, setHours(today, startHour));
         const topSpace = minituesFromTop * minuteHeight; //+ headerHeight;
+        /** Add border factor to height of each slot. exclude first/last slots */
+        const slots = Math.max(height / step - 2, 0);
+        const heightBorderFactor = slots * BORDER_HEIGHT;
+
         /**
          * Add border height since grid has a 1px border
          */
@@ -60,7 +64,7 @@ const TodayEvents = ({
             key={event.event_id}
             className="rs__event__item"
             style={{
-              height,
+              height: height + heightBorderFactor,
               top,
               width: crossingEvents.length ? `${100 / (crossingEvents.length + 1)}%` : "95%", //Leave some space to click cell
               [direction === "rtl" ? "right" : "left"]:
