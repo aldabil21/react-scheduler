@@ -115,7 +115,8 @@ const Day = () => {
               className="rs__multi_day"
               style={{
                 top: i * MULTI_DAY_EVENT_HEIGHT,
-                width: "100%",
+                width: "99.9%",
+                overflowX: "hidden",
               }}
             >
               <EventItem event={event} multiday hasPrev={hasPrev} hasNext={hasNext} />

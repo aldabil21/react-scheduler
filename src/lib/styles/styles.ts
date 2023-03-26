@@ -119,7 +119,7 @@ export const TableGrid = styled("div")<{ days: number; sticky?: string; indent?:
 
 export const EventItemPapper = styled(Paper)<{ color?: string; disabled?: boolean }>(
   ({ theme, color, disabled }) => ({
-    width: "100%",
+    width: "99.5%",
     height: "100%",
     display: "block",
     background: disabled ? "#d0d0d0" : color || theme.palette.primary.main,

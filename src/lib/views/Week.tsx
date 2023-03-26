@@ -158,7 +158,8 @@ const Week = () => {
           className="rs__multi_day"
           style={{
             top: index * MULTI_SPACE + 45,
-            width: `${100 * eventLength}%`,
+            width: `${99.9 * eventLength}%`,
+            overflowX: "hidden",
           }}
         >
           <EventItem event={event} hasPrev={hasPrev} hasNext={hasNext} multiday />
