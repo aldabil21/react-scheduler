@@ -3,7 +3,7 @@ import EventItem from "./EventItem";
 import { differenceInMinutes, setHours, isToday } from "date-fns";
 import { traversCrossingEvents } from "../../helpers/generals";
 import { BORDER_HEIGHT } from "../../helpers/constants";
-import { Fragment } from "react";
+import { Fragment, useMemo } from "react";
 import CurrentTimeBar from "./CurrentTimeBar";
 
 interface TodayEventsProps {
@@ -24,6 +24,15 @@ const TodayEvents = ({
 }: TodayEventsProps) => {
   const crossingIds: Array<number | string> = [];
 
+  // Sort events by latest end time
+  const sortedEvents = useMemo(() => {
+    return todayEvents.sort((a, b) => {
+      const aDiff = a.end.getTime() - a.start.getTime();
+      const bDiff = b.end.getTime() - b.start.getTime();
+      return bDiff - aDiff;
+    });
+  }, [todayEvents]);
+
   return (
     <Fragment>
       {isToday(today) && (
@@ -35,7 +44,7 @@ const TodayEvents = ({
         />
       )}
 
-      {todayEvents.map((event) => {
+      {sortedEvents.map((event, i) => {
         const height = differenceInMinutes(event.end, event.start) * minuteHeight;
         const minituesFromTop = differenceInMinutes(event.start, setHours(today, startHour));
         const topSpace = minituesFromTop * minuteHeight; //+ headerHeight;
@@ -62,9 +71,15 @@ const TodayEvents = ({
             style={{
               height,
               top,
-              width: crossingEvents.length ? `${100 / (crossingEvents.length + 1)}%` : "95%", //Leave some space to click cell
+              width:
+                alreadyRendered.length > 0
+                  ? `calc(100% - ${100 - 98 / (alreadyRendered.length + 1)}%)`
+                  : "98%", // Leave some space to click cell
+              zIndex: todayEvents.length + i,
               [direction === "rtl" ? "right" : "left"]:
-                alreadyRendered.length > 0 ? `calc(100%/${alreadyRendered.length + 1})` : "",
+                alreadyRendered.length > 0
+                  ? `${(100 / (crossingEvents.length + 1)) * alreadyRendered.length}%`
+                  : "",
             }}
           >
             <EventItem event={event} />
