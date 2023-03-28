@@ -185,7 +185,7 @@ export interface SchedulerProps {
   navigationPickerProps?: Partial<
     Omit<
       DateCalendarProps<Date>,
-      "open" | "onClose" | "openTo" | "views" | "value" | "readOnly" | "onChange" | "renderInput"
+      "open" | "onClose" | "openTo" | "views" | "value" | "readOnly" | "onChange"
     >
   >;
   /**Events to display */
