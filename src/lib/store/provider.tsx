@@ -1,80 +1,37 @@
 import { useEffect, useState } from "react";
+import { EventActions, ProcessedEvent, SchedulerProps } from "../types";
 import { defaultProps, initialStore } from "./default";
-import { Store } from "./types";
+import { StoreContext } from "./context";
+import { SchedulerState, SelectedRange, Store } from "./types";
 import { arraytizeFieldVal, getAvailableViews } from "../helpers/generals";
-import { ProcessedEvent, Scheduler } from "../types";
 import { addMinutes, differenceInMinutes, isEqual } from "date-fns";
 
-const createEmitter = () => {
-  const subscriptions = new Map<
-    ReturnType<typeof Symbol>,
-    React.Dispatch<React.SetStateAction<Store>>
-  >();
-  return {
-    emit: (v: Store) => subscriptions.forEach((fn) => fn(v)),
-    subscribe: (fn: React.Dispatch<React.SetStateAction<Store>>) => {
-      const key = Symbol();
-      subscriptions.set(key, fn);
-      return () => {
-        subscriptions.delete(key);
-      };
-    },
-  };
+type Props = {
+  children: React.ReactNode;
+  initial: Partial<SchedulerProps>;
 };
+export const StoreProvider = ({ children, initial }: Props) => {
+  const [state, set] = useState<Store>({ ...initialStore, ...defaultProps(initial) });
 
-const createStore = (
-  init: (getter: () => Store, setter: (op: (store: Store) => Store) => void) => Store
-) => {
-  // create an emitter
-  const emitter = createEmitter();
+  useEffect(() => {
+    set((prev) => ({
+      ...prev,
+      onEventDrop: initial.onEventDrop,
+      customEditor: initial.customEditor,
+    }));
+    // Rerender if changed on some props
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initial.onEventDrop, initial.customEditor]);
 
-  let store: Store = initialStore;
-  const get = () => store;
-  const set = (op: (store: Store) => Store) => {
-    store = op(store);
-    // notify all subscriptions when the store updates
-    emitter.emit(store);
-  };
-  store = init(get, set);
-
-  const useStore = (initial?: Scheduler) => {
-    // intitialize component with initial props or latest store
-    const prev = get();
-    const initVals = (initial ? { ...prev, ...defaultProps(initial) } : prev) as Store;
-    const [localStore, setLocalStore] = useState(initVals);
-
-    // update our local store when the global
-    // store updates.
-    //
-    // emitter.subscribe returns a cleanup
-    // function, so react will clean this
-    // up on unmount.
-    useEffect(() => emitter.subscribe(setLocalStore), []);
-
-    useEffect(() => {
-      if (initial) {
-        set((s) => initVals);
-      }
-      // eslint-disable-next-line
-    }, []);
-
-    return localStore;
-  };
-  return useStore;
-};
-
-export const useStore = createStore((get, set) => ({
-  ...get(),
-  handleState: (value, name) => {
+  const handleState = (value: SchedulerState[keyof SchedulerState], name: keyof SchedulerState) => {
     set((prev) => ({ ...prev, [name]: value }));
-  },
-  setProps: (props) => {
-    set((prev) => ({ ...prev, ...props }));
-  },
-  getViews: () => {
-    return getAvailableViews(get());
-  },
-  triggerDialog: (status, selected) => {
+  };
+
+  const getViews = () => {
+    return getAvailableViews(state);
+  };
+
+  const triggerDialog = (status: boolean, selected?: SelectedRange | ProcessedEvent) => {
     const isEvent = selected as ProcessedEvent;
 
     set((prev) => ({
@@ -88,15 +45,17 @@ export const useStore = createStore((get, set) => ({
           },
       selectedEvent: isEvent?.event_id ? isEvent : undefined,
     }));
-  },
-  triggerLoading: (status) => {
+  };
+
+  const triggerLoading = (status: boolean) => {
     // Trigger if not out-sourced by props
-    if (typeof initialStore.loading === "undefined") {
+    if (typeof initial.loading === "undefined") {
       set((prev) => ({ ...prev, loading: status }));
     }
-  },
-  handleGotoDay: (day: Date) => {
-    const currentViews = get().getViews();
+  };
+
+  const handleGotoDay = (day: Date) => {
+    const currentViews = getViews();
     if (currentViews.includes("day")) {
       set((prev) => ({ ...prev, view: "day", selectedDate: day }));
     } else if (currentViews.includes("week")) {
@@ -104,9 +63,9 @@ export const useStore = createStore((get, set) => ({
     } else {
       console.warn("No Day/Week views available");
     }
-  },
-  confirmEvent: (event, action) => {
-    const state = get();
+  };
+
+  const confirmEvent = (event: ProcessedEvent | ProcessedEvent[], action: EventActions) => {
     let updatedEvents: ProcessedEvent[];
     if (action === "edit") {
       if (Array.isArray(event)) {
@@ -123,9 +82,14 @@ export const useStore = createStore((get, set) => ({
       updatedEvents = state.events.concat(event);
     }
     set((prev) => ({ ...prev, events: updatedEvents }));
-  },
-  onDrop: async (eventId, startTime, resKey, resVal) => {
-    const state = get();
+  };
+
+  const onDrop = async (
+    eventId: string,
+    startTime: Date,
+    resKey?: string,
+    resVal?: string | number
+  ) => {
     // Get dropped event
     const droppedEvent = state.events.find((e) => {
       if (typeof e.event_id === "number") {
@@ -174,17 +138,34 @@ export const useStore = createStore((get, set) => ({
 
     // Local
     if (!state.onEventDrop || typeof state.onEventDrop !== "function") {
-      return state.confirmEvent(updatedEvent, "edit");
+      return confirmEvent(updatedEvent, "edit");
     }
     // Remote
     try {
-      state.triggerLoading(true);
+      triggerLoading(true);
       const _event = await state.onEventDrop(startTime, updatedEvent, droppedEvent);
       if (_event) {
-        state.confirmEvent(_event, "edit");
+        confirmEvent(_event, "edit");
       }
     } finally {
-      state.triggerLoading(false);
+      triggerLoading(false);
     }
-  },
-}));
+  };
+
+  return (
+    <StoreContext.Provider
+      value={{
+        ...state,
+        handleState,
+        getViews,
+        triggerDialog,
+        triggerLoading,
+        handleGotoDay,
+        confirmEvent,
+        onDrop,
+      }}
+    >
+      {children}
+    </StoreContext.Provider>
+  );
+};

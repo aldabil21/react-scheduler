@@ -1,18 +1,14 @@
-import { SchedulerComponent } from "./SchedulerComponent";
-import { useStore } from "./store";
-import { Scheduler as SchedulerProps } from "./types";
-import { useScheduler } from "./hooks/useScheduler";
-import { useEffect } from "react";
+import { forwardRef } from "react";
+import SchedulerComponent from "./SchedulerComponent";
+import { Scheduler as SchedulerProps, SchedulerRef } from "./types";
+import { StoreProvider } from "./store/provider";
 
-const Scheduler = (props: SchedulerProps) => {
-  const { setProps } = useStore(props);
+const Scheduler = forwardRef<SchedulerRef, SchedulerProps>(function Scheduler(props, ref) {
+  return (
+    <StoreProvider initial={props}>
+      <SchedulerComponent ref={ref} />
+    </StoreProvider>
+  );
+});
 
-  useEffect(() => {
-    setProps(props);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, props.renderDeps || []);
-
-  return <SchedulerComponent />;
-};
-
-export { Scheduler, useScheduler };
+export default Scheduler;

@@ -1,7 +1,7 @@
 import { Avatar, ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material";
 import { useWindowResize } from "../../hooks/useWindowResize";
 import { DefaultRecourse } from "../../types";
-import { useStore } from "../../store";
+import useStore from "../../hooks/useStore";
 
 interface ResourceHeaderProps {
   resource: DefaultRecourse;

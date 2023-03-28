@@ -10,7 +10,7 @@ import SupervisorAccountRoundedIcon from "@mui/icons-material/SupervisorAccountR
 import { EventItemPapper, PopperInner } from "../../styles/styles";
 import EventActions from "./Actions";
 import { differenceInDaysOmitTime } from "../../helpers/generals";
-import { useStore } from "../../store";
+import useStore from "../../hooks/useStore";
 
 interface EventItemProps {
   event: ProcessedEvent;

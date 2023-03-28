@@ -12,7 +12,7 @@ export interface SchedulerState extends SchedulerProps {
 }
 
 export interface Store extends SchedulerState {
-  setProps: (props: Partial<SchedulerProps>) => void;
+  // setProps: (props: Partial<SchedulerProps>) => void;
   handleState(value: SchedulerState[keyof SchedulerState], name: keyof SchedulerState): void;
   getViews(): View[];
   triggerDialog(status: boolean, event?: SelectedRange | ProcessedEvent): void;
