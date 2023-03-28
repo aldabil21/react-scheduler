@@ -10,6 +10,7 @@ import {
   startOfWeek,
   differenceInDays,
   differenceInCalendarWeeks,
+  addMinutes,
 } from "date-fns";
 import { ProcessedEvent } from "../../types";
 import { Typography } from "@mui/material";
@@ -54,57 +55,67 @@ const MonthEvents = ({
         list.push(event);
       }
     }
-    return list.sort((a, b) => b.end.getTime() - a.end.getTime());
+
+    return list.sort((a, b) => a.end.getTime() - b.end.getTime());
   }, [eachFirstDayInCalcRow, events, today, timeZone]);
 
-  return (
-    <Fragment>
-      {todayEvents.map((event, i) => {
-        const fromPrevWeek =
-          !!eachFirstDayInCalcRow && isBefore(event.start, eachFirstDayInCalcRow);
-        const start = fromPrevWeek && eachFirstDayInCalcRow ? eachFirstDayInCalcRow : event.start;
-        //&& isBefore(eachFirstDayInCalcRow, event.end)
-        let eventLength = differenceInDaysOmitTime(start, event.end) + 1;
+  const renderEvents = useMemo(() => {
+    const elements: JSX.Element[] = [];
+    for (let i = 0; i < todayEvents.length; i++) {
+      const event = todayEvents[i];
+      const fromPrevWeek = !!eachFirstDayInCalcRow && isBefore(event.start, eachFirstDayInCalcRow);
+      const start = fromPrevWeek && eachFirstDayInCalcRow ? eachFirstDayInCalcRow : event.start;
+      //&& isBefore(eachFirstDayInCalcRow, event.end)
+      let eventLength = differenceInDaysOmitTime(start, event.end) + 1;
 
-        const toNextWeek =
-          differenceInCalendarWeeks(event.end, start, {
-            weekStartsOn: month?.weekStartOn,
-            locale,
-          }) > 0;
+      const toNextWeek =
+        differenceInCalendarWeeks(event.end, start, {
+          weekStartsOn: month?.weekStartOn,
+          locale,
+        }) > 0;
 
-        if (toNextWeek) {
-          // Rethink it
-          const NotAccurateWeekStart = startOfWeek(event.start);
-          const closestStart = closestTo(NotAccurateWeekStart, eachWeekStart);
-          if (closestStart) {
-            eventLength =
-              daysList.length -
-              (!eachFirstDayInCalcRow ? differenceInDays(event.start, closestStart) : 0);
-          }
+      if (toNextWeek) {
+        // Rethink it
+        const NotAccurateWeekStart = startOfWeek(event.start);
+        const closestStart = closestTo(NotAccurateWeekStart, eachWeekStart);
+        if (closestStart) {
+          eventLength =
+            daysList.length -
+            (!eachFirstDayInCalcRow ? differenceInDays(event.start, closestStart) : 0);
         }
+      }
 
-        const prevNextEvents = events.filter((e) => {
-          return (
-            !eachFirstDayInCalcRow &&
-            e.event_id !== event.event_id &&
-            LIMIT > i &&
-            isBefore(e.start, startOfDay(today)) &&
-            isAfter(e.end, startOfDay(today))
-          );
-        });
-        let index = i;
+      const prevNextEvents = events.filter((e) => {
+        const isWithinToday =
+          isWithinInterval(e.start, { start: startOfDay(today), end: endOfDay(today) }) ||
+          isWithinInterval(e.end, { start: startOfDay(today), end: endOfDay(today) });
+        const moreThanOneDay = differenceInDaysOmitTime(e.start, e.end) > 0;
+        const isBeforeToday = isBefore(e.start, addMinutes(startOfDay(today), 1));
+        const isAfterToday = isAfter(e.end, addMinutes(endOfDay(today), -1));
+        const isBeforeAfter = isBeforeToday && isAfterToday;
+        const isBeforeCrossToday = isBeforeToday && isWithinToday;
+        const isAfterCrossToday = isAfterToday && isWithinToday;
+        const isFromTodayOn = isWithinToday && moreThanOneDay;
+        const shouldInclude =
+          isBeforeAfter || isBeforeCrossToday || isAfterCrossToday || isFromTodayOn;
+        return (
+          !eachFirstDayInCalcRow && e.event_id !== event.event_id && LIMIT > i && shouldInclude
+        );
+      });
 
-        if (prevNextEvents.length) {
-          index += prevNextEvents.length;
-          // if (index > LIMIT) {
-          //   index = LIMIT;
-          // }
-        }
-        const topSpace = index * MULTI_DAY_EVENT_HEIGHT + MONTH_NUMBER_HEIGHT;
+      let index = i;
 
-        return index > LIMIT ? (
-          ""
-        ) : index === LIMIT ? (
+      if (prevNextEvents.length) {
+        index += i === 0 ? prevNextEvents.length - 1 : prevNextEvents.length;
+        // if (index > LIMIT) {
+        //   index = LIMIT;
+        // }
+      }
+      // console.log(index, LIMIT, prevNextEvents, event.title);
+      const topSpace = Math.min(index, LIMIT) * MULTI_DAY_EVENT_HEIGHT + MONTH_NUMBER_HEIGHT;
+
+      if (index >= LIMIT) {
+        elements.push(
           <Typography
             key={i}
             width="100%"
@@ -117,27 +128,45 @@ const MonthEvents = ({
           >
             {`${Math.abs(todayEvents.length - i)} ${translations.moreEvents}`}
           </Typography>
-        ) : (
-          <div
-            key={`${event.event_id}_${i}`}
-            className="rs__multi_day"
-            style={{
-              top: topSpace,
-              width: `${100 * eventLength}%`,
-            }}
-          >
-            <EventItem
-              event={event}
-              showdate={false}
-              multiday={differenceInDaysOmitTime(event.start, event.end) > 0}
-              hasPrev={fromPrevWeek}
-              hasNext={toNextWeek}
-            />
-          </div>
         );
-      })}
-    </Fragment>
-  );
+        break;
+      }
+      elements.push(
+        <div
+          key={`${event.event_id}_${i}`}
+          className="rs__multi_day"
+          style={{
+            top: topSpace,
+            width: `${100 * eventLength}%`,
+          }}
+        >
+          <EventItem
+            event={event}
+            showdate={false}
+            multiday={differenceInDaysOmitTime(event.start, event.end) > 0}
+            hasPrev={fromPrevWeek}
+            hasNext={toNextWeek}
+          />
+        </div>
+      );
+    }
+
+    return elements;
+  }, [
+    events,
+    todayEvents,
+    LIMIT,
+    daysList.length,
+    eachFirstDayInCalcRow,
+    eachWeekStart,
+    locale,
+    month?.weekStartOn,
+    onViewMore,
+    today,
+    translations.moreEvents,
+  ]);
+
+  return <Fragment>{renderEvents}</Fragment>;
 };
 
 export default MonthEvents;

@@ -1,6 +1,6 @@
 {
   "name": "@aldabil/react-scheduler",
-  "version": "2.6.13",
+  "version": "2.7.2",
   "description": "React scheduler component based on Material-UI & date-fns",
   "files": [
     "*"
@@ -51,7 +51,7 @@
     "@emotion/styled": "^11.10.4",
     "@mui/icons-material": "^5.10.6",
     "@mui/material": "^5.10.8",
-    "@mui/x-date-pickers": "^5.0.4",
+    "@mui/x-date-pickers": "^6.0.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
@@ -80,7 +80,7 @@
   "peerDependencies": {
     "@mui/icons-material": ">=5.0.0",
     "@mui/material": ">=5.0.0",
-    "@mui/x-date-pickers": ">=5.0.0-alpha",
+    "@mui/x-date-pickers": ">=6.0.0-alpha",
     "date-fns": ">=2.2",
     "react": ">=17.0.0"
   },

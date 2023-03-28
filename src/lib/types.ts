@@ -7,7 +7,7 @@ import { DialogProps, GridSize } from "@mui/material";
 import { Locale } from "date-fns";
 import { SelectOption } from "./components/inputs/SelectInput";
 import { View } from "./components/nav/Navigation";
-import { CalendarPickerProps } from "@mui/x-date-pickers";
+import { DateCalendarProps } from "@mui/x-date-pickers";
 
 export type DayHours =
   | 0
@@ -183,7 +183,7 @@ export interface SchedulerProps {
   /** */
   navigationPickerProps?: Partial<
     Omit<
-      CalendarPickerProps<Date>,
+      DateCalendarProps<Date>,
       "open" | "onClose" | "openTo" | "views" | "value" | "readOnly" | "onChange" | "renderInput"
     >
   >;
@@ -203,6 +203,8 @@ export interface SchedulerProps {
   onDelete?(deletedId: string | number): Promise<string | number | void>;
   /**Override editor modal */
   customEditor?(scheduler: SchedulerHelpers): JSX.Element;
+  /** Custom viewer/popper component. If used, `viewerExtraComponent` & `viewerTitleComponent` will be ignored */
+  customViewer?(event: ProcessedEvent, close: () => void): JSX.Element;
   /**Additional component in event viewer popper */
   viewerExtraComponent?:
     | JSX.Element
@@ -268,5 +270,9 @@ export interface SchedulerProps {
    * @default true
    */
   draggable?: boolean;
+  /**
+   * Deps array to re-render Scheduler
+   */
+  renderDeps?: unknown[];
 }
 export interface Scheduler extends Partial<SchedulerProps> {}

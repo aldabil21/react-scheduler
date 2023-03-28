@@ -1,4 +1,4 @@
-import { alpha, styled } from "@mui/material";
+import { Paper, alpha, styled } from "@mui/material";
 
 export const Wrapper = styled("div")<{ dialog: number }>(({ theme, dialog }) => ({
   position: "relative",
@@ -76,7 +76,7 @@ export const TableGrid = styled("div")<{ days: number; sticky?: string; indent?:
         justifyContent: "center",
         position: "sticky",
         left: 0,
-        zIndex: 2,
+        zIndex: 999,
         [theme.breakpoints.down("sm")]: {
           writingMode: "vertical-rl",
         },
@@ -112,6 +112,29 @@ export const TableGrid = styled("div")<{ days: number; sticky?: string; indent?:
       },
       "&:not(.rs__time)": {
         minWidth: 65,
+      },
+    },
+  })
+);
+
+export const EventItemPapper = styled(Paper)<{ color?: string; disabled?: boolean }>(
+  ({ theme, color, disabled }) => ({
+    width: "99.5%",
+    height: "100%",
+    display: "block",
+    background: disabled ? "#d0d0d0" : color || theme.palette.primary.main,
+    color: disabled ? "#808080" : theme.palette.primary.contrastText,
+    cursor: disabled ? "not-allowed" : "pointer",
+    border: "1px solid #fff",
+    overflow: "hidden",
+    "& .MuiButtonBase-root": {
+      width: "100%",
+      height: "100%",
+      display: "block",
+      textAlign: "left",
+      "& > div": {
+        height: "100%",
+        padding: "2px 4px",
       },
     },
   })
