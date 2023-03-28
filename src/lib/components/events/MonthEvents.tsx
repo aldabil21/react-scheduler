@@ -17,7 +17,7 @@ import { Typography } from "@mui/material";
 import EventItem from "./EventItem";
 import { MONTH_NUMBER_HEIGHT, MULTI_DAY_EVENT_HEIGHT } from "../../helpers/constants";
 import { convertEventTimeZone, differenceInDaysOmitTime } from "../../helpers/generals";
-import { useStore } from "../../store";
+import useStore from "../../hooks/useStore";
 
 interface MonthEventProps {
   events: ProcessedEvent[];

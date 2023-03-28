@@ -5,11 +5,13 @@ import { CircularProgress, Typography } from "@mui/material";
 import { Month } from "./views/Month";
 import { Day } from "./views/Day";
 import { Table, Wrapper } from "./styles/styles";
-import { useMemo } from "react";
-import { useStore } from "./store";
+import { forwardRef, useMemo } from "react";
+import useStore from "./hooks/useStore";
+import { SchedulerRef } from "./types";
 
-const SchedulerComponent = () => {
-  const { loading, view, dialog, resources, resourceViewMode, translations } = useStore();
+const SchedulerComponent = forwardRef<SchedulerRef, unknown>(function SchedulerComponent(_, ref) {
+  const store = useStore();
+  const { view, dialog, loading, resourceViewMode, resources, translations } = store;
 
   const Views = useMemo(() => {
     switch (view) {
@@ -25,7 +27,19 @@ const SchedulerComponent = () => {
   }, [view]);
 
   return (
-    <Wrapper dialog={dialog ? 1 : 0} data-testid="rs-wrapper">
+    <Wrapper
+      dialog={dialog ? 1 : 0}
+      data-testid="rs-wrapper"
+      ref={(el) => {
+        const calendarRef = ref as any;
+        if (calendarRef && !calendarRef.current) {
+          calendarRef.current = {
+            el,
+            scheduler: store,
+          };
+        }
+      }}
+    >
       {loading && (
         <div className="rs__table_loading">
           <span>
@@ -48,6 +62,6 @@ const SchedulerComponent = () => {
       {dialog && <Editor />}
     </Wrapper>
   );
-};
+});
 
-export { SchedulerComponent };
+export default SchedulerComponent;

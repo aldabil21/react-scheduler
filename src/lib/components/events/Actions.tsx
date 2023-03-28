@@ -4,7 +4,7 @@ import { Button, Grow, IconButton, Slide } from "@mui/material";
 import { useMemo, useState } from "react";
 import { EventActions as Actions } from "../../styles/styles";
 import { ProcessedEvent } from "../../types";
-import { useStore } from "../../store";
+import useStore from "../../hooks/useStore";
 
 interface Props {
   event: ProcessedEvent;

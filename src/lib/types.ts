@@ -8,6 +8,7 @@ import { Locale } from "date-fns";
 import { SelectOption } from "./components/inputs/SelectInput";
 import { View } from "./components/nav/Navigation";
 import { DateCalendarProps } from "@mui/x-date-pickers";
+import { Store } from "./store/types";
 
 export type DayHours =
   | 0
@@ -270,9 +271,11 @@ export interface SchedulerProps {
    * @default true
    */
   draggable?: boolean;
-  /**
-   * Deps array to re-render Scheduler
-   */
-  renderDeps?: unknown[];
 }
+
+export interface SchedulerRef {
+  el: HTMLDivElement;
+  scheduler: Store;
+}
+
 export interface Scheduler extends Partial<SchedulerProps> {}
