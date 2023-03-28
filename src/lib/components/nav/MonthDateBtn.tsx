@@ -1,7 +1,7 @@
 import { useState } from "react";
 import DateProvider from "../hoc/DateProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { Button } from "@mui/material";
+import { DateCalendar } from "@mui/x-date-pickers";
+import { Button, Popover } from "@mui/material";
 import { format, getMonth, setMonth } from "date-fns";
 import { LocaleArrow } from "../common/LocaleArrow";
 import { useStore } from "../../store";
@@ -13,13 +13,19 @@ interface MonthDateBtnProps {
 
 const MonthDateBtn = ({ selectedDate, onChange }: MonthDateBtnProps) => {
   const { locale, navigationPickerProps } = useStore();
-  const [open, setOpen] = useState(false);
   const currentMonth = getMonth(selectedDate);
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
-  const toggleDialog = () => setOpen(!open);
+  const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const handleChange = (e: Date | null) => {
     onChange(e || new Date(), "selectedDate");
+    handleClose();
   };
   const handlePrev = () => {
     const prevMonth = currentMonth - 1;
@@ -32,26 +38,28 @@ const MonthDateBtn = ({ selectedDate, onChange }: MonthDateBtnProps) => {
   return (
     <>
       <LocaleArrow type="prev" onClick={handlePrev} />
-      <DateProvider>
-        <DatePicker
-          {...navigationPickerProps}
-          open={open}
-          onClose={toggleDialog}
-          openTo="month"
-          views={["year", "month"]}
-          value={selectedDate}
-          onChange={handleChange}
-          renderInput={(params) => (
-            <Button
-              ref={params.inputRef}
-              style={{ padding: 4, fontSize: "0.65rem" }}
-              onClick={toggleDialog}
-            >
-              {format(selectedDate, "MMMM yyyy", { locale })}
-            </Button>
-          )}
-        />
-      </DateProvider>
+      <Button style={{ padding: 4, fontSize: "0.65rem" }} onClick={handleOpen}>
+        {format(selectedDate, "MMMM yyyy", { locale })}
+      </Button>
+      <Popover
+        open={Boolean(anchorEl)}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
+      >
+        <DateProvider>
+          <DateCalendar
+            {...navigationPickerProps}
+            openTo="month"
+            views={["year", "month"]}
+            value={selectedDate}
+            onChange={handleChange}
+          />
+        </DateProvider>
+      </Popover>
       <LocaleArrow type="next" onClick={handleNext} />
     </>
   );

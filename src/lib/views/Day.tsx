@@ -36,6 +36,7 @@ export interface DayProps {
   endHour: DayHours;
   step: number;
   cellRenderer?(props: CellRenderedProps): JSX.Element;
+  headRenderer?(day: Date): JSX.Element;
   navigation?: boolean;
 }
 
@@ -58,7 +59,7 @@ const Day = () => {
     timeZone,
   } = useStore();
 
-  const { startHour, endHour, step, cellRenderer } = day!;
+  const { startHour, endHour, step, cellRenderer, headRenderer } = day!;
   const START_TIME = setMinutes(setHours(selectedDate, startHour), 0);
   const END_TIME = setMinutes(setHours(selectedDate, endHour), 0);
   const hours = eachMinuteOfInterval(
@@ -114,7 +115,8 @@ const Day = () => {
               className="rs__multi_day"
               style={{
                 top: i * MULTI_DAY_EVENT_HEIGHT,
-                width: "100%",
+                width: "99.9%",
+                overflowX: "hidden",
               }}
             >
               <EventItem event={event} multiday hasPrev={hasPrev} hasNext={hasNext} />
@@ -148,7 +150,11 @@ const Day = () => {
             className={`rs__cell rs__header ${isToday(selectedDate) ? "rs__today_cell" : ""}`}
             style={{ height: headerHeight }}
           >
-            <TodayTypo date={selectedDate} locale={locale} />
+            {typeof headRenderer === "function" ? (
+              <div>{headRenderer(selectedDate)}</div>
+            ) : (
+              <TodayTypo date={selectedDate} locale={locale} />
+            )}
             {renderMultiDayEvents(recousedEvents)}
           </span>
         </TableGrid>

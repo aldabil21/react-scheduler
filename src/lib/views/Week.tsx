@@ -44,6 +44,7 @@ export interface WeekProps {
   endHour: DayHours;
   step: number;
   cellRenderer?(props: CellRenderedProps): JSX.Element;
+  headRenderer?(day: Date): JSX.Element;
   navigation?: boolean;
   disableGoToDay?: boolean;
 }
@@ -68,7 +69,16 @@ const Week = () => {
     timeZone,
   } = useStore();
 
-  const { weekStartOn, weekDays, startHour, endHour, step, cellRenderer, disableGoToDay } = week!;
+  const {
+    weekStartOn,
+    weekDays,
+    startHour,
+    endHour,
+    step,
+    cellRenderer,
+    disableGoToDay,
+    headRenderer,
+  } = week!;
   const _weekStart = startOfWeek(selectedDate, { weekStartsOn: weekStartOn });
   const daysList = weekDays.map((d) => addDays(_weekStart, d));
   const weekStart = startOfDay(daysList[0]);
@@ -148,7 +158,8 @@ const Week = () => {
           className="rs__multi_day"
           style={{
             top: index * MULTI_SPACE + 45,
-            width: `${100 * eventLength}%`,
+            width: `${99.9 * eventLength}%`,
+            overflowX: "hidden",
           }}
         >
           <EventItem event={event} hasPrev={hasPrev} hasNext={hasNext} multiday />
@@ -182,11 +193,15 @@ const Week = () => {
               className={`rs__cell rs__header ${isToday(date) ? "rs__today_cell" : ""}`}
               style={{ height: headerHeight }}
             >
-              <TodayTypo
-                date={date}
-                onClick={!disableGoToDay ? handleGotoDay : undefined}
-                locale={locale}
-              />
+              {typeof headRenderer === "function" ? (
+                <div>{headRenderer(date)}</div>
+              ) : (
+                <TodayTypo
+                  date={date}
+                  onClick={!disableGoToDay ? handleGotoDay : undefined}
+                  locale={locale}
+                />
+              )}
               {renderMultiDayEvents(recousedEvents, date)}
             </span>
           ))}

@@ -1,5 +1,5 @@
 import { Fragment, useMemo, useState } from "react";
-import { Popover, Typography, ButtonBase, useTheme, IconButton, Paper } from "@mui/material";
+import { Popover, Typography, ButtonBase, useTheme, IconButton } from "@mui/material";
 import { format } from "date-fns";
 import { ProcessedEvent } from "../../types";
 import ArrowRightRoundedIcon from "@mui/icons-material/ArrowRightRounded";
@@ -7,7 +7,7 @@ import ArrowLeftRoundedIcon from "@mui/icons-material/ArrowLeftRounded";
 import EventNoteRoundedIcon from "@mui/icons-material/EventNoteRounded";
 import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 import SupervisorAccountRoundedIcon from "@mui/icons-material/SupervisorAccountRounded";
-import { PopperInner } from "../../styles/styles";
+import { EventItemPapper, PopperInner } from "../../styles/styles";
 import EventActions from "./Actions";
 import { differenceInDaysOmitTime } from "../../helpers/generals";
 import { useStore } from "../../store";
@@ -27,6 +27,7 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
     events,
     handleState,
     triggerLoading,
+    customViewer,
     viewerExtraComponent,
     fields,
     direction,
@@ -238,7 +239,7 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
 
   return (
     <Fragment>
-      <Paper
+      <EventItemPapper
         key={`${event.start.getTime()}_${event.end.getTime()}_${event.event_id}`}
         style={{
           width: "100%",
@@ -250,6 +251,8 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
           overflow: "hidden",
           borderLeft: "4px solid black",
         }}
+        color={event.color}
+        disabled={event.disabled}
       >
         <ButtonBase
           onClick={(e) => {
@@ -261,16 +264,8 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
             }
           }}
           disabled={event.disabled}
-          style={{
-            width: "100%",
-            height: "100%",
-            display: "block",
-          }}
         >
           <div
-            style={{
-              height: "100%",
-            }}
             draggable={isDraggable}
             onDragStart={(e) => {
               e.stopPropagation();
@@ -292,7 +287,7 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
             {renderEvent}
           </div>
         </ButtonBase>
-      </Paper>
+      </EventItemPapper>
 
       {/* Viewer */}
       <Popover
@@ -313,7 +308,9 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
           e.stopPropagation();
         }}
       >
-        {renderViewer()}
+        {typeof customViewer === "function"
+          ? customViewer(event, () => triggerViewer())
+          : renderViewer()}
       </Popover>
     </Fragment>
   );
