@@ -32,7 +32,7 @@ const SchedulerComponent = forwardRef<SchedulerRef, unknown>(function SchedulerC
       data-testid="rs-wrapper"
       ref={(el) => {
         const calendarRef = ref as any;
-        if (calendarRef && !calendarRef.current) {
+        if (calendarRef) {
           calendarRef.current = {
             el,
             scheduler: store,
