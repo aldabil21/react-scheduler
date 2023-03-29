@@ -4,8 +4,8 @@ import { Button, Popover } from "@mui/material";
 import { endOfWeek, format, startOfWeek, addDays } from "date-fns";
 import { WeekProps } from "../../views/Week";
 import { LocaleArrow } from "../common/LocaleArrow";
-import { useStore } from "../../store";
 import { DateCalendar } from "@mui/x-date-pickers";
+import useStore from "../../hooks/useStore";
 
 interface WeekDateBtnProps {
   selectedDate: Date;

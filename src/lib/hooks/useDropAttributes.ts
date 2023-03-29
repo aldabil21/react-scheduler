@@ -1,6 +1,6 @@
-import { alpha, useTheme } from "@mui/material";
 import { DragEvent } from "react";
-import { useStore } from "../store";
+import { alpha, useTheme } from "@mui/material";
+import useStore from "./useStore";
 
 interface Props {
   start: Date;

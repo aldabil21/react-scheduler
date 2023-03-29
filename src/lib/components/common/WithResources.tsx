@@ -2,7 +2,7 @@ import { ReactChild, useMemo } from "react";
 import { DefaultRecourse } from "../../types";
 import { ResourceHeader } from "./ResourceHeader";
 import { ButtonTabProps, ButtonTabs } from "./Tabs";
-import { useStore } from "../../store";
+import useStore from "../../hooks/useStore";
 
 interface WithResourcesProps {
   renderChildren(resource: DefaultRecourse): ReactChild;

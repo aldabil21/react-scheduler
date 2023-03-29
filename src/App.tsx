@@ -1,16 +1,19 @@
-import { Scheduler, useScheduler } from "./lib";
+import Scheduler from "./lib";
 import { Button, Typography } from "@mui/material";
 import { EVENTS, RECOURCES } from "./events";
+import { SchedulerRef } from "./lib/types";
+import { useRef } from "react";
 
 function App() {
-  const { selectedDate } = useScheduler();
-  const { resourceViewMode, setResourceViewMode } = useScheduler();
+  const calendarRef = useRef<SchedulerRef>(null);
+  // const { selectedDate } = useScheduler();
+  // const { resourceViewMode, setResourceViewMode } = useScheduler();
   // console.log({ selectedDate });
   return (
     <>
       <div style={{ textAlign: "center" }}>
         <span>Resource View Mode: </span>
-        <Button
+        {/* <Button
           color={resourceViewMode === "default" ? "primary" : "inherit"}
           variant={resourceViewMode === "default" ? "contained" : "text"}
           size="small"
@@ -25,7 +28,7 @@ function App() {
           onClick={() => setResourceViewMode("tabs")}
         >
           Tabs
-        </Button>
+        </Button> */}
       </div>
       <Scheduler
         events={EVENTS}

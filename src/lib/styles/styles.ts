@@ -43,7 +43,7 @@ export const TableGrid = styled("div")<{ days: number; sticky?: string; indent?:
     overflowY: "hidden",
     position: sticky === "1" ? "sticky" : "relative",
     top: sticky === "1" ? 0 : undefined,
-    zIndex: sticky === "1" ? 3 : undefined,
+    zIndex: sticky === "1" ? 999 : undefined,
     [theme.breakpoints.down("sm")]: {
       gridTemplateColumns: +indent > 0 ? `43px repeat(${days}, 1fr)` : "",
     },

@@ -12,7 +12,7 @@ import { WeekDateBtn } from "./WeekDateBtn";
 import { DayDateBtn } from "./DayDateBtn";
 import { MonthDateBtn } from "./MonthDateBtn";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { useStore } from "../../store";
+import useStore from "../../hooks/useStore";
 
 export type View = "month" | "week" | "day";
 

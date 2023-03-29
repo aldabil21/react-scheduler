@@ -47,9 +47,9 @@ const TodayEvents = ({
       {sortedEvents.map((event, i) => {
         const height = differenceInMinutes(event.end, event.start) * minuteHeight;
         const minituesFromTop = differenceInMinutes(event.start, setHours(today, startHour));
-        const topSpace = minituesFromTop * minuteHeight; //+ headerHeight;
+        const topSpace = minituesFromTop * minuteHeight; // + headerHeight;
         /** Add border factor to height of each slot. exclude first/last slots */
-        const slots = Math.max(height / step - 2, 0);
+        const slots = height / 60; // Math.max(height / step - 2, 0);
         const heightBorderFactor = slots * BORDER_HEIGHT;
 
         /**
@@ -60,9 +60,9 @@ const TodayEvents = ({
         const borderFactor = slotsFromTop + BORDER_HEIGHT;
         const top = topSpace + borderFactor;
 
-        if (top < 0) {
-          return null;
-        }
+        // if (top < 0) {
+        //   return null;
+        // }
 
         const crossingEvents = traversCrossingEvents(todayEvents, event);
         const alreadyRendered = crossingEvents.filter((e) => crossingIds.includes(e.event_id));

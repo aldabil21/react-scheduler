@@ -34,8 +34,8 @@ import Cell from "../components/common/Cell";
 import TodayEvents from "../components/events/TodayEvents";
 import { TableGrid } from "../styles/styles";
 import { MULTI_DAY_EVENT_HEIGHT } from "../helpers/constants";
-import { useStore } from "../store";
 import useSyncScroll from "../hooks/useSyncScroll";
+import useStore from "../hooks/useStore";
 
 export interface WeekProps {
   weekDays: WeekDays[];

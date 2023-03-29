@@ -22,8 +22,8 @@ import {
 } from "../types";
 import { EditorSelect } from "../components/inputs/SelectInput";
 import { arraytizeFieldVal } from "../helpers/generals";
-import { useStore } from "../store";
 import { SelectedRange } from "../store/types";
+import useStore from "../hooks/useStore";
 
 export type StateItem = {
   value: any;
