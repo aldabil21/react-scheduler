@@ -134,7 +134,7 @@ export const EventItemPapper = styled(Paper)<{ color?: string; disabled?: boolea
       textAlign: "left",
       "& > div": {
         height: "100%",
-        padding: "2px 4px",
+        // padding: "2px 4px",
       },
     },
   })

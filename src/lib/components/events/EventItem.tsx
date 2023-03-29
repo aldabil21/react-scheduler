@@ -190,7 +190,7 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
     }
 
     let item = (
-      <div style={{ padding: 2 }}>
+      <div style={{ padding: "2px 6px" }}>
         <Typography variant="subtitle2" style={{ fontSize: 12 }} noWrap>
           {event.title}
         </Typography>
