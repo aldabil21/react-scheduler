@@ -1,6 +1,6 @@
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { useStore } from "../../store";
+import useStore from "../../hooks/useStore";
 
 interface AuxProps {
   children: any;

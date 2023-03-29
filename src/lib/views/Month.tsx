@@ -16,8 +16,8 @@ import { getResourcedEvents } from "../helpers/generals";
 import { WithResources } from "../components/common/WithResources";
 import Cell from "../components/common/Cell";
 import { TableGrid } from "../styles/styles";
-import { useStore } from "../store";
 import useSyncScroll from "../hooks/useSyncScroll";
+import useStore from "../hooks/useStore";
 
 export type WeekDays = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 export interface MonthProps {

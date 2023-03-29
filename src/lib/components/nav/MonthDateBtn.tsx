@@ -4,7 +4,7 @@ import { DateCalendar } from "@mui/x-date-pickers";
 import { Button, Popover } from "@mui/material";
 import { format, getMonth, setMonth } from "date-fns";
 import { LocaleArrow } from "../common/LocaleArrow";
-import { useStore } from "../../store";
+import useStore from "../../hooks/useStore";
 
 interface MonthDateBtnProps {
   selectedDate: Date;

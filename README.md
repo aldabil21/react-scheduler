@@ -78,29 +78,29 @@ import { Scheduler } from "@aldabil/react-scheduler";
 | translations            | Object. Translations view props. <br> _default_: <pre>{<br> navigation: {<br> month: "Month",<br> week: "Week",<br> day: "Day",<br> today: "Today"<br> },<br> form: {<br> addTitle: "Add Event",<br> editTitle: "Edit Event",<br> confirm: "Confirm",<br> delete: "Delete",<br> cancel: "Cancel"<br> },<br> event: {<br> title: "Title",<br> start: "Start",<br> end: "End",<br> allDay: "All Day"<br>},<br> moreEvents: "More...",<br> loading: "Loading..."<br>}</pre> |
 | onEventDrop             | Function(droppedOn: Date, updatedEvent: ProcessedEvent, originalEvent: ProcessedEvent). Return a promise, used to update remote data of the dropped event. Return an event to update state internally, or void if event state is managed within component                                                                                                                                                                                                                |
 | onEventClick            | Function(event: ProcessedEvent): void. Triggered when an event item is clicked                                                                                                                                                                                                                                                                                                                                                                                           |
-| renderDeps              | Array of dependency that can trigget Scheduler re-render                                                                                                                                                                                                                                                                                                                                                                                                                 |
 
 <br>
 
-### useScheduler Hook
+### SchedulerRef
 
-used to help manage and control the internal state of the `Scheduler` component from another component outside of `Scheduler` props, Example:
+Used to help manage and control the internal state of the `Scheduler` component from outside of `Scheduler` props, Example:
 
 ```js
-import { Scheduler, useScheduler } from "@aldabil/react-scheduler";
+import { Scheduler } from "@aldabil/react-scheduler";
+import type { SchedulerRef } from "@aldabil/react-scheduler/types"
 
 const SomeComponent = () => {
-  const { triggerDialog, setView } = useScheduler();
+  const calendarRef = useRef<SchedulerRef>(null);
 
   return <Fragment>
     <div>
       <Button onClick={()=>{
-        setView("day");
+        calendarRef.current.scheduler.handleState("day", "view");
       }}>
         Change View
       </Button>
       <Button onClick={()=>{
-        triggerDialog(true, {
+        calendarRef.current.scheduler.triggerDialog(true, {
           start: /*Put the start date*/,
           end: /*Put the end date*/
         })
@@ -110,12 +110,21 @@ const SomeComponent = () => {
     </div>
 
     <Scheduler
+      ref={calendarRef}
       events={EVENTS}
       //...
     />
   </Fragment>
 };
 ```
+
+The `calendarRef` holds the entire internal state of the Scheduler component. Perhaps the most useful method inside the `calendarRef` is `handleState`, example:
+
+```
+calendarRef.current.scheduler.handleState(value, key);
+```
+
+consider looking inside `SchedulerRef` type to see all fields & methods available.
 
 ### Demos
 
