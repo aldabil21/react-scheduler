@@ -1,4 +1,4 @@
-import { Fragment, useMemo, useState } from "react";
+import { Fragment, MouseEvent, useMemo, useState } from "react";
 import { Popover, Typography, ButtonBase, useTheme, IconButton } from "@mui/material";
 import { format } from "date-fns";
 import { ProcessedEvent } from "../../types";
@@ -11,6 +11,7 @@ import { EventItemPapper, PopperInner } from "../../styles/styles";
 import EventActions from "./Actions";
 import { differenceInDaysOmitTime } from "../../helpers/generals";
 import useStore from "../../hooks/useStore";
+import useDragAttributes from "../../hooks/useDragAttributes";
 
 interface EventItemProps {
   event: ProcessedEvent;
@@ -44,6 +45,7 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
     draggable,
     translations,
   } = useStore();
+  const dragProps = useDragAttributes(event);
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState(false);
   const theme = useTheme();
@@ -53,11 +55,11 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
   const PrevArrow = direction === "rtl" ? ArrowRightRoundedIcon : ArrowLeftRoundedIcon;
   const hideDates = differenceInDaysOmitTime(event.start, event.end) <= 0 && event.allDay;
 
-  const triggerViewer = (el?: Element) => {
-    if (!el && deleteConfirm) {
+  const triggerViewer = (el?: MouseEvent<Element>) => {
+    if (!el?.currentTarget && deleteConfirm) {
       setDeleteConfirm(false);
     }
-    setAnchorEl(el || null);
+    setAnchorEl(el?.currentTarget || null);
   };
 
   const handleDelete = async () => {
@@ -183,9 +185,15 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
     // Check if has custom render event method
     // only applicable to non-multiday events and not in month-view
     if (typeof eventRenderer === "function" && !multiday && view !== "month") {
-      const custom = eventRenderer(event);
+      const custom = eventRenderer({ event, onClick: triggerViewer, ...dragProps });
       if (custom) {
-        return custom;
+        return (
+          <EventItemPapper
+            key={`${event.start.getTime()}_${event.end.getTime()}_${event.event_id}`}
+          >
+            {custom}
+          </EventItemPapper>
+        );
       }
     }
 
@@ -233,12 +241,7 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
         </div>
       );
     }
-    return item;
-    // eslint-disable-next-line
-  }, [hasPrev, hasNext, event, isDraggable, locale, theme.palette]);
-
-  return (
-    <Fragment>
+    return (
       <EventItemPapper
         key={`${event.start.getTime()}_${event.end.getTime()}_${event.event_id}`}
         color={event.color}
@@ -248,36 +251,25 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            triggerViewer(e.currentTarget);
+            triggerViewer(e);
             if (typeof onEventClick === "function") {
               onEventClick(event);
             }
           }}
           disabled={event.disabled}
         >
-          <div
-            draggable={isDraggable}
-            onDragStart={(e) => {
-              e.stopPropagation();
-              e.dataTransfer.setData("text/plain", `${event.event_id}`);
-              e.currentTarget.style.backgroundColor = theme.palette.error.main;
-            }}
-            onDragEnd={(e) => {
-              e.currentTarget.style.backgroundColor = event.color || theme.palette.primary.main;
-            }}
-            onDragOver={(e) => {
-              e.stopPropagation();
-              e.preventDefault();
-            }}
-            onDragEnter={(e) => {
-              e.stopPropagation();
-              e.preventDefault();
-            }}
-          >
-            {renderEvent}
+          <div {...dragProps} draggable={isDraggable}>
+            {item}
           </div>
         </ButtonBase>
       </EventItemPapper>
+    );
+    // eslint-disable-next-line
+  }, [hasPrev, hasNext, event, isDraggable, locale, theme.palette]);
+
+  return (
+    <Fragment>
+      {renderEvent}
 
       {/* Viewer */}
       <Popover
