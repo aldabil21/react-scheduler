@@ -83,6 +83,8 @@ const Editor = () => {
     triggerDialog,
     selectedRange,
     selectedEvent,
+    resourceFields,
+    selectedResource,
     triggerLoading,
     onConfirm,
     customEditor,
@@ -194,6 +196,7 @@ const Editor = () => {
         loading: (load) => triggerLoading(load),
         edited: selectedEvent,
         onConfirm: confirmEvent,
+        [resourceFields.idField]: selectedResource,
       };
       return customEditor(schedulerHelpers);
     }

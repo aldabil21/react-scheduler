@@ -44,6 +44,7 @@ export const StoreProvider = ({ children, initial }: Props) => {
             end: new Date(Date.now() + 60 * 60 * 1000),
           },
       selectedEvent: isEvent?.event_id ? isEvent : undefined,
+      selectedResource: isEvent?.[state.resourceFields?.idField],
     }));
   };
 
