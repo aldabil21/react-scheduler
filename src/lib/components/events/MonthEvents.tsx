@@ -16,7 +16,11 @@ import { ProcessedEvent } from "../../types";
 import { Typography } from "@mui/material";
 import EventItem from "./EventItem";
 import { MONTH_NUMBER_HEIGHT, MULTI_DAY_EVENT_HEIGHT } from "../../helpers/constants";
-import { convertEventTimeZone, differenceInDaysOmitTime } from "../../helpers/generals";
+import {
+  convertEventTimeZone,
+  differenceInDaysOmitTime,
+  sortEventsByTheLengthest,
+} from "../../helpers/generals";
 import useStore from "../../hooks/useStore";
 
 interface MonthEventProps {
@@ -56,7 +60,7 @@ const MonthEvents = ({
       }
     }
 
-    return list.sort((a, b) => a.end.getTime() - b.end.getTime());
+    return sortEventsByTheLengthest(list);
   }, [eachFirstDayInCalcRow, events, today, timeZone]);
 
   const renderEvents = useMemo(() => {
@@ -86,10 +90,12 @@ const MonthEvents = ({
       }
 
       const prevNextEvents = events.filter((e) => {
+        const daysDiff = differenceInDaysOmitTime(e.start, e.end);
+        const moreThanOneDay = daysDiff > 0;
         const isWithinToday =
-          isWithinInterval(e.start, { start: startOfDay(today), end: endOfDay(today) }) ||
-          isWithinInterval(e.end, { start: startOfDay(today), end: endOfDay(today) });
-        const moreThanOneDay = differenceInDaysOmitTime(e.start, e.end) > 0;
+          daysDiff === 0 &&
+          (isWithinInterval(e.start, { start: startOfDay(today), end: endOfDay(today) }) ||
+            isWithinInterval(e.end, { start: startOfDay(today), end: endOfDay(today) }));
         const isBeforeToday = isBefore(e.start, addMinutes(startOfDay(today), 1));
         const isAfterToday = isAfter(e.end, addMinutes(endOfDay(today), -1));
         const isBeforeAfter = isBeforeToday && isAfterToday;
@@ -106,7 +112,7 @@ const MonthEvents = ({
       let index = i;
 
       if (prevNextEvents.length) {
-        index += i === 0 ? prevNextEvents.length - 1 : prevNextEvents.length;
+        index += prevNextEvents.length;
         // if (index > LIMIT) {
         //   index = LIMIT;
         // }

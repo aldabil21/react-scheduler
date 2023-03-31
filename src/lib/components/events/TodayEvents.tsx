@@ -3,7 +3,7 @@ import EventItem from "./EventItem";
 import { differenceInMinutes, setHours, isToday } from "date-fns";
 import { traversCrossingEvents } from "../../helpers/generals";
 import { BORDER_HEIGHT } from "../../helpers/constants";
-import { Fragment, useMemo } from "react";
+import { Fragment } from "react";
 import CurrentTimeBar from "./CurrentTimeBar";
 
 interface TodayEventsProps {
@@ -24,15 +24,6 @@ const TodayEvents = ({
 }: TodayEventsProps) => {
   const crossingIds: Array<number | string> = [];
 
-  // Sort events by latest end time
-  const sortedEvents = useMemo(() => {
-    return todayEvents.sort((a, b) => {
-      const aDiff = a.end.getTime() - a.start.getTime();
-      const bDiff = b.end.getTime() - b.start.getTime();
-      return bDiff - aDiff;
-    });
-  }, [todayEvents]);
-
   return (
     <Fragment>
       {isToday(today) && (
@@ -44,7 +35,7 @@ const TodayEvents = ({
         />
       )}
 
-      {sortedEvents.map((event, i) => {
+      {todayEvents.map((event, i) => {
         const height = differenceInMinutes(event.end, event.start) * minuteHeight;
         const minituesFromTop = differenceInMinutes(event.start, setHours(today, startHour));
         const topSpace = minituesFromTop * minuteHeight; // + headerHeight;
