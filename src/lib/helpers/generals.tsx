@@ -64,9 +64,11 @@ export const getResourcedEvents = (
     // Handle single select & multiple select accordingly
     const arrytize = isMultiple && !Array.isArray(event[keyName]);
     const eventVal = arrytize ? [event[keyName]] : event[keyName];
-    const isThisResource = isMultiple
-      ? eventVal.includes(resource[keyName])
-      : eventVal === resource[keyName];
+
+    const isThisResource =
+      isMultiple || Array.isArray(eventVal)
+        ? eventVal.includes(resource[keyName])
+        : eventVal === resource[keyName];
 
     if (isThisResource) {
       recousedEvents.push({
