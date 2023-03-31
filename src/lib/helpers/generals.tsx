@@ -131,7 +131,17 @@ export const filterTodayEvents = (events: ProcessedEvent[], today: Date, timeZon
       list.push(event);
     }
   }
-  return list.sort((a, b) => a.end.getTime() - b.end.getTime());
+
+  // Sort by the length est event
+  return sortEventsByTheLengthest(list);
+};
+
+export const sortEventsByTheLengthest = (events: ProcessedEvent[]) => {
+  return events.sort((a, b) => {
+    const aDiff = a.end.getTime() - a.start.getTime();
+    const bDiff = b.end.getTime() - b.start.getTime();
+    return bDiff - aDiff;
+  });
 };
 
 export const filterMultiDaySlot = (

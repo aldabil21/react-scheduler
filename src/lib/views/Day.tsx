@@ -72,7 +72,6 @@ const Day = () => {
   const CELL_HEIGHT = calcCellHeight(height, hours.length);
   const MINUTE_HEIGHT = calcMinuteHeight(CELL_HEIGHT, step);
   const hFormat = hourFormat === "12" ? "hh:mm a" : "HH:mm";
-  const todayEvents = events.sort((b, a) => a.end.getTime() - b.end.getTime());
   const { headersRef, bodyRef } = useSyncScroll();
 
   const fetchEvents = useCallback(async () => {
@@ -128,15 +127,15 @@ const Day = () => {
   };
 
   const renderTable = (resource?: DefaultRecourse) => {
-    let recousedEvents = todayEvents;
+    let recousedEvents = events;
     if (resource) {
-      recousedEvents = getResourcedEvents(todayEvents, resource, resourceFields, fields);
+      recousedEvents = getResourcedEvents(events, resource, resourceFields, fields);
     }
 
     // Equalizing multi-day section height
     const shouldEqualize = resources.length && resourceViewMode !== "tabs";
     const allWeekMulti = filterMultiDaySlot(
-      shouldEqualize ? todayEvents : recousedEvents,
+      shouldEqualize ? events : recousedEvents,
       selectedDate,
       timeZone
     );
