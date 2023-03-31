@@ -57,6 +57,8 @@ const Navigation = () => {
     }
   };
 
+  if (!navigation && disableViewNavigator) return null;
+
   return (
     <div
       style={{
