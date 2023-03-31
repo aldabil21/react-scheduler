@@ -28,6 +28,8 @@ const Navigation = () => {
     day,
     month,
     disableViewNavigator,
+    onSelectedDateChange,
+    onViewChange,
   } = useStore();
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const theme = useTheme();
@@ -38,20 +40,45 @@ const Navigation = () => {
     setAnchorEl(el || null);
   };
 
+  const handleSelectedDateChange = (date: Date) => {
+    handleState(date, "selectedDate");
+
+    if (onSelectedDateChange && typeof onSelectedDateChange === "function") {
+      onSelectedDateChange(date);
+    }
+  };
+
+  const handleChangeView = (view: View) => {
+    handleState(view, "view");
+    if (onViewChange && typeof onViewChange === "function") {
+      onViewChange(view);
+    }
+  };
+
   const renderDateSelector = () => {
     switch (view) {
       case "month":
         return (
-          month?.navigation && <MonthDateBtn selectedDate={selectedDate} onChange={handleState} />
+          month?.navigation && (
+            <MonthDateBtn selectedDate={selectedDate} onChange={handleSelectedDateChange} />
+          )
         );
       case "week":
         return (
           week?.navigation && (
-            <WeekDateBtn selectedDate={selectedDate} onChange={handleState} weekProps={week!} />
+            <WeekDateBtn
+              selectedDate={selectedDate}
+              onChange={handleSelectedDateChange}
+              weekProps={week!}
+            />
           )
         );
       case "day":
-        return day?.navigation && <DayDateBtn selectedDate={selectedDate} onChange={handleState} />;
+        return (
+          day?.navigation && (
+            <DayDateBtn selectedDate={selectedDate} onChange={handleSelectedDateChange} />
+          )
+        );
       default:
         return "";
     }
@@ -75,7 +102,7 @@ const Navigation = () => {
           visibility: disableViewNavigator ? "hidden" : "visible",
         }}
       >
-        <Button onClick={() => handleState(new Date(), "selectedDate")}>
+        <Button onClick={() => handleSelectedDateChange(new Date())}>
           {translations.navigation.today}
         </Button>
         {views.length > 1 &&
@@ -84,10 +111,10 @@ const Navigation = () => {
               <Button
                 key={v}
                 color={v === view ? "primary" : "inherit"}
-                onClick={() => handleState(v, "view")}
+                onClick={() => handleChangeView(v)}
                 onDragOver={(e) => {
                   e.preventDefault();
-                  handleState(v, "view");
+                  handleChangeView(v);
                 }}
               >
                 {translations.navigation[v]}
@@ -125,7 +152,7 @@ const Navigation = () => {
                       selected={v === view}
                       onClick={() => {
                         toggleMoreMenu();
-                        handleState(v, "view");
+                        handleChangeView(v);
                       }}
                     >
                       {translations.navigation[v]}

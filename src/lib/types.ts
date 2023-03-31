@@ -280,6 +280,14 @@ export interface SchedulerProps {
    * @default true
    */
   draggable?: boolean;
+  /**
+   * Triggered when the `selectedDate` prop changes by navigation date picker or `today` button.
+   */
+  onSelectedDateChange?(date: Date): void;
+  /**
+   * Triggered when navigation view changes.
+   */
+  onViewChange?(view: View): void;
 }
 
 export interface SchedulerRef {

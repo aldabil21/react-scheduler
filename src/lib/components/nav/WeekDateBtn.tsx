@@ -9,7 +9,7 @@ import useStore from "../../hooks/useStore";
 
 interface WeekDateBtnProps {
   selectedDate: Date;
-  onChange(value: Date, key: "selectedDate"): void;
+  onChange(value: Date): void;
   weekProps: WeekProps;
 }
 
@@ -28,17 +28,17 @@ const WeekDateBtn = ({ selectedDate, onChange, weekProps }: WeekDateBtnProps) =>
   };
 
   const handleChange = (e: Date | null) => {
-    onChange(e || new Date(), "selectedDate");
+    onChange(e || new Date());
     handleClose();
   };
 
   const handlePrev = () => {
     const ladtDayPrevWeek = addDays(weekStart, -1);
-    onChange(ladtDayPrevWeek, "selectedDate");
+    onChange(ladtDayPrevWeek);
   };
   const handleNext = () => {
     const firstDayNextWeek = addDays(weekEnd, 1);
-    onChange(firstDayNextWeek, "selectedDate");
+    onChange(firstDayNextWeek);
   };
   return (
     <>

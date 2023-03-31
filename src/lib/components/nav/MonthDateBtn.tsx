@@ -8,7 +8,7 @@ import useStore from "../../hooks/useStore";
 
 interface MonthDateBtnProps {
   selectedDate: Date;
-  onChange(value: Date, key: "selectedDate"): void;
+  onChange(value: Date): void;
 }
 
 const MonthDateBtn = ({ selectedDate, onChange }: MonthDateBtnProps) => {
@@ -24,16 +24,16 @@ const MonthDateBtn = ({ selectedDate, onChange }: MonthDateBtnProps) => {
   };
 
   const handleChange = (e: Date | null) => {
-    onChange(e || new Date(), "selectedDate");
+    onChange(e || new Date());
     handleClose();
   };
   const handlePrev = () => {
     const prevMonth = currentMonth - 1;
-    onChange(setMonth(selectedDate, prevMonth), "selectedDate");
+    onChange(setMonth(selectedDate, prevMonth));
   };
   const handleNext = () => {
     const nextMonth = currentMonth + 1;
-    onChange(setMonth(selectedDate, nextMonth), "selectedDate");
+    onChange(setMonth(selectedDate, nextMonth));
   };
   return (
     <>
