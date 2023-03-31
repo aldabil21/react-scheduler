@@ -1,4 +1,4 @@
-import Scheduler from "./lib";
+import { Scheduler } from "./lib";
 import { EVENTS } from "./events";
 import { useRef } from "react";
 import { SchedulerRef } from "./lib/types";
