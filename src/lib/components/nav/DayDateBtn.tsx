@@ -8,7 +8,7 @@ import useStore from "../../hooks/useStore";
 
 interface DayDateBtnProps {
   selectedDate: Date;
-  onChange(value: Date, key: "selectedDate"): void;
+  onChange(value: Date): void;
 }
 
 const DayDateBtn = ({ selectedDate, onChange }: DayDateBtnProps) => {
@@ -23,17 +23,17 @@ const DayDateBtn = ({ selectedDate, onChange }: DayDateBtnProps) => {
   };
 
   const handleChange = (e: Date | null) => {
-    onChange(e || new Date(), "selectedDate");
+    onChange(e || new Date());
     handleClose();
   };
 
   const handlePrev = () => {
     const prevDay = addDays(selectedDate, -1);
-    onChange(prevDay, "selectedDate");
+    onChange(prevDay);
   };
   const handleNext = () => {
     const nexDay = addDays(selectedDate, 1);
-    onChange(nexDay, "selectedDate");
+    onChange(nexDay);
   };
   return (
     <>
