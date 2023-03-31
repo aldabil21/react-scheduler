@@ -78,6 +78,14 @@ export interface Translations {
 }
 
 export type InputTypes = "input" | "date" | "select" | "hidden";
+
+export interface EventRendererProps
+  extends Pick<
+    React.HTMLAttributes<HTMLElement>,
+    "draggable" | "onDragStart" | "onDragEnd" | "onDragOver" | "onDragEnter" | "onClick"
+  > {
+  event: ProcessedEvent;
+}
 export interface FieldInputProps {
   /** Available to all InputTypes */
   label?: string;
@@ -191,7 +199,7 @@ export interface SchedulerProps {
   /**Events to display */
   events: ProcessedEvent[];
   /** Custom event render method */
-  eventRenderer?: (event: ProcessedEvent) => JSX.Element | null;
+  eventRenderer?: (props: EventRendererProps) => JSX.Element | null;
   /**Async function to load remote data with current view data. */
   getRemoteEvents?(params: ViewEvent): Promise<ProcessedEvent[] | void>;
   /**Custom additional fields with it's settings */
