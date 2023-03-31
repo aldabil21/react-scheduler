@@ -11,4 +11,4 @@ const Scheduler = forwardRef<SchedulerRef, SchedulerProps>(function Scheduler(pr
   );
 });
 
-export default Scheduler;
+export { Scheduler };
