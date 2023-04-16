@@ -1,6 +1,7 @@
 import { Fragment, useEffect, useState } from "react";
 import { differenceInMinutes, setHours } from "date-fns";
 import { BORDER_HEIGHT } from "../../helpers/constants";
+import { getTimeZonedDate } from "../../helpers/generals";
 import { TimeIndicatorBar } from "../../styles/styles";
 
 interface CurrentTimeBarProps {
@@ -8,11 +9,18 @@ interface CurrentTimeBarProps {
   startHour: number;
   step: number;
   minuteHeight: number;
+  timeZone?: string;
   color?: string;
 }
 
-function calculateTop({ today, startHour, step, minuteHeight }: CurrentTimeBarProps): number {
-  const now = new Date();
+function calculateTop({
+  today,
+  startHour,
+  step,
+  minuteHeight,
+  timeZone,
+}: CurrentTimeBarProps): number {
+  const now = getTimeZonedDate(new Date(), timeZone);
 
   const minutesFromTop = differenceInMinutes(now, setHours(today, startHour));
   const topSpace = minutesFromTop * minuteHeight;

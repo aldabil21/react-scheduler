@@ -13,6 +13,7 @@ interface TodayEventsProps {
   step: number;
   minuteHeight: number;
   direction: "rtl" | "ltr";
+  timeZone?: string;
 }
 const TodayEvents = ({
   todayEvents,
@@ -21,6 +22,7 @@ const TodayEvents = ({
   step,
   minuteHeight,
   direction,
+  timeZone,
 }: TodayEventsProps) => {
   const crossingIds: Array<number | string> = [];
 
@@ -32,6 +34,7 @@ const TodayEvents = ({
           startHour={startHour}
           step={step}
           minuteHeight={minuteHeight}
+          timeZone={timeZone}
         />
       )}
 

@@ -183,6 +183,7 @@ const Day = () => {
                       startHour={startHour}
                       step={step}
                       direction={direction}
+                      timeZone={timeZone}
                     />
                   )}
                   {/* Cell */}
