@@ -102,7 +102,10 @@ const Navigation = () => {
           visibility: disableViewNavigator ? "hidden" : "visible",
         }}
       >
-        <Button onClick={() => handleSelectedDateChange(new Date())}>
+        <Button
+          onClick={() => handleSelectedDateChange(new Date())}
+          aria-label={translations.navigation.today}
+        >
           {translations.navigation.today}
         </Button>
         {views.length > 1 &&
