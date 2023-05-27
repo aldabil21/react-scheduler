@@ -35,7 +35,7 @@ const Cell = ({
     });
   }
   return (
-    <Button fullWidth {...props}>
+    <Button fullWidth aria-label={`${start.toISOString()} - ${end.toISOString()}`} {...props}>
       {children}
     </Button>
   );

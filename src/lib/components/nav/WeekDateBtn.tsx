@@ -42,8 +42,8 @@ const WeekDateBtn = ({ selectedDate, onChange, weekProps }: WeekDateBtnProps) =>
   };
   return (
     <>
-      <LocaleArrow type="prev" onClick={handlePrev} />
-      <Button style={{ padding: 4 }} onClick={handleOpen}>
+      <LocaleArrow type="prev" onClick={handlePrev} aria-label="previous week" />
+      <Button style={{ padding: 4 }} onClick={handleOpen} aria-label="selected week">
         {`${format(weekStart, "dd", { locale })} - ${format(weekEnd, "dd MMMM yyyy", {
           locale,
         })}`}
@@ -67,7 +67,7 @@ const WeekDateBtn = ({ selectedDate, onChange, weekProps }: WeekDateBtnProps) =>
           />
         </DateProvider>
       </Popover>
-      <LocaleArrow type="next" onClick={handleNext} />
+      <LocaleArrow type="next" onClick={handleNext} aria-label="next week" />
     </>
   );
 };

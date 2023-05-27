@@ -1,14 +1,14 @@
 import NavigateBeforeRoundedIcon from "@mui/icons-material/NavigateBeforeRounded";
 import NavigateNextRoundedIcon from "@mui/icons-material/NavigateNextRounded";
-import { IconButton } from "@mui/material";
+import { IconButton, IconButtonProps } from "@mui/material";
 import { MouseEvent } from "react";
 import useStore from "../../hooks/useStore";
 
-interface LocaleArrowProps {
+interface LocaleArrowProps extends Omit<IconButtonProps, "type"> {
   type: "prev" | "next";
   onClick?(e?: MouseEvent): void;
 }
-const LocaleArrow = ({ type, onClick }: LocaleArrowProps) => {
+const LocaleArrow = ({ type, onClick, ...props }: LocaleArrowProps) => {
   const { direction } = useStore();
 
   let Arrow = NavigateNextRoundedIcon;
@@ -28,6 +28,7 @@ const LocaleArrow = ({ type, onClick }: LocaleArrowProps) => {
           onClick();
         }
       }}
+      {...props}
     >
       <Arrow />
     </IconButton>
