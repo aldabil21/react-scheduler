@@ -125,7 +125,6 @@ export const EventItemPapper = styled(Paper)<{ color?: string; disabled?: boolea
     background: disabled ? "#d0d0d0" : color || theme.palette.primary.main,
     color: disabled ? "#808080" : theme.palette.primary.contrastText,
     cursor: disabled ? "not-allowed" : "pointer",
-    border: "1px solid #fff",
     overflow: "hidden",
     "& .MuiButtonBase-root": {
       width: "100%",
