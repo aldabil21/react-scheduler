@@ -8,13 +8,12 @@ import {
   isSameDay,
   isBefore,
   isToday,
-  setMinutes,
-  setHours,
   isWithinInterval,
   isAfter,
   endOfDay,
   startOfDay,
   addMinutes,
+  set,
 } from "date-fns";
 import TodayTypo from "../components/common/TodayTypo";
 import EventItem from "../components/events/EventItem";
@@ -83,14 +82,14 @@ const Week = () => {
   const daysList = weekDays.map((d) => addDays(_weekStart, d));
   const weekStart = startOfDay(daysList[0]);
   const weekEnd = endOfDay(daysList[daysList.length - 1]);
-  const START_TIME = setMinutes(setHours(selectedDate, startHour), 0);
-  const END_TIME = setMinutes(setHours(selectedDate, endHour), 0);
+  const START_TIME = set(selectedDate, { hours: startHour, minutes: 0, seconds: 0 });
+  const END_TIME = set(selectedDate, { hours: endHour, minutes: -step, seconds: 0 });
   const hours = eachMinuteOfInterval(
     {
       start: START_TIME,
       end: END_TIME,
     },
-    { step: step }
+    { step }
   );
   const CELL_HEIGHT = calcCellHeight(height, hours.length);
   const MINUTE_HEIGHT = calcMinuteHeight(CELL_HEIGHT, step);
@@ -215,9 +214,7 @@ const Week = () => {
               </span>
               {daysList.map((date, ii) => {
                 const start = new Date(`${format(date, "yyyy/MM/dd")} ${format(h, hFormat)}`);
-                const end = new Date(
-                  `${format(date, "yyyy/MM/dd")} ${format(addMinutes(h, step), hFormat)}`
-                );
+                const end = addMinutes(start, step);
                 const field = resourceFields.idField;
                 return (
                   <span key={ii} className={`rs__cell ${isToday(date) ? "rs__today_cell" : ""}`}>

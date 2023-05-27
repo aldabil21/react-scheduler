@@ -1,5 +1,6 @@
 import {
   addMinutes,
+  addSeconds,
   differenceInDays,
   endOfDay,
   isSameDay,
@@ -116,7 +117,7 @@ export const calcCellHeight = (tableHeight: number, hoursLength: number) => {
 };
 
 export const differenceInDaysOmitTime = (start: Date, end: Date) => {
-  return differenceInDays(endOfDay(end), startOfDay(start));
+  return differenceInDays(endOfDay(addSeconds(end, -1)), startOfDay(start));
 };
 
 export const filterTodayEvents = (events: ProcessedEvent[], today: Date, timeZone?: string) => {

@@ -4,14 +4,13 @@ import {
   format,
   eachMinuteOfInterval,
   isToday,
-  setHours,
-  setMinutes,
   isBefore,
   isAfter,
   startOfDay,
   endOfDay,
   addDays,
   addMinutes,
+  set,
 } from "date-fns";
 import TodayTypo from "../components/common/TodayTypo";
 import EventItem from "../components/events/EventItem";
@@ -60,8 +59,8 @@ const Day = () => {
   } = useStore();
 
   const { startHour, endHour, step, cellRenderer, headRenderer } = day!;
-  const START_TIME = setMinutes(setHours(selectedDate, startHour), 0);
-  const END_TIME = setMinutes(setHours(selectedDate, endHour), 0);
+  const START_TIME = set(selectedDate, { hours: startHour, minutes: 0, seconds: 0 });
+  const END_TIME = set(selectedDate, { hours: endHour, minutes: -step, seconds: 0 });
   const hours = eachMinuteOfInterval(
     {
       start: START_TIME,
@@ -161,11 +160,8 @@ const Day = () => {
           {/* Body */}
           {hours.map((h, i) => {
             const start = new Date(`${format(selectedDate, "yyyy/MM/dd")} ${format(h, hFormat)}`);
-            const end = new Date(
-              `${format(selectedDate, "yyyy/MM/dd")} ${format(addMinutes(h, step), hFormat)}`
-            );
+            const end = addMinutes(start, step);
             const field = resourceFields.idField;
-
             return (
               <Fragment key={i}>
                 {/* Time Cells */}
