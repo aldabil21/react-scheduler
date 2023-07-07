@@ -106,3 +106,26 @@ export const RECOURCES = [
     color: "#08c5bd",
   },
 ];
+
+export const generateRandomEvents = (total = 300) => {
+  const events = [];
+  for (let i = 0; i < total; i++) {
+    const day = Math.round(i % 15);
+    events.push({
+      event_id: Math.random(),
+      title: "Event " + (i + 1),
+      start: new Date(
+        new Date(new Date(new Date().setHours(10)).setMinutes(30)).setDate(
+          new Date().getDate() + day
+        )
+      ),
+      end: new Date(
+        new Date(new Date(new Date().setHours(14)).setMinutes(0)).setDate(
+          new Date().getDate() + day
+        )
+      ),
+    });
+  }
+
+  return events;
+};
