@@ -92,100 +92,125 @@ const Month = () => {
     }
   }, [fetchEvents, getRemoteEvents]);
 
-  const renderCells = (resource?: DefaultRecourse) => {
-    let resourcedEvents = events;
-    if (resource) {
-      resourcedEvents = getResourcedEvents(events, resource, resourceFields, fields);
-    }
-    const rows: JSX.Element[] = [];
+  const renderCells = useCallback(
+    (resource?: DefaultRecourse) => {
+      let resourcedEvents = events;
+      if (resource) {
+        resourcedEvents = getResourcedEvents(events, resource, resourceFields, fields);
+      }
+      const rows: JSX.Element[] = [];
 
-    for (const startDay of eachWeekStart) {
-      const cells = weekDays.map((d) => {
-        const today = addDays(startDay, d);
-        const start = new Date(`${format(setHours(today, startHour), `yyyy/MM/dd ${hFormat}`)}`);
-        const end = new Date(`${format(setHours(today, endHour), `yyyy/MM/dd ${hFormat}`)}`);
-        const field = resourceFields.idField;
-        return (
-          <span style={{ height: CELL_HEIGHT }} key={d.toString()} className="rs__cell">
-            <Cell
-              start={start}
-              end={end}
-              day={selectedDate}
-              height={CELL_HEIGHT}
-              resourceKey={field}
-              resourceVal={resource ? resource[field] : null}
-              cellRenderer={cellRenderer}
-            />
-            <Fragment>
-              {typeof headRenderer === "function" ? (
-                <div style={{ position: "absolute", top: 0 }}>{headRenderer(today)}</div>
-              ) : (
-                <Avatar
-                  style={{
-                    width: 27,
-                    height: 27,
-                    position: "absolute",
-                    top: 0,
-                    background: isToday(today) ? theme.palette.secondary.main : "transparent",
-                    color: isToday(today) ? theme.palette.secondary.contrastText : "",
-                    marginBottom: 2,
-                  }}
-                >
-                  <Typography
-                    color={!isSameMonth(today, monthStart) ? "#ccc" : "textPrimary"}
-                    className={!disableGoToDay ? "rs__hover__op" : ""}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      if (!disableGoToDay) {
-                        handleGotoDay(today);
-                      }
+      for (const startDay of eachWeekStart) {
+        const cells = weekDays.map((d) => {
+          const today = addDays(startDay, d);
+          const start = new Date(`${format(setHours(today, startHour), `yyyy/MM/dd ${hFormat}`)}`);
+          const end = new Date(`${format(setHours(today, endHour), `yyyy/MM/dd ${hFormat}`)}`);
+          const field = resourceFields.idField;
+          return (
+            <span style={{ height: CELL_HEIGHT }} key={d.toString()} className="rs__cell">
+              <Cell
+                start={start}
+                end={end}
+                day={selectedDate}
+                height={CELL_HEIGHT}
+                resourceKey={field}
+                resourceVal={resource ? resource[field] : null}
+                cellRenderer={cellRenderer}
+              />
+              <Fragment>
+                {typeof headRenderer === "function" ? (
+                  <div style={{ position: "absolute", top: 0 }}>{headRenderer(today)}</div>
+                ) : (
+                  <Avatar
+                    style={{
+                      width: 27,
+                      height: 27,
+                      position: "absolute",
+                      top: 0,
+                      background: isToday(today) ? theme.palette.secondary.main : "transparent",
+                      color: isToday(today) ? theme.palette.secondary.contrastText : "",
+                      marginBottom: 2,
                     }}
                   >
-                    {format(today, "dd")}
-                  </Typography>
-                </Avatar>
-              )}
-              <MonthEvents
-                events={resourcedEvents}
-                today={today}
-                eachWeekStart={eachWeekStart}
-                daysList={daysList}
-                onViewMore={handleGotoDay}
-                cellHeight={CELL_HEIGHT}
-              />
-            </Fragment>
-          </span>
-        );
-      });
+                    <Typography
+                      color={!isSameMonth(today, monthStart) ? "#ccc" : "textPrimary"}
+                      className={!disableGoToDay ? "rs__hover__op" : ""}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (!disableGoToDay) {
+                          handleGotoDay(today);
+                        }
+                      }}
+                    >
+                      {format(today, "dd")}
+                    </Typography>
+                  </Avatar>
+                )}
+                <MonthEvents
+                  events={resourcedEvents}
+                  today={today}
+                  eachWeekStart={eachWeekStart}
+                  daysList={daysList}
+                  onViewMore={handleGotoDay}
+                  cellHeight={CELL_HEIGHT}
+                />
+              </Fragment>
+            </span>
+          );
+        });
 
-      rows.push(<Fragment key={startDay.toString()}>{cells}</Fragment>);
-    }
-    return rows;
-  };
+        rows.push(<Fragment key={startDay.toString()}>{cells}</Fragment>);
+      }
+      return rows;
+    },
+    [
+      CELL_HEIGHT,
+      cellRenderer,
+      daysList,
+      disableGoToDay,
+      eachWeekStart,
+      endHour,
+      events,
+      fields,
+      hFormat,
+      handleGotoDay,
+      headRenderer,
+      monthStart,
+      resourceFields,
+      selectedDate,
+      startHour,
+      theme.palette.secondary.contrastText,
+      theme.palette.secondary.main,
+      weekDays,
+    ]
+  );
 
-  const renderTable = (resource?: DefaultRecourse) => {
-    return (
-      <>
-        {/* Header Days */}
-        <TableGrid days={daysList.length} ref={headersRef} indent="0" sticky="1">
-          {daysList.map((date, i) => (
-            <Typography
-              key={i}
-              className="rs__cell rs__header rs__header__center"
-              align="center"
-              variant="body2"
-            >
-              {format(date, "EE", { locale })}
-            </Typography>
-          ))}
-        </TableGrid>
-        {/* Time Cells */}
-        <TableGrid days={daysList.length} ref={bodyRef} indent="0">
-          {renderCells(resource)}
-        </TableGrid>
-      </>
-    );
-  };
+  const renderTable = useCallback(
+    (resource?: DefaultRecourse) => {
+      return (
+        <>
+          {/* Header Days */}
+          <TableGrid days={daysList.length} ref={headersRef} indent="0" sticky="1">
+            {daysList.map((date, i) => (
+              <Typography
+                key={i}
+                className="rs__cell rs__header rs__header__center"
+                align="center"
+                variant="body2"
+              >
+                {format(date, "EE", { locale })}
+              </Typography>
+            ))}
+          </TableGrid>
+          {/* Time Cells */}
+          <TableGrid days={daysList.length} ref={bodyRef} indent="0">
+            {renderCells(resource)}
+          </TableGrid>
+        </>
+      );
+    },
+    [bodyRef, daysList, headersRef, locale, renderCells]
+  );
 
   return resources.length ? <WithResources renderChildren={renderTable} /> : renderTable();
 };
