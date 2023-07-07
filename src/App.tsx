@@ -6,7 +6,7 @@ import { SchedulerRef } from "./lib/types";
 function App() {
   const calendarRef = useRef<SchedulerRef>(null);
 
-  // const fetchRemote = async (query: ViewEvent): Promise<ProcessedEvent[]> => {
+  // const fetchRemote = async (query: RemoteQuery): Promise<ProcessedEvent[]> => {
   //   console.log({ query });
   //   /**Simulate fetchin remote data */
   //   return new Promise((res) => {
