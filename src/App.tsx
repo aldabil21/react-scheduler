@@ -16,7 +16,13 @@ function App() {
   //   });
   // };
 
-  return <Scheduler ref={calendarRef} events={EVENTS} />;
+  return (
+    <Scheduler
+      ref={calendarRef}
+      events={EVENTS}
+      // events={generateRandomEvents(400)}
+    />
+  );
 }
 
 export default App;

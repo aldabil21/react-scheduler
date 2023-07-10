@@ -9,10 +9,14 @@ import {
   setHours,
   endOfMonth,
   startOfMonth,
+  isSameDay,
+  isWithinInterval,
+  startOfDay,
+  endOfDay,
 } from "date-fns";
 import MonthEvents from "../components/events/MonthEvents";
 import { CellRenderedProps, DayHours, DefaultRecourse } from "../types";
-import { getResourcedEvents } from "../helpers/generals";
+import { getResourcedEvents, sortEventsByTheLengthest } from "../helpers/generals";
 import { WithResources } from "../components/common/WithResources";
 import Cell from "../components/common/Cell";
 import { TableGrid } from "../styles/styles";
@@ -94,7 +98,7 @@ const Month = () => {
 
   const renderCells = useCallback(
     (resource?: DefaultRecourse) => {
-      let resourcedEvents = events;
+      let resourcedEvents = sortEventsByTheLengthest(events);
       if (resource) {
         resourcedEvents = getResourcedEvents(events, resource, resourceFields, fields);
       }
@@ -106,6 +110,16 @@ const Month = () => {
           const start = new Date(`${format(setHours(today, startHour), `yyyy/MM/dd ${hFormat}`)}`);
           const end = new Date(`${format(setHours(today, endHour), `yyyy/MM/dd ${hFormat}`)}`);
           const field = resourceFields.idField;
+          const eachFirstDayInCalcRow = isSameDay(startDay, today) ? today : null;
+          const todayEvents = resourcedEvents.filter(
+            (e) =>
+              (eachFirstDayInCalcRow &&
+                isWithinInterval(eachFirstDayInCalcRow, {
+                  start: startOfDay(e.start),
+                  end: endOfDay(e.end),
+                })) ||
+              isSameDay(e.start, today)
+          );
           return (
             <span style={{ height: CELL_HEIGHT }} key={d.toString()} className="rs__cell">
               <Cell
@@ -147,9 +161,10 @@ const Month = () => {
                   </Avatar>
                 )}
                 <MonthEvents
-                  events={resourcedEvents}
+                  events={todayEvents}
                   today={today}
                   eachWeekStart={eachWeekStart}
+                  eachFirstDayInCalcRow={eachFirstDayInCalcRow}
                   daysList={daysList}
                   onViewMore={handleGotoDay}
                   cellHeight={CELL_HEIGHT}
