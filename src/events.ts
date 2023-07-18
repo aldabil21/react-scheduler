@@ -124,6 +124,7 @@ export const generateRandomEvents = (total = 300) => {
           new Date().getDate() + day
         )
       ),
+      // allDay: Math.random() > 0.5,
     });
   }
 

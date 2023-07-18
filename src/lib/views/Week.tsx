@@ -178,9 +178,11 @@ const Week = () => {
     const allWeekMulti = filterMultiDaySlot(
       shouldEqualize ? events : recousedEvents,
       daysList,
-      timeZone
+      timeZone,
+      true
     );
     const headerHeight = MULTI_SPACE * allWeekMulti.length + 45;
+
     return (
       <>
         {/* Header days */}

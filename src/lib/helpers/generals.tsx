@@ -3,6 +3,7 @@ import {
   addSeconds,
   differenceInDays,
   endOfDay,
+  format,
   isSameDay,
   isWithinInterval,
   startOfDay,
@@ -148,14 +149,17 @@ export const sortEventsByTheLengthest = (events: ProcessedEvent[]) => {
 export const filterMultiDaySlot = (
   events: ProcessedEvent[],
   date: Date | Date[],
-  timeZone?: string
+  timeZone?: string,
+  lengthOnly?: boolean
 ) => {
+  const isMultiDates = Array.isArray(date);
   const list: ProcessedEvent[] = [];
+  const multiPerDay: Record<string, ProcessedEvent[]> = {};
   for (let i = 0; i < events.length; i++) {
     const event = convertEventTimeZone(events[i], timeZone);
     let withinSlot = event.allDay || differenceInDaysOmitTime(event.start, event.end) > 0;
     if (!withinSlot) continue;
-    if (Array.isArray(date)) {
+    if (isMultiDates) {
       withinSlot = date.some((weekday) =>
         isWithinInterval(weekday, {
           start: startOfDay(event.start),
@@ -171,7 +175,13 @@ export const filterMultiDaySlot = (
 
     if (withinSlot) {
       list.push(event);
+      const start = format(event.start, "yyyy-MM-dd");
+      multiPerDay[start] = (multiPerDay[start] || []).concat(event);
     }
+  }
+
+  if (isMultiDates && lengthOnly) {
+    return Object.values(multiPerDay).sort((a, b) => b.length - a.length)?.[0] || [];
   }
 
   return list;
