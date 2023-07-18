@@ -20,7 +20,7 @@ function App() {
     <Scheduler
       ref={calendarRef}
       events={EVENTS}
-      // events={generateRandomEvents(400)}
+      // events={generateRandomEvents(200)}
     />
   );
 }
