@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { TextField, Typography } from "@mui/material";
+import useStore from "../../hooks/useStore";
 
 interface EditorInputProps {
   variant?: "standard" | "filled" | "outlined";
@@ -41,6 +42,7 @@ const EditorInput = ({
     valid: false,
     errorMsg: "",
   });
+  const { translations } = useStore();
 
   useEffect(() => {
     if (touched) {
@@ -56,24 +58,30 @@ const EditorInput = ({
       const reg =
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       isValid = reg.test(val) && isValid;
-      errorMsg = "Invalid Email";
+      errorMsg = translations?.validation?.invalidEmail || "Invalid Email";
     }
     if (decimal) {
       const reg = /^[0-9]+(\.[0-9]*)?$/;
       isValid = reg.test(val) && isValid;
-      errorMsg = "Only Numbers Allowed";
+      errorMsg = translations?.validation?.onlyNumbers || "Only Numbers Allowed";
     }
     if (min && `${val}`.trim().length < min) {
       isValid = false;
-      errorMsg = `Minimum ${min} letters`;
+      errorMsg =
+        typeof translations?.validation?.min === "function"
+          ? translations?.validation?.min(min)
+          : translations?.validation?.min || `Minimum ${min} letters`;
     }
     if (max && `${val}`.trim().length > max) {
       isValid = false;
-      errorMsg = `Maximum ${max} letters`;
+      errorMsg =
+        typeof translations?.validation?.max === "function"
+          ? translations?.validation?.max(max)
+          : translations?.validation?.max || `Maximum ${max} letters`;
     }
     if (required && `${val}`.trim().length <= 0) {
       isValid = false;
-      errorMsg = "Required";
+      errorMsg = translations?.validation?.required || "Required";
     }
     setState({ touched: true, valid: isValid, errorMsg: errorMsg });
     onChange(name, val, isValid);
