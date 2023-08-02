@@ -74,6 +74,13 @@ export interface Translations {
     end: string;
     allDay: string;
   };
+  validation?: {
+    required?: string;
+    invalidEmail?: string;
+    onlyNumbers?: string;
+    min?: string | ((min: number) => string);
+    max?: string | ((max: number) => string);
+  };
   moreEvents: string;
   loading: string;
 }
