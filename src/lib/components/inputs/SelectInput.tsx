@@ -12,6 +12,7 @@ import {
   Select,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import useStore from "../../hooks/useStore";
 
 export type SelectOption = {
   id: string | number;
@@ -50,7 +51,7 @@ const EditorSelect = ({
   errMsg,
 }: EditorSelectProps) => {
   const theme = useTheme();
-
+  const { translations } = useStore();
   const [state, setState] = useState({
     touched: false,
     valid: !!value,
@@ -76,7 +77,7 @@ const EditorSelect = ({
     let errorMsg = errMsg;
     if (required && (multiple ? !val.length : !val)) {
       isValid = false;
-      errorMsg = "Required";
+      errorMsg = errMsg || translations?.validation?.required || "Required";
     }
     setState((prev) => {
       return { ...prev, touched: true, valid: isValid, errorMsg: errorMsg };
