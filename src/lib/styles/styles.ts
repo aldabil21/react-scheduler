@@ -172,7 +172,7 @@ export const EventActions = styled("div")(({ theme }) => ({
 
 export const TimeIndicatorBar = styled("div")(({ theme }) => ({
   position: "absolute",
-  zIndex: 2,
+  zIndex: 9,
   width: "100%",
   display: "flex",
   "& > div:first-of-type": {

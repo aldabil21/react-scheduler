@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { differenceInMinutes, setHours } from "date-fns";
 import { BORDER_HEIGHT } from "../../helpers/constants";
 import { getTimeZonedDate } from "../../helpers/generals";
@@ -44,12 +44,10 @@ const CurrentTimeBar = (props: CurrentTimeBarProps) => {
   if (top < 0) return null;
 
   return (
-    <Fragment>
-      <TimeIndicatorBar style={{ top }}>
-        <div />
-        <div />
-      </TimeIndicatorBar>
-    </Fragment>
+    <TimeIndicatorBar style={{ top }}>
+      <div />
+      <div />
+    </TimeIndicatorBar>
   );
 };
 
