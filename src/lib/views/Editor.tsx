@@ -166,6 +166,7 @@ const Editor = () => {
             value={stateItem.value}
             name={key}
             onChange={(...args) => handleEditorState(...args, true)}
+            touched={touched}
             {...stateItem.config}
             label={translations.event[key] || stateItem.config?.label}
           />
