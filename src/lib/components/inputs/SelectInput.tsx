@@ -55,7 +55,11 @@ const EditorSelect = ({
   const [state, setState] = useState({
     touched: false,
     valid: !!value,
-    errorMsg: errMsg ? errMsg : required ? "Required" : undefined,
+    errorMsg: errMsg
+      ? errMsg
+      : required
+      ? translations?.validation?.required || "Required"
+      : undefined,
   });
 
   useEffect(() => {
