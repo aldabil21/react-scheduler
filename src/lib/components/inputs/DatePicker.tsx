@@ -29,12 +29,16 @@ const EditorDatePicker = ({
   touched,
   required,
 }: EditorDatePickerProps) => {
+  const { translations } = useStore();
   const [state, setState] = useState({
     touched: false,
     valid: !!value,
-    errorMsg: errMsg ? errMsg : required ? "Required" : undefined,
+    errorMsg: errMsg
+      ? errMsg
+      : required
+      ? translations?.validation?.required || "Required"
+      : undefined,
   });
-  const { translations } = useStore();
 
   const Picker = type === "date" ? DatePicker : DateTimePicker;
 
