@@ -50,6 +50,7 @@ const Month = () => {
     fields,
     locale,
     hourFormat,
+    stickyNavitation,
   } = useStore();
 
   const { weekStartOn, weekDays, startHour, endHour, cellRenderer, headRenderer, disableGoToDay } =
@@ -205,7 +206,13 @@ const Month = () => {
       return (
         <>
           {/* Header Days */}
-          <TableGrid days={daysList.length} ref={headersRef} indent="0" sticky="1">
+          <TableGrid
+            days={daysList.length}
+            ref={headersRef}
+            indent="0"
+            sticky="1"
+            stickyNavitation={stickyNavitation}
+          >
             {daysList.map((date, i) => (
               <Typography
                 key={i}
@@ -224,7 +231,7 @@ const Month = () => {
         </>
       );
     },
-    [bodyRef, daysList, headersRef, locale, renderCells]
+    [bodyRef, daysList, headersRef, locale, renderCells, stickyNavitation]
   );
 
   return resources.length ? <WithResources renderChildren={renderTable} /> : renderTable();
