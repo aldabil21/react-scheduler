@@ -66,6 +66,7 @@ const Week = () => {
     locale,
     hourFormat,
     timeZone,
+    stickyNavitation,
   } = useStore();
 
   const {
@@ -186,7 +187,12 @@ const Week = () => {
     return (
       <>
         {/* Header days */}
-        <TableGrid days={daysList.length} ref={headersRef} sticky="1">
+        <TableGrid
+          days={daysList.length}
+          ref={headersRef}
+          sticky="1"
+          stickyNavitation={stickyNavitation}
+        >
           <span className="rs__cell rs__time"></span>
           {daysList.map((date, i) => (
             <span

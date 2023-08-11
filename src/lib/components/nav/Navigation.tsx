@@ -13,6 +13,7 @@ import { DayDateBtn } from "./DayDateBtn";
 import { MonthDateBtn } from "./MonthDateBtn";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import useStore from "../../hooks/useStore";
+import { NavigationDiv } from "../../styles/styles";
 
 export type View = "month" | "week" | "day";
 
@@ -30,6 +31,7 @@ const Navigation = () => {
     disableViewNavigator,
     onSelectedDateChange,
     onViewChange,
+    stickyNavitation,
   } = useStore();
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const theme = useTheme();
@@ -87,13 +89,7 @@ const Navigation = () => {
   if (!navigation && disableViewNavigator) return null;
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
-    >
+    <NavigationDiv sticky={stickyNavitation ? "1" : "0"}>
       <div data-testid="date-navigator">{navigation && renderDateSelector()}</div>
 
       <div
@@ -166,7 +162,7 @@ const Navigation = () => {
             </Fragment>
           ))}
       </div>
-    </div>
+    </NavigationDiv>
   );
 };
 
