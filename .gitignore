@@ -1,6 +1,7 @@
 dist
 .vscode
 examples
+.idea
 
 # dependencies
 /node_modules
@@ -9,7 +10,6 @@ examples
 
 # testing
 /coverage
-*.tgz
 
 # production
 /build
