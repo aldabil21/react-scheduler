@@ -42,10 +42,14 @@ export interface WeekProps {
   startHour: DayHours;
   endHour: DayHours;
   step: number;
+
   cellRenderer?(props: CellRenderedProps): JSX.Element;
+
   headRenderer?(day: Date): JSX.Element;
+
   navigation?: boolean;
   disableGoToDay?: boolean;
+  timeRanges?: { label: string, value: number }[];
 }
 
 const Week = () => {
@@ -85,13 +89,23 @@ const Week = () => {
   const weekEnd = endOfDay(daysList[daysList.length - 1]);
   const START_TIME = set(selectedDate, { hours: startHour, minutes: 0, seconds: 0 });
   const END_TIME = set(selectedDate, { hours: endHour, minutes: -step, seconds: 0 });
-  const hours = eachMinuteOfInterval(
+
+
+  const hours = week?.timeRanges ? week?.timeRanges?.map((time) => {
+    return { value: new Date(START_TIME.setHours(time.value)), label: time.label };
+  }) : eachMinuteOfInterval(
     {
       start: START_TIME,
       end: END_TIME,
     },
-    { step }
-  );
+    { step },
+  ).map((t) => {
+    return {
+      value: t,
+      label: t.toString(),
+    };
+  });
+
   const CELL_HEIGHT = calcCellHeight(height, hours.length);
   const MINUTE_HEIGHT = calcMinuteHeight(CELL_HEIGHT, step);
   const MULTI_SPACE = MULTI_DAY_EVENT_HEIGHT;
@@ -141,10 +155,10 @@ const Week = () => {
         isFirstDayInWeek
           ? false
           : e.event_id !== event.event_id && //Exclude it's self
-            isWithinInterval(today, {
-              start: getTimeZonedDate(e.start, timeZone),
-              end: getTimeZonedDate(e.end, timeZone),
-            })
+          isWithinInterval(today, {
+            start: getTimeZonedDate(e.start, timeZone),
+            end: getTimeZonedDate(e.end, timeZone),
+          }),
       );
 
       let index = i;
@@ -180,7 +194,7 @@ const Week = () => {
       shouldEqualize ? events : recousedEvents,
       daysList,
       timeZone,
-      true
+      true,
     );
     const headerHeight = MULTI_SPACE * allWeekMulti.length + 45;
 
@@ -216,42 +230,48 @@ const Week = () => {
         {/* Time Cells */}
         <TableGrid days={daysList.length} ref={bodyRef}>
           {hours.map((h, i) => (
-            <Fragment key={i}>
-              <span style={{ height: CELL_HEIGHT }} className="rs__cell rs__header rs__time">
-                <Typography variant="caption">{format(h, hFormat, { locale })}</Typography>
-              </span>
-              {daysList.map((date, ii) => {
-                const start = new Date(`${format(date, "yyyy/MM/dd")} ${format(h, hFormat)}`);
-                const end = addMinutes(start, step);
-                const field = resourceFields.idField;
-                return (
-                  <span key={ii} className={`rs__cell ${isToday(date) ? "rs__today_cell" : ""}`}>
-                    {/* Events of each day - run once on the top hour column */}
-                    {i === 0 && (
-                      <TodayEvents
-                        todayEvents={filterTodayEvents(recousedEvents, date, timeZone)}
-                        today={date}
-                        minuteHeight={MINUTE_HEIGHT}
-                        startHour={startHour}
-                        step={step}
-                        direction={direction}
-                        timeZone={timeZone}
+              <Fragment key={i}>
+                              <span style={{ height: CELL_HEIGHT }} className="rs__cell rs__header rs__time">
+                                  <Typography variant="caption">
+                                      {
+                                        week?.timeRanges ? h.label : format(h.value, hFormat, { locale })
+                                      }
+                                  </Typography>
+                              </span>
+                {daysList.map((date, ii) => {
+                  const start = new Date(`${format(date, "yyyy/MM/dd")} ${format(h.value, hFormat)}`);
+                  const end = addMinutes(start, step);
+                  const field = resourceFields.idField;
+                  return (
+                    <span style={{ height: CELL_HEIGHT }} key={ii}
+                          className={`rs__cell ${isToday(date) ? "rs__today_cell" : ""}`}>
+                                        {/* Events of each day - run once on the top hour column */}
+                      {i === 0 && (
+                        <TodayEvents
+                          todayEvents={filterTodayEvents(recousedEvents, date, timeZone)}
+                          today={date}
+                          minuteHeight={MINUTE_HEIGHT}
+                          startHour={startHour}
+                          step={step}
+                          direction={direction}
+                          timeZone={timeZone}
+                        />
+                      )}
+                      <Cell
+                        start={start}
+                        end={end}
+                        day={date}
+                        height={CELL_HEIGHT}
+                        resourceKey={field}
+                        resourceVal={resource ? resource[field] : null}
+                        cellRenderer={cellRenderer}
                       />
-                    )}
-                    <Cell
-                      start={start}
-                      end={end}
-                      day={date}
-                      height={CELL_HEIGHT}
-                      resourceKey={field}
-                      resourceVal={resource ? resource[field] : null}
-                      cellRenderer={cellRenderer}
-                    />
-                  </span>
-                );
-              })}
-            </Fragment>
-          ))}
+                                    </span>
+                  );
+                })}
+              </Fragment>
+            ),
+          )}
         </TableGrid>
       </>
     );
