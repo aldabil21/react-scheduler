@@ -11,6 +11,7 @@ interface CurrentTimeBarProps {
   minuteHeight: number;
   timeZone?: string;
   color?: string;
+  zIndex?: number;
 }
 
 function calculateTop({
@@ -44,7 +45,7 @@ const CurrentTimeBar = (props: CurrentTimeBarProps) => {
   if (top < 0) return null;
 
   return (
-    <TimeIndicatorBar style={{ top }}>
+    <TimeIndicatorBar style={{ top, zIndex: props.zIndex }}>
       <div />
       <div />
     </TimeIndicatorBar>
