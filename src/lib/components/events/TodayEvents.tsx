@@ -35,6 +35,7 @@ const TodayEvents = ({
           step={step}
           minuteHeight={minuteHeight}
           timeZone={timeZone}
+          zIndex={2 * todayEvents.length}
         />
       )}
 
