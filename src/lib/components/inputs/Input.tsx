@@ -21,7 +21,7 @@ interface EditorInputProps {
 }
 
 const EditorInput = ({
-  variant,
+  variant = "outlined",
   label,
   placeholder,
   value,
@@ -107,7 +107,4 @@ const EditorInput = ({
   );
 };
 
-EditorInput.defaultProps = {
-  variant: "outlined",
-};
 export { EditorInput };

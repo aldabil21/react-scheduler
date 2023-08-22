@@ -1,4 +1,4 @@
-import { CSSProperties, ReactChild } from "react";
+import { CSSProperties } from "react";
 import PropTypes from "prop-types";
 import { Tabs, Tab } from "@mui/material";
 import { styled } from "@mui/material/styles";
@@ -7,7 +7,7 @@ import { Theme } from "@mui/system";
 interface TabPanelProps {
   value: string | number;
   index: string | number;
-  children: ReactChild;
+  children: React.ReactNode;
 }
 function TabPanel(props: TabPanelProps) {
   const { children, value, index } = props;
@@ -82,7 +82,14 @@ interface ButtonTabsProps {
   style?: CSSProperties;
 }
 
-const ButtonTabs = ({ tabs, variant, tab, setTab, indicator, style }: ButtonTabsProps) => {
+const ButtonTabs = ({
+  tabs,
+  variant = "scrollable",
+  tab,
+  setTab,
+  indicator = "primary",
+  style,
+}: ButtonTabsProps) => {
   return (
     <StyledTaps style={style}>
       <Tabs
@@ -114,11 +121,6 @@ const ButtonTabs = ({ tabs, variant, tab, setTab, indicator, style }: ButtonTabs
       )}
     </StyledTaps>
   );
-};
-
-ButtonTabs.defaultProps = {
-  variant: "scrollable",
-  indicator: "primary",
 };
 
 export { ButtonTabs };

@@ -5,7 +5,7 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import useStore from "../../hooks/useStore";
 
 interface EditorDatePickerProps {
-  type: "date" | "datetime";
+  type?: "date" | "datetime";
   label?: string;
   variant?: "standard" | "filled" | "outlined";
   value: Date | string;
@@ -18,12 +18,12 @@ interface EditorDatePickerProps {
 }
 
 const EditorDatePicker = ({
-  type,
+  type = "datetime",
   value,
   label,
   name,
   onChange,
-  variant,
+  variant = "outlined",
   error,
   errMsg,
   touched,
@@ -90,8 +90,4 @@ const EditorDatePicker = ({
   );
 };
 
-EditorDatePicker.defaultProps = {
-  type: "datetime",
-  variant: "outlined",
-};
 export { EditorDatePicker };
