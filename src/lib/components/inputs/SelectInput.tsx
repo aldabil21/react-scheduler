@@ -44,7 +44,7 @@ const EditorSelect = ({
   label,
   disabled,
   touched,
-  variant,
+  variant = "outlined",
   loading,
   multiple,
   placeholder,
@@ -157,10 +157,6 @@ const EditorSelect = ({
       </FormHelperText>
     </>
   );
-};
-
-EditorSelect.defaultProps = {
-  variant: "outlined",
 };
 
 export { EditorSelect };

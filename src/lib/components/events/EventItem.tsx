@@ -15,13 +15,13 @@ import useDragAttributes from "../../hooks/useDragAttributes";
 
 interface EventItemProps {
   event: ProcessedEvent;
-  multiday: boolean;
+  multiday?: boolean;
   hasPrev?: boolean;
   hasNext?: boolean;
   showdate?: boolean;
 }
 
-const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemProps) => {
+const EventItem = ({ event, multiday, hasPrev, hasNext, showdate = true }: EventItemProps) => {
   const {
     triggerDialog,
     onDelete,
@@ -296,11 +296,6 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate }: EventItemPro
       </Popover>
     </Fragment>
   );
-};
-
-EventItem.defaultProps = {
-  multiday: false,
-  showdate: true,
 };
 
 export default EventItem;
