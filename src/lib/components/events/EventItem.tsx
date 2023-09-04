@@ -7,7 +7,7 @@ import ArrowLeftRoundedIcon from "@mui/icons-material/ArrowLeftRounded";
 import EventNoteRoundedIcon from "@mui/icons-material/EventNoteRounded";
 import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 import SupervisorAccountRoundedIcon from "@mui/icons-material/SupervisorAccountRounded";
-import { EventItemPapper, PopperInner } from "../../styles/styles";
+import { EventItemPaper, PopperInner } from "../../styles/styles";
 import EventActions from "./Actions";
 import { differenceInDaysOmitTime } from "../../helpers/generals";
 import useStore from "../../hooks/useStore";
@@ -188,11 +188,9 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate = true }: Event
       const custom = eventRenderer({ event, onClick: triggerViewer, ...dragProps });
       if (custom) {
         return (
-          <EventItemPapper
-            key={`${event.start.getTime()}_${event.end.getTime()}_${event.event_id}`}
-          >
+          <EventItemPaper key={`${event.start.getTime()}_${event.end.getTime()}_${event.event_id}`}>
             {custom}
-          </EventItemPapper>
+          </EventItemPaper>
         );
       }
     }
@@ -242,10 +240,12 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate = true }: Event
       );
     }
     return (
-      <EventItemPapper
+      <EventItemPaper
         key={`${event.start.getTime()}_${event.end.getTime()}_${event.event_id}`}
-        color={event.color}
         disabled={event.disabled}
+        sx={{
+          bgcolor: event.disabled ? "#d0d0d0" : event.color || theme.palette.primary.main,
+        }}
       >
         <ButtonBase
           onClick={(e) => {
@@ -262,7 +262,7 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate = true }: Event
             {item}
           </div>
         </ButtonBase>
-      </EventItemPapper>
+      </EventItemPaper>
     );
     // eslint-disable-next-line
   }, [hasPrev, hasNext, event, isDraggable, locale, theme.palette]);

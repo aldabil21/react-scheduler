@@ -130,27 +130,24 @@ export const TableGrid = styled("div")<{
   },
 }));
 
-export const EventItemPapper = styled(Paper)<{ color?: string; disabled?: boolean }>(
-  ({ theme, color, disabled }) => ({
-    width: "99.5%",
+export const EventItemPaper = styled(Paper)<{ disabled?: boolean }>(({ theme, disabled }) => ({
+  width: "99.5%",
+  height: "100%",
+  display: "block",
+  color: disabled ? "#808080" : theme.palette.primary.contrastText,
+  cursor: disabled ? "not-allowed" : "pointer",
+  overflow: "hidden",
+  "& .MuiButtonBase-root": {
+    width: "100%",
     height: "100%",
     display: "block",
-    background: disabled ? "#d0d0d0" : color || theme.palette.primary.main,
-    color: disabled ? "#808080" : theme.palette.primary.contrastText,
-    cursor: disabled ? "not-allowed" : "pointer",
-    overflow: "hidden",
-    "& .MuiButtonBase-root": {
-      width: "100%",
+    textAlign: "left",
+    "& > div": {
       height: "100%",
-      display: "block",
-      textAlign: "left",
-      "& > div": {
-        height: "100%",
-        // padding: "2px 4px",
-      },
+      // padding: "2px 4px",
     },
-  })
-);
+  },
+}));
 
 export const PopperInner = styled("div")(({ theme }) => ({
   maxWidth: "100%",
