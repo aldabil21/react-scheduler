@@ -10,13 +10,10 @@ interface Props {
   event: ProcessedEvent;
   onDelete(): void;
   onEdit(): void;
-  direction: "rtl" | "ltr";
-  editable?: boolean;
-  deletable?: boolean;
 }
 
-const EventActions = ({ event, onDelete, onEdit, direction, editable, deletable }: Props) => {
-  const { translations } = useStore();
+const EventActions = ({ event, onDelete, onEdit }: Props) => {
+  const { translations, direction, editable, deletable } = useStore();
   const [deleteConfirm, setDeleteConfirm] = useState(false);
 
   const handleDelete = () => {
