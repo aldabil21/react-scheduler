@@ -36,14 +36,13 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate = true }: Event
     resourceFields,
     locale,
     viewerTitleComponent,
-    editable,
-    deletable,
     hourFormat,
     eventRenderer,
     onEventClick,
     view,
     draggable,
     translations,
+    editable,
   } = useStore();
   const dragProps = useDragAttributes(event);
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
@@ -119,9 +118,6 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate = true }: Event
                 triggerViewer();
                 triggerDialog(true, event);
               }}
-              direction={direction}
-              deletable={deletable}
-              editable={editable}
             />
           </div>
           {viewerTitleComponent instanceof Function ? (
@@ -169,17 +165,17 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate = true }: Event
 
   const isDraggable = useMemo(() => {
     // if Disabled
-    if (event.disabled) return false;
+    if (event.disabled || !editable) return false;
 
     // global-wise isDraggable
     let canDrag = typeof draggable !== "undefined" ? draggable : true;
+
     // Override by event-wise
     if (typeof event.draggable !== "undefined") {
       canDrag = event.draggable;
     }
-
     return canDrag;
-  }, [draggable, event.disabled, event.draggable]);
+  }, [draggable, editable, event.disabled, event.draggable]);
 
   const renderEvent = useMemo(() => {
     // Check if has custom render event method

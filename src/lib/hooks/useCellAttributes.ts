@@ -8,7 +8,7 @@ interface Props {
   resourceKey: string;
   resourceVal: string | number;
 }
-export const useDropAttributes = ({ start, end, resourceKey, resourceVal }: Props) => {
+export const useCellAttributes = ({ start, end, resourceKey, resourceVal }: Props) => {
   const { triggerDialog, onDrop } = useStore();
   const theme = useTheme();
 
