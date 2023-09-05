@@ -56,7 +56,10 @@ const MonthEvents = ({
 
       if (toNextWeek) {
         // Rethink it
-        const NotAccurateWeekStart = startOfWeek(event.start);
+        const NotAccurateWeekStart = startOfWeek(event.start, {
+          weekStartsOn: month?.weekStartOn,
+          locale,
+        });
         const closestStart = closestTo(NotAccurateWeekStart, eachWeekStart);
         if (closestStart) {
           eventLength =
