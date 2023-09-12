@@ -101,10 +101,10 @@ const Day = () => {
     }
   }, [fetchEvents, getRemoteEvents]);
 
-  const renderMultiDayEvents = (multiDays: ProcessedEvent[]) => {
-    const todayMulti = filterMultiDaySlot(multiDays, selectedDate, timeZone);
+  const renderMultiDayEvents = (events: ProcessedEvent[]) => {
+    const todayMulti = filterMultiDaySlot(events, selectedDate, timeZone);
     return (
-      <div className="rs__block_col" style={{ height: MULTI_DAY_EVENT_HEIGHT * multiDays.length }}>
+      <div className="rs__block_col" style={{ height: MULTI_DAY_EVENT_HEIGHT * todayMulti.length }}>
         {todayMulti.map((event, i) => {
           const hasPrev = isBefore(event.start, startOfDay(selectedDate));
           const hasNext = isAfter(event.end, endOfDay(selectedDate));

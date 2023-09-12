@@ -175,8 +175,17 @@ export const filterMultiDaySlot = (
 
     if (withinSlot) {
       list.push(event);
-      const start = format(event.start, "yyyy-MM-dd");
-      multiPerDay[start] = (multiPerDay[start] || []).concat(event);
+      if (isMultiDates) {
+        for (const d of date) {
+          const start = format(d, "yyyy-MM-dd");
+          if (isWithinInterval(d, { start: startOfDay(event.start), end: endOfDay(event.end) })) {
+            multiPerDay[start] = (multiPerDay[start] || []).concat(event);
+          }
+        }
+      } else {
+        const start = format(event.start, "yyyy-MM-dd");
+        multiPerDay[start] = (multiPerDay[start] || []).concat(event);
+      }
     }
   }
 
