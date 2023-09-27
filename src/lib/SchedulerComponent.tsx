@@ -11,7 +11,8 @@ import { SchedulerRef } from "./types";
 
 const SchedulerComponent = forwardRef<SchedulerRef, unknown>(function SchedulerComponent(_, ref) {
   const store = useStore();
-  const { view, dialog, loading, resourceViewMode, resources, translations } = store;
+  const { view, dialog, loading, loadingComponent, resourceViewMode, resources, translations } =
+    store;
 
   const Views = useMemo(() => {
     switch (view) {
@@ -25,6 +26,21 @@ const SchedulerComponent = forwardRef<SchedulerRef, unknown>(function SchedulerC
         return "";
     }
   }, [view]);
+
+  const LoadingComp = useMemo(() => {
+    return (
+      <div className="rs__table_loading">
+        {loadingComponent || (
+          <div className="rs__table_loading_internal">
+            <span>
+              <CircularProgress size={50} />
+              <Typography align="center">{translations.loading}</Typography>
+            </span>
+          </div>
+        )}
+      </div>
+    );
+  }, [loadingComponent, translations.loading]);
 
   return (
     <Wrapper
@@ -40,14 +56,7 @@ const SchedulerComponent = forwardRef<SchedulerRef, unknown>(function SchedulerC
         }
       }}
     >
-      {loading && (
-        <div className="rs__table_loading">
-          <span>
-            <CircularProgress size={50} />
-            <Typography align="center">{translations.loading}</Typography>
-          </span>
-        </div>
-      )}
+      {loading ? LoadingComp : null}
       <Navigation />
       <Table
         resource_count={resourceViewMode === "tabs" ? 1 : resources.length}

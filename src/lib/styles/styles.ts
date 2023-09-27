@@ -3,21 +3,24 @@ import { Paper, alpha, styled } from "@mui/material";
 export const Wrapper = styled("div")<{ dialog: number }>(({ theme, dialog }) => ({
   position: "relative",
   "& .rs__table_loading": {
-    background: dialog ? "" : alpha(theme.palette.background.paper, 0.4),
     position: "absolute",
     left: 0,
     right: 0,
     top: 0,
     bottom: 0,
     zIndex: 999999,
-    "& > span": {
+    "& .rs__table_loading_internal": {
+      background: dialog ? "" : alpha(theme.palette.background.paper, 0.4),
       height: "100%",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-      "& >span": {
-        marginBottom: 15,
+      "& > span": {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100%",
+        flexDirection: "column",
+        "& >span": {
+          marginBottom: 15,
+        },
       },
     },
   },
