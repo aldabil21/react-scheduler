@@ -234,7 +234,7 @@ export interface SchedulerProps {
   /**Map resources fields */
   resourceFields: ResourceFields;
   /**Override header component of resource */
-  recourseHeaderComponent?(resource: DefaultRecourse): JSX.Element;
+  resourceHeaderComponent?(resource: DefaultRecourse): JSX.Element;
   /**Resource header view mode
    * @default "default"
    */
