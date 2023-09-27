@@ -215,6 +215,8 @@ export interface SchedulerProps {
   fields: FieldProps[];
   /**Table loading state */
   loading?: boolean;
+  /** Custom loading component */
+  loadingComponent?: JSX.Element;
   /**Async function triggered when add/edit event */
   onConfirm?(event: ProcessedEvent, action: EventActions): Promise<ProcessedEvent>;
   /**Async function triggered when delete event */
