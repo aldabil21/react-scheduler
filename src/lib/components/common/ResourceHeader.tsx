@@ -7,7 +7,7 @@ interface ResourceHeaderProps {
   resource: DefaultRecourse;
 }
 const ResourceHeader = ({ resource }: ResourceHeaderProps) => {
-  const { recourseHeaderComponent, resourceFields, resources, direction, resourceViewMode } =
+  const { resourceHeaderComponent, resourceFields, resources, direction, resourceViewMode } =
     useStore();
   const { width } = useWindowResize();
 
@@ -16,8 +16,8 @@ const ResourceHeader = ({ resource }: ResourceHeaderProps) => {
   const avatar = resource[resourceFields.avatarField || ""];
   const color = resource[resourceFields.colorField || ""];
 
-  if (recourseHeaderComponent instanceof Function) {
-    return recourseHeaderComponent(resource);
+  if (resourceHeaderComponent instanceof Function) {
+    return resourceHeaderComponent(resource);
   }
 
   const headerBorders =

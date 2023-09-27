@@ -105,7 +105,7 @@ export const defaultProps = (props: Partial<SchedulerProps>) => {
         onDelete: undefined,
         viewerExtraComponent: undefined,
         resources: [],
-        recourseHeaderComponent: undefined,
+        resourceHeaderComponent: undefined,
         resourceViewMode: "default",
         direction: "ltr",
         dialogMaxWidth: "md",
