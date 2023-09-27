@@ -137,10 +137,11 @@ const Week = () => {
       const eventLength =
         differenceInDaysOmitTime(hasPrev ? weekStart : event.start, hasNext ? weekEnd : event.end) +
         1;
-      const prevNextEvents = events.filter((e) =>
+      const prevNextEvents = allWeekMulti.filter((e) =>
         isFirstDayInWeek
           ? false
           : e.event_id !== event.event_id && //Exclude it's self
+            differenceInDaysOmitTime(e.start, e.end) > 0 &&
             isWithinInterval(today, {
               start: getTimeZonedDate(e.start, timeZone),
               end: getTimeZonedDate(e.end, timeZone),
