@@ -31,7 +31,7 @@ const Navigation = () => {
     disableViewNavigator,
     onSelectedDateChange,
     onViewChange,
-    stickyNavitation,
+    stickyNavigation,
   } = useStore();
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const theme = useTheme();
@@ -89,7 +89,7 @@ const Navigation = () => {
   if (!navigation && disableViewNavigator) return null;
 
   return (
-    <NavigationDiv sticky={stickyNavitation ? "1" : "0"}>
+    <NavigationDiv sticky={stickyNavigation ? "1" : "0"}>
       <div data-testid="date-navigator">{navigation && renderDateSelector()}</div>
 
       <div

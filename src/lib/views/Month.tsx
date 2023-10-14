@@ -50,7 +50,7 @@ const Month = () => {
     fields,
     locale,
     hourFormat,
-    stickyNavitation,
+    stickyNavigation,
     onViewChange,
   } = useStore();
 
@@ -221,7 +221,7 @@ const Month = () => {
             ref={headersRef}
             indent="0"
             sticky="1"
-            stickyNavitation={stickyNavitation}
+            stickyNavigation={stickyNavigation}
           >
             {daysList.map((date, i) => (
               <Typography
@@ -241,7 +241,7 @@ const Month = () => {
         </>
       );
     },
-    [bodyRef, daysList, headersRef, locale, renderCells, stickyNavitation]
+    [bodyRef, daysList, headersRef, locale, renderCells, stickyNavigation]
   );
 
   return resources.length ? <WithResources renderChildren={renderTable} /> : renderTable();

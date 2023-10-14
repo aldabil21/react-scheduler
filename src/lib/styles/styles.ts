@@ -51,15 +51,15 @@ export const NavigationDiv = styled(Paper)<{ sticky?: string }>(({ sticky = "0" 
 export const TableGrid = styled("div")<{
   days: number;
   sticky?: string;
-  stickyNavitation?: boolean;
+  stickyNavigation?: boolean;
   indent?: string;
-}>(({ days, sticky = "0", stickyNavitation, indent = "1", theme }) => ({
+}>(({ days, sticky = "0", stickyNavigation, indent = "1", theme }) => ({
   display: "grid",
   gridTemplateColumns: +indent > 0 ? `10% repeat(${days}, 1fr)` : `repeat(${days}, 1fr)`,
   overflowX: "auto",
   overflowY: "hidden",
   position: sticky === "1" ? "sticky" : "relative",
-  top: sticky === "1" ? (stickyNavitation ? 36 : 0) : undefined,
+  top: sticky === "1" ? (stickyNavigation ? 36 : 0) : undefined,
   zIndex: sticky === "1" ? 99 : undefined,
   [theme.breakpoints.down("sm")]: {
     gridTemplateColumns: +indent > 0 ? `30px repeat(${days}, 1fr)` : "",
