@@ -66,7 +66,7 @@ const Week = () => {
     locale,
     hourFormat,
     timeZone,
-    stickyNavitation,
+    stickyNavigation,
   } = useStore();
 
   const {
@@ -192,7 +192,7 @@ const Week = () => {
           days={daysList.length}
           ref={headersRef}
           sticky="1"
-          stickyNavitation={stickyNavitation}
+          stickyNavigation={stickyNavigation}
         >
           <span className="rs__cell rs__time"></span>
           {daysList.map((date, i) => (

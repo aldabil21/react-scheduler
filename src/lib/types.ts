@@ -301,7 +301,7 @@ export interface SchedulerProps {
   /**
    * If true, the navigation controller bar will be sticky
    */
-  stickyNavitation?: boolean;
+  stickyNavigation?: boolean;
 }
 
 export interface SchedulerRef {
