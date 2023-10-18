@@ -26,7 +26,7 @@
     "**/*.{ts,js,tsx,jsx}": [
       "npm run lint"
     ],
-    "**/*.{ts,js,tsx,jsx,json,md,yml}": [
+    "**/*.{ts,js,tsx,jsx,json,yml}": [
       "npm run format:write"
     ]
   },
