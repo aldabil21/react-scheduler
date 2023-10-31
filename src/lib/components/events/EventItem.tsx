@@ -1,5 +1,5 @@
 import { Fragment, MouseEvent, useMemo, useState } from "react";
-import { Popover, Typography, ButtonBase, useTheme, IconButton } from "@mui/material";
+import { Popover, Typography, ButtonBase, useTheme, IconButton, Box } from "@mui/material";
 import { format } from "date-fns";
 import { ProcessedEvent } from "../../types";
 import ArrowRightRoundedIcon from "@mui/icons-material/ArrowRightRounded";
@@ -94,9 +94,9 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate = true }: Event
 
     return (
       <PopperInner>
-        <div
-          style={{
-            background: event.color || theme.palette.primary.main,
+        <Box
+          sx={{
+            bgcolor: event.color || theme.palette.primary.main,
             color: theme.palette.primary.contrastText,
           }}
         >
@@ -127,7 +127,7 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate = true }: Event
               {event.title}
             </Typography>
           )}
-        </div>
+        </Box>
         <div style={{ padding: "5px 10px" }}>
           <Typography
             style={{ display: "flex", alignItems: "center", gap: 8 }}
