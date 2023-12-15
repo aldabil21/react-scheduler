@@ -166,6 +166,7 @@ const Month = () => {
                   </Avatar>
                 )}
                 <MonthEvents
+                  allEvents={resourcedEvents}
                   events={todayEvents}
                   today={today}
                   eachWeekStart={eachWeekStart}

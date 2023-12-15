@@ -19,6 +19,7 @@ import { convertEventTimeZone, differenceInDaysOmitTime } from "../../helpers/ge
 import useStore from "../../hooks/useStore";
 
 interface MonthEventProps {
+  allEvents: ProcessedEvent[];
   events: ProcessedEvent[];
   today: Date;
   eachWeekStart: Date[];
@@ -29,6 +30,7 @@ interface MonthEventProps {
 }
 
 const MonthEvents = ({
+  allEvents,
   events,
   today,
   eachWeekStart,
@@ -42,6 +44,7 @@ const MonthEvents = ({
 
   const renderEvents = useMemo(() => {
     const elements: JSX.Element[] = [];
+    let prevIdx = 0;
     for (let i = 0; i < Math.min(events.length, LIMIT + 1); i++) {
       const event = convertEventTimeZone(events[i], timeZone);
       const fromPrevWeek = !!eachFirstDayInCalcRow && isBefore(event.start, eachFirstDayInCalcRow);
@@ -68,35 +71,34 @@ const MonthEvents = ({
         }
       }
 
-      const prevNextEvents = events.filter((e) => {
+      const prevNextEvents = allEvents.filter((e) => {
+        if (e.event_id === event.event_id) {
+          return false;
+        }
+
         const daysDiff = differenceInDaysOmitTime(e.start, e.end);
         const moreThanOneDay = daysDiff > 0;
-        const isWithinToday =
-          daysDiff === 0 &&
-          (isWithinInterval(e.start, { start: startOfDay(today), end: endOfDay(today) }) ||
-            isWithinInterval(e.end, { start: startOfDay(today), end: endOfDay(today) }));
         const isBeforeToday = isBefore(e.start, addMinutes(startOfDay(today), 1));
         const isAfterToday = isAfter(e.end, addMinutes(endOfDay(today), -1));
+        const isWithinToday =
+          isWithinInterval(e.start, { start: startOfDay(today), end: endOfDay(today) }) ||
+          isWithinInterval(e.end, { start: startOfDay(today), end: endOfDay(today) });
         const isBeforeAfter = isBeforeToday && isAfterToday;
         const isBeforeCrossToday = isBeforeToday && isWithinToday;
         const isAfterCrossToday = isAfterToday && isWithinToday;
         const isFromTodayOn = isWithinToday && moreThanOneDay;
         const shouldInclude =
           isBeforeAfter || isBeforeCrossToday || isAfterCrossToday || isFromTodayOn;
-        return (
-          !eachFirstDayInCalcRow && e.event_id !== event.event_id && LIMIT > i && shouldInclude
-        );
+        return !eachFirstDayInCalcRow && LIMIT > i && shouldInclude;
       });
 
-      let index = i;
-
       if (prevNextEvents.length) {
-        index += prevNextEvents.length;
+        prevIdx += prevNextEvents.length;
       }
 
-      const topSpace = Math.min(index, LIMIT) * MULTI_DAY_EVENT_HEIGHT + MONTH_NUMBER_HEIGHT;
+      const topSpace = Math.min(prevIdx, LIMIT) * MULTI_DAY_EVENT_HEIGHT + MONTH_NUMBER_HEIGHT;
 
-      if (index >= LIMIT) {
+      if (prevIdx >= LIMIT) {
         elements.push(
           <Typography
             key={i}
@@ -135,6 +137,7 @@ const MonthEvents = ({
 
     return elements;
   }, [
+    allEvents,
     events,
     timeZone,
     eachFirstDayInCalcRow,
