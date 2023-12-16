@@ -5,6 +5,7 @@ import { StoreContext } from "./context";
 import { SchedulerState, SelectedRange, Store } from "./types";
 import { arraytizeFieldVal, getAvailableViews } from "../helpers/generals";
 import { addMinutes, differenceInMinutes, isEqual } from "date-fns";
+import { View } from "../components/nav/Navigation";
 
 type Props = {
   children: React.ReactNode;
@@ -58,12 +59,19 @@ export const StoreProvider = ({ children, initial }: Props) => {
 
   const handleGotoDay = (day: Date) => {
     const currentViews = getViews();
+    let view = "";
     if (currentViews.includes("day")) {
+      view = "day";
       set((prev) => ({ ...prev, view: "day", selectedDate: day }));
     } else if (currentViews.includes("week")) {
+      view = "week";
       set((prev) => ({ ...prev, view: "week", selectedDate: day }));
     } else {
       console.warn("No Day/Week views available");
+    }
+
+    if (!!view && state.onViewChange && typeof state.onViewChange === "function") {
+      state.onViewChange(view as View);
     }
   };
 

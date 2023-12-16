@@ -51,7 +51,6 @@ const Month = () => {
     locale,
     hourFormat,
     stickyNavigation,
-    onViewChange,
   } = useStore();
 
   const { weekStartOn, weekDays, startHour, endHour, cellRenderer, headRenderer, disableGoToDay } =
@@ -155,9 +154,6 @@ const Month = () => {
                         e.stopPropagation();
                         if (!disableGoToDay) {
                           handleGotoDay(today);
-                          if (onViewChange && typeof onViewChange === "function") {
-                            onViewChange("day");
-                          }
                         }
                       }}
                     >
@@ -175,9 +171,6 @@ const Month = () => {
                   daysList={daysList}
                   onViewMore={(e) => {
                     handleGotoDay(e);
-                    if (onViewChange && typeof onViewChange === "function") {
-                      onViewChange("day");
-                    }
                   }}
                   cellHeight={CELL_HEIGHT}
                 />
@@ -209,7 +202,6 @@ const Month = () => {
       theme.palette.secondary.contrastText,
       theme.palette.secondary.main,
       weekDays,
-      onViewChange,
     ]
   );
 
