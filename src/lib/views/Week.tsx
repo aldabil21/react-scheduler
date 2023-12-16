@@ -8,7 +8,6 @@ import {
   isSameDay,
   isBefore,
   isToday,
-  isWithinInterval,
   isAfter,
   endOfDay,
   startOfDay,
@@ -26,7 +25,6 @@ import {
   filterMultiDaySlot,
   filterTodayEvents,
   getResourcedEvents,
-  getTimeZonedDate,
 } from "../helpers/generals";
 import { WithResources } from "../components/common/WithResources";
 import Cell from "../components/common/Cell";
@@ -35,6 +33,7 @@ import { TableGrid } from "../styles/styles";
 import { MULTI_DAY_EVENT_HEIGHT } from "../helpers/constants";
 import useSyncScroll from "../hooks/useSyncScroll";
 import useStore from "../hooks/useStore";
+import usePosition from "../positionManger/usePosition";
 
 export interface WeekProps {
   weekDays: WeekDays[];
@@ -68,7 +67,7 @@ const Week = () => {
     timeZone,
     stickyNavigation,
   } = useStore();
-
+  const { renderedSlots } = usePosition();
   const {
     weekStartOn,
     weekDays,
@@ -124,7 +123,11 @@ const Week = () => {
     }
   }, [fetchEvents, getRemoteEvents]);
 
-  const renderMultiDayEvents = (events: ProcessedEvent[], today: Date) => {
+  const renderMultiDayEvents = (
+    events: ProcessedEvent[],
+    today: Date,
+    resource?: DefaultRecourse
+  ) => {
     const isFirstDayInWeek = isSameDay(weekStart, today);
     const allWeekMulti = filterMultiDaySlot(events, daysList, timeZone);
 
@@ -137,28 +140,18 @@ const Week = () => {
       const eventLength =
         differenceInDaysOmitTime(hasPrev ? weekStart : event.start, hasNext ? weekEnd : event.end) +
         1;
-      const prevNextEvents = allWeekMulti.filter((e) =>
-        isFirstDayInWeek
-          ? false
-          : e.event_id !== event.event_id && //Exclude it's self
-            differenceInDaysOmitTime(e.start, e.end) > 0 &&
-            isWithinInterval(today, {
-              start: getTimeZonedDate(e.start, timeZone),
-              end: getTimeZonedDate(e.end, timeZone),
-            })
-      );
 
-      let index = i;
-      if (prevNextEvents.length) {
-        index += prevNextEvents.length;
-      }
+      const day = format(today, "yyyy-MM-dd");
+      const resourceId = resource ? resource[resourceFields.idField] : "all";
+      const rendered = renderedSlots?.[resourceId]?.[day];
+      const position = rendered?.[event.event_id] || 0;
 
       return (
         <div
           key={event.event_id}
           className="rs__multi_day"
           style={{
-            top: index * MULTI_SPACE + 45,
+            top: position * MULTI_SPACE + 45,
             width: `${99.9 * eventLength}%`,
             overflowX: "hidden",
           }}
@@ -210,7 +203,7 @@ const Week = () => {
                   locale={locale}
                 />
               )}
-              {renderMultiDayEvents(recousedEvents, date)}
+              {renderMultiDayEvents(recousedEvents, date, resource)}
             </span>
           ))}
         </TableGrid>

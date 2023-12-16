@@ -8,6 +8,7 @@ import { Table, Wrapper } from "./styles/styles";
 import { forwardRef, useMemo } from "react";
 import useStore from "./hooks/useStore";
 import { SchedulerRef } from "./types";
+import { PositionProvider } from "./positionManger/provider";
 
 const SchedulerComponent = forwardRef<SchedulerRef, unknown>(function SchedulerComponent(_, ref) {
   const store = useStore();
@@ -66,7 +67,7 @@ const SchedulerComponent = forwardRef<SchedulerRef, unknown>(function SchedulerC
         }}
         data-testid="grid"
       >
-        {Views}
+        <PositionProvider>{Views}</PositionProvider>
       </Table>
       {dialog && <Editor />}
     </Wrapper>

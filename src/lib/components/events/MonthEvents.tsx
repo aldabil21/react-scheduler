@@ -2,14 +2,10 @@ import { Fragment, useMemo } from "react";
 import {
   closestTo,
   isBefore,
-  startOfDay,
-  endOfDay,
-  isAfter,
-  isWithinInterval,
   startOfWeek,
   differenceInDays,
   differenceInCalendarWeeks,
-  addMinutes,
+  format,
 } from "date-fns";
 import { ProcessedEvent } from "../../types";
 import { Typography } from "@mui/material";
@@ -17,10 +13,11 @@ import EventItem from "./EventItem";
 import { MONTH_NUMBER_HEIGHT, MULTI_DAY_EVENT_HEIGHT } from "../../helpers/constants";
 import { convertEventTimeZone, differenceInDaysOmitTime } from "../../helpers/generals";
 import useStore from "../../hooks/useStore";
+import usePosition from "../../positionManger/usePosition";
 
 interface MonthEventProps {
-  allEvents: ProcessedEvent[];
   events: ProcessedEvent[];
+  resourceId?: string;
   today: Date;
   eachWeekStart: Date[];
   eachFirstDayInCalcRow: Date | null;
@@ -30,8 +27,8 @@ interface MonthEventProps {
 }
 
 const MonthEvents = ({
-  allEvents,
   events,
+  resourceId,
   today,
   eachWeekStart,
   eachFirstDayInCalcRow,
@@ -41,10 +38,11 @@ const MonthEvents = ({
 }: MonthEventProps) => {
   const LIMIT = Math.round((cellHeight - MONTH_NUMBER_HEIGHT) / MULTI_DAY_EVENT_HEIGHT - 1);
   const { translations, month, locale, timeZone } = useStore();
+  const { renderedSlots } = usePosition();
 
   const renderEvents = useMemo(() => {
     const elements: JSX.Element[] = [];
-    let prevIdx = 0;
+
     for (let i = 0; i < Math.min(events.length, LIMIT + 1); i++) {
       const event = convertEventTimeZone(events[i], timeZone);
       const fromPrevWeek = !!eachFirstDayInCalcRow && isBefore(event.start, eachFirstDayInCalcRow);
@@ -71,34 +69,13 @@ const MonthEvents = ({
         }
       }
 
-      const prevNextEvents = allEvents.filter((e) => {
-        if (e.event_id === event.event_id) {
-          return false;
-        }
+      const day = format(today, "yyyy-MM-dd");
+      const rendered = renderedSlots?.[resourceId || "all"]?.[day];
+      const position = rendered?.[event.event_id] || 0;
 
-        const daysDiff = differenceInDaysOmitTime(e.start, e.end);
-        const moreThanOneDay = daysDiff > 0;
-        const isBeforeToday = isBefore(e.start, addMinutes(startOfDay(today), 1));
-        const isAfterToday = isAfter(e.end, addMinutes(endOfDay(today), -1));
-        const isWithinToday =
-          isWithinInterval(e.start, { start: startOfDay(today), end: endOfDay(today) }) ||
-          isWithinInterval(e.end, { start: startOfDay(today), end: endOfDay(today) });
-        const isBeforeAfter = isBeforeToday && isAfterToday;
-        const isBeforeCrossToday = isBeforeToday && isWithinToday;
-        const isAfterCrossToday = isAfterToday && isWithinToday;
-        const isFromTodayOn = isWithinToday && moreThanOneDay;
-        const shouldInclude =
-          isBeforeAfter || isBeforeCrossToday || isAfterCrossToday || isFromTodayOn;
-        return !eachFirstDayInCalcRow && LIMIT > i && shouldInclude;
-      });
+      const topSpace = Math.min(position, LIMIT) * MULTI_DAY_EVENT_HEIGHT + MONTH_NUMBER_HEIGHT;
 
-      if (prevNextEvents.length) {
-        prevIdx += prevNextEvents.length;
-      }
-
-      const topSpace = Math.min(prevIdx, LIMIT) * MULTI_DAY_EVENT_HEIGHT + MONTH_NUMBER_HEIGHT;
-
-      if (prevIdx >= LIMIT) {
+      if (position >= LIMIT) {
         elements.push(
           <Typography
             key={i}
@@ -115,6 +92,7 @@ const MonthEvents = ({
         );
         break;
       }
+
       elements.push(
         <div
           key={`${event.event_id}_${i}`}
@@ -137,16 +115,17 @@ const MonthEvents = ({
 
     return elements;
   }, [
-    allEvents,
+    resourceId,
+    renderedSlots,
     events,
+    LIMIT,
     timeZone,
     eachFirstDayInCalcRow,
     month?.weekStartOn,
     locale,
-    LIMIT,
+    today,
     eachWeekStart,
     daysList.length,
-    today,
     translations.moreEvents,
     onViewMore,
   ]);

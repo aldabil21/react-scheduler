@@ -16,7 +16,7 @@ import {
 } from "date-fns";
 import MonthEvents from "../components/events/MonthEvents";
 import { CellRenderedProps, DayHours, DefaultRecourse } from "../types";
-import { getResourcedEvents, sortEventsByTheLengthest } from "../helpers/generals";
+import { getResourcedEvents, sortEventsByTheEarliest } from "../helpers/generals";
 import { WithResources } from "../components/common/WithResources";
 import Cell from "../components/common/Cell";
 import { TableGrid } from "../styles/styles";
@@ -100,7 +100,7 @@ const Month = () => {
 
   const renderCells = useCallback(
     (resource?: DefaultRecourse) => {
-      let resourcedEvents = sortEventsByTheLengthest(events);
+      let resourcedEvents = sortEventsByTheEarliest(events);
       if (resource) {
         resourcedEvents = getResourcedEvents(events, resource, resourceFields, fields);
       }
@@ -165,9 +165,10 @@ const Month = () => {
                     </Typography>
                   </Avatar>
                 )}
+
                 <MonthEvents
-                  allEvents={resourcedEvents}
                   events={todayEvents}
+                  resourceId={resource?.[field]}
                   today={today}
                   eachWeekStart={eachWeekStart}
                   eachFirstDayInCalcRow={eachFirstDayInCalcRow}

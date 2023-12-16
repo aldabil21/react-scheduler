@@ -4,7 +4,6 @@ import { DefaultRecourse, EventActions, ProcessedEvent, SchedulerProps } from ".
 export type SelectedRange = { start: Date; end: Date };
 
 export interface SchedulerState extends SchedulerProps {
-  // mounted?: boolean;
   dialog: boolean;
   selectedRange?: SelectedRange;
   selectedEvent?: ProcessedEvent;
@@ -12,7 +11,6 @@ export interface SchedulerState extends SchedulerProps {
 }
 
 export interface Store extends SchedulerState {
-  // setProps: (props: Partial<SchedulerProps>) => void;
   handleState(value: SchedulerState[keyof SchedulerState], name: keyof SchedulerState): void;
   getViews(): View[];
   triggerDialog(status: boolean, event?: SelectedRange | ProcessedEvent): void;
