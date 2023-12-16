@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { differenceInMinutes, setHours } from "date-fns";
+import { differenceInMinutes, set } from "date-fns";
 import { BORDER_HEIGHT } from "../../helpers/constants";
 import { getTimeZonedDate } from "../../helpers/generals";
 import { TimeIndicatorBar } from "../../styles/styles";
 
 interface CurrentTimeBarProps {
-  today: Date;
   startHour: number;
   step: number;
   minuteHeight: number;
@@ -14,16 +13,10 @@ interface CurrentTimeBarProps {
   zIndex?: number;
 }
 
-function calculateTop({
-  today,
-  startHour,
-  step,
-  minuteHeight,
-  timeZone,
-}: CurrentTimeBarProps): number {
+function calculateTop({ startHour, step, minuteHeight, timeZone }: CurrentTimeBarProps): number {
   const now = getTimeZonedDate(new Date(), timeZone);
 
-  const minutesFromTop = differenceInMinutes(now, setHours(today, startHour));
+  const minutesFromTop = differenceInMinutes(now, set(now, { hours: startHour, minutes: 0 }));
   const topSpace = minutesFromTop * minuteHeight;
   const slotsFromTop = minutesFromTop / step;
   const borderFactor = slotsFromTop + BORDER_HEIGHT;

@@ -138,6 +138,7 @@ const Editor = () => {
         body.event_id =
           selectedEvent?.event_id || Date.now().toString(36) + Math.random().toString(36).slice(2);
       }
+
       confirmEvent(body, action);
       handleClose(true);
     } catch (error) {

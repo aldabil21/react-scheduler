@@ -1,7 +1,7 @@
 import { ProcessedEvent } from "../../types";
 import EventItem from "./EventItem";
-import { differenceInMinutes, setHours, isToday } from "date-fns";
-import { traversCrossingEvents } from "../../helpers/generals";
+import { differenceInMinutes, setHours } from "date-fns";
+import { isTimeZonedToday, traversCrossingEvents } from "../../helpers/generals";
 import { BORDER_HEIGHT } from "../../helpers/constants";
 import { Fragment } from "react";
 import CurrentTimeBar from "./CurrentTimeBar";
@@ -28,9 +28,8 @@ const TodayEvents = ({
 
   return (
     <Fragment>
-      {isToday(today) && (
+      {isTimeZonedToday(today, timeZone) && (
         <CurrentTimeBar
-          today={today}
           startHour={startHour}
           step={step}
           minuteHeight={minuteHeight}

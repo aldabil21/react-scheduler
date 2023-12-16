@@ -1,5 +1,7 @@
 import { Typography } from "@mui/material";
-import { format, isToday } from "date-fns";
+import { format } from "date-fns";
+import { isTimeZonedToday } from "../../helpers/generals";
+import useStore from "../../hooks/useStore";
 
 interface TodayTypoProps {
   date: Date;
@@ -8,13 +10,16 @@ interface TodayTypoProps {
 }
 
 const TodayTypo = ({ date, onClick, locale }: TodayTypoProps) => {
+  const { timeZone } = useStore();
+  const today = isTimeZonedToday(date, timeZone);
+
   return (
     <div>
       <Typography
         style={{
-          fontWeight: isToday(date) ? "bold" : "inherit",
+          fontWeight: today ? "bold" : "inherit",
         }}
-        color={isToday(date) ? "primary" : "inherit"}
+        color={today ? "primary" : "inherit"}
         className={onClick ? "rs__hover__op" : ""}
         onClick={(e) => {
           e.stopPropagation();
@@ -24,9 +29,9 @@ const TodayTypo = ({ date, onClick, locale }: TodayTypoProps) => {
         {format(date, "dd", { locale })}
       </Typography>
       <Typography
-        color={isToday(date) ? "primary" : "inherit"}
+        color={today ? "primary" : "inherit"}
         style={{
-          fontWeight: isToday(date) ? "bold" : "inherit",
+          fontWeight: today ? "bold" : "inherit",
           fontSize: 11,
         }}
       >

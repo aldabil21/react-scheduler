@@ -5,7 +5,6 @@ import {
   eachWeekOfInterval,
   format,
   isSameMonth,
-  isToday,
   setHours,
   endOfMonth,
   startOfMonth,
@@ -16,7 +15,7 @@ import {
 } from "date-fns";
 import MonthEvents from "../components/events/MonthEvents";
 import { CellRenderedProps, DayHours, DefaultRecourse } from "../types";
-import { getResourcedEvents, sortEventsByTheEarliest } from "../helpers/generals";
+import { getResourcedEvents, isTimeZonedToday, sortEventsByTheEarliest } from "../helpers/generals";
 import { WithResources } from "../components/common/WithResources";
 import Cell from "../components/common/Cell";
 import { TableGrid } from "../styles/styles";
@@ -51,6 +50,7 @@ const Month = () => {
     locale,
     hourFormat,
     stickyNavigation,
+    timeZone,
   } = useStore();
 
   const { weekStartOn, weekDays, startHour, endHour, cellRenderer, headRenderer, disableGoToDay } =
@@ -121,6 +121,7 @@ const Month = () => {
                 })) ||
               isSameDay(e.start, today)
           );
+          const isToday = isTimeZonedToday(today, timeZone);
           return (
             <span style={{ height: CELL_HEIGHT }} key={d.toString()} className="rs__cell">
               <Cell
@@ -142,8 +143,8 @@ const Month = () => {
                       height: 27,
                       position: "absolute",
                       top: 0,
-                      background: isToday(today) ? theme.palette.secondary.main : "transparent",
-                      color: isToday(today) ? theme.palette.secondary.contrastText : "",
+                      background: isToday ? theme.palette.secondary.main : "transparent",
+                      color: isToday ? theme.palette.secondary.contrastText : "",
                       marginBottom: 2,
                     }}
                   >
@@ -202,6 +203,7 @@ const Month = () => {
       theme.palette.secondary.contrastText,
       theme.palette.secondary.main,
       weekDays,
+      timeZone,
     ]
   );
 

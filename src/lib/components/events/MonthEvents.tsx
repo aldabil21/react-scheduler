@@ -11,7 +11,7 @@ import { ProcessedEvent } from "../../types";
 import { Typography } from "@mui/material";
 import EventItem from "./EventItem";
 import { MONTH_NUMBER_HEIGHT, MULTI_DAY_EVENT_HEIGHT } from "../../helpers/constants";
-import { convertEventTimeZone, differenceInDaysOmitTime } from "../../helpers/generals";
+import { differenceInDaysOmitTime } from "../../helpers/generals";
 import useStore from "../../hooks/useStore";
 import usePosition from "../../positionManger/usePosition";
 
@@ -37,14 +37,14 @@ const MonthEvents = ({
   cellHeight,
 }: MonthEventProps) => {
   const LIMIT = Math.round((cellHeight - MONTH_NUMBER_HEIGHT) / MULTI_DAY_EVENT_HEIGHT - 1);
-  const { translations, month, locale, timeZone } = useStore();
+  const { translations, month, locale } = useStore();
   const { renderedSlots } = usePosition();
 
   const renderEvents = useMemo(() => {
     const elements: JSX.Element[] = [];
 
     for (let i = 0; i < Math.min(events.length, LIMIT + 1); i++) {
-      const event = convertEventTimeZone(events[i], timeZone);
+      const event = events[i];
       const fromPrevWeek = !!eachFirstDayInCalcRow && isBefore(event.start, eachFirstDayInCalcRow);
       const start = fromPrevWeek && eachFirstDayInCalcRow ? eachFirstDayInCalcRow : event.start;
       let eventLength = differenceInDaysOmitTime(start, event.end) + 1;
@@ -119,7 +119,6 @@ const MonthEvents = ({
     renderedSlots,
     events,
     LIMIT,
-    timeZone,
     eachFirstDayInCalcRow,
     month?.weekStartOn,
     locale,
