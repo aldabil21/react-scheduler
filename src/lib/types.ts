@@ -54,6 +54,7 @@ interface CalendarEvent {
   end: Date;
   disabled?: boolean;
   color?: string;
+  textColor?: string;
   editable?: boolean;
   deletable?: boolean;
   draggable?: boolean;

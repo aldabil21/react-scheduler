@@ -137,7 +137,6 @@ export const EventItemPaper = styled(Paper)<{ disabled?: boolean }>(({ theme, di
   width: "99.5%",
   height: "100%",
   display: "block",
-  color: disabled ? "#808080" : theme.palette.primary.contrastText,
   cursor: disabled ? "not-allowed" : "pointer",
   overflow: "hidden",
   "& .MuiButtonBase-root": {
