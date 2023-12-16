@@ -14,6 +14,7 @@ import { MonthDateBtn } from "./MonthDateBtn";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import useStore from "../../hooks/useStore";
 import { NavigationDiv } from "../../styles/styles";
+import { getTimeZonedDate } from "../../helpers/generals";
 
 export type View = "month" | "week" | "day";
 
@@ -32,6 +33,7 @@ const Navigation = () => {
     onSelectedDateChange,
     onViewChange,
     stickyNavigation,
+    timeZone,
   } = useStore();
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const theme = useTheme();
@@ -99,7 +101,7 @@ const Navigation = () => {
         }}
       >
         <Button
-          onClick={() => handleSelectedDateChange(new Date())}
+          onClick={() => handleSelectedDateChange(getTimeZonedDate(new Date(), timeZone))}
           aria-label={translations.navigation.today}
         >
           {translations.navigation.today}

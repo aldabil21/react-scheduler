@@ -124,7 +124,7 @@ export const differenceInDaysOmitTime = (start: Date, end: Date) => {
 export const filterTodayEvents = (events: ProcessedEvent[], today: Date, timeZone?: string) => {
   const list: ProcessedEvent[] = [];
   for (let i = 0; i < events.length; i++) {
-    const event = convertEventTimeZone(events[i], timeZone);
+    const event = events[i];
     if (
       !event.allDay &&
       isSameDay(today, event.start) &&
@@ -160,7 +160,7 @@ export const filterMultiDaySlot = (
   const list: ProcessedEvent[] = [];
   const multiPerDay: Record<string, ProcessedEvent[]> = {};
   for (let i = 0; i < events.length; i++) {
-    const event = convertEventTimeZone(events[i], timeZone);
+    const event = events[i];
     let withinSlot = event.allDay || differenceInDaysOmitTime(event.start, event.end) > 0;
     if (!withinSlot) continue;
     if (isMultiDates) {
@@ -205,6 +205,7 @@ export const convertEventTimeZone = (event: ProcessedEvent, timeZone?: string) =
     ...event,
     start: getTimeZonedDate(event.start, timeZone),
     end: getTimeZonedDate(event.end, timeZone),
+    convertedTz: true,
   };
 };
 
@@ -216,4 +217,8 @@ export const getTimeZonedDate = (date: Date, timeZone?: string) => {
       timeZone,
     }).format(date)
   );
+};
+
+export const isTimeZonedToday = (date: Date, timeZone?: string) => {
+  return isSameDay(date, getTimeZonedDate(new Date(), timeZone));
 };
