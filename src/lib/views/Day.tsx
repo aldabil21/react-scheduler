@@ -36,6 +36,7 @@ export interface DayProps {
   step: number;
   cellRenderer?(props: CellRenderedProps): JSX.Element;
   headRenderer?(day: Date): JSX.Element;
+  hourRenderer?(hour: string): JSX.Element;
   navigation?: boolean;
 }
 
@@ -59,7 +60,7 @@ const Day = () => {
     stickyNavigation,
   } = useStore();
 
-  const { startHour, endHour, step, cellRenderer, headRenderer } = day!;
+  const { startHour, endHour, step, cellRenderer, headRenderer, hourRenderer } = day!;
   const START_TIME = set(selectedDate, { hours: startHour, minutes: 0, seconds: 0 });
   const END_TIME = set(selectedDate, { hours: endHour, minutes: -step, seconds: 0 });
   const hours = eachMinuteOfInterval(
@@ -167,9 +168,12 @@ const Day = () => {
               <Fragment key={i}>
                 {/* Time Cells */}
                 <span className="rs__cell rs__header rs__time" style={{ height: CELL_HEIGHT }}>
-                  <Typography variant="caption">{format(h, hFormat, { locale })}</Typography>
+                  {typeof hourRenderer === "function" ? (
+                    <div>{hourRenderer(format(h, hFormat, { locale }))}</div>
+                  ) : (
+                    <Typography variant="caption">{format(h, hFormat, { locale })}</Typography>
+                  )}
                 </span>
-
                 <span className={`rs__cell ${isToday(selectedDate) ? "rs__today_cell" : ""}`}>
                   {/* Events of this day - run once on the top hour column */}
                   {i === 0 && (
