@@ -1,6 +1,6 @@
 {
-  "name": "@mtobbias/react-scheduler",
-  "version": "2.9.0",
+  "name": "@aldabil/react-scheduler",
+  "version": "2.8.0",
   "description": "React scheduler component based on Material-UI & date-fns",
   "files": [
     "*"
@@ -8,7 +8,7 @@
   "scripts": {
     "start": "react-scripts start",
     "webpack": "webpack",
-    "pack": "npm run webpack && npm run post:pack",
+    "pack": "rm -rf dist && npm run webpack && npm run post:pack",
     "local:pack": "npm run pack && cd dist && npm pack && mv *.tgz ../",
     "post:pack": "node ./scripts/post-pack.js",
     "format": "prettier --check \"**/*.{js,jsx,ts,tsx,json}\"",
@@ -32,7 +32,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mtobbias/react-scheduler.git"
+    "url": "https://github.com/aldabil21/react-scheduler.git"
   },
   "keywords": [
     "react",
@@ -44,7 +44,7 @@
   "license": "MIT",
   "homepage": "",
   "bugs": {
-    "url": "https://github.com/mtobbias/react-scheduler/issues"
+    "url": "https://github.com/aldabil21/react-scheduler/issues"
   },
   "devDependencies": {
     "@emotion/react": "^11.10.4",
