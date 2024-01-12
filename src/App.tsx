@@ -1,9 +1,8 @@
 import { Scheduler } from "./lib";
 import { EVENTS } from "./events";
 import { useRef } from "react";
-import { DayHours, SchedulerRef } from "./lib/types";
-import { Button, Popover } from "@mui/material";
-import { WeekDays } from "./lib/views/Month";
+import { SchedulerRef } from "./lib/types";
+
 function App() {
   const calendarRef = useRef<SchedulerRef>(null);
 
@@ -19,30 +18,9 @@ function App() {
 
   return (
     <Scheduler
+      ref={calendarRef}
       events={EVENTS}
-      hourFormat={"24"}
-      week={{
-        weekDays: [0, 1, 2, 3, 4, 5, 6],
-        weekStartOn: 1,
-        startHour: 9,
-        endHour: 18,
-        step: 60,
-        hourRenderer: (hour: string) => (
-          <div
-            style={{
-              background: "red",
-            }}
-          >
-            <Button>{hour}</Button>
-          </div>
-        ),
-      }}
-      day={{
-        startHour: 9,
-        endHour: 18,
-        step: 60,
-        hourRenderer: (hour: string) => <Button>{hour}</Button>,
-      }}
+      // events={generateRandomEvents(200)}
     />
   );
 }
