@@ -213,14 +213,13 @@ const Week = () => {
         <TableGrid days={daysList.length} ref={bodyRef}>
           {hours.map((h, i) => (
             <Fragment key={i}>
-              {typeof hourRenderer === "function" ? (
-                <div>{hourRenderer(format(h, hFormat, { locale }))}</div>
-              ) : (
-                <span style={{ height: CELL_HEIGHT }} className="rs__cell rs__header rs__time">
+              <span style={{ height: CELL_HEIGHT }} className="rs__cell rs__header rs__time">
+                {typeof hourRenderer === "function" ? (
+                  <div>{hourRenderer(format(h, hFormat, { locale }))}</div>
+                ) : (
                   <Typography variant="caption">{format(h, hFormat, { locale })}</Typography>
-                </span>
-              )}
-
+                )}
+              </span>
               {daysList.map((date, ii) => {
                 const start = new Date(`${format(date, "yyyy/MM/dd")} ${format(h, hFormat)}`);
                 const end = addMinutes(start, step);
