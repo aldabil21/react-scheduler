@@ -24,6 +24,7 @@ import {
   differenceInDaysOmitTime,
   filterMultiDaySlot,
   filterTodayEvents,
+  getHourFormat,
   getResourcedEvents,
 } from "../helpers/generals";
 import { WithResources } from "../components/common/WithResources";
@@ -34,6 +35,7 @@ import { MULTI_DAY_EVENT_HEIGHT } from "../helpers/constants";
 import useSyncScroll from "../hooks/useSyncScroll";
 import useStore from "../hooks/useStore";
 import usePosition from "../positionManger/usePosition";
+import { WeekAgenda } from "./WeekAgenda";
 
 export interface WeekProps {
   weekDays: WeekDays[];
@@ -67,6 +69,7 @@ const Week = () => {
     hourFormat,
     timeZone,
     stickyNavigation,
+    agenda,
   } = useStore();
   const { renderedSlots } = usePosition();
   const {
@@ -96,7 +99,7 @@ const Week = () => {
   const CELL_HEIGHT = calcCellHeight(height, hours.length);
   const MINUTE_HEIGHT = calcMinuteHeight(CELL_HEIGHT, step);
   const MULTI_SPACE = MULTI_DAY_EVENT_HEIGHT;
-  const hFormat = hourFormat === "12" ? "hh:mm a" : "HH:mm";
+  const hFormat = getHourFormat(hourFormat);
   const { headersRef, bodyRef } = useSyncScroll();
 
   const fetchEvents = useCallback(async () => {
@@ -168,6 +171,10 @@ const Week = () => {
     let recousedEvents = events;
     if (resource) {
       recousedEvents = getResourcedEvents(events, resource, resourceFields, fields);
+    }
+
+    if (agenda) {
+      return <WeekAgenda daysList={daysList} events={recousedEvents} />;
     }
 
     // Equalizing multi-day section height except in resource/tabs mode

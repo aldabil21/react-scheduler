@@ -13,6 +13,7 @@ export interface SchedulerState extends SchedulerProps {
 export interface Store extends SchedulerState {
   handleState(value: SchedulerState[keyof SchedulerState], name: keyof SchedulerState): void;
   getViews(): View[];
+  toggleAgenda: () => void;
   triggerDialog(status: boolean, event?: SelectedRange | ProcessedEvent): void;
   triggerLoading(status: boolean): void;
   handleGotoDay(day: Date): void;

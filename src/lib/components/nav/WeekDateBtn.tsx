@@ -36,15 +36,17 @@ const WeekDateBtn = ({ selectedDate, onChange, weekProps }: WeekDateBtnProps) =>
     const ladtDayPrevWeek = addDays(weekStart, -1);
     onChange(ladtDayPrevWeek);
   };
+
   const handleNext = () => {
     const firstDayNextWeek = addDays(weekEnd, 1);
     onChange(firstDayNextWeek);
   };
+
   return (
     <>
       <LocaleArrow type="prev" onClick={handlePrev} aria-label="previous week" />
       <Button style={{ padding: 4 }} onClick={handleOpen} aria-label="selected week">
-        {`${format(weekStart, "dd", { locale })} - ${format(weekEnd, "dd MMMM yyyy", {
+        {`${format(weekStart, "dd", { locale })} - ${format(weekEnd, "dd MMM yyyy", {
           locale,
         })}`}
       </Button>

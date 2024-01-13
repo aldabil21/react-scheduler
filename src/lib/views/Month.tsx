@@ -15,7 +15,12 @@ import {
 } from "date-fns";
 import MonthEvents from "../components/events/MonthEvents";
 import { CellRenderedProps, DayHours, DefaultRecourse } from "../types";
-import { getResourcedEvents, isTimeZonedToday, sortEventsByTheEarliest } from "../helpers/generals";
+import {
+  getHourFormat,
+  getResourcedEvents,
+  isTimeZonedToday,
+  sortEventsByTheEarliest,
+} from "../helpers/generals";
 import { WithResources } from "../components/common/WithResources";
 import Cell from "../components/common/Cell";
 import { TableGrid } from "../styles/styles";
@@ -64,7 +69,7 @@ const Month = () => {
     },
     { weekStartsOn: weekStartOn }
   );
-  const hFormat = hourFormat === "12" ? "hh:mm a" : "HH:mm";
+  const hFormat = getHourFormat(hourFormat);
   const daysList = weekDays.map((d) => addDays(eachWeekStart[0], d));
   const CELL_HEIGHT = height / eachWeekStart.length;
   const theme = useTheme();

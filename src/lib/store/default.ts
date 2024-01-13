@@ -45,6 +45,7 @@ const defaultTranslations = (trans: Partial<SchedulerProps["translations"]> = {}
         month: "Month",
         week: "Week",
         day: "Day",
+        agenda: "Agenda",
         today: "Today",
       },
       navigation
@@ -68,7 +69,10 @@ const defaultTranslations = (trans: Partial<SchedulerProps["translations"]> = {}
       },
       event
     ),
-    ...Object.assign({ moreEvents: "More...", loading: "Loading..." }, other),
+    ...Object.assign(
+      { moreEvents: "More...", loading: "Loading...", noDataToDisplay: "No data to display" },
+      other
+    ),
   };
 };
 
@@ -96,6 +100,7 @@ export const defaultProps = (props: Partial<SchedulerProps>) => {
         height: 600,
         navigation: true,
         selectedDate: new Date(),
+        agenda: false,
         disableViewNavigator: false,
         events: [],
         fields: [],
@@ -129,6 +134,7 @@ export const initialStore = {
   selectedResource: undefined,
   handleState: () => {},
   getViews: () => [],
+  toggleAgenda: () => {},
   triggerDialog: () => {},
   triggerLoading: () => {},
   handleGotoDay: () => {},

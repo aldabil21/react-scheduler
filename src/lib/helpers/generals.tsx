@@ -138,6 +138,21 @@ export const filterTodayEvents = (events: ProcessedEvent[], today: Date, timeZon
   return sortEventsByTheLengthest(list);
 };
 
+export const filterTodayAgendaEvents = (
+  events: ProcessedEvent[],
+  today: Date,
+  timeZone?: string
+) => {
+  const list: ProcessedEvent[] = events.filter((ev) =>
+    isWithinInterval(today, {
+      start: startOfDay(ev.start),
+      end: endOfDay(ev.end),
+    })
+  );
+
+  return sortEventsByTheEarliest(list);
+};
+
 export const sortEventsByTheLengthest = (events: ProcessedEvent[]) => {
   return events.sort((a, b) => {
     const aDiff = a.end.getTime() - a.start.getTime();
@@ -221,4 +236,8 @@ export const getTimeZonedDate = (date: Date, timeZone?: string) => {
 
 export const isTimeZonedToday = (date: Date, timeZone?: string) => {
   return isSameDay(date, getTimeZonedDate(new Date(), timeZone));
+};
+
+export const getHourFormat = (hourFormat: "12" | "24") => {
+  return hourFormat === "12" ? "hh:mm a" : "HH:mm";
 };

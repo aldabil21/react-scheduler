@@ -12,6 +12,7 @@ import { WeekDateBtn } from "./WeekDateBtn";
 import { DayDateBtn } from "./DayDateBtn";
 import { MonthDateBtn } from "./MonthDateBtn";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import ViewAgendaIcon from "@mui/icons-material/ViewAgenda";
 import useStore from "../../hooks/useStore";
 import { NavigationDiv } from "../../styles/styles";
 import { getTimeZonedDate } from "../../helpers/generals";
@@ -34,6 +35,8 @@ const Navigation = () => {
     onViewChange,
     stickyNavigation,
     timeZone,
+    agenda,
+    toggleAgenda,
   } = useStore();
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const theme = useTheme();
@@ -95,6 +98,7 @@ const Navigation = () => {
       <div data-testid="date-navigator">{navigation && renderDateSelector()}</div>
 
       <div
+        className="rs__view_navigator"
         data-testid="view-navigator"
         style={{
           visibility: disableViewNavigator ? "hidden" : "visible",
@@ -106,6 +110,23 @@ const Navigation = () => {
         >
           {translations.navigation.today}
         </Button>
+        {isDesktop ? (
+          <Button
+            color={agenda ? "primary" : "inherit"}
+            onClick={toggleAgenda}
+            aria-label={translations.navigation.agenda}
+          >
+            {translations.navigation.agenda}
+          </Button>
+        ) : (
+          <IconButton
+            color={agenda ? "primary" : "default"}
+            style={{ padding: 5 }}
+            onClick={toggleAgenda}
+          >
+            <ViewAgendaIcon />
+          </IconButton>
+        )}
         {views.length > 1 &&
           (isDesktop ? (
             views.map((v) => (

@@ -76,7 +76,7 @@ export const EVENTS: ProcessedEvent[] = [
   },
 ];
 
-export const RECOURCES = [
+export const RESOURCES = [
   {
     admin_id: 1,
     title: "One",

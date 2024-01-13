@@ -20,6 +20,7 @@ import {
   calcMinuteHeight,
   filterMultiDaySlot,
   filterTodayEvents,
+  getHourFormat,
   getResourcedEvents,
 } from "../helpers/generals";
 import { WithResources } from "../components/common/WithResources";
@@ -72,7 +73,7 @@ const Day = () => {
   );
   const CELL_HEIGHT = calcCellHeight(height, hours.length);
   const MINUTE_HEIGHT = calcMinuteHeight(CELL_HEIGHT, step);
-  const hFormat = hourFormat === "12" ? "hh:mm a" : "HH:mm";
+  const hFormat = getHourFormat(hourFormat);
   const { headersRef, bodyRef } = useSyncScroll();
 
   const fetchEvents = useCallback(async () => {
