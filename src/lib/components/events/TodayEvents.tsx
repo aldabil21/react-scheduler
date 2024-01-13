@@ -28,7 +28,7 @@ const TodayEvents = ({
 
   return (
     <Fragment>
-      {isTimeZonedToday(today, timeZone) && (
+      {isTimeZonedToday({ dateLeft: today, timeZone }) && (
         <CurrentTimeBar
           startHour={startHour}
           step={step}

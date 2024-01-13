@@ -7,21 +7,22 @@ import {
   Avatar,
   ListItemText,
 } from "@mui/material";
-import { format, isToday } from "date-fns";
+import { format } from "date-fns";
 import { ProcessedEvent } from "../../types";
-import { getHourFormat } from "../../helpers/generals";
+import { getHourFormat, isTimeZonedToday } from "../../helpers/generals";
 import useStore from "../../hooks/useStore";
 import EventItemPopover from "./EventItemPopover";
 
 interface AgendaEventsListProps {
+  day: Date;
   events: ProcessedEvent[];
 }
 
-const AgendaEventsList = ({ events }: AgendaEventsListProps) => {
+const AgendaEventsList = ({ day, events }: AgendaEventsListProps) => {
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const [selectedEvent, setSelectedEvent] = useState<ProcessedEvent>();
   const [deleteConfirm, setDeleteConfirm] = useState(false);
-  const { locale, hourFormat, eventRenderer, onEventClick } = useStore();
+  const { locale, hourFormat, eventRenderer, onEventClick, timeZone } = useStore();
   const theme = useTheme();
   const hFormat = getHourFormat(hourFormat);
 
@@ -36,12 +37,17 @@ const AgendaEventsList = ({ events }: AgendaEventsListProps) => {
     <Fragment>
       <List>
         {events.map((event) => {
-          const startIsToday = isToday(event.start);
+          const startIsToday = isTimeZonedToday({
+            dateLeft: event.start,
+            dateRight: day,
+            timeZone,
+          });
           const startFormat = startIsToday ? hFormat : `MMM d, ${hFormat}`;
           const startDate = format(event.start, startFormat, {
             locale,
           });
-          const endIsToday = isToday(event.end);
+          const endIsToday = isTimeZonedToday({ dateLeft: event.end, dateRight: day, timeZone });
+
           const endFormat = endIsToday ? hFormat : `MMM d, ${hFormat}`;
           const endDate = format(event.end, endFormat, {
             locale,

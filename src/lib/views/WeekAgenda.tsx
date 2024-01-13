@@ -6,41 +6,28 @@ import useStore from "../hooks/useStore";
 import { Typography } from "@mui/material";
 import { filterTodayAgendaEvents, isTimeZonedToday } from "../helpers/generals";
 import AgendaEventsList from "../components/events/AgendaEventsList";
+import EmptyAgenda from "../components/events/EmptyAgenda";
 
 type Props = {
   daysList: Date[];
   events: ProcessedEvent[];
 };
 const WeekAgenda = ({ daysList, events }: Props) => {
-  const { week, height, handleGotoDay, locale, timeZone, translations } = useStore();
+  const { week, handleGotoDay, locale, timeZone } = useStore();
   const { disableGoToDay, headRenderer } = week!;
 
   const hasEvents = useMemo(() => {
     return daysList.some((day) => filterTodayAgendaEvents(events, day).length > 0);
   }, [daysList, events]);
 
-  if (!hasEvents)
-    return (
-      <AgendaDiv
-        sx={{
-          borderWidth: 1,
-          padding: 1,
-          height: height / 2,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <div className="rs__cell rs__agenda_items">
-          <Typography>{translations.noDataToDisplay}</Typography>
-        </div>
-      </AgendaDiv>
-    );
+  if (!hasEvents) {
+    return <EmptyAgenda />;
+  }
 
   return (
     <AgendaDiv>
       {daysList.map((day, i) => {
-        const today = isTimeZonedToday(day, timeZone);
+        const today = isTimeZonedToday({ dateLeft: day, timeZone });
         const dayEvents = filterTodayAgendaEvents(events, day);
 
         if (!dayEvents.length) return null;
@@ -68,7 +55,7 @@ const WeekAgenda = ({ daysList, events }: Props) => {
               )}
             </div>
             <div className="rs__cell rs__agenda_items">
-              <AgendaEventsList events={dayEvents} />
+              <AgendaEventsList day={day} events={dayEvents} />
             </div>
           </div>
         );

@@ -234,8 +234,16 @@ export const getTimeZonedDate = (date: Date, timeZone?: string) => {
   );
 };
 
-export const isTimeZonedToday = (date: Date, timeZone?: string) => {
-  return isSameDay(date, getTimeZonedDate(new Date(), timeZone));
+export const isTimeZonedToday = ({
+  dateLeft,
+  dateRight,
+  timeZone,
+}: {
+  dateLeft: Date;
+  dateRight?: Date;
+  timeZone?: string;
+}) => {
+  return isSameDay(dateLeft, getTimeZonedDate(dateRight || new Date(), timeZone));
 };
 
 export const getHourFormat = (hourFormat: "12" | "24") => {

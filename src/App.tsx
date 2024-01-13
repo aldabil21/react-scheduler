@@ -11,7 +11,8 @@ function App() {
       <Scheduler
         ref={calendarRef}
         events={EVENTS}
-        // agenda
+        view="day"
+        agenda
         // resources={RESOURCES}
         // resourceFields={{
         //   idField: "admin_id",

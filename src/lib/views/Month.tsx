@@ -126,7 +126,7 @@ const Month = () => {
                 })) ||
               isSameDay(e.start, today)
           );
-          const isToday = isTimeZonedToday(today, timeZone);
+          const isToday = isTimeZonedToday({ dateLeft: today, timeZone });
           return (
             <span style={{ height: CELL_HEIGHT }} key={d.toString()} className="rs__cell">
               <Cell
