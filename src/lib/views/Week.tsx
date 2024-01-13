@@ -43,6 +43,7 @@ export interface WeekProps {
   step: number;
   cellRenderer?(props: CellRenderedProps): JSX.Element;
   headRenderer?(day: Date): JSX.Element;
+  hourRenderer?(hour: string): JSX.Element;
   navigation?: boolean;
   disableGoToDay?: boolean;
 }
@@ -77,6 +78,7 @@ const Week = () => {
     cellRenderer,
     disableGoToDay,
     headRenderer,
+    hourRenderer,
   } = week!;
   const _weekStart = startOfWeek(selectedDate, { weekStartsOn: weekStartOn });
   const daysList = weekDays.map((d) => addDays(_weekStart, d));
@@ -212,7 +214,11 @@ const Week = () => {
           {hours.map((h, i) => (
             <Fragment key={i}>
               <span style={{ height: CELL_HEIGHT }} className="rs__cell rs__header rs__time">
-                <Typography variant="caption">{format(h, hFormat, { locale })}</Typography>
+                {typeof hourRenderer === "function" ? (
+                  <div>{hourRenderer(format(h, hFormat, { locale }))}</div>
+                ) : (
+                  <Typography variant="caption">{format(h, hFormat, { locale })}</Typography>
+                )}
               </span>
               {daysList.map((date, ii) => {
                 const start = new Date(`${format(date, "yyyy/MM/dd")} ${format(h, hFormat)}`);
