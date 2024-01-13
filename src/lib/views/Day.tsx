@@ -20,6 +20,7 @@ import {
   calcMinuteHeight,
   filterMultiDaySlot,
   filterTodayEvents,
+  getHourFormat,
   getResourcedEvents,
 } from "../helpers/generals";
 import { WithResources } from "../components/common/WithResources";
@@ -29,6 +30,7 @@ import { TableGrid } from "../styles/styles";
 import { MULTI_DAY_EVENT_HEIGHT } from "../helpers/constants";
 import useSyncScroll from "../hooks/useSyncScroll";
 import useStore from "../hooks/useStore";
+import { DayAgenda } from "./DayAgenda";
 
 export interface DayProps {
   startHour: DayHours;
@@ -58,6 +60,7 @@ const Day = () => {
     hourFormat,
     timeZone,
     stickyNavigation,
+    agenda,
   } = useStore();
 
   const { startHour, endHour, step, cellRenderer, headRenderer, hourRenderer } = day!;
@@ -72,7 +75,7 @@ const Day = () => {
   );
   const CELL_HEIGHT = calcCellHeight(height, hours.length);
   const MINUTE_HEIGHT = calcMinuteHeight(CELL_HEIGHT, step);
-  const hFormat = hourFormat === "12" ? "hh:mm a" : "HH:mm";
+  const hFormat = getHourFormat(hourFormat);
   const { headersRef, bodyRef } = useSyncScroll();
 
   const fetchEvents = useCallback(async () => {
@@ -131,6 +134,10 @@ const Day = () => {
     let recousedEvents = events;
     if (resource) {
       recousedEvents = getResourcedEvents(events, resource, resourceFields, fields);
+    }
+
+    if (agenda) {
+      return <DayAgenda events={recousedEvents} />;
     }
 
     // Equalizing multi-day section height

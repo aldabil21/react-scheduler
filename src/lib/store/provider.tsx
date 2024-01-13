@@ -33,6 +33,10 @@ export const StoreProvider = ({ children, initial }: Props) => {
     return getAvailableViews(state);
   };
 
+  const toggleAgenda = () => {
+    set((prev) => ({ ...prev, agenda: !prev.agenda }));
+  };
+
   const triggerDialog = (status: boolean, selected?: SelectedRange | ProcessedEvent) => {
     const isEvent = selected as ProcessedEvent;
 
@@ -168,6 +172,7 @@ export const StoreProvider = ({ children, initial }: Props) => {
         ...state,
         handleState,
         getViews,
+        toggleAgenda,
         triggerDialog,
         triggerLoading,
         handleGotoDay,

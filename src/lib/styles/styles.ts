@@ -46,6 +46,44 @@ export const NavigationDiv = styled(Paper)<{ sticky?: string }>(({ sticky = "0" 
   top: sticky === "1" ? 0 : undefined,
   zIndex: sticky === "1" ? 999 : undefined,
   boxShadow: "none",
+  padding: "2px 0",
+  "& > .rs__view_navigator": {
+    display: "flex",
+    alignItems: "center",
+  },
+}));
+
+export const AgendaDiv = styled("div")(({ theme }) => ({
+  borderStyle: "solid",
+  borderColor: theme.palette.grey[300],
+  borderWidth: "1px 1px 0 0",
+  "& > .rs__agenda_row": {
+    display: "flex",
+    "& >.rs__agenda__cell": {
+      padding: 4,
+      width: "100%",
+      maxWidth: 60,
+      "& > .MuiTypography-root": {
+        position: "sticky",
+        top: 0,
+        "&.rs__hover__op": {
+          cursor: "pointer",
+          "&:hover": {
+            opacity: 0.7,
+            textDecoration: "underline",
+          },
+        },
+      },
+    },
+    "& .rs__cell": {
+      borderStyle: "solid",
+      borderColor: theme.palette.grey[300],
+      borderWidth: "0 0 1px 1px",
+    },
+    "& > .rs__agenda_items": {
+      flexGrow: 1,
+    },
+  },
 }));
 
 export const TableGrid = styled("div")<{
@@ -133,7 +171,7 @@ export const TableGrid = styled("div")<{
   },
 }));
 
-export const EventItemPaper = styled(Paper)<{ disabled?: boolean }>(({ theme, disabled }) => ({
+export const EventItemPaper = styled(Paper)<{ disabled?: boolean }>(({ disabled }) => ({
   width: "99.5%",
   height: "100%",
   display: "block",

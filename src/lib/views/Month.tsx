@@ -15,12 +15,18 @@ import {
 } from "date-fns";
 import MonthEvents from "../components/events/MonthEvents";
 import { CellRenderedProps, DayHours, DefaultRecourse } from "../types";
-import { getResourcedEvents, isTimeZonedToday, sortEventsByTheEarliest } from "../helpers/generals";
+import {
+  getHourFormat,
+  getResourcedEvents,
+  isTimeZonedToday,
+  sortEventsByTheEarliest,
+} from "../helpers/generals";
 import { WithResources } from "../components/common/WithResources";
 import Cell from "../components/common/Cell";
 import { TableGrid } from "../styles/styles";
 import useSyncScroll from "../hooks/useSyncScroll";
 import useStore from "../hooks/useStore";
+import { MonthAgenda } from "./MonthAgenda";
 
 export type WeekDays = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 export interface MonthProps {
@@ -51,6 +57,7 @@ const Month = () => {
     hourFormat,
     stickyNavigation,
     timeZone,
+    agenda,
   } = useStore();
 
   const { weekStartOn, weekDays, startHour, endHour, cellRenderer, headRenderer, disableGoToDay } =
@@ -64,7 +71,7 @@ const Month = () => {
     },
     { weekStartsOn: weekStartOn }
   );
-  const hFormat = hourFormat === "12" ? "hh:mm a" : "HH:mm";
+  const hFormat = getHourFormat(hourFormat);
   const daysList = weekDays.map((d) => addDays(eachWeekStart[0], d));
   const CELL_HEIGHT = height / eachWeekStart.length;
   const theme = useTheme();
@@ -121,7 +128,7 @@ const Month = () => {
                 })) ||
               isSameDay(e.start, today)
           );
-          const isToday = isTimeZonedToday(today, timeZone);
+          const isToday = isTimeZonedToday({ dateLeft: today, timeZone });
           return (
             <span style={{ height: CELL_HEIGHT }} key={d.toString()} className="rs__cell">
               <Cell
@@ -209,6 +216,15 @@ const Month = () => {
 
   const renderTable = useCallback(
     (resource?: DefaultRecourse) => {
+      if (agenda) {
+        let resourcedEvents = sortEventsByTheEarliest(events);
+        if (resource) {
+          resourcedEvents = getResourcedEvents(events, resource, resourceFields, fields);
+        }
+
+        return <MonthAgenda events={resourcedEvents} />;
+      }
+
       return (
         <>
           {/* Header Days */}
@@ -237,7 +253,18 @@ const Month = () => {
         </>
       );
     },
-    [bodyRef, daysList, headersRef, locale, renderCells, stickyNavigation]
+    [
+      agenda,
+      bodyRef,
+      daysList,
+      events,
+      fields,
+      headersRef,
+      locale,
+      renderCells,
+      resourceFields,
+      stickyNavigation,
+    ]
   );
 
   return resources.length ? <WithResources renderChildren={renderTable} /> : renderTable();

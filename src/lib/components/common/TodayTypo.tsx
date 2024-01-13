@@ -11,7 +11,7 @@ interface TodayTypoProps {
 
 const TodayTypo = ({ date, onClick, locale }: TodayTypoProps) => {
   const { timeZone } = useStore();
-  const today = isTimeZonedToday(date, timeZone);
+  const today = isTimeZonedToday({ dateLeft: date, timeZone });
 
   return (
     <div>

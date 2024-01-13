@@ -1,17 +1,14 @@
 import { Fragment, MouseEvent, useMemo, useState } from "react";
-import { Popover, Typography, ButtonBase, useTheme, IconButton, Box } from "@mui/material";
+import { Typography, ButtonBase, useTheme } from "@mui/material";
 import { format } from "date-fns";
 import { ProcessedEvent } from "../../types";
 import ArrowRightRoundedIcon from "@mui/icons-material/ArrowRightRounded";
 import ArrowLeftRoundedIcon from "@mui/icons-material/ArrowLeftRounded";
-import EventNoteRoundedIcon from "@mui/icons-material/EventNoteRounded";
-import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
-import SupervisorAccountRoundedIcon from "@mui/icons-material/SupervisorAccountRounded";
-import { EventItemPaper, PopperInner } from "../../styles/styles";
-import EventActions from "./Actions";
-import { differenceInDaysOmitTime } from "../../helpers/generals";
+import { EventItemPaper } from "../../styles/styles";
+import { differenceInDaysOmitTime, getHourFormat } from "../../helpers/generals";
 import useStore from "../../hooks/useStore";
 import useDragAttributes from "../../hooks/useDragAttributes";
+import EventItemPopover from "./EventItemPopover";
 
 interface EventItemProps {
   event: ProcessedEvent;
@@ -22,33 +19,13 @@ interface EventItemProps {
 }
 
 const EventItem = ({ event, multiday, hasPrev, hasNext, showdate = true }: EventItemProps) => {
-  const {
-    triggerDialog,
-    onDelete,
-    events,
-    handleState,
-    triggerLoading,
-    customViewer,
-    viewerExtraComponent,
-    fields,
-    direction,
-    resources,
-    resourceFields,
-    locale,
-    viewerTitleComponent,
-    hourFormat,
-    eventRenderer,
-    onEventClick,
-    view,
-    draggable,
-    translations,
-    editable,
-  } = useStore();
+  const { direction, locale, hourFormat, eventRenderer, onEventClick, view, draggable, editable } =
+    useStore();
   const dragProps = useDragAttributes(event);
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState(false);
   const theme = useTheme();
-  const hFormat = hourFormat === "12" ? "hh:mm a" : "HH:mm";
+  const hFormat = getHourFormat(hourFormat);
 
   const NextArrow = direction === "rtl" ? ArrowLeftRoundedIcon : ArrowRightRoundedIcon;
   const PrevArrow = direction === "rtl" ? ArrowRightRoundedIcon : ArrowLeftRoundedIcon;
@@ -59,108 +36,6 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate = true }: Event
       setDeleteConfirm(false);
     }
     setAnchorEl(el?.currentTarget || null);
-  };
-
-  const handleDelete = async () => {
-    try {
-      triggerLoading(true);
-      let deletedId = event.event_id;
-      // Trigger custom/remote when provided
-      if (onDelete) {
-        const remoteId = await onDelete(deletedId);
-        if (remoteId) {
-          deletedId = remoteId;
-        } else {
-          deletedId = "";
-        }
-      }
-      if (deletedId) {
-        triggerViewer();
-        const updatedEvents = events.filter((e) => e.event_id !== deletedId);
-        handleState(updatedEvents, "events");
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      triggerLoading(false);
-    }
-  };
-
-  const renderViewer = () => {
-    const idKey = resourceFields.idField;
-    const hasResource = resources.filter((res) =>
-      Array.isArray(event[idKey]) ? event[idKey].includes(res[idKey]) : res[idKey] === event[idKey]
-    );
-
-    return (
-      <PopperInner>
-        <Box
-          sx={{
-            bgcolor: event.color || theme.palette.primary.main,
-            color: theme.palette.primary.contrastText,
-          }}
-        >
-          <div className="rs__popper_actions">
-            <div>
-              <IconButton
-                size="small"
-                onClick={() => {
-                  triggerViewer();
-                }}
-              >
-                <ClearRoundedIcon color="disabled" />
-              </IconButton>
-            </div>
-            <EventActions
-              event={event}
-              onDelete={handleDelete}
-              onEdit={() => {
-                triggerViewer();
-                triggerDialog(true, event);
-              }}
-            />
-          </div>
-          {viewerTitleComponent instanceof Function ? (
-            viewerTitleComponent(event)
-          ) : (
-            <Typography style={{ padding: "5px 0" }} noWrap>
-              {event.title}
-            </Typography>
-          )}
-        </Box>
-        <div style={{ padding: "5px 10px" }}>
-          <Typography
-            style={{ display: "flex", alignItems: "center", gap: 8 }}
-            color="textSecondary"
-            variant="caption"
-            noWrap
-          >
-            <EventNoteRoundedIcon />
-            {hideDates
-              ? translations.event.allDay
-              : `${format(event.start, `dd MMMM yyyy ${hFormat}`, {
-                  locale: locale,
-                })} - ${format(event.end, `dd MMMM yyyy ${hFormat}`, {
-                  locale: locale,
-                })}`}
-          </Typography>
-          {hasResource.length > 0 && (
-            <Typography
-              style={{ display: "flex", alignItems: "center", gap: 8 }}
-              color="textSecondary"
-              variant="caption"
-              noWrap
-            >
-              <SupervisorAccountRoundedIcon />
-              {hasResource.map((res) => res[resourceFields.textField]).join(", ")}
-            </Typography>
-          )}
-          {viewerExtraComponent instanceof Function
-            ? viewerExtraComponent(fields, event)
-            : viewerExtraComponent}
-        </div>
-      </PopperInner>
-    );
   };
 
   const isDraggable = useMemo(() => {
@@ -269,28 +144,7 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate = true }: Event
       {renderEvent}
 
       {/* Viewer */}
-      <Popover
-        open={Boolean(anchorEl)}
-        anchorEl={anchorEl}
-        onClose={() => {
-          triggerViewer();
-        }}
-        anchorOrigin={{
-          vertical: "center",
-          horizontal: "center",
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "center",
-        }}
-        onClick={(e) => {
-          e.stopPropagation();
-        }}
-      >
-        {typeof customViewer === "function"
-          ? customViewer(event, () => triggerViewer())
-          : renderViewer()}
-      </Popover>
+      <EventItemPopover anchorEl={anchorEl} event={event} onTriggerViewer={triggerViewer} />
     </Fragment>
   );
 };

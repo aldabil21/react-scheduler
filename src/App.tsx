@@ -6,22 +6,25 @@ import { SchedulerRef } from "./lib/types";
 function App() {
   const calendarRef = useRef<SchedulerRef>(null);
 
-  // const fetchRemote = async (query: RemoteQuery): Promise<ProcessedEvent[]> => {
-  //   console.log({ query });
-  //   /**Simulate fetchin remote data */
-  //   return new Promise((res) => {
-  //     setTimeout(() => {
-  //       res(generateRandomEvents(200));
-  //     }, 3000);
-  //   });
-  // };
-
   return (
-    <Scheduler
-      ref={calendarRef}
-      events={EVENTS}
-      // events={generateRandomEvents(200)}
-    />
+    <div style={{ padding: 12 }}>
+      <Scheduler
+        ref={calendarRef}
+        events={EVENTS}
+        view="month"
+        // agenda
+        // resources={RESOURCES}
+        // resourceFields={{
+        //   idField: "admin_id",
+        //   textField: "title",
+        //   subTextField: "mobile",
+        //   avatarField: "title",
+        //   colorField: "color",
+        // }}
+        // resourceViewMode="tabs"
+        // events={generateRandomEvents(200)}
+      />
+    </div>
   );
 }
 

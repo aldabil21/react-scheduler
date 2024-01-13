@@ -1,4 +1,11 @@
-import { Avatar, ListItem, ListItemAvatar, ListItemText, Typography } from "@mui/material";
+import {
+  Avatar,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { useWindowResize } from "../../hooks/useWindowResize";
 import { DefaultRecourse } from "../../types";
 import useStore from "../../hooks/useStore";
@@ -10,6 +17,7 @@ const ResourceHeader = ({ resource }: ResourceHeaderProps) => {
   const { resourceHeaderComponent, resourceFields, resources, direction, resourceViewMode } =
     useStore();
   const { width } = useWindowResize();
+  const theme = useTheme();
 
   const text = resource[resourceFields.textField];
   const subtext = resource[resourceFields.subTextField || ""];
@@ -24,7 +32,7 @@ const ResourceHeader = ({ resource }: ResourceHeaderProps) => {
     resourceViewMode === "tabs"
       ? {}
       : {
-          borderColor: "#eee",
+          borderColor: theme.palette.grey[300],
           borderStyle: "solid",
           borderWidth: "1px 1px 0 1px",
         };

@@ -61,7 +61,7 @@ interface CalendarEvent {
   allDay?: boolean;
 }
 export interface Translations {
-  navigation: Record<View, string> & { today: string };
+  navigation: Record<View, string> & { today: string; agenda: string };
   form: {
     addTitle: string;
     editTitle: string;
@@ -83,6 +83,7 @@ export interface Translations {
     max?: string | ((max: number) => string);
   };
   moreEvents: string;
+  noDataToDisplay: string;
   loading: string;
 }
 
@@ -187,6 +188,8 @@ export interface SchedulerProps {
   height: number;
   /** Initial view to load */
   view: View;
+  /**Activate Agenda view */
+  agenda?: boolean;
   /**Month view settings */
   month: MonthProps | null;
   /**Week view settings */
