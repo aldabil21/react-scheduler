@@ -26,6 +26,7 @@ import Cell from "../components/common/Cell";
 import { TableGrid } from "../styles/styles";
 import useSyncScroll from "../hooks/useSyncScroll";
 import useStore from "../hooks/useStore";
+import { MonthAgenda } from "./MonthAgenda";
 
 export type WeekDays = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 export interface MonthProps {
@@ -56,6 +57,7 @@ const Month = () => {
     hourFormat,
     stickyNavigation,
     timeZone,
+    agenda,
   } = useStore();
 
   const { weekStartOn, weekDays, startHour, endHour, cellRenderer, headRenderer, disableGoToDay } =
@@ -214,6 +216,15 @@ const Month = () => {
 
   const renderTable = useCallback(
     (resource?: DefaultRecourse) => {
+      if (agenda) {
+        let resourcedEvents = sortEventsByTheEarliest(events);
+        if (resource) {
+          resourcedEvents = getResourcedEvents(events, resource, resourceFields, fields);
+        }
+
+        return <MonthAgenda events={resourcedEvents} />;
+      }
+
       return (
         <>
           {/* Header Days */}
@@ -242,7 +253,18 @@ const Month = () => {
         </>
       );
     },
-    [bodyRef, daysList, headersRef, locale, renderCells, stickyNavigation]
+    [
+      agenda,
+      bodyRef,
+      daysList,
+      events,
+      fields,
+      headersRef,
+      locale,
+      renderCells,
+      resourceFields,
+      stickyNavigation,
+    ]
   );
 
   return resources.length ? <WithResources renderChildren={renderTable} /> : renderTable();

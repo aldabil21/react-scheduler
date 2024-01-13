@@ -12,8 +12,8 @@ type Props = {
   events: ProcessedEvent[];
 };
 const DayAgenda = ({ events }: Props) => {
-  const { week, handleGotoDay, locale, selectedDate } = useStore();
-  const { disableGoToDay, headRenderer } = week!;
+  const { day, locale, selectedDate } = useStore();
+  const { headRenderer } = day!;
 
   const dayEvents = useMemo(() => {
     return filterTodayAgendaEvents(events, selectedDate);
@@ -30,17 +30,7 @@ const DayAgenda = ({ events }: Props) => {
           {typeof headRenderer === "function" ? (
             <div>{headRenderer(selectedDate)}</div>
           ) : (
-            <Typography
-              variant="body2"
-              onClick={(e) => {
-                e.stopPropagation();
-                if (!disableGoToDay) {
-                  handleGotoDay(selectedDate);
-                }
-              }}
-            >
-              {format(selectedDate, "dd E", { locale })}
-            </Typography>
+            <Typography variant="body2">{format(selectedDate, "dd E", { locale })}</Typography>
           )}
         </div>
         <div className="rs__cell rs__agenda_items">

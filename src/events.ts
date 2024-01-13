@@ -74,6 +74,18 @@ export const EVENTS: ProcessedEvent[] = [
     draggable: false,
     color: "#8000cc",
   },
+  {
+    event_id: 8,
+    title: "Event 8",
+    start: new Date(
+      new Date(new Date(new Date().setHours(10)).setMinutes(30)).setDate(new Date().getDate() + 30)
+    ),
+    end: new Date(
+      new Date(new Date(new Date().setHours(14)).setMinutes(30)).setDate(new Date().getDate() + 30)
+    ),
+    admin_id: 1,
+    color: "#8000cc",
+  },
 ];
 
 export const RESOURCES = [
