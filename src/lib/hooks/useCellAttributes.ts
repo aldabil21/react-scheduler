@@ -9,7 +9,7 @@ interface Props {
   resourceVal: string | number;
 }
 export const useCellAttributes = ({ start, end, resourceKey, resourceVal }: Props) => {
-  const { triggerDialog, onDrop } = useStore();
+  const { triggerDialog, onDrop, currentDragged, setCurrentDragged } = useStore();
   const theme = useTheme();
 
   return {
@@ -21,20 +21,28 @@ export const useCellAttributes = ({ start, end, resourceKey, resourceVal }: Prop
       });
     },
     onDragOver: (e: DragEvent<HTMLButtonElement>) => {
-      e.currentTarget.style.backgroundColor = alpha(theme.palette.secondary.main, 0.3);
       e.preventDefault();
+      if (currentDragged) {
+        e.currentTarget.style.backgroundColor = alpha(theme.palette.secondary.main, 0.3);
+      }
     },
     onDragEnter: (e: DragEvent<HTMLButtonElement>) => {
-      e.currentTarget.style.backgroundColor = alpha(theme.palette.secondary.main, 0.3);
+      if (currentDragged) {
+        e.currentTarget.style.backgroundColor = alpha(theme.palette.secondary.main, 0.3);
+      }
     },
     onDragLeave: (e: DragEvent<HTMLButtonElement>) => {
-      e.currentTarget.style.backgroundColor = "";
+      if (currentDragged) {
+        e.currentTarget.style.backgroundColor = "";
+      }
     },
     onDrop: (e: DragEvent<HTMLButtonElement>) => {
-      e.preventDefault();
-      e.currentTarget.style.backgroundColor = "";
-      const eventId = e.dataTransfer.getData("text");
-      onDrop(eventId, start, resourceKey, resourceVal);
+      if (currentDragged && currentDragged.event_id) {
+        e.preventDefault();
+        e.currentTarget.style.backgroundColor = "";
+        onDrop(currentDragged.event_id.toString(), start, resourceKey, resourceVal);
+        setCurrentDragged();
+      }
     },
     [resourceKey]: resourceVal,
   };
