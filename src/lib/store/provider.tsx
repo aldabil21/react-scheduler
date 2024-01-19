@@ -98,6 +98,10 @@ export const StoreProvider = ({ children, initial }: Props) => {
     set((prev) => ({ ...prev, events: updatedEvents }));
   };
 
+  const setCurrentDragged = (event?: ProcessedEvent) => {
+    set((prev) => ({ ...prev, currentDragged: event }));
+  };
+
   const onDrop = async (
     eventId: string,
     startTime: Date,
@@ -177,6 +181,7 @@ export const StoreProvider = ({ children, initial }: Props) => {
         triggerLoading,
         handleGotoDay,
         confirmEvent,
+        setCurrentDragged,
         onDrop,
       }}
     >

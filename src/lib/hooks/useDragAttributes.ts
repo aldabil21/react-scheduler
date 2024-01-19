@@ -1,17 +1,20 @@
 import { DragEvent } from "react";
 import { ProcessedEvent } from "../types";
 import { useTheme } from "@mui/material";
+import useStore from "./useStore";
 
 const useDragAttributes = (event: ProcessedEvent) => {
+  const { setCurrentDragged } = useStore();
   const theme = useTheme();
   return {
     draggable: true,
     onDragStart: (e: DragEvent<HTMLElement>) => {
       e.stopPropagation();
-      e.dataTransfer.setData("text/plain", `${event.event_id}`);
+      setCurrentDragged(event);
       e.currentTarget.style.backgroundColor = theme.palette.error.main;
     },
     onDragEnd: (e: DragEvent<HTMLElement>) => {
+      setCurrentDragged();
       e.currentTarget.style.backgroundColor = event.color || theme.palette.primary.main;
     },
     onDragOver: (e: DragEvent<HTMLElement>) => {

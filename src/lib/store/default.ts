@@ -139,5 +139,6 @@ export const initialStore = {
   triggerLoading: () => {},
   handleGotoDay: () => {},
   confirmEvent: () => {},
+  setCurrentDragged: () => {},
   onDrop: () => {},
 };

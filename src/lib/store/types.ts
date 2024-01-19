@@ -8,6 +8,7 @@ export interface SchedulerState extends SchedulerProps {
   selectedRange?: SelectedRange;
   selectedEvent?: ProcessedEvent;
   selectedResource?: DefaultRecourse["assignee"];
+  currentDragged?: ProcessedEvent;
 }
 
 export interface Store extends SchedulerState {
@@ -18,6 +19,7 @@ export interface Store extends SchedulerState {
   triggerLoading(status: boolean): void;
   handleGotoDay(day: Date): void;
   confirmEvent(event: ProcessedEvent | ProcessedEvent[], action: EventActions): void;
+  setCurrentDragged(event?: ProcessedEvent): void;
   onDrop(
     eventId: string,
     droppedStartTime: Date,
