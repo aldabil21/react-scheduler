@@ -77,6 +77,10 @@ export const StoreProvider = ({ children, initial }: Props) => {
     if (!!view && state.onViewChange && typeof state.onViewChange === "function") {
       state.onViewChange(view as View);
     }
+
+    if (!!view && state.onSelectedDateChange && typeof state.onSelectedDateChange === "function") {
+      state.onSelectedDateChange(day);
+    }
   };
 
   const confirmEvent = (event: ProcessedEvent | ProcessedEvent[], action: EventActions) => {
