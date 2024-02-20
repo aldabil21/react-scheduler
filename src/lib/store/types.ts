@@ -9,6 +9,7 @@ export interface SchedulerState extends SchedulerProps {
   selectedEvent?: ProcessedEvent;
   selectedResource?: DefaultRecourse["assignee"];
   currentDragged?: ProcessedEvent;
+  enableAgenda?: boolean;
 }
 
 export interface Store extends SchedulerState {

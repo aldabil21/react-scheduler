@@ -37,6 +37,7 @@ const Navigation = () => {
     timeZone,
     agenda,
     toggleAgenda,
+    enableAgenda,
   } = useStore();
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const theme = useTheme();
@@ -110,23 +111,25 @@ const Navigation = () => {
         >
           {translations.navigation.today}
         </Button>
-        {isDesktop ? (
-          <Button
-            color={agenda ? "primary" : "inherit"}
-            onClick={toggleAgenda}
-            aria-label={translations.navigation.agenda}
-          >
-            {translations.navigation.agenda}
-          </Button>
-        ) : (
-          <IconButton
-            color={agenda ? "primary" : "default"}
-            style={{ padding: 5 }}
-            onClick={toggleAgenda}
-          >
-            <ViewAgendaIcon />
-          </IconButton>
-        )}
+        {enableAgenda &&
+          (isDesktop ? (
+            <Button
+              color={agenda ? "primary" : "inherit"}
+              onClick={toggleAgenda}
+              aria-label={translations.navigation.agenda}
+            >
+              {translations.navigation.agenda}
+            </Button>
+          ) : (
+            <IconButton
+              color={agenda ? "primary" : "default"}
+              style={{ padding: 5 }}
+              onClick={toggleAgenda}
+            >
+              <ViewAgendaIcon />
+            </IconButton>
+          ))}
+
         {views.length > 1 &&
           (isDesktop ? (
             views.map((v) => (
