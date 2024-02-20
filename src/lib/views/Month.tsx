@@ -179,7 +179,9 @@ const Month = () => {
                   eachFirstDayInCalcRow={eachFirstDayInCalcRow}
                   daysList={daysList}
                   onViewMore={(e) => {
-                    onClickMore ? onClickMore(e, handleGotoDay) : handleGotoDay(e);
+                    onClickMore && typeof onClickMore === "function"
+                      ? onClickMore(e, handleGotoDay)
+                      : handleGotoDay(e);
                   }}
                   cellHeight={CELL_HEIGHT}
                 />
@@ -212,6 +214,7 @@ const Month = () => {
       theme.palette.secondary.main,
       weekDays,
       timeZone,
+      onClickMore,
     ]
   );
 
