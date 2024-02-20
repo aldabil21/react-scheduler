@@ -80,7 +80,7 @@ const AgendaEventsList = ({ day, events }: AgendaEventsListProps) => {
                       : event.textColor || theme.palette.primary.contrastText,
                   }}
                 >
-                  {" "}
+                  {event.agendaAvatar || " "}
                 </Avatar>
               </ListItemAvatar>
               <ListItemText primary={event.title} secondary={`${startDate} - ${endDate}`} />
