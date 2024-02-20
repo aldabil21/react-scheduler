@@ -58,6 +58,7 @@ const Month = () => {
     stickyNavigation,
     timeZone,
     agenda,
+    onClickMore,
   } = useStore();
 
   const { weekStartOn, weekDays, startHour, endHour, cellRenderer, headRenderer, disableGoToDay } =
@@ -178,7 +179,9 @@ const Month = () => {
                   eachFirstDayInCalcRow={eachFirstDayInCalcRow}
                   daysList={daysList}
                   onViewMore={(e) => {
-                    handleGotoDay(e);
+                    onClickMore && typeof onClickMore === "function"
+                      ? onClickMore(e, handleGotoDay)
+                      : handleGotoDay(e);
                   }}
                   cellHeight={CELL_HEIGHT}
                 />
@@ -211,6 +214,7 @@ const Month = () => {
       theme.palette.secondary.main,
       weekDays,
       timeZone,
+      onClickMore,
     ]
   );
 
