@@ -59,6 +59,7 @@ interface CalendarEvent {
   deletable?: boolean;
   draggable?: boolean;
   allDay?: boolean;
+  agendaAvatar?: React.ReactElement | string;
 }
 export interface Translations {
   navigation: Record<View, string> & { today: string; agenda: string };

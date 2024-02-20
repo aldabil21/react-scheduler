@@ -16,6 +16,7 @@ export const EVENTS: ProcessedEvent[] = [
     end: new Date(new Date(new Date().setHours(12)).setMinutes(0)),
     admin_id: 2,
     color: "#50b500",
+    agendaAvatar: "E",
   },
   {
     event_id: 3,
