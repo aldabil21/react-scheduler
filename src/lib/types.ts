@@ -309,7 +309,7 @@ export interface SchedulerProps {
   /**
    * Overrides the default behavior of more events button
    */
-  onClickMore?: (date: Date, gotToDay: (date: Date) => void) => void;
+  onClickMore?(date: Date, gotToDay: (date: Date) => void): void;
 }
 
 export interface SchedulerRef {
