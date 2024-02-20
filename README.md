@@ -133,7 +133,7 @@ consider looking inside `SchedulerRef` type to see all fields & methods availabl
 
 ### Demos
 
-- [Basic](https://codesandbox.io/s/react-scheduler-demo-standard-v96bd)
+- [Basic](https://codesandbox.io/p/sandbox/standard-x24pqk)
 - [Remote Data](https://codesandbox.io/s/remote-data-j13ei)
 - [Custom Fields](https://codesandbox.io/s/custom-fields-b2kbv)
 - [Editor/Viewer Override](https://codesandbox.io/s/customeditor-tt2pf)
