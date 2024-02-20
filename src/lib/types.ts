@@ -59,6 +59,10 @@ interface CalendarEvent {
   deletable?: boolean;
   draggable?: boolean;
   allDay?: boolean;
+  /**
+   * @default " "
+   * passed as a children to mui <Avatar /> component
+   */
   agendaAvatar?: React.ReactElement | string;
 }
 export interface Translations {
