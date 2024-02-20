@@ -1,5 +1,4 @@
 import { CSSProperties } from "react";
-import PropTypes from "prop-types";
 import { Tabs, Tab } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Theme } from "@mui/system";
@@ -13,12 +12,6 @@ function TabPanel(props: TabPanelProps) {
   const { children, value, index } = props;
   return value === index ? <>{children}</> : <></>;
 }
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
-};
 
 function a11yProps(index: string | number) {
   return {
