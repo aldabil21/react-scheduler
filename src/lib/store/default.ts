@@ -86,16 +86,7 @@ const defaultViews = (props: Partial<SchedulerProps>) => {
 };
 
 export const defaultProps = (props: Partial<SchedulerProps>) => {
-  const {
-    month,
-    week,
-    day,
-    translations,
-    resourceFields,
-    view,
-    agenda: enableAgenda = true,
-    ...otherProps
-  } = props;
+  const { month, week, day, translations, resourceFields, view, agenda, ...otherProps } = props;
   const views = defaultViews(props);
   const defaultView = view || "week";
   const initialView = views[defaultView] ? defaultView : getOneView(views);
@@ -109,7 +100,6 @@ export const defaultProps = (props: Partial<SchedulerProps>) => {
         height: 600,
         navigation: true,
         selectedDate: new Date(),
-        agenda: false,
         disableViewNavigator: false,
         events: [],
         fields: [],
@@ -128,7 +118,8 @@ export const defaultProps = (props: Partial<SchedulerProps>) => {
         editable: true,
         hourFormat: "12",
         draggable: true,
-        enableAgenda,
+        agenda,
+        enableAgenda: typeof agenda === "undefined" || agenda,
       },
       otherProps
     ),

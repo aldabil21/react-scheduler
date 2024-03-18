@@ -13,14 +13,14 @@ type Props = {
   events: ProcessedEvent[];
 };
 const WeekAgenda = ({ daysList, events }: Props) => {
-  const { week, handleGotoDay, locale, timeZone } = useStore();
+  const { week, handleGotoDay, locale, timeZone, translations, alwaysShowAgendaDays } = useStore();
   const { disableGoToDay, headRenderer } = week!;
 
   const hasEvents = useMemo(() => {
     return daysList.some((day) => filterTodayAgendaEvents(events, day).length > 0);
   }, [daysList, events]);
 
-  if (!hasEvents) {
+  if (!alwaysShowAgendaDays && !hasEvents) {
     return <EmptyAgenda />;
   }
 
@@ -30,7 +30,7 @@ const WeekAgenda = ({ daysList, events }: Props) => {
         const today = isTimeZonedToday({ dateLeft: day, timeZone });
         const dayEvents = filterTodayAgendaEvents(events, day);
 
-        if (!dayEvents.length) return null;
+        if (!alwaysShowAgendaDays && !dayEvents.length) return null;
 
         return (
           <div key={i} className={`rs__agenda_row ${isToday(day) ? "rs__today_cell" : ""}`}>
@@ -55,7 +55,11 @@ const WeekAgenda = ({ daysList, events }: Props) => {
               )}
             </div>
             <div className="rs__cell rs__agenda_items">
-              <AgendaEventsList day={day} events={dayEvents} />
+              {dayEvents.length > 0 ? (
+                <AgendaEventsList day={day} events={dayEvents} />
+              ) : (
+                <Typography sx={{ padding: 1 }}>{translations.noDataToDisplay}</Typography>
+              )}
             </div>
           </div>
         );

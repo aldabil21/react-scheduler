@@ -107,7 +107,7 @@ export interface FieldInputProps {
   /** Available to all InputTypes */
   placeholder?: string;
   /** Available to all InputTypes
-   * @defaul false
+   * @default false
    */
   required?: boolean;
   /** Available to all InputTypes
@@ -195,6 +195,8 @@ export interface SchedulerProps {
   view: View;
   /**Activate Agenda view */
   agenda?: boolean;
+  /** if true, day rows without event will be shown */
+  alwaysShowAgendaDays?: boolean;
   /**Month view settings */
   month: MonthProps | null;
   /**Week view settings */
@@ -252,7 +254,7 @@ export interface SchedulerProps {
   resourceViewMode: "default" | "tabs";
   /**Direction of table */
   direction: "rtl" | "ltr";
-  /**Edito dialog maxWith
+  /**Editor dialog maxWith
    * @default "md"
    */
   dialogMaxWidth: DialogProps["maxWidth"];
@@ -273,7 +275,7 @@ export interface SchedulerProps {
    */
   timeZone?: string;
   /**
-   * Triggerd when event is dropped on time slot.
+   * Triggered when event is dropped on time slot.
    */
   onEventDrop?(
     droppedOn: Date,
