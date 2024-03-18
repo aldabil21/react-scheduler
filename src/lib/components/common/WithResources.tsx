@@ -3,33 +3,55 @@ import { DefaultRecourse } from "../../types";
 import { ResourceHeader } from "./ResourceHeader";
 import { ButtonTabProps, ButtonTabs } from "./Tabs";
 import useStore from "../../hooks/useStore";
+import { Box, useTheme } from "@mui/material";
 
 interface WithResourcesProps {
   renderChildren(resource: DefaultRecourse): React.ReactNode;
 }
 const WithResources = ({ renderChildren }: WithResourcesProps) => {
-  const { resourceViewMode } = useStore();
+  const { resources, resourceFields, resourceViewMode } = useStore();
+  const theme = useTheme();
 
   if (resourceViewMode === "tabs") {
     return <ResourcesTabTables renderChildren={renderChildren} />;
+  } else if (resourceViewMode === "vertical") {
+    return (
+      <>
+        {resources.map((res: DefaultRecourse, i: number) => (
+          <Box key={`${res[resourceFields.idField]}_${i}`} sx={{ display: "flex" }}>
+            <Box
+              sx={{
+                borderColor: theme.palette.grey[300],
+                borderStyle: "solid",
+                borderWidth: "1px 1px 0 1px",
+                paddingTop: 1,
+                flexBasis: 140,
+              }}
+            >
+              <ResourceHeader resource={res} />
+            </Box>
+            <Box
+              //
+              sx={{ width: "100%", overflowX: "auto" }}
+            >
+              {renderChildren(res)}
+            </Box>
+          </Box>
+        ))}
+      </>
+    );
   } else {
-    return <ResourcesTables renderChildren={renderChildren} />;
+    return (
+      <>
+        {resources.map((res: DefaultRecourse, i: number) => (
+          <div key={`${res[resourceFields.idField]}_${i}`}>
+            <ResourceHeader resource={res} />
+            {renderChildren(res)}
+          </div>
+        ))}
+      </>
+    );
   }
-};
-
-const ResourcesTables = ({ renderChildren }: WithResourcesProps) => {
-  const { resources, resourceFields } = useStore();
-
-  return (
-    <>
-      {resources.map((res: DefaultRecourse, i: number) => (
-        <div key={`${res[resourceFields.idField]}_${i}`}>
-          <ResourceHeader resource={res} />
-          {renderChildren(res)}
-        </div>
-      ))}
-    </>
-  );
 };
 
 const ResourcesTabTables = ({ renderChildren }: WithResourcesProps) => {

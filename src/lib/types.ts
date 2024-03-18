@@ -251,7 +251,7 @@ export interface SchedulerProps {
   /**Resource header view mode
    * @default "default"
    */
-  resourceViewMode: "default" | "tabs";
+  resourceViewMode: "default" | "vertical" | "tabs";
   /**Direction of table */
   direction: "rtl" | "ltr";
   /**Editor dialog maxWith
