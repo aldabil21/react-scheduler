@@ -60,7 +60,7 @@ export const getResourcedEvents = (
   const resourceField = fields.find((f) => f.name === keyName);
   const isMultiple = !!resourceField?.config?.multiple;
 
-  const recousedEvents = [];
+  const resourcedEvents = [];
 
   for (const event of events) {
     // Handle single select & multiple select accordingly
@@ -73,14 +73,14 @@ export const getResourcedEvents = (
         : eventVal === resource[keyName];
 
     if (isThisResource) {
-      recousedEvents.push({
+      resourcedEvents.push({
         ...event,
         color: event.color || resource[resourceFields.colorField || ""],
       });
     }
   }
 
-  return recousedEvents;
+  return resourcedEvents;
 };
 
 export const traversCrossingEvents = (

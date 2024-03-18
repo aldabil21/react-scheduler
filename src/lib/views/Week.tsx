@@ -168,19 +168,19 @@ const Week = () => {
   };
 
   const renderTable = (resource?: DefaultRecourse) => {
-    let recousedEvents = events;
+    let resourcedEvents = events;
     if (resource) {
-      recousedEvents = getResourcedEvents(events, resource, resourceFields, fields);
+      resourcedEvents = getResourcedEvents(events, resource, resourceFields, fields);
     }
 
     if (agenda) {
-      return <WeekAgenda daysList={daysList} events={recousedEvents} />;
+      return <WeekAgenda daysList={daysList} events={resourcedEvents} />;
     }
 
     // Equalizing multi-day section height except in resource/tabs mode
     const shouldEqualize = resources.length && resourceViewMode !== "tabs";
     const allWeekMulti = filterMultiDaySlot(
-      shouldEqualize ? events : recousedEvents,
+      shouldEqualize ? events : resourcedEvents,
       daysList,
       timeZone,
       true
@@ -212,7 +212,7 @@ const Week = () => {
                   locale={locale}
                 />
               )}
-              {renderMultiDayEvents(recousedEvents, date, resource)}
+              {renderMultiDayEvents(resourcedEvents, date, resource)}
             </span>
           ))}
         </TableGrid>
@@ -236,7 +236,7 @@ const Week = () => {
                     {/* Events of each day - run once on the top hour column */}
                     {i === 0 && (
                       <TodayEvents
-                        todayEvents={filterTodayEvents(recousedEvents, date, timeZone)}
+                        todayEvents={filterTodayEvents(resourcedEvents, date, timeZone)}
                         today={date}
                         minuteHeight={MINUTE_HEIGHT}
                         startHour={startHour}
