@@ -94,7 +94,7 @@ export const RESOURCES = [
     admin_id: 1,
     title: "One",
     mobile: "555666777",
-    avatar: "https://picsum.photos/200/300",
+    avatar: "",
     color: "#ab2d2d",
   },
   {
