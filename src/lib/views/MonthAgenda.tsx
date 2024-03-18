@@ -12,7 +12,15 @@ type Props = {
   events: ProcessedEvent[];
 };
 const MonthAgenda = ({ events }: Props) => {
-  const { month, handleGotoDay, locale, timeZone, selectedDate } = useStore();
+  const {
+    month,
+    handleGotoDay,
+    locale,
+    timeZone,
+    selectedDate,
+    translations,
+    alwaysShowAgendaDays,
+  } = useStore();
   const { disableGoToDay, headRenderer } = month!;
   const daysOfMonth = getDaysInMonth(selectedDate);
   const daysList = Array.from({ length: daysOfMonth }, (_, i) => i + 1);
@@ -21,7 +29,7 @@ const MonthAgenda = ({ events }: Props) => {
     return events.filter((event) => isSameMonth(event.start, selectedDate));
   }, [events, selectedDate]);
 
-  if (!monthEvents.length) {
+  if (!alwaysShowAgendaDays && !monthEvents.length) {
     return <EmptyAgenda />;
   }
 
@@ -32,7 +40,7 @@ const MonthAgenda = ({ events }: Props) => {
         const today = isTimeZonedToday({ dateLeft: day, timeZone });
         const dayEvents = filterTodayAgendaEvents(events, day);
 
-        if (!dayEvents.length) return null;
+        if (!alwaysShowAgendaDays && !dayEvents.length) return null;
 
         return (
           <div key={i} className={`rs__agenda_row ${isToday(day) ? "rs__today_cell" : ""}`}>
@@ -58,6 +66,11 @@ const MonthAgenda = ({ events }: Props) => {
             </div>
             <div className="rs__cell rs__agenda_items">
               <AgendaEventsList day={day} events={dayEvents} />
+              {dayEvents.length > 0 ? (
+                <AgendaEventsList day={day} events={dayEvents} />
+              ) : (
+                <Typography sx={{ padding: 1 }}>{translations.noDataToDisplay}</Typography>
+              )}
             </div>
           </div>
         );

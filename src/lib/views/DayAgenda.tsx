@@ -12,14 +12,14 @@ type Props = {
   events: ProcessedEvent[];
 };
 const DayAgenda = ({ events }: Props) => {
-  const { day, locale, selectedDate } = useStore();
+  const { day, locale, selectedDate, translations, alwaysShowAgendaDays } = useStore();
   const { headRenderer } = day!;
 
   const dayEvents = useMemo(() => {
     return filterTodayAgendaEvents(events, selectedDate);
   }, [events, selectedDate]);
 
-  if (!dayEvents.length) {
+  if (!alwaysShowAgendaDays && !dayEvents.length) {
     return <EmptyAgenda />;
   }
 
@@ -34,7 +34,11 @@ const DayAgenda = ({ events }: Props) => {
           )}
         </div>
         <div className="rs__cell rs__agenda_items">
-          <AgendaEventsList day={selectedDate} events={dayEvents} />
+          {dayEvents.length > 0 ? (
+            <AgendaEventsList day={selectedDate} events={dayEvents} />
+          ) : (
+            <Typography sx={{ padding: 1 }}>{translations.noDataToDisplay}</Typography>
+          )}
         </div>
       </div>
     </AgendaDiv>
