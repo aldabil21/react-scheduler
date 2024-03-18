@@ -278,6 +278,7 @@ export interface SchedulerProps {
    * Triggered when event is dropped on time slot.
    */
   onEventDrop?(
+    event: DragEvent<HTMLButtonElement>,
     droppedOn: Date,
     updatedEvent: ProcessedEvent,
     originalEvent: ProcessedEvent

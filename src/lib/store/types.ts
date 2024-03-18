@@ -1,3 +1,4 @@
+import { DragEvent } from "react";
 import { View } from "../components/nav/Navigation";
 import { DefaultRecourse, EventActions, ProcessedEvent, SchedulerProps } from "../types";
 
@@ -22,6 +23,7 @@ export interface Store extends SchedulerState {
   confirmEvent(event: ProcessedEvent | ProcessedEvent[], action: EventActions): void;
   setCurrentDragged(event?: ProcessedEvent): void;
   onDrop(
+    event: DragEvent<HTMLButtonElement>,
     eventId: string,
     droppedStartTime: Date,
     resourceKey?: string,

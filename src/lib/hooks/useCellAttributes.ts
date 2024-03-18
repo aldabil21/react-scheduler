@@ -40,7 +40,7 @@ export const useCellAttributes = ({ start, end, resourceKey, resourceVal }: Prop
       if (currentDragged && currentDragged.event_id) {
         e.preventDefault();
         e.currentTarget.style.backgroundColor = "";
-        onDrop(currentDragged.event_id.toString(), start, resourceKey, resourceVal);
+        onDrop(e, currentDragged.event_id.toString(), start, resourceKey, resourceVal);
         setCurrentDragged();
       }
     },
