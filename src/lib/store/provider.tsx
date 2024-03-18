@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { DragEvent, useEffect, useState } from "react";
 import { EventActions, ProcessedEvent, SchedulerProps } from "../types";
 import { defaultProps, initialStore } from "./default";
 import { StoreContext } from "./context";
@@ -107,6 +107,7 @@ export const StoreProvider = ({ children, initial }: Props) => {
   };
 
   const onDrop = async (
+    event: DragEvent<HTMLButtonElement>,
     eventId: string,
     startTime: Date,
     resKey?: string,
@@ -165,7 +166,7 @@ export const StoreProvider = ({ children, initial }: Props) => {
     // Remote
     try {
       triggerLoading(true);
-      const _event = await state.onEventDrop(startTime, updatedEvent, droppedEvent);
+      const _event = await state.onEventDrop(event, startTime, updatedEvent, droppedEvent);
       if (_event) {
         confirmEvent(_event, "edit");
       }
