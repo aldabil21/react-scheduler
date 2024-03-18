@@ -28,7 +28,6 @@ import Cell from "../components/common/Cell";
 import TodayEvents from "../components/events/TodayEvents";
 import { TableGrid } from "../styles/styles";
 import { MULTI_DAY_EVENT_HEIGHT } from "../helpers/constants";
-import useSyncScroll from "../hooks/useSyncScroll";
 import useStore from "../hooks/useStore";
 import { DayAgenda } from "./DayAgenda";
 
@@ -76,7 +75,6 @@ const Day = () => {
   const CELL_HEIGHT = calcCellHeight(height, hours.length);
   const MINUTE_HEIGHT = calcMinuteHeight(CELL_HEIGHT, step);
   const hFormat = getHourFormat(hourFormat);
-  const { headersRef, bodyRef } = useSyncScroll();
 
   const fetchEvents = useCallback(async () => {
     try {
@@ -141,7 +139,7 @@ const Day = () => {
     }
 
     // Equalizing multi-day section height
-    const shouldEqualize = resources.length && resourceViewMode !== "tabs";
+    const shouldEqualize = resources.length && resourceViewMode === "default";
     const allWeekMulti = filterMultiDaySlot(
       shouldEqualize ? events : resourcedEvents,
       selectedDate,
@@ -151,7 +149,7 @@ const Day = () => {
     return (
       <>
         {/* Header */}
-        <TableGrid days={1} ref={headersRef} sticky="1" stickyNavigation={stickyNavigation}>
+        <TableGrid days={1} sticky="1" stickyNavigation={stickyNavigation}>
           <span className="rs__cell"></span>
           <span
             className={`rs__cell rs__header ${isToday(selectedDate) ? "rs__today_cell" : ""}`}
@@ -165,7 +163,7 @@ const Day = () => {
             {renderMultiDayEvents(resourcedEvents)}
           </span>
         </TableGrid>
-        <TableGrid days={1} ref={bodyRef}>
+        <TableGrid days={1}>
           {/* Body */}
           {hours.map((h, i) => {
             const start = new Date(`${format(selectedDate, "yyyy/MM/dd")} ${format(h, hFormat)}`);

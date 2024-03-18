@@ -96,7 +96,7 @@ const ButtonTabs = ({
           <Tab
             key={tab.id || i}
             label={tab.label}
-            // icon={tab.icon}
+            sx={{ flex: 1, flexBasis: 200, flexShrink: 0 }}
             value={tab.id}
             {...a11yProps(tab.id)}
             onClick={() => setTab(tab.id)}

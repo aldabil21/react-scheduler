@@ -100,7 +100,7 @@ export const RESOURCES = [
   },
   {
     admin_id: 2,
-    title: "Two",
+    title: "Two is very long name",
     mobile: "555666777",
     avatar: "https://picsum.photos/200/300",
     color: "#58ab2d",

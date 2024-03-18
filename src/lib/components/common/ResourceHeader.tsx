@@ -6,7 +6,6 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { useWindowResize } from "../../hooks/useWindowResize";
 import { DefaultRecourse } from "../../types";
 import useStore from "../../hooks/useStore";
 
@@ -14,9 +13,7 @@ interface ResourceHeaderProps {
   resource: DefaultRecourse;
 }
 const ResourceHeader = ({ resource }: ResourceHeaderProps) => {
-  const { resourceHeaderComponent, resourceFields, resources, direction, resourceViewMode } =
-    useStore();
-  const { width } = useWindowResize();
+  const { resourceHeaderComponent, resourceFields, direction, resourceViewMode } = useStore();
   const theme = useTheme();
 
   const text = resource[resourceFields.textField];
@@ -28,38 +25,46 @@ const ResourceHeader = ({ resource }: ResourceHeaderProps) => {
     return resourceHeaderComponent(resource);
   }
 
-  const headerBorders =
-    resourceViewMode === "tabs"
-      ? {}
-      : {
-          borderColor: theme.palette.grey[300],
-          borderStyle: "solid",
-          borderWidth: "1px 1px 0 1px",
-        };
   return (
     <ListItem
       sx={{
         padding: "2px 10px",
         textAlign: direction === "rtl" ? "right" : "left",
-        ...headerBorders,
+        ...(resourceViewMode === "tabs"
+          ? {}
+          : resourceViewMode === "vertical"
+          ? {
+              display: "block",
+              textAlign: "center",
+              position: "sticky",
+              top: 4,
+            }
+          : {
+              borderColor: theme.palette.grey[300],
+              borderStyle: "solid",
+              borderWidth: 1,
+            }),
       }}
-      component="span"
+      component="div"
     >
       <ListItemAvatar>
-        <Avatar style={{ background: color }} alt={text} src={avatar} />
+        <Avatar sx={{ background: color, margin: "auto" }} alt={text} src={avatar} />
       </ListItemAvatar>
       <ListItemText
         primary={
-          <Typography variant="body2" noWrap>
+          <Typography variant="body2" noWrap={resourceViewMode !== "vertical"}>
             {text}
           </Typography>
         }
         secondary={
-          <Typography variant="caption" color="textSecondary" noWrap>
+          <Typography
+            variant="caption"
+            color="textSecondary"
+            noWrap={resourceViewMode !== "vertical"}
+          >
             {subtext}
           </Typography>
         }
-        style={{ width: width / (resources.length + 1) }}
       />
     </ListItem>
   );

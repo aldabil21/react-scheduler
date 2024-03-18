@@ -60,10 +60,11 @@ const SchedulerComponent = forwardRef<SchedulerRef, unknown>(function SchedulerC
       {loading ? LoadingComp : null}
       <Navigation />
       <Table
-        resource_count={resourceViewMode === "tabs" ? 1 : resources.length}
+        resource_count={resourceViewMode === "default" ? resources.length : 1}
         // Temp resources/default `sticky` wontfix
         sx={{
           overflowX: resourceViewMode === "default" && resources.length > 1 ? "auto" : undefined,
+          flexDirection: resourceViewMode === "vertical" ? "column" : undefined,
         }}
         data-testid="grid"
       >
