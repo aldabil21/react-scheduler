@@ -34,7 +34,15 @@ export const StoreProvider = ({ children, initial }: Props) => {
   };
 
   const toggleAgenda = () => {
-    set((prev) => ({ ...prev, agenda: !prev.agenda }));
+    set((prev) => {
+      const newStatus = !prev.agenda;
+
+      if (state.onViewChange && typeof state.onViewChange === "function") {
+        state.onViewChange(state.view, newStatus);
+      }
+
+      return { ...prev, agenda: newStatus };
+    });
   };
 
   const triggerDialog = (status: boolean, selected?: SelectedRange | ProcessedEvent) => {
@@ -63,7 +71,7 @@ export const StoreProvider = ({ children, initial }: Props) => {
 
   const handleGotoDay = (day: Date) => {
     const currentViews = getViews();
-    let view = "";
+    let view: View | undefined;
     if (currentViews.includes("day")) {
       view = "day";
       set((prev) => ({ ...prev, view: "day", selectedDate: day }));
@@ -75,7 +83,7 @@ export const StoreProvider = ({ children, initial }: Props) => {
     }
 
     if (!!view && state.onViewChange && typeof state.onViewChange === "function") {
-      state.onViewChange(view as View);
+      state.onViewChange(view, state.agenda);
     }
 
     if (!!view && state.onSelectedDateChange && typeof state.onSelectedDateChange === "function") {

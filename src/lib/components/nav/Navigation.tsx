@@ -59,7 +59,7 @@ const Navigation = () => {
   const handleChangeView = (view: View) => {
     handleState(view, "view");
     if (onViewChange && typeof onViewChange === "function") {
-      onViewChange(view);
+      onViewChange(view, agenda);
     }
   };
 

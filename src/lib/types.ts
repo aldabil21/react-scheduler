@@ -309,7 +309,7 @@ export interface SchedulerProps {
   /**
    * Triggered when navigation view changes.
    */
-  onViewChange?(view: View): void;
+  onViewChange?(view: View, agenda?: boolean): void;
   /**
    * If true, the navigation controller bar will be sticky
    */
