@@ -242,6 +242,8 @@ export interface SchedulerProps {
     | ((fields: FieldProps[], event: ProcessedEvent) => JSX.Element);
   /**Override viewer title component */
   viewerTitleComponent?(event: ProcessedEvent): JSX.Element;
+  /** if true, the viewer popover will be disabled globally */
+  disableViewer?: boolean;
   /**Resources array to split event views with resources */
   resources: DefaultRecourse[];
   /**Map resources fields */

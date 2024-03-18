@@ -19,8 +19,17 @@ interface EventItemProps {
 }
 
 const EventItem = ({ event, multiday, hasPrev, hasNext, showdate = true }: EventItemProps) => {
-  const { direction, locale, hourFormat, eventRenderer, onEventClick, view, draggable, editable } =
-    useStore();
+  const {
+    direction,
+    locale,
+    hourFormat,
+    eventRenderer,
+    onEventClick,
+    view,
+    draggable,
+    editable,
+    disableViewer,
+  } = useStore();
   const dragProps = useDragAttributes(event);
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState(false);
@@ -129,7 +138,7 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate = true }: Event
               onEventClick(event);
             }
           }}
-          disabled={event.disabled}
+          disabled={disableViewer || event.disabled}
         >
           <div {...dragProps} draggable={isDraggable}>
             {item}
