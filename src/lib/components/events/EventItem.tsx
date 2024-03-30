@@ -133,12 +133,14 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate = true }: Event
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            triggerViewer(e);
+            if (!disableViewer) {
+              triggerViewer(e);
+            }
             if (typeof onEventClick === "function") {
               onEventClick(event);
             }
           }}
-          disabled={disableViewer || event.disabled}
+          disabled={event.disabled}
         >
           <div {...dragProps} draggable={isDraggable}>
             {item}
