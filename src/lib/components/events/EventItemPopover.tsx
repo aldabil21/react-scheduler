@@ -32,6 +32,8 @@ const EventItemPopover = ({ anchorEl, event, onTriggerViewer }: Props) => {
     viewerTitleComponent,
     hourFormat,
     translations,
+    disableEditor,
+    onEventEdit,
   } = useStore();
   const theme = useTheme();
   const hideDates = differenceInDaysOmitTime(event.start, event.end) <= 0 && event.allDay;
@@ -111,7 +113,8 @@ const EventItemPopover = ({ anchorEl, event, onTriggerViewer }: Props) => {
                 onDelete={handleDelete}
                 onEdit={() => {
                   onTriggerViewer();
-                  triggerDialog(true, event);
+                  !disableEditor && triggerDialog(true, event);
+                  onEventEdit && onEventEdit(event);
                 }}
               />
             </div>

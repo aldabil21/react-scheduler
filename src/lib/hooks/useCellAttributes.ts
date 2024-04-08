@@ -9,16 +9,19 @@ interface Props {
   resourceVal: string | number;
 }
 export const useCellAttributes = ({ start, end, resourceKey, resourceVal }: Props) => {
-  const { triggerDialog, onDrop, currentDragged, setCurrentDragged } = useStore();
+  const { triggerDialog, onCellClick, onDrop, currentDragged, setCurrentDragged, disableEditor } =
+    useStore();
   const theme = useTheme();
 
   return {
     onClick: () => {
-      triggerDialog(true, {
-        start,
-        end,
-        [resourceKey]: resourceVal,
-      });
+      !disableEditor &&
+        triggerDialog(true, {
+          start,
+          end,
+          [resourceKey]: resourceVal,
+        });
+      onCellClick && onCellClick(start, end, resourceKey, resourceVal);
     },
     onDragOver: (e: DragEvent<HTMLButtonElement>) => {
       e.preventDefault();
