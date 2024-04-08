@@ -232,7 +232,14 @@ const Editor = () => {
   };
 
   return (
-    <Dialog open={dialog} fullScreen={isMobile} maxWidth={dialogMaxWidth}>
+    <Dialog
+      open={dialog}
+      fullScreen={isMobile}
+      maxWidth={dialogMaxWidth}
+      onClose={() => {
+        triggerDialog(false);
+      }}
+    >
       {renderEditor()}
     </Dialog>
   );
