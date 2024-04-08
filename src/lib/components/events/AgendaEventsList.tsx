@@ -22,7 +22,7 @@ const AgendaEventsList = ({ day, events }: AgendaEventsListProps) => {
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const [selectedEvent, setSelectedEvent] = useState<ProcessedEvent>();
   const [deleteConfirm, setDeleteConfirm] = useState(false);
-  const { locale, hourFormat, eventRenderer, onEventClick, timeZone } = useStore();
+  const { locale, hourFormat, eventRenderer, onEventClick, timeZone, disableViewer } = useStore();
   const theme = useTheme();
   const hFormat = getHourFormat(hourFormat);
 
@@ -64,7 +64,9 @@ const AgendaEventsList = ({ day, events }: AgendaEventsListProps) => {
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                triggerViewer(e);
+                if (!disableViewer) {
+                  triggerViewer(e);
+                }
                 setSelectedEvent(event);
                 if (typeof onEventClick === "function") {
                   onEventClick(event);
