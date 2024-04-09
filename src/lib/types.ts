@@ -244,8 +244,6 @@ export interface SchedulerProps {
   viewerTitleComponent?(event: ProcessedEvent): JSX.Element;
   /** if true, the viewer popover will be disabled globally */
   disableViewer?: boolean;
-  /** if true, the editor modal will be disabled globally */
-  disableEditor?: boolean;
   /**Resources array to split event views with resources */
   resources: DefaultRecourse[];
   /**Map resources fields */
@@ -292,7 +290,7 @@ export interface SchedulerProps {
    */
   onEventClick?(event: ProcessedEvent): void;
   /**
-   *
+   * Triggered when an event item is being edited from the popover
    */
   onEventEdit?(event: ProcessedEvent): void;
   /**
@@ -301,7 +299,7 @@ export interface SchedulerProps {
    */
   deletable?: boolean;
   /**
-   * If event is editable, applied to all events globally, overridden by event specific editable prop
+   * If calendar is editable, applied to all events/cells globally, overridden by event specific editable prop
    * @default true
    */
   editable?: boolean;

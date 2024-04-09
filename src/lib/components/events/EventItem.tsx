@@ -140,7 +140,8 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate = true }: Event
               onEventClick(event);
             }
           }}
-          disabled={event.disabled}
+          focusRipple
+          disabled={disableViewer || event.disabled}
         >
           <div {...dragProps} draggable={isDraggable}>
             {item}
