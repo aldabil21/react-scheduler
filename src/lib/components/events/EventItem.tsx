@@ -141,7 +141,8 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate = true }: Event
             }
           }}
           focusRipple
-          disabled={disableViewer || event.disabled}
+          tabIndex={disableViewer ? -1 : 0}
+          disabled={event.disabled}
         >
           <div {...dragProps} draggable={isDraggable}>
             {item}

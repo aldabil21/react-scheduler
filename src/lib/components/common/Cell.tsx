@@ -1,7 +1,6 @@
 import { Button } from "@mui/material";
 import { useCellAttributes } from "../../hooks/useCellAttributes";
 import { CellRenderedProps } from "../../types";
-import useStore from "../../hooks/useStore";
 
 interface CellProps {
   day: Date;
@@ -24,7 +23,6 @@ const Cell = ({
   height,
   children,
 }: CellProps) => {
-  const { editable } = useStore();
   const props = useCellAttributes({ start, end, resourceKey, resourceVal });
 
   if (cellRenderer) {
@@ -36,8 +34,6 @@ const Cell = ({
       ...props,
     });
   }
-
-  if (!editable) return null;
 
   return (
     <Button
