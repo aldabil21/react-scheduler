@@ -11,6 +11,8 @@ function App() {
       ref={calendarRef}
       events={EVENTS}
       // events={generateRandomEvents(200)}
+      editable={false}
+      // disableViewer
     />
   );
 }

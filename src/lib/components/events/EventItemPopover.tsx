@@ -32,7 +32,6 @@ const EventItemPopover = ({ anchorEl, event, onTriggerViewer }: Props) => {
     viewerTitleComponent,
     hourFormat,
     translations,
-    disableEditor,
     onEventEdit,
   } = useStore();
   const theme = useTheme();
@@ -113,8 +112,11 @@ const EventItemPopover = ({ anchorEl, event, onTriggerViewer }: Props) => {
                 onDelete={handleDelete}
                 onEdit={() => {
                   onTriggerViewer();
-                  !disableEditor && triggerDialog(true, event);
-                  onEventEdit && onEventEdit(event);
+                  triggerDialog(true, event);
+
+                  if (onEventEdit && typeof onEventEdit === "function") {
+                    onEventEdit(event);
+                  }
                 }}
               />
             </div>
