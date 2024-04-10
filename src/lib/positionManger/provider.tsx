@@ -50,7 +50,7 @@ const setEventPositionsWithResources = (
       slots[resource[rFields.idField]] = positions;
     }
   } else {
-    slots.all = setEventPositions(events);
+    slots.all = setEventPositions(sorted);
   }
 
   return slots;
