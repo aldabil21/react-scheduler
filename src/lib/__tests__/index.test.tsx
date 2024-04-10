@@ -1,9 +1,10 @@
 import { render, screen } from "@testing-library/react";
 import { Scheduler } from "..";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
 
 describe("Render scheduler", () => {
   it("Default render", () => {
-    render(<Scheduler />);
+    render(<Scheduler dateAdapter={AdapterDateFns} />);
 
     // Scheduler component
     const scheduler = screen.getByTestId("rs-wrapper");

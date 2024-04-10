@@ -2,6 +2,7 @@ import { Scheduler } from "./lib";
 import { EVENTS } from "./events";
 import { useRef } from "react";
 import { SchedulerRef } from "./lib/types";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
 
 function App() {
   const calendarRef = useRef<SchedulerRef>(null);
@@ -10,6 +11,7 @@ function App() {
     <Scheduler
       ref={calendarRef}
       events={EVENTS}
+      dateAdapter={AdapterDateFns}
       // events={generateRandomEvents(200)}
     />
   );

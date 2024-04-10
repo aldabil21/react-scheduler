@@ -1,4 +1,4 @@
-import { enUS } from "date-fns/locale/en-US";
+import { enUS } from "date-fns/locale";
 import { SchedulerProps } from "../types";
 import { getOneView } from "../helpers/generals";
 

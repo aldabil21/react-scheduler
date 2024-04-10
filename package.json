@@ -59,7 +59,7 @@
     "@types/react-dom": "^18.0.6",
     "@typescript-eslint/eslint-plugin": "^5.39.0",
     "@typescript-eslint/parser": "^5.39.0",
-    "date-fns": "^3.0.0",
+    "date-fns": "^3.2.0",
     "eslint": "^8.24.0",
     "eslint-plugin-react": "^7.31.8",
     "husky": "^8.0.0",
