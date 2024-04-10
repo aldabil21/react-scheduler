@@ -1,10 +1,11 @@
 import DeleteRounded from "@mui/icons-material/DeleteRounded";
 import EditRounded from "@mui/icons-material/EditRounded";
 import { Button, Grow, IconButton, Slide } from "@mui/material";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { EventActions as Actions } from "../../styles/styles";
 import { ProcessedEvent } from "../../types";
 import useStore from "../../hooks/useStore";
+import useEventPermissions from "../../hooks/useEventPermissions";
 
 interface Props {
   event: ProcessedEvent;
@@ -13,7 +14,7 @@ interface Props {
 }
 
 const EventActions = ({ event, onDelete, onEdit }: Props) => {
-  const { translations, direction, editable, deletable } = useStore();
+  const { translations, direction } = useStore();
   const [deleteConfirm, setDeleteConfirm] = useState(false);
 
   const handleDelete = () => {
@@ -23,21 +24,7 @@ const EventActions = ({ event, onDelete, onEdit }: Props) => {
     onDelete();
   };
 
-  const canDelete = useMemo(() => {
-    // Priority control to event specific deletable value
-    if (typeof event.deletable !== "undefined") {
-      return event.deletable;
-    }
-    return deletable;
-  }, [deletable, event.deletable]);
-
-  const canEdit = useMemo(() => {
-    // Priority control to event specific deletable value
-    if (typeof event.editable !== "undefined") {
-      return event.editable;
-    }
-    return editable;
-  }, [editable, event.editable]);
+  const { canEdit, canDelete } = useEventPermissions(event);
 
   return (
     <Actions>

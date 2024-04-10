@@ -9,6 +9,7 @@ import { differenceInDaysOmitTime, getHourFormat } from "../../helpers/generals"
 import useStore from "../../hooks/useStore";
 import useDragAttributes from "../../hooks/useDragAttributes";
 import EventItemPopover from "./EventItemPopover";
+import useEventPermissions from "../../hooks/useEventPermissions";
 
 interface EventItemProps {
   event: ProcessedEvent;
@@ -19,17 +20,8 @@ interface EventItemProps {
 }
 
 const EventItem = ({ event, multiday, hasPrev, hasNext, showdate = true }: EventItemProps) => {
-  const {
-    direction,
-    locale,
-    hourFormat,
-    eventRenderer,
-    onEventClick,
-    view,
-    draggable,
-    editable,
-    disableViewer,
-  } = useStore();
+  const { direction, locale, hourFormat, eventRenderer, onEventClick, view, disableViewer } =
+    useStore();
   const dragProps = useDragAttributes(event);
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState(false);
@@ -40,26 +32,14 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate = true }: Event
   const PrevArrow = direction === "rtl" ? ArrowRightRoundedIcon : ArrowLeftRoundedIcon;
   const hideDates = differenceInDaysOmitTime(event.start, event.end) <= 0 && event.allDay;
 
+  const { canDrag } = useEventPermissions(event);
+
   const triggerViewer = (el?: MouseEvent<Element>) => {
     if (!el?.currentTarget && deleteConfirm) {
       setDeleteConfirm(false);
     }
     setAnchorEl(el?.currentTarget || null);
   };
-
-  const isDraggable = useMemo(() => {
-    // if Disabled
-    if (event.disabled || !editable) return false;
-
-    // global-wise isDraggable
-    let canDrag = typeof draggable !== "undefined" ? draggable : true;
-
-    // Override by event-wise
-    if (typeof event.draggable !== "undefined") {
-      canDrag = event.draggable;
-    }
-    return canDrag;
-  }, [draggable, editable, event.disabled, event.draggable]);
 
   const renderEvent = useMemo(() => {
     // Check if has custom render event method
@@ -144,14 +124,14 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate = true }: Event
           tabIndex={disableViewer ? -1 : 0}
           disabled={event.disabled}
         >
-          <div {...dragProps} draggable={isDraggable}>
+          <div {...dragProps} draggable={canDrag}>
             {item}
           </div>
         </ButtonBase>
       </EventItemPaper>
     );
     // eslint-disable-next-line
-  }, [hasPrev, hasNext, event, isDraggable, locale, theme.palette]);
+  }, [hasPrev, hasNext, event, canDrag, locale, theme.palette]);
 
   return (
     <Fragment>
