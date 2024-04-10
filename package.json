@@ -51,7 +51,7 @@
     "@emotion/styled": "^11.10.4",
     "@mui/icons-material": "^5.10.6",
     "@mui/material": "^5.10.8",
-    "@mui/x-date-pickers": "^6.0.1",
+    "@mui/x-date-pickers": "^6.19.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
@@ -59,7 +59,7 @@
     "@types/react-dom": "^18.0.6",
     "@typescript-eslint/eslint-plugin": "^5.39.0",
     "@typescript-eslint/parser": "^5.39.0",
-    "date-fns": "^2.29.3",
+    "date-fns": "^3.0.0",
     "eslint": "^8.24.0",
     "eslint-plugin-react": "^7.31.8",
     "husky": "^8.0.0",
@@ -80,8 +80,8 @@
   "peerDependencies": {
     "@mui/icons-material": ">=5.0.0",
     "@mui/material": ">=5.0.0",
-    "@mui/x-date-pickers": ">=6.0.0-alpha",
-    "date-fns": ">=2.2",
+    "@mui/x-date-pickers": ">=6.19.0",
+    "date-fns": ">=3.0.0",
     "react": ">=17.0.0"
   },
   "eslintConfig": {

@@ -1,5 +1,5 @@
 import { Typography } from "@mui/material";
-import { format } from "date-fns";
+import { format, Locale } from "date-fns";
 import { isTimeZonedToday } from "../../helpers/generals";
 import useStore from "../../hooks/useStore";
 
