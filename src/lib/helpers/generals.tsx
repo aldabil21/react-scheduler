@@ -162,7 +162,7 @@ export const sortEventsByTheLengthest = (events: ProcessedEvent[]) => {
 };
 
 export const sortEventsByTheEarliest = (events: ProcessedEvent[]) => {
-  return events.sort((a, b) => a.start.getTime() - b.start.getTime());
+  return events.sort((a, b) => (a.allDay ? -1 : a.start.getTime() - b.start.getTime()));
 };
 
 export const filterMultiDaySlot = (
