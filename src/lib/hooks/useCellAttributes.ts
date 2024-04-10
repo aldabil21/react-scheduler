@@ -14,7 +14,8 @@ export const useCellAttributes = ({ start, end, resourceKey, resourceVal }: Prop
   const theme = useTheme();
 
   return {
-    disabled: !editable,
+    tabIndex: editable ? 0 : -1,
+    disableRipple: !editable,
     onClick: () => {
       if (editable) {
         triggerDialog(true, {

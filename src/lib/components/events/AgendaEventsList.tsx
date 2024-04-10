@@ -60,6 +60,9 @@ const AgendaEventsList = ({ day, events }: AgendaEventsListProps) => {
           return (
             <ListItemButton
               key={`${event.start.getTime()}_${event.end.getTime()}_${event.event_id}`}
+              focusRipple
+              disableRipple={disableViewer}
+              tabIndex={disableViewer ? -1 : 0}
               disabled={event.disabled}
               onClick={(e) => {
                 e.preventDefault();
