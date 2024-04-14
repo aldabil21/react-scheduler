@@ -71,7 +71,7 @@ const EditorDatePicker = ({
   return (
     <DateProvider>
       <Picker
-        value={value}
+        value={value instanceof Date ? value : new Date(value)}
         label={label}
         onChange={(e) => {
           handleChange(e as Date);
