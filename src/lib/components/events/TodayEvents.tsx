@@ -1,9 +1,9 @@
+import { Fragment } from "react";
 import { ProcessedEvent } from "../../types";
 import EventItem from "./EventItem";
-import { differenceInMinutes, setHours } from "date-fns";
+import { differenceInMinutes } from "date-fns";
 import { isTimeZonedToday, traversCrossingEvents } from "../../helpers/generals";
 import { BORDER_HEIGHT } from "../../helpers/constants";
-import { Fragment } from "react";
 import CurrentTimeBar from "./CurrentTimeBar";
 
 interface TodayEventsProps {
@@ -40,7 +40,7 @@ const TodayEvents = ({
 
       {todayEvents.map((event, i) => {
         const height = differenceInMinutes(event.end, event.start) * minuteHeight - BORDER_HEIGHT;
-        const minituesFromTop = differenceInMinutes(event.start, setHours(today, startHour));
+        const minituesFromTop = Math.abs(startHour - event.start.getHours()) * 60;
         const topSpace = minituesFromTop * minuteHeight;
         /** Add border factor to height of each slot */
         const slots = height / 60;
