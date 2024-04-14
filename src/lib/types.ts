@@ -261,12 +261,6 @@ export interface SchedulerProps {
    */
   dialogMaxWidth: DialogProps["maxWidth"];
   /**
-   * @required date-fns Adapter, you can control the date-fns version
-   *
-   * If you are using date-fns v3, you must pass the AdapterDateFns from `@mui/x-date-pickers/AdapterDateFnsV3`
-   */
-  dateAdapter?: any;
-  /**
    * date-fns Locale object
    */
   locale: Locale;
@@ -341,6 +335,4 @@ export interface SchedulerRef {
   scheduler: Store;
 }
 
-export interface Scheduler extends Partial<SchedulerProps> {
-  dateAdapter: SchedulerProps["dateAdapter"];
-}
+export interface Scheduler extends Partial<SchedulerProps> {}
