@@ -40,9 +40,10 @@ const TodayEvents = ({
 
       {todayEvents.map((event, i) => {
         const height = differenceInMinutes(event.end, event.start) * minuteHeight - BORDER_HEIGHT;
-        const minituesFromTop = Math.abs(
-          startHour * 60 - event.start.getHours() * 60 - event.start.getMinutes()
-        );
+        const calendarStartInMins = startHour * 60;
+        const eventStartInMins = event.start.getHours() * 60 + event.start.getMinutes();
+        const minituesFromTop = Math.abs(calendarStartInMins - eventStartInMins);
+
         const topSpace = minituesFromTop * minuteHeight;
         /** Add border factor to height of each slot */
         const slots = height / 60;
