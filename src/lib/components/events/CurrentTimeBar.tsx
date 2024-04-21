@@ -9,7 +9,6 @@ interface CurrentTimeBarProps {
   step: number;
   minuteHeight: number;
   timeZone?: string;
-  color?: string;
   zIndex?: number;
 }
 
@@ -27,12 +26,14 @@ function calculateTop({ startHour, step, minuteHeight, timeZone }: CurrentTimeBa
 
 const CurrentTimeBar = (props: CurrentTimeBarProps) => {
   const [top, setTop] = useState(calculateTop(props));
+  const { startHour, step, minuteHeight, timeZone } = props;
 
   useEffect(() => {
-    const interval = setInterval(() => setTop(calculateTop(props)), 60 * 1000);
+    const calcProps = { startHour, step, minuteHeight, timeZone };
+    setTop(calculateTop(calcProps));
+    const interval = setInterval(() => setTop(calculateTop(calcProps)), 60 * 1000);
     return () => clearInterval(interval);
-    // eslint-disable-next-line
-  }, []);
+  }, [startHour, step, minuteHeight, timeZone]);
 
   // Prevent showing bar on top of days/header
   if (top < 0) return null;
