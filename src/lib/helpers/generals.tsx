@@ -124,7 +124,7 @@ export const differenceInDaysOmitTime = (start: Date, end: Date) => {
 export const filterTodayEvents = (events: ProcessedEvent[], today: Date, timeZone?: string) => {
   const list: ProcessedEvent[] = [];
   for (let i = 0; i < events.length; i++) {
-    const event = events[i];
+    const event = convertEventTimeZone(events[i], timeZone);
     if (
       !event.allDay &&
       isSameDay(today, event.start) &&
@@ -175,7 +175,7 @@ export const filterMultiDaySlot = (
   const list: ProcessedEvent[] = [];
   const multiPerDay: Record<string, ProcessedEvent[]> = {};
   for (let i = 0; i < events.length; i++) {
-    const event = events[i];
+    const event = convertEventTimeZone(events[i], timeZone);
     let withinSlot = event.allDay || differenceInDaysOmitTime(event.start, event.end) > 0;
     if (!withinSlot) continue;
     if (isMultiDates) {
@@ -234,6 +234,28 @@ export const getTimeZonedDate = (date: Date, timeZone?: string) => {
   );
 };
 
+/**
+ * Performs the reverse of getTimeZonedDate, IE: the given date is assumed
+ * to already be in the provided timeZone and is reverted to the local
+ * browser's timeZone.
+ * @param date The date to convert.
+ * @param timeZone The timeZone to convert from.
+ * @returns A new date reverted from the given timeZone to local time.
+ */
+export const revertTimeZonedDate = (date: Date, timeZone?: string) => {
+  if (!timeZone) {
+    return date;
+  }
+
+  // This always gets the offset between the local computer's time
+  // and UTC. It has nothing to do with the value of the date object,
+  // despite being an instance method.
+  const localOffset = -date.getTimezoneOffset();
+  const desiredOffset = getTimezoneOffset(timeZone);
+  const diff = localOffset - desiredOffset;
+  return new Date(date.getTime() + diff * 60 * 1000);
+};
+
 export const isTimeZonedToday = ({
   dateLeft,
   dateRight,
@@ -249,3 +271,15 @@ export const isTimeZonedToday = ({
 export const getHourFormat = (hourFormat: "12" | "24") => {
   return hourFormat === "12" ? "hh:mm a" : "HH:mm";
 };
+
+/**
+ * Gets the offset in minutes of the provided timeZone.
+ * @param timeZone The timeZone to get the offset for.
+ * @returns The offset in minutes of the provided timeZone.
+ */
+function getTimezoneOffset(timeZone: string) {
+  const now = new Date();
+  const localizedTime = new Date(now.toLocaleString("en-US", { timeZone }));
+  const utcTime = new Date(now.toLocaleString("en-US", { timeZone: "UTC" }));
+  return Math.round((localizedTime.getTime() - utcTime.getTime()) / (60 * 1000));
+}

@@ -21,7 +21,7 @@ import {
   SchedulerHelpers,
 } from "../types";
 import { EditorSelect } from "../components/inputs/SelectInput";
-import { arraytizeFieldVal } from "../helpers/generals";
+import { arraytizeFieldVal, revertTimeZonedDate } from "../helpers/generals";
 import { SelectedRange } from "../store/types";
 import useStore from "../hooks/useStore";
 
@@ -91,6 +91,7 @@ const Editor = () => {
     confirmEvent,
     dialogMaxWidth,
     translations,
+    timeZone,
   } = useStore();
   const [state, setState] = useState(initialState(fields, selectedEvent || selectedRange));
   const [touched, setTouched] = useState(false);
@@ -138,6 +139,9 @@ const Editor = () => {
         body.event_id =
           selectedEvent?.event_id || Date.now().toString(36) + Math.random().toString(36).slice(2);
       }
+
+      body.start = revertTimeZonedDate(body.start, timeZone);
+      body.end = revertTimeZonedDate(body.end, timeZone);
 
       confirmEvent(body, action);
       handleClose(true);
