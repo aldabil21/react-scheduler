@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import { DefaultRecourse } from "../../types";
 import useStore from "../../hooks/useStore";
+import { resolveObjectPath } from "../../utils/objectUtils";
 
 interface ResourceHeaderProps {
   resource: DefaultRecourse;
@@ -16,10 +17,10 @@ const ResourceHeader = ({ resource }: ResourceHeaderProps) => {
   const { resourceHeaderComponent, resourceFields, direction, resourceViewMode } = useStore();
   const theme = useTheme();
 
-  const text = resource[resourceFields.textField];
-  const subtext = resource[resourceFields.subTextField || ""];
-  const avatar = resource[resourceFields.avatarField || ""];
-  const color = resource[resourceFields.colorField || ""];
+  const text = resolveObjectPath(resource, resourceFields.textField);
+  const subtext = resolveObjectPath(resource, resourceFields.subTextField || "");
+  const avatar = resolveObjectPath(resource, resourceFields.avatarField || "");
+  const color = resolveObjectPath(resource, resourceFields.colorField || "");
 
   if (resourceHeaderComponent instanceof Function) {
     return resourceHeaderComponent(resource);
@@ -47,9 +48,11 @@ const ResourceHeader = ({ resource }: ResourceHeaderProps) => {
       }}
       component="div"
     >
-      <ListItemAvatar>
-        <Avatar sx={{ background: color, margin: "auto" }} alt={text} src={avatar} />
-      </ListItemAvatar>
+      {avatar && (
+        <ListItemAvatar>
+          <Avatar sx={{ background: color, margin: "auto" }} alt={text} src={avatar} />
+        </ListItemAvatar>
+      )}
       <ListItemText
         primary={
           <Typography variant="body2" noWrap={resourceViewMode !== "vertical"}>
