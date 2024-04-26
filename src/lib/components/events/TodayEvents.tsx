@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { ProcessedEvent } from "../../types";
 import EventItem from "./EventItem";
-import { differenceInMinutes, setHours } from "date-fns";
+import { differenceInMinutes } from "date-fns";
 import { isTimeZonedToday, traversCrossingEvents } from "../../helpers/generals";
 import { BORDER_HEIGHT } from "../../helpers/constants";
 import CurrentTimeBar from "./CurrentTimeBar";

@@ -65,7 +65,6 @@ const MonthAgenda = ({ events }: Props) => {
               )}
             </div>
             <div className="rs__cell rs__agenda_items">
-              <AgendaEventsList day={day} events={dayEvents} />
               {dayEvents.length > 0 ? (
                 <AgendaEventsList day={day} events={dayEvents} />
               ) : (
