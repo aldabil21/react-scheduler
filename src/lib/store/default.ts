@@ -1,6 +1,6 @@
 import { enUS } from "date-fns/locale";
 import { SchedulerProps } from "../types";
-import { getOneView } from "../helpers/generals";
+import { getOneView, getTimeZonedDate } from "../helpers/generals";
 
 const defaultMonth = {
   weekDays: [0, 1, 2, 3, 4, 5, 6],
@@ -86,7 +86,17 @@ const defaultViews = (props: Partial<SchedulerProps>) => {
 };
 
 export const defaultProps = (props: Partial<SchedulerProps>) => {
-  const { month, week, day, translations, resourceFields, view, agenda, ...otherProps } = props;
+  const {
+    month,
+    week,
+    day,
+    translations,
+    resourceFields,
+    view,
+    agenda,
+    selectedDate,
+    ...otherProps
+  } = props;
   const views = defaultViews(props);
   const defaultView = view || "week";
   const initialView = views[defaultView] ? defaultView : getOneView(views);
@@ -95,11 +105,11 @@ export const defaultProps = (props: Partial<SchedulerProps>) => {
     translations: defaultTranslations(translations),
     resourceFields: Object.assign(defaultResourceFields, resourceFields),
     view: initialView,
+    selectedDate: getTimeZonedDate(selectedDate || new Date(), props.timeZone),
     ...Object.assign(
       {
         height: 600,
         navigation: true,
-        selectedDate: new Date(),
         disableViewNavigator: false,
         events: [],
         fields: [],
