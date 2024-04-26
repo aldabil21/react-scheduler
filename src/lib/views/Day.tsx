@@ -187,6 +187,7 @@ const Day = () => {
                       today={START_TIME}
                       minuteHeight={MINUTE_HEIGHT}
                       startHour={startHour}
+                      endHour={endHour}
                       step={step}
                       direction={direction}
                       timeZone={timeZone}

@@ -57,7 +57,8 @@ const WeekTable = ({
     timeZone,
     stickyNavigation,
   } = useStore();
-  const { startHour, step, cellRenderer, disableGoToDay, headRenderer, hourRenderer } = week!;
+  const { startHour, endHour, step, cellRenderer, disableGoToDay, headRenderer, hourRenderer } =
+    week!;
   const { renderedSlots } = usePosition();
   const { headersRef, bodyRef } = useSyncScroll();
   const MULTI_SPACE = MULTI_DAY_EVENT_HEIGHT;
@@ -177,6 +178,7 @@ const WeekTable = ({
                       today={date}
                       minuteHeight={minutesHeight}
                       startHour={startHour}
+                      endHour={endHour}
                       step={step}
                       direction={direction}
                       timeZone={timeZone}

@@ -10,6 +10,7 @@ interface TodayEventsProps {
   todayEvents: ProcessedEvent[];
   today: Date;
   startHour: number;
+  endHour: number;
   step: number;
   minuteHeight: number;
   direction: "rtl" | "ltr";
@@ -19,6 +20,7 @@ const TodayEvents = ({
   todayEvents,
   today,
   startHour,
+  endHour,
   step,
   minuteHeight,
   direction,
@@ -39,10 +41,13 @@ const TodayEvents = ({
       )}
 
       {todayEvents.map((event, i) => {
-        const height = differenceInMinutes(event.end, event.start) * minuteHeight - BORDER_HEIGHT;
+        const maxHeight = (endHour * 60 - startHour * 60) * minuteHeight;
+        const eventHeight = differenceInMinutes(event.end, event.start) * minuteHeight;
+        const height = Math.min(eventHeight, maxHeight) - BORDER_HEIGHT;
+
         const calendarStartInMins = startHour * 60;
         const eventStartInMins = event.start.getHours() * 60 + event.start.getMinutes();
-        const minituesFromTop = Math.abs(calendarStartInMins - eventStartInMins);
+        const minituesFromTop = Math.max(eventStartInMins - calendarStartInMins, 0);
 
         const topSpace = minituesFromTop * minuteHeight;
         /** Add border factor to height of each slot */

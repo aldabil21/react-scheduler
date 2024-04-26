@@ -1,6 +1,7 @@
 import {
   addMinutes,
   addSeconds,
+  subMinutes,
   differenceInDays,
   endOfDay,
   format,
@@ -138,15 +139,11 @@ export const filterTodayEvents = (events: ProcessedEvent[], today: Date, timeZon
   return sortEventsByTheLengthest(list);
 };
 
-export const filterTodayAgendaEvents = (
-  events: ProcessedEvent[],
-  today: Date,
-  timeZone?: string
-) => {
+export const filterTodayAgendaEvents = (events: ProcessedEvent[], today: Date) => {
   const list: ProcessedEvent[] = events.filter((ev) =>
     isWithinInterval(today, {
       start: startOfDay(ev.start),
-      end: endOfDay(ev.end),
+      end: endOfDay(subMinutes(ev.end, 1)),
     })
   );
 
