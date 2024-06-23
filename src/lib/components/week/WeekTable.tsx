@@ -8,7 +8,7 @@ import {
   getHourFormat,
 } from "../../helpers/generals";
 import { MULTI_DAY_EVENT_HEIGHT } from "../../helpers/constants";
-import { DefaultRecourse, ProcessedEvent } from "../../types";
+import { DefaultResource, ProcessedEvent } from "../../types";
 import useSyncScroll from "../../hooks/useSyncScroll";
 import {
   addMinutes,
@@ -32,7 +32,7 @@ type Props = {
   hours: Date[];
   cellHeight: number;
   minutesHeight: number;
-  resource?: DefaultRecourse;
+  resource?: DefaultResource;
   resourcedEvents: ProcessedEvent[];
 };
 
@@ -89,7 +89,7 @@ const WeekTable = ({
   const renderMultiDayEvents = (
     events: ProcessedEvent[],
     today: Date,
-    resource?: DefaultRecourse
+    resource?: DefaultResource
   ) => {
     const isFirstDayInWeek = isSameDay(weekStart, today);
     const allWeekMulti = filterMultiDaySlot(events, daysList, timeZone);

@@ -163,7 +163,7 @@ export type RemoteQuery = {
   end: Date;
   view: "day" | "week" | "month";
 };
-export type DefaultRecourse = {
+export type DefaultResource = {
   assignee?: string | number;
   text?: string;
   subtext?: string;
@@ -245,11 +245,11 @@ export interface SchedulerProps {
   /** if true, the viewer popover will be disabled globally */
   disableViewer?: boolean;
   /**Resources array to split event views with resources */
-  resources: DefaultRecourse[];
+  resources: DefaultResource[];
   /**Map resources fields */
   resourceFields: ResourceFields;
   /**Override header component of resource */
-  resourceHeaderComponent?(resource: DefaultRecourse): JSX.Element;
+  resourceHeaderComponent?(resource: DefaultResource): JSX.Element;
   /**Resource header view mode
    * @default "default"
    */

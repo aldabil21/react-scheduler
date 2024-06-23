@@ -11,7 +11,7 @@ import {
 } from "date-fns";
 import { View } from "../components/nav/Navigation";
 import {
-  DefaultRecourse,
+  DefaultResource,
   FieldProps,
   ProcessedEvent,
   ResourceFields,
@@ -53,7 +53,7 @@ export const arraytizeFieldVal = (field: FieldProps, val: any, event?: StateEven
 
 export const getResourcedEvents = (
   events: ProcessedEvent[],
-  resource: DefaultRecourse,
+  resource: DefaultResource,
   resourceFields: ResourceFields,
   fields: FieldProps[]
 ): ProcessedEvent[] => {

@@ -14,7 +14,7 @@ import {
 } from "date-fns";
 import TodayTypo from "../components/common/TodayTypo";
 import EventItem from "../components/events/EventItem";
-import { CellRenderedProps, DayHours, DefaultRecourse, ProcessedEvent } from "../types";
+import { CellRenderedProps, DayHours, DefaultResource, ProcessedEvent } from "../types";
 import {
   calcCellHeight,
   calcMinuteHeight,
@@ -128,7 +128,7 @@ const Day = () => {
     );
   };
 
-  const renderTable = (resource?: DefaultRecourse) => {
+  const renderTable = (resource?: DefaultResource) => {
     let resourcedEvents = events;
     if (resource) {
       resourcedEvents = getResourcedEvents(events, resource, resourceFields, fields);

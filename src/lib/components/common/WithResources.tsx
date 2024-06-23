@@ -1,12 +1,12 @@
 import { useMemo } from "react";
-import { DefaultRecourse } from "../../types";
+import { DefaultResource } from "../../types";
 import { ResourceHeader } from "./ResourceHeader";
 import { ButtonTabProps, ButtonTabs } from "./Tabs";
 import useStore from "../../hooks/useStore";
 import { Box, useTheme } from "@mui/material";
 
 interface WithResourcesProps {
-  renderChildren(resource: DefaultRecourse): React.ReactNode;
+  renderChildren(resource: DefaultResource): React.ReactNode;
 }
 const WithResources = ({ renderChildren }: WithResourcesProps) => {
   const { resources, resourceFields, resourceViewMode } = useStore();
@@ -17,7 +17,7 @@ const WithResources = ({ renderChildren }: WithResourcesProps) => {
   } else if (resourceViewMode === "vertical") {
     return (
       <>
-        {resources.map((res: DefaultRecourse, i: number) => (
+        {resources.map((res: DefaultResource, i: number) => (
           <Box key={`${res[resourceFields.idField]}_${i}`} sx={{ display: "flex" }}>
             <Box
               sx={{
@@ -43,7 +43,7 @@ const WithResources = ({ renderChildren }: WithResourcesProps) => {
   } else {
     return (
       <>
-        {resources.map((res: DefaultRecourse, i: number) => (
+        {resources.map((res: DefaultResource, i: number) => (
           <div key={`${res[resourceFields.idField]}_${i}`}>
             <ResourceHeader resource={res} />
             {renderChildren(res)}
@@ -65,7 +65,7 @@ const ResourcesTabTables = ({ renderChildren }: WithResourcesProps) => {
     };
   });
 
-  const setTab = (tab: DefaultRecourse["assignee"]) => {
+  const setTab = (tab: DefaultResource["assignee"]) => {
     handleState(tab, "selectedResource");
   };
 

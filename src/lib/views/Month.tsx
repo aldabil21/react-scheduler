@@ -1,6 +1,6 @@
 import { useEffect, useCallback } from "react";
 import { addDays, eachWeekOfInterval, endOfMonth, startOfMonth } from "date-fns";
-import { CellRenderedProps, DayHours, DefaultRecourse } from "../types";
+import { CellRenderedProps, DayHours, DefaultResource } from "../types";
 import { getResourcedEvents, sortEventsByTheEarliest } from "../helpers/generals";
 import { WithResources } from "../components/common/WithResources";
 import useStore from "../hooks/useStore";
@@ -73,7 +73,7 @@ const Month = () => {
   }, [fetchEvents, getRemoteEvents]);
 
   const renderTable = useCallback(
-    (resource?: DefaultRecourse) => {
+    (resource?: DefaultResource) => {
       if (agenda) {
         let resourcedEvents = sortEventsByTheEarliest(events);
         if (resource) {
