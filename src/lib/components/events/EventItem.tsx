@@ -60,6 +60,11 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate = true }: Event
         <Typography variant="subtitle2" style={{ fontSize: 12 }} noWrap>
           {event.title}
         </Typography>
+        {event.subtitle && (
+          <Typography variant="body2" style={{ fontSize: 11 }} noWrap>
+            {event.subtitle}
+          </Typography>
+        )}
         {showdate && (
           <Typography style={{ fontSize: 11 }} noWrap>
             {`${format(event.start, hFormat, {

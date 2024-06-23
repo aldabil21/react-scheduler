@@ -30,6 +30,7 @@ const EventItemPopover = ({ anchorEl, event, onTriggerViewer }: Props) => {
     resourceFields,
     locale,
     viewerTitleComponent,
+    viewerSubtitleComponent,
     hourFormat,
     translations,
     onEventEdit,
@@ -144,6 +145,13 @@ const EventItemPopover = ({ anchorEl, event, onTriggerViewer }: Props) => {
                     locale: locale,
                   })}`}
             </Typography>
+            {viewerSubtitleComponent instanceof Function ? (
+              viewerSubtitleComponent(event)
+            ) : (
+              <Typography variant="body2" style={{ padding: "5px 0" }}>
+                {event.subtitle}
+              </Typography>
+            )}
             {hasResource.length > 0 && (
               <Typography
                 style={{ display: "flex", alignItems: "center", gap: 8 }}
