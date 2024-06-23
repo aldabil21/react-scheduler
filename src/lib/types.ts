@@ -36,6 +36,9 @@ export type DayHours =
   | 22
   | 23
   | 24;
+
+export type Recurrence = "daily" | "weekly" | "monthly" | "yearly";
+
 export interface CellRenderedProps {
   day: Date;
   start: Date;
@@ -52,6 +55,7 @@ interface CalendarEvent {
   title: string;
   start: Date;
   end: Date;
+  recurring?: Recurrence;
   disabled?: boolean;
   color?: string;
   textColor?: string;

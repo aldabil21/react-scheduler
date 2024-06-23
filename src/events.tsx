@@ -88,6 +88,14 @@ export const EVENTS: ProcessedEvent[] = [
     admin_id: 1,
     color: "#8000cc",
   },
+  {
+    event_id: 9,
+    title: "Event 9",
+    subtitle: "This event is a recurring event",
+    start: new Date(new Date(new Date().setHours(12)).setMinutes(30)),
+    end: new Date(new Date(new Date().setHours(14)).setMinutes(0)),
+    recurring: "weekly",
+  },
 ];
 
 export const RESOURCES = [

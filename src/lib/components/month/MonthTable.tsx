@@ -3,6 +3,7 @@ import { DefaultRecourse } from "../../types";
 import {
   getHourFormat,
   getResourcedEvents,
+  isEventRecurringToday,
   isTimeZonedToday,
   sortEventsByTheEarliest,
 } from "../../helpers/generals";
@@ -75,7 +76,8 @@ const MonthTable = ({ daysList, resource, eachWeekStart }: Props) => {
                   start: startOfDay(e.start),
                   end: endOfDay(e.end),
                 })) ||
-              isSameDay(e.start, today)
+              isSameDay(e.start, today) ||
+              isEventRecurringToday(e, today)
           );
           const isToday = isTimeZonedToday({ dateLeft: today, timeZone });
           return (
