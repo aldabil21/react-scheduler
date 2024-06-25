@@ -1,6 +1,6 @@
 import { useEffect, useCallback } from "react";
 import { startOfWeek, addDays, eachMinuteOfInterval, endOfDay, startOfDay, set } from "date-fns";
-import { CellRenderedProps, DayHours, DefaultRecourse } from "../types";
+import { CellRenderedProps, DayHours, DefaultResource } from "../types";
 import { WeekDays } from "./Month";
 import { calcCellHeight, calcMinuteHeight, getResourcedEvents } from "../helpers/generals";
 import { WithResources } from "../components/common/WithResources";
@@ -78,7 +78,7 @@ const Week = () => {
     }
   }, [fetchEvents, getRemoteEvents]);
 
-  const renderTable = (resource?: DefaultRecourse) => {
+  const renderTable = (resource?: DefaultResource) => {
     let resourcedEvents = events;
     if (resource) {
       resourcedEvents = getResourcedEvents(events, resource, resourceFields, fields);

@@ -1,6 +1,6 @@
 import { DragEvent } from "react";
 import { View } from "../components/nav/Navigation";
-import { DefaultRecourse, EventActions, ProcessedEvent, SchedulerProps } from "../types";
+import { DefaultResource, EventActions, ProcessedEvent, SchedulerProps } from "../types";
 
 export type SelectedRange = { start: Date; end: Date };
 
@@ -8,7 +8,7 @@ export interface SchedulerState extends SchedulerProps {
   dialog: boolean;
   selectedRange?: SelectedRange;
   selectedEvent?: ProcessedEvent;
-  selectedResource?: DefaultRecourse["assignee"];
+  selectedResource?: DefaultResource["assignee"];
   currentDragged?: ProcessedEvent;
   enableAgenda?: boolean;
 }

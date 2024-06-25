@@ -1,5 +1,5 @@
 import { Fragment, useCallback } from "react";
-import { DefaultRecourse } from "../../types";
+import { DefaultResource } from "../../types";
 import {
   getHourFormat,
   getResourcedEvents,
@@ -26,7 +26,7 @@ import useSyncScroll from "../../hooks/useSyncScroll";
 
 type Props = {
   daysList: Date[];
-  resource?: DefaultRecourse;
+  resource?: DefaultResource;
   eachWeekStart: Date[];
 };
 
@@ -54,7 +54,7 @@ const MonthTable = ({ daysList, resource, eachWeekStart }: Props) => {
   const CELL_HEIGHT = height / eachWeekStart.length;
 
   const renderCells = useCallback(
-    (resource?: DefaultRecourse) => {
+    (resource?: DefaultResource) => {
       let resourcedEvents = sortEventsByTheEarliest(events);
       if (resource) {
         resourcedEvents = getResourcedEvents(events, resource, resourceFields, fields);
