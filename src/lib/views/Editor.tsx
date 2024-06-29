@@ -1,17 +1,21 @@
-import { Fragment, useState } from "react";
 import {
+  Button,
   Dialog,
+  DialogActions,
   DialogContent,
   DialogTitle,
-  DialogActions,
-  Button,
   Grid,
-  useTheme,
   useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { addMinutes, differenceInMinutes } from "date-fns";
+import { Fragment, useState } from "react";
 import { EditorDatePicker } from "../components/inputs/DatePicker";
 import { EditorInput } from "../components/inputs/Input";
+import { EditorSelect } from "../components/inputs/SelectInput";
+import { arraytizeFieldVal, revertTimeZonedDate } from "../helpers/generals";
+import useStore from "../hooks/useStore";
+import { SelectedRange } from "../store/types";
 import {
   EventActions,
   FieldInputProps,
@@ -20,10 +24,6 @@ import {
   ProcessedEvent,
   SchedulerHelpers,
 } from "../types";
-import { EditorSelect } from "../components/inputs/SelectInput";
-import { arraytizeFieldVal, revertTimeZonedDate } from "../helpers/generals";
-import { SelectedRange } from "../store/types";
-import useStore from "../hooks/useStore";
 
 export type StateItem = {
   value: any;
@@ -59,6 +59,12 @@ const initialState = (fields: FieldProps[], event?: StateEvent): Record<string, 
       validity: !!event?.title,
       type: "input",
       config: { label: "Title", required: true, min: 3 },
+    },
+    subtitle: {
+      value: event?.subtitle || "",
+      validity: true,
+      type: "input",
+      config: { label: "Subtitle", required: false },
     },
     start: {
       value: event?.start || new Date(),

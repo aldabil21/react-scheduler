@@ -50,6 +50,7 @@ export interface CellRenderedProps {
 interface CalendarEvent {
   event_id: number | string;
   title: string;
+  subtitle?: string;
   start: Date;
   end: Date;
   disabled?: boolean;
@@ -76,6 +77,7 @@ export interface Translations {
   };
   event: Record<string, string> & {
     title: string;
+    subtitle: string;
     start: string;
     end: string;
     allDay: string;
@@ -242,6 +244,8 @@ export interface SchedulerProps {
     | ((fields: FieldProps[], event: ProcessedEvent) => JSX.Element);
   /**Override viewer title component */
   viewerTitleComponent?(event: ProcessedEvent): JSX.Element;
+  /**Override viewer subtitle component */
+  viewerSubtitleComponent?(event: ProcessedEvent): JSX.Element;
   /** if true, the viewer popover will be disabled globally */
   disableViewer?: boolean;
   /**Resources array to split event views with resources */
