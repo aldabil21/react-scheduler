@@ -1,13 +1,4 @@
-import { Fragment, useCallback } from "react";
-import { DefaultRecourse } from "../../types";
-import {
-  getHourFormat,
-  getResourcedEvents,
-  isEventRecurringToday,
-  isTimeZonedToday,
-  sortEventsByTheEarliest,
-} from "../../helpers/generals";
-import useStore from "../../hooks/useStore";
+import { Avatar, Typography, useTheme } from "@mui/material";
 import {
   addDays,
   endOfDay,
@@ -19,11 +10,20 @@ import {
   startOfDay,
   startOfMonth,
 } from "date-fns";
-import Cell from "../common/Cell";
-import { Avatar, Typography, useTheme } from "@mui/material";
-import MonthEvents from "../events/MonthEvents";
-import { TableGrid } from "../../styles/styles";
+import { Fragment, useCallback } from "react";
+import {
+  getHourFormat,
+  getRecurrencesForDate,
+  getResourcedEvents,
+  isTimeZonedToday,
+  sortEventsByTheEarliest,
+} from "../../helpers/generals";
+import useStore from "../../hooks/useStore";
 import useSyncScroll from "../../hooks/useSyncScroll";
+import { TableGrid } from "../../styles/styles";
+import { DefaultRecourse } from "../../types";
+import Cell from "../common/Cell";
+import MonthEvents from "../events/MonthEvents";
 
 type Props = {
   daysList: Date[];
@@ -69,16 +69,15 @@ const MonthTable = ({ daysList, resource, eachWeekStart }: Props) => {
           const end = new Date(`${format(setHours(today, endHour), `yyyy/MM/dd ${hFormat}`)}`);
           const field = resourceFields.idField;
           const eachFirstDayInCalcRow = isSameDay(startDay, today) ? today : null;
-          const todayEvents = resourcedEvents.filter(
-            (e) =>
-              (eachFirstDayInCalcRow &&
-                isWithinInterval(eachFirstDayInCalcRow, {
-                  start: startOfDay(e.start),
-                  end: endOfDay(e.end),
-                })) ||
-              isSameDay(e.start, today) ||
-              isEventRecurringToday(e, today)
-          );
+          const todayEvents = resourcedEvents
+            .flatMap((e) => getRecurrencesForDate(e, today))
+            .filter((e) => {
+              if (isSameDay(e.start, today)) return true;
+              const dayInterval = { start: startOfDay(e.start), end: endOfDay(e.end) };
+              if (eachFirstDayInCalcRow && isWithinInterval(eachFirstDayInCalcRow, dayInterval))
+                return true;
+              return false;
+            });
           const isToday = isTimeZonedToday({ dateLeft: today, timeZone });
           return (
             <span style={{ height: CELL_HEIGHT }} key={d.toString()} className="rs__cell">

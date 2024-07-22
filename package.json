@@ -82,7 +82,8 @@
     "@mui/material": ">=5.0.0",
     "@mui/x-date-pickers": ">=6.19.0",
     "date-fns": ">=3.2.0",
-    "react": ">=17.0.0"
+    "react": ">=17.0.0",
+    "rrule": ">=2.8.1"
   },
   "eslintConfig": {
     "extends": [

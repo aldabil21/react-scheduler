@@ -1,14 +1,16 @@
 import {
+  addDays,
+  addMilliseconds,
   addMinutes,
   addSeconds,
-  subMinutes,
   differenceInDays,
+  differenceInMilliseconds,
   endOfDay,
   format,
   isSameDay,
   isWithinInterval,
   startOfDay,
-  isBefore,
+  subMinutes,
 } from "date-fns";
 import { View } from "../components/nav/Navigation";
 import {
@@ -123,24 +125,18 @@ export const differenceInDaysOmitTime = (start: Date, end: Date) => {
   return differenceInDays(endOfDay(addSeconds(end, -1)), startOfDay(start));
 };
 
-export const isEventRecurringToday = (event: ProcessedEvent, today: Date): boolean => {
-  // The event can only recur after its start date
-  if (isBefore(today, event.start)) return false;
-
-  switch (event.recurring) {
-    case "daily":
-      return true;
-    case "weekly":
-      return today.getDay() === event.start.getDay();
-    case "monthly":
-      return today.getDate() === event.start.getDate();
-    case "yearly":
-      return (
-        today.getDate() === event.start.getDate() && today.getMonth() === event.start.getMonth()
-      );
-    default:
-      return false;
-  }
+export const getRecurrencesForDate = (event: ProcessedEvent, today: Date) => {
+  const duration = differenceInMilliseconds(event.end, event.start);
+  return (
+    event.recurring?.between(today, addDays(today, 1), true).map((d: Date, index: number) => {
+      return {
+        ...event,
+        recurrenceId: index,
+        start: d,
+        end: addMilliseconds(d, duration),
+      };
+    }) || [event]
+  );
 };
 
 export const filterTodayEvents = (
@@ -153,19 +149,13 @@ export const filterTodayEvents = (
   for (let i = 0; i < events.length; i++) {
     const event = convertEventTimeZone(events[i], timeZone);
 
-    if (
-      !event.allDay &&
-      isSameDay(today, event.start) &&
-      !differenceInDaysOmitTime(event.start, event.end)
-    ) {
-      list.push(event);
-    } else if (event.recurring) {
-      const isRecurringToday = event.recurring && isEventRecurringToday(event, today);
-      if (isRecurringToday && !differenceInDaysOmitTime(event.start, event.end)) {
-        const eventModified = event;
-        eventModified.start.setDate(today.getDate());
-        eventModified.end.setDate(today.getDate());
-        list.push(eventModified);
+    for (const rec of getRecurrencesForDate(event, today)) {
+      if (
+        !rec.allDay &&
+        isSameDay(today, rec.start) &&
+        !differenceInDaysOmitTime(rec.start, rec.end)
+      ) {
+        list.push(rec);
       }
     }
   }
@@ -175,12 +165,11 @@ export const filterTodayEvents = (
 };
 
 export const filterTodayAgendaEvents = (events: ProcessedEvent[], today: Date) => {
-  const list: ProcessedEvent[] = events.filter(
-    (ev) =>
-      isWithinInterval(today, {
-        start: startOfDay(ev.start),
-        end: endOfDay(subMinutes(ev.end, 1)),
-      }) || isEventRecurringToday(ev, today)
+  const list: ProcessedEvent[] = events.filter((ev) =>
+    isWithinInterval(today, {
+      start: startOfDay(ev.start),
+      end: endOfDay(subMinutes(ev.end, 1)),
+    })
   );
 
   return sortEventsByTheEarliest(list);

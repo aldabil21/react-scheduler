@@ -1,3 +1,4 @@
+import { RRule } from "rrule";
 import { ProcessedEvent } from "./lib/types";
 
 export const EVENTS: ProcessedEvent[] = [
@@ -94,7 +95,23 @@ export const EVENTS: ProcessedEvent[] = [
     subtitle: "This event is a recurring event",
     start: new Date(new Date(new Date().setHours(12)).setMinutes(30)),
     end: new Date(new Date(new Date().setHours(14)).setMinutes(0)),
-    recurring: "weekly",
+    recurring: new RRule({
+      freq: RRule.WEEKLY,
+      dtstart: new Date(new Date(new Date().setHours(12)).setMinutes(30)),
+    }),
+  },
+  {
+    event_id: 10,
+    title: "Event 10",
+    subtitle: "This event is a recurring event",
+    start: new Date(new Date(new Date().setHours(14)).setMinutes(15)),
+    end: new Date(new Date(new Date().setHours(14)).setMinutes(45)),
+    recurring: new RRule({
+      freq: RRule.HOURLY,
+      count: 3,
+      dtstart: new Date(new Date(new Date().setHours(14)).setMinutes(15)),
+    }),
+    color: "#dc4552",
   },
 ];
 
