@@ -1,14 +1,4 @@
-
 import { Avatar, Typography, useTheme } from "@mui/material";
-import { Fragment, useCallback } from "react";
-import { DefaultResource } from "../../types";
-import {
-  getHourFormat,
-  getResourcedEvents,
-  isTimeZonedToday,
-  sortEventsByTheEarliest,
-} from "../../helpers/generals";
-import useStore from "../../hooks/useStore";
 import {
   addDays,
   endOfDay,
@@ -31,7 +21,7 @@ import {
 import useStore from "../../hooks/useStore";
 import useSyncScroll from "../../hooks/useSyncScroll";
 import { TableGrid } from "../../styles/styles";
-import { DefaultRecourse } from "../../types";
+import { DefaultResource } from "../../types";
 import Cell from "../common/Cell";
 import MonthEvents from "../events/MonthEvents";
 
