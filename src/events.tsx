@@ -5,6 +5,7 @@ export const EVENTS: ProcessedEvent[] = [
   {
     event_id: 1,
     title: "Event 1 (Disabled)",
+    subtitle: "This event is disabled",
     start: new Date(new Date(new Date().setHours(9)).setMinutes(0)),
     end: new Date(new Date(new Date().setHours(10)).setMinutes(0)),
     disabled: true,
@@ -13,6 +14,7 @@ export const EVENTS: ProcessedEvent[] = [
   {
     event_id: 2,
     title: "Event 2",
+    subtitle: "This event is draggable",
     start: new Date(new Date(new Date().setHours(10)).setMinutes(0)),
     end: new Date(new Date(new Date().setHours(12)).setMinutes(0)),
     admin_id: 2,
@@ -22,6 +24,7 @@ export const EVENTS: ProcessedEvent[] = [
   {
     event_id: 3,
     title: "Event 3",
+    subtitle: "This event is not editable",
     start: new Date(new Date(new Date().setHours(11)).setMinutes(0)),
     end: new Date(new Date(new Date().setHours(12)).setMinutes(0)),
     admin_id: 1,
@@ -44,6 +47,7 @@ export const EVENTS: ProcessedEvent[] = [
   {
     event_id: 5,
     title: "Event 5",
+    subtitle: "This event is editable",
     start: new Date(
       new Date(new Date(new Date().setHours(10)).setMinutes(30)).setDate(new Date().getDate() - 2)
     ),
@@ -56,6 +60,7 @@ export const EVENTS: ProcessedEvent[] = [
   {
     event_id: 6,
     title: "Event 6",
+    subtitle: "This event is all day",
     start: new Date(
       new Date(new Date(new Date().setHours(20)).setMinutes(30)).setDate(new Date().getDate() - 3)
     ),
@@ -67,6 +72,7 @@ export const EVENTS: ProcessedEvent[] = [
   {
     event_id: 7,
     title: "Event 7 (Not draggable)",
+    subtitle: "This event is not draggable",
     start: new Date(
       new Date(new Date(new Date().setHours(10)).setMinutes(30)).setDate(new Date().getDate() - 3)
     ),
@@ -80,6 +86,7 @@ export const EVENTS: ProcessedEvent[] = [
   {
     event_id: 8,
     title: "Event 8",
+    subtitle: "This event has a custom color",
     start: new Date(
       new Date(new Date(new Date().setHours(10)).setMinutes(30)).setDate(new Date().getDate() + 30)
     ),

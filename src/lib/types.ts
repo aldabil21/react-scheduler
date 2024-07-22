@@ -52,6 +52,7 @@ export interface CellRenderedProps {
 interface CalendarEvent {
   event_id: number | string;
   title: string;
+  subtitle?: string;
   start: Date;
   end: Date;
   recurring?: RRule;
@@ -79,6 +80,7 @@ export interface Translations {
   };
   event: Record<string, string> & {
     title: string;
+    subtitle: string;
     start: string;
     end: string;
     allDay: string;
@@ -166,7 +168,7 @@ export type RemoteQuery = {
   end: Date;
   view: "day" | "week" | "month";
 };
-export type DefaultRecourse = {
+export type DefaultResource = {
   assignee?: string | number;
   text?: string;
   subtext?: string;
@@ -245,14 +247,16 @@ export interface SchedulerProps {
     | ((fields: FieldProps[], event: ProcessedEvent) => JSX.Element);
   /**Override viewer title component */
   viewerTitleComponent?(event: ProcessedEvent): JSX.Element;
+  /**Override viewer subtitle component */
+  viewerSubtitleComponent?(event: ProcessedEvent): JSX.Element;
   /** if true, the viewer popover will be disabled globally */
   disableViewer?: boolean;
   /**Resources array to split event views with resources */
-  resources: DefaultRecourse[];
+  resources: DefaultResource[];
   /**Map resources fields */
   resourceFields: ResourceFields;
   /**Override header component of resource */
-  resourceHeaderComponent?(resource: DefaultRecourse): JSX.Element;
+  resourceHeaderComponent?(resource: DefaultResource): JSX.Element;
   /**Resource header view mode
    * @default "default"
    */

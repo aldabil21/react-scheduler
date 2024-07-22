@@ -1,4 +1,14 @@
+
 import { Avatar, Typography, useTheme } from "@mui/material";
+import { Fragment, useCallback } from "react";
+import { DefaultResource } from "../../types";
+import {
+  getHourFormat,
+  getResourcedEvents,
+  isTimeZonedToday,
+  sortEventsByTheEarliest,
+} from "../../helpers/generals";
+import useStore from "../../hooks/useStore";
 import {
   addDays,
   endOfDay,
@@ -27,7 +37,7 @@ import MonthEvents from "../events/MonthEvents";
 
 type Props = {
   daysList: Date[];
-  resource?: DefaultRecourse;
+  resource?: DefaultResource;
   eachWeekStart: Date[];
 };
 
@@ -55,7 +65,7 @@ const MonthTable = ({ daysList, resource, eachWeekStart }: Props) => {
   const CELL_HEIGHT = height / eachWeekStart.length;
 
   const renderCells = useCallback(
-    (resource?: DefaultRecourse) => {
+    (resource?: DefaultResource) => {
       let resourcedEvents = sortEventsByTheEarliest(events);
       if (resource) {
         resourcedEvents = getResourcedEvents(events, resource, resourceFields, fields);

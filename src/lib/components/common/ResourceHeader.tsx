@@ -6,11 +6,11 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { DefaultRecourse } from "../../types";
+import { DefaultResource } from "../../types";
 import useStore from "../../hooks/useStore";
 
 interface ResourceHeaderProps {
-  resource: DefaultRecourse;
+  resource: DefaultResource;
 }
 const ResourceHeader = ({ resource }: ResourceHeaderProps) => {
   const { resourceHeaderComponent, resourceFields, direction, resourceViewMode } = useStore();

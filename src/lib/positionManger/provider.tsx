@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { PositionManagerState, PositionContext } from "./context";
 import useStore from "../hooks/useStore";
-import { DefaultRecourse, FieldProps, ProcessedEvent, ResourceFields } from "../types";
+import { DefaultResource, FieldProps, ProcessedEvent, ResourceFields } from "../types";
 import { getResourcedEvents, sortEventsByTheEarliest } from "../helpers/generals";
 import { eachDayOfInterval, format } from "date-fns";
 
@@ -37,7 +37,7 @@ const setEventPositions = (events: ProcessedEvent[]) => {
 
 const setEventPositionsWithResources = (
   events: ProcessedEvent[],
-  resources: DefaultRecourse[],
+  resources: DefaultResource[],
   rFields: ResourceFields,
   fields: FieldProps[]
 ) => {
