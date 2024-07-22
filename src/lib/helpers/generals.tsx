@@ -1,13 +1,16 @@
 import {
+  addDays,
+  addMilliseconds,
   addMinutes,
   addSeconds,
-  subMinutes,
   differenceInDays,
+  differenceInMilliseconds,
   endOfDay,
   format,
   isSameDay,
   isWithinInterval,
   startOfDay,
+  subMinutes,
 } from "date-fns";
 import { View } from "../components/nav/Navigation";
 import {
@@ -122,16 +125,38 @@ export const differenceInDaysOmitTime = (start: Date, end: Date) => {
   return differenceInDays(endOfDay(addSeconds(end, -1)), startOfDay(start));
 };
 
-export const filterTodayEvents = (events: ProcessedEvent[], today: Date, timeZone?: string) => {
+export const getRecurrencesForDate = (event: ProcessedEvent, today: Date) => {
+  const duration = differenceInMilliseconds(event.end, event.start);
+  return (
+    event.recurring?.between(today, addDays(today, 1), true).map((d: Date, index: number) => {
+      return {
+        ...event,
+        recurrenceId: index,
+        start: d,
+        end: addMilliseconds(d, duration),
+      };
+    }) || [event]
+  );
+};
+
+export const filterTodayEvents = (
+  events: ProcessedEvent[],
+  today: Date,
+  timeZone?: string
+): ProcessedEvent[] => {
   const list: ProcessedEvent[] = [];
+
   for (let i = 0; i < events.length; i++) {
     const event = convertEventTimeZone(events[i], timeZone);
-    if (
-      !event.allDay &&
-      isSameDay(today, event.start) &&
-      !differenceInDaysOmitTime(event.start, event.end)
-    ) {
-      list.push(event);
+
+    for (const rec of getRecurrencesForDate(event, today)) {
+      if (
+        !rec.allDay &&
+        isSameDay(today, rec.start) &&
+        !differenceInDaysOmitTime(rec.start, rec.end)
+      ) {
+        list.push(rec);
+      }
     }
   }
 
