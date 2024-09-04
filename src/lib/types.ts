@@ -257,6 +257,8 @@ export interface SchedulerProps {
   resourceFields: ResourceFields;
   /**Override header component of resource */
   resourceHeaderComponent?(resource: DefaultResource): JSX.Element;
+  /** Triggered when resource tabs changes */
+  onResourceChange?(resource: DefaultResource): void;
   /**Resource header view mode
    * @default "default"
    */
