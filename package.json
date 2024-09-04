@@ -46,7 +46,6 @@
   "bugs": {
     "url": "https://github.com/aldabil21/react-scheduler/issues"
   },
-  "dependencies": {},
   "devDependencies": {
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
@@ -71,6 +70,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "^5.0.1",
+    "rrule": "^2.8.1",
     "ts-jest": "^29.0.3",
     "ts-loader": "^9.4.1",
     "ts-node": "^10.9.1",
