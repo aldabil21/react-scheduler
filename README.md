@@ -11,6 +11,8 @@
 npm i @aldabil/react-scheduler
 ```
 
+If you plan to use `recurring` events in your scheduler, install `rrule` [package](https://www.npmjs.com/package/rrule) 
+
 ## Usage
 
 ```jsx
