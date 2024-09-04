@@ -11,6 +11,8 @@
 npm i @aldabil/react-scheduler
 ```
 
+If you plan to use `recurring` events in your scheduler, install `rrule` [package](https://www.npmjs.com/package/rrule) 
+
 ## Usage
 
 ```jsx
@@ -55,7 +57,7 @@ All props are _optional_
 | navigation            | boolean. Show/Hide top bar date navigation. <br>_Default_: true                                                                                                                                                                                                                                                                                                                                                                             |
 | navigationPickerProps | CalendarPickerProps for top bar date navigation. Ref: [CalendarPicker API](https://mui.com/x/api/date-pickers/calendar-picker/#main-content)                                                                                                                                                                                                                                                                                                |
 | disableViewNavigator  | boolean. Show/Hide top bar date View navigator. <br>_Default_: false                                                                                                                                                                                                                                                                                                                                                                        |
-| events                | Array of ProcessedEvent. <br>_Default_: [] <br> <pre>type ProcessedEvent = {<br>event_id: number or string;<br>title: string;<br>subtitle?: string;<br>start: Date;<br>end: Date;<br>disabled?: boolean;<br>color?: string or "palette.path";<br>textColor?: string or "palette.path";<br>editable?: boolean;<br>deletable?: boolean;<br>draggable?: boolean;<br>allDay?: boolean;<br>agendaAvatar?: React.ReactElement \| string<br>sx?: Mui sx prop<br>} </pre> |
+| events                | Array of ProcessedEvent. <br>_Default_: [] <br> <pre>type ProcessedEvent = {<br>event_id: number or string;<br>title: string;<br>subtitle?: string;<br>start: Date;<br>end: Date;<br>disabled?: boolean;<br>recurring: RRule;<br>color?: string or "palette.path";<br>textColor?: string or "palette.path";<br>editable?: boolean;<br>deletable?: boolean;<br>draggable?: boolean;<br>allDay?: boolean;<br>agendaAvatar?: React.ReactElement \| string<br>sx?: Mui sx prop<br>} </pre> |
 | eventRenderer         | Function(event:ProcessedEvent): JSX.Element.<br> A function that overrides the event item render function, see demo _Custom Event Renderer_ below                                                                                                                                                                                                                                                                                           |
 | editable              | boolean. If `true`, the scheduler cell click will not open the editor, and the event item will not show the edit button, this is applied to all events, and can be overridden in each event property, see `ProcessedEvent` type.                                                                                                                                                                                                            |
 | deletable             | boolean. Whether the event item will show the delete button, this is applied to all events, and can be overridden in each event property, see `ProcessedEvent` type.                                                                                                                                                                                                                                                                        |
@@ -153,6 +155,6 @@ consider looking inside `SchedulerRef` type to see all fields & methods availabl
 - [ ] Tests
 - [x] Drag&Drop - partially
 - [ ] Resizable
-- [ ] Recurring events
+- [x] Recurring events - partially
 - [x] Localization
 - [x] Hour format 12 | 24

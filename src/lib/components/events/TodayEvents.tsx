@@ -1,10 +1,10 @@
-import { Fragment } from "react";
-import { ProcessedEvent } from "../../types";
-import EventItem from "./EventItem";
 import { differenceInMinutes } from "date-fns";
-import { isTimeZonedToday, traversCrossingEvents } from "../../helpers/generals";
+import { Fragment } from "react";
 import { BORDER_HEIGHT } from "../../helpers/constants";
+import { isTimeZonedToday, traversCrossingEvents } from "../../helpers/generals";
+import { ProcessedEvent } from "../../types";
 import CurrentTimeBar from "./CurrentTimeBar";
+import EventItem from "./EventItem";
 
 interface TodayEventsProps {
   todayEvents: ProcessedEvent[];
@@ -64,7 +64,7 @@ const TodayEvents = ({
 
         return (
           <div
-            key={event.event_id}
+            key={`${event.event_id}/${event.recurrenceId || ""}`}
             className="rs__event__item"
             style={{
               height: height + heightBorderFactor,

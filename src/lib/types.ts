@@ -1,14 +1,15 @@
+import { DialogProps, GridSize } from "@mui/material";
+import { DateCalendarProps } from "@mui/x-date-pickers";
+import { Locale } from "date-fns";
 import { DragEvent } from "react";
+import { SelectOption } from "./components/inputs/SelectInput";
+import { View } from "./components/nav/Navigation";
+import { Store } from "./store/types";
 import { DayProps } from "./views/Day";
 import { StateItem } from "./views/Editor";
 import { MonthProps } from "./views/Month";
 import { WeekProps } from "./views/Week";
-import { DialogProps, GridSize } from "@mui/material";
-import { Locale } from "date-fns";
-import { SelectOption } from "./components/inputs/SelectInput";
-import { View } from "./components/nav/Navigation";
-import { DateCalendarProps } from "@mui/x-date-pickers";
-import { Store } from "./store/types";
+import type { RRule } from "rrule";
 
 export type DayHours =
   | 0
@@ -36,6 +37,7 @@ export type DayHours =
   | 22
   | 23
   | 24;
+
 export interface CellRenderedProps {
   day: Date;
   start: Date;
@@ -53,6 +55,7 @@ interface CalendarEvent {
   subtitle?: string;
   start: Date;
   end: Date;
+  recurring?: RRule;
   disabled?: boolean;
   color?: string;
   textColor?: string;

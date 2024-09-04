@@ -1,3 +1,4 @@
+import { RRule } from "rrule";
 import { ProcessedEvent } from "./lib/types";
 
 export const EVENTS: ProcessedEvent[] = [
@@ -94,6 +95,53 @@ export const EVENTS: ProcessedEvent[] = [
     ),
     admin_id: 1,
     color: "#8000cc",
+  },
+  {
+    event_id: 9,
+    title: "Event 9",
+    subtitle: `This event is a recurring weekly until ${new Date(
+      new Date().setMonth(
+        new Date(
+          new Date(new Date(new Date().setHours(11)).setMinutes(0)).setDate(
+            new Date().getDate() + 1
+          )
+        ).getMonth() + 1
+      )
+    ).toDateString()}`,
+    start: new Date(
+      new Date(new Date(new Date().setHours(10)).setMinutes(0)).setDate(new Date().getDate() + 1)
+    ),
+    end: new Date(
+      new Date(new Date(new Date().setHours(11)).setMinutes(0)).setDate(new Date().getDate() + 1)
+    ),
+    recurring: new RRule({
+      freq: RRule.WEEKLY,
+      dtstart: new Date(
+        new Date(new Date(new Date().setHours(10)).setMinutes(0)).setDate(new Date().getDate() + 1)
+      ),
+      until: new Date(
+        new Date().setMonth(
+          new Date(
+            new Date(new Date(new Date().setHours(11)).setMinutes(0)).setDate(
+              new Date().getDate() + 1
+            )
+          ).getMonth() + 1
+        )
+      ),
+    }),
+  },
+  {
+    event_id: 10,
+    title: "Event 10",
+    subtitle: "This event is a recurring hourly 3 times",
+    start: new Date(new Date(new Date().setHours(14)).setMinutes(15)),
+    end: new Date(new Date(new Date().setHours(14)).setMinutes(45)),
+    recurring: new RRule({
+      freq: RRule.HOURLY,
+      count: 3,
+      dtstart: new Date(new Date(new Date().setHours(14)).setMinutes(15)),
+    }),
+    color: "#dc4552",
   },
 ];
 
