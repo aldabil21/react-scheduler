@@ -85,6 +85,11 @@
     "react": ">=17.0.0",
     "rrule": ">=2.8.1"
   },
+  "peerDependenciesMeta": {
+    "rrule": {
+      "optional": true
+    }
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
