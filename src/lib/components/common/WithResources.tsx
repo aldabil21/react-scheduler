@@ -55,7 +55,7 @@ const WithResources = ({ renderChildren }: WithResourcesProps) => {
 };
 
 const ResourcesTabTables = ({ renderChildren }: WithResourcesProps) => {
-  const { resources, resourceFields, selectedResource, handleState } = useStore();
+  const { resources, resourceFields, selectedResource, handleState, onResourceChange } = useStore();
 
   const tabs: ButtonTabProps[] = resources.map((res) => {
     return {
@@ -67,6 +67,12 @@ const ResourcesTabTables = ({ renderChildren }: WithResourcesProps) => {
 
   const setTab = (tab: DefaultResource["assignee"]) => {
     handleState(tab, "selectedResource");
+    if (typeof onResourceChange === "function") {
+      const selected = resources.find((re) => re[resourceFields.idField] === tab);
+      if (selected) {
+        onResourceChange(selected);
+      }
+    }
   };
 
   const currentTabSafeId = useMemo(() => {
