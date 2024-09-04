@@ -52,7 +52,7 @@ const setEventPositionsWithResources = (
   } else {
     slots.all = setEventPositions(sorted);
   }
-  // console.log({ sorted, events });
+
   return slots;
 };
 
