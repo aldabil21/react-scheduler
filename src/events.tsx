@@ -99,18 +99,41 @@ export const EVENTS: ProcessedEvent[] = [
   {
     event_id: 9,
     title: "Event 9",
-    subtitle: "This event is a recurring event",
-    start: new Date(new Date(new Date().setHours(12)).setMinutes(30)),
-    end: new Date(new Date(new Date().setHours(14)).setMinutes(0)),
+    subtitle: `This event is a recurring weekly until ${new Date(
+      new Date().setMonth(
+        new Date(
+          new Date(new Date(new Date().setHours(11)).setMinutes(0)).setDate(
+            new Date().getDate() + 1
+          )
+        ).getMonth() + 1
+      )
+    ).toDateString()}`,
+    start: new Date(
+      new Date(new Date(new Date().setHours(10)).setMinutes(0)).setDate(new Date().getDate() + 1)
+    ),
+    end: new Date(
+      new Date(new Date(new Date().setHours(11)).setMinutes(0)).setDate(new Date().getDate() + 1)
+    ),
     recurring: new RRule({
       freq: RRule.WEEKLY,
-      dtstart: new Date(new Date(new Date().setHours(12)).setMinutes(30)),
+      dtstart: new Date(
+        new Date(new Date(new Date().setHours(10)).setMinutes(0)).setDate(new Date().getDate() + 1)
+      ),
+      until: new Date(
+        new Date().setMonth(
+          new Date(
+            new Date(new Date(new Date().setHours(11)).setMinutes(0)).setDate(
+              new Date().getDate() + 1
+            )
+          ).getMonth() + 1
+        )
+      ),
     }),
   },
   {
     event_id: 10,
     title: "Event 10",
-    subtitle: "This event is a recurring event",
+    subtitle: "This event is a recurring hourly 3 times",
     start: new Date(new Date(new Date().setHours(14)).setMinutes(15)),
     end: new Date(new Date(new Date().setHours(14)).setMinutes(45)),
     recurring: new RRule({

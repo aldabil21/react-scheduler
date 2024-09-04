@@ -11,6 +11,7 @@ type Props = {
   children: React.ReactNode;
   initial: Partial<SchedulerProps>;
 };
+
 export const StoreProvider = ({ children, initial }: Props) => {
   const [state, set] = useState<Store>({ ...initialStore, ...defaultProps(initial) });
 
@@ -164,6 +165,7 @@ export const StoreProvider = ({ children, initial }: Props) => {
       ...droppedEvent,
       start: startTime,
       end: addMinutes(startTime, diff),
+      recurring: undefined,
       [resKey as string]: newResource || "",
     };
 
