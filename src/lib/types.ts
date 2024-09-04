@@ -2,7 +2,6 @@ import { DialogProps, GridSize } from "@mui/material";
 import { DateCalendarProps } from "@mui/x-date-pickers";
 import { Locale } from "date-fns";
 import { DragEvent } from "react";
-import { RRule } from "rrule";
 import { SelectOption } from "./components/inputs/SelectInput";
 import { View } from "./components/nav/Navigation";
 import { Store } from "./store/types";
@@ -10,6 +9,7 @@ import { DayProps } from "./views/Day";
 import { StateItem } from "./views/Editor";
 import { MonthProps } from "./views/Month";
 import { WeekProps } from "./views/Week";
+import type { RRule } from "rrule";
 
 export type DayHours =
   | 0
