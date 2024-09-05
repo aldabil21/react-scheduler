@@ -51,8 +51,8 @@ export interface CellRenderedProps {
 }
 interface CalendarEvent {
   event_id: number | string;
-  title: string;
-  subtitle?: string;
+  title: React.ReactNode;
+  subtitle?: React.ReactNode;
   start: Date;
   end: Date;
   recurring?: RRule;
