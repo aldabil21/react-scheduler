@@ -10,7 +10,11 @@ import {
 import { ProcessedEvent } from "../../types";
 import { Typography } from "@mui/material";
 import EventItem from "./EventItem";
-import { MONTH_NUMBER_HEIGHT, MULTI_DAY_EVENT_HEIGHT } from "../../helpers/constants";
+import {
+  MONTH_BAR_HEIGHT,
+  MONTH_NUMBER_HEIGHT,
+  MULTI_DAY_EVENT_HEIGHT,
+} from "../../helpers/constants";
 import { convertEventTimeZone, differenceInDaysOmitTime } from "../../helpers/generals";
 import useStore from "../../hooks/useStore";
 import usePosition from "../../positionManger/usePosition";
@@ -100,6 +104,7 @@ const MonthEvents = ({
           style={{
             top: topSpace,
             width: `${100 * eventLength}%`,
+            height: MONTH_BAR_HEIGHT,
           }}
         >
           <EventItem
