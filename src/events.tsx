@@ -1,5 +1,6 @@
 import { RRule } from "rrule";
 import { ProcessedEvent } from "./lib/types";
+import { convertDateToRRuleDate } from "./lib/helpers/generals";
 
 export const EVENTS: ProcessedEvent[] = [
   {
@@ -116,8 +117,12 @@ export const EVENTS: ProcessedEvent[] = [
     ),
     recurring: new RRule({
       freq: RRule.WEEKLY,
-      dtstart: new Date(
-        new Date(new Date(new Date().setHours(10)).setMinutes(0)).setDate(new Date().getDate() + 1)
+      dtstart: convertDateToRRuleDate(
+        new Date(
+          new Date(new Date(new Date().setHours(10)).setMinutes(0)).setDate(
+            new Date().getDate() - 20
+          )
+        )
       ),
       until: new Date(
         new Date().setMonth(
@@ -139,7 +144,7 @@ export const EVENTS: ProcessedEvent[] = [
     recurring: new RRule({
       freq: RRule.HOURLY,
       count: 3,
-      dtstart: new Date(new Date(new Date().setHours(14)).setMinutes(15)),
+      dtstart: convertDateToRRuleDate(new Date(new Date(new Date().setHours(14)).setMinutes(15))),
     }),
     color: "#dc4552",
   },

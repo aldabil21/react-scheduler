@@ -21,6 +21,7 @@ import {
   SchedulerProps,
 } from "../types";
 import { StateEvent } from "../views/Editor";
+import { datetime } from "rrule";
 
 export const getOneView = (state: Partial<SchedulerProps>): View => {
   if (state.month) {
@@ -125,19 +126,43 @@ export const differenceInDaysOmitTime = (start: Date, end: Date) => {
   return differenceInDays(endOfDay(addSeconds(end, -1)), startOfDay(start));
 };
 
-export const getRecurrencesForDate = (event: ProcessedEvent, today: Date) => {
+export const convertDateToRRuleDate = (date: Date) => {
+  return datetime(
+    date.getFullYear(),
+    date.getMonth() + 1,
+    date.getDate(),
+    date.getHours(),
+    date.getMinutes()
+  );
+};
+
+export const convertRRuleDateToDate = (rruleDate: Date) => {
+  return new Date(
+    rruleDate.getUTCFullYear(),
+    rruleDate.getUTCMonth(),
+    rruleDate.getUTCDate(),
+    rruleDate.getUTCHours(),
+    rruleDate.getUTCMinutes()
+  );
+};
+
+export const getRecurrencesForDate = (event: ProcessedEvent, today: Date, timeZone?: string) => {
   const duration = differenceInMilliseconds(event.end, event.start);
   if (event.recurring) {
     return event.recurring
       ?.between(today, addDays(today, 1), true)
-      .map((d: Date, index: number) => ({
-        ...event,
-        recurrenceId: index,
-        start: d,
-        end: addMilliseconds(d, duration),
-      }));
+      .map((d: Date, index: number) => {
+        const start = convertRRuleDateToDate(d);
+        return {
+          ...event,
+          recurrenceId: index,
+          start: start,
+          end: addMilliseconds(start, duration),
+        };
+      })
+      .map((event) => convertEventTimeZone(event, timeZone));
   }
-  return [event];
+  return [convertEventTimeZone(event, timeZone)];
 };
 
 export const filterTodayEvents = (
@@ -148,9 +173,7 @@ export const filterTodayEvents = (
   const list: ProcessedEvent[] = [];
 
   for (let i = 0; i < events.length; i++) {
-    const event = convertEventTimeZone(events[i], timeZone);
-
-    for (const rec of getRecurrencesForDate(event, today)) {
+    for (const rec of getRecurrencesForDate(events[i], today, timeZone)) {
       const isToday =
         !rec.allDay && isSameDay(today, rec.start) && !differenceInDaysOmitTime(rec.start, rec.end);
       if (isToday) {
