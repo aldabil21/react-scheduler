@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { TextField, Typography } from "@mui/material";
 import useStore from "../../hooks/useStore";
 
@@ -44,48 +44,51 @@ const EditorInput = ({
   });
   const { translations } = useStore();
 
+  const handleChange = useCallback(
+    (value: string) => {
+      const val = value;
+      let isValid = true;
+      let errorMsg = "";
+      if (email) {
+        const reg =
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        isValid = reg.test(val) && isValid;
+        errorMsg = translations?.validation?.invalidEmail || "Invalid Email";
+      }
+      if (decimal) {
+        const reg = /^[0-9]+(\.[0-9]*)?$/;
+        isValid = reg.test(val) && isValid;
+        errorMsg = translations?.validation?.onlyNumbers || "Only Numbers Allowed";
+      }
+      if (min && `${val}`.trim().length < min) {
+        isValid = false;
+        errorMsg =
+          typeof translations?.validation?.min === "function"
+            ? translations?.validation?.min(min)
+            : translations?.validation?.min || `Minimum ${min} letters`;
+      }
+      if (max && `${val}`.trim().length > max) {
+        isValid = false;
+        errorMsg =
+          typeof translations?.validation?.max === "function"
+            ? translations?.validation?.max(max)
+            : translations?.validation?.max || `Maximum ${max} letters`;
+      }
+      if (required && `${val}`.trim().length <= 0) {
+        isValid = false;
+        errorMsg = translations?.validation?.required || "Required";
+      }
+      setState({ touched: true, valid: isValid, errorMsg: errorMsg });
+      onChange(name, val, isValid);
+    },
+    [decimal, email, max, min, name, onChange, required, translations?.validation]
+  );
+
   useEffect(() => {
     if (touched) {
       handleChange(value);
     }
-    // eslint-disable-next-line
-  }, [touched]);
-  const handleChange = (value: string) => {
-    const val = value;
-    let isValid = true;
-    let errorMsg = "";
-    if (email) {
-      const reg =
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      isValid = reg.test(val) && isValid;
-      errorMsg = translations?.validation?.invalidEmail || "Invalid Email";
-    }
-    if (decimal) {
-      const reg = /^[0-9]+(\.[0-9]*)?$/;
-      isValid = reg.test(val) && isValid;
-      errorMsg = translations?.validation?.onlyNumbers || "Only Numbers Allowed";
-    }
-    if (min && `${val}`.trim().length < min) {
-      isValid = false;
-      errorMsg =
-        typeof translations?.validation?.min === "function"
-          ? translations?.validation?.min(min)
-          : translations?.validation?.min || `Minimum ${min} letters`;
-    }
-    if (max && `${val}`.trim().length > max) {
-      isValid = false;
-      errorMsg =
-        typeof translations?.validation?.max === "function"
-          ? translations?.validation?.max(max)
-          : translations?.validation?.max || `Maximum ${max} letters`;
-    }
-    if (required && `${val}`.trim().length <= 0) {
-      isValid = false;
-      errorMsg = translations?.validation?.required || "Required";
-    }
-    setState({ touched: true, valid: isValid, errorMsg: errorMsg });
-    onChange(name, val, isValid);
-  };
+  }, [handleChange, touched, value]);
 
   return (
     <TextField

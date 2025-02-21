@@ -1,4 +1,4 @@
-import { Fragment, MouseEvent, useMemo, useState } from "react";
+import { Fragment, MouseEvent, useCallback, useMemo, useState } from "react";
 import { Typography, ButtonBase, useTheme } from "@mui/material";
 import { format } from "date-fns";
 import { ProcessedEvent } from "../../types";
@@ -34,12 +34,15 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate = true }: Event
 
   const { canDrag } = useEventPermissions(event);
 
-  const triggerViewer = (el?: MouseEvent<Element>) => {
-    if (!el?.currentTarget && deleteConfirm) {
-      setDeleteConfirm(false);
-    }
-    setAnchorEl(el?.currentTarget || null);
-  };
+  const triggerViewer = useCallback(
+    (el?: MouseEvent<Element>) => {
+      if (!el?.currentTarget && deleteConfirm) {
+        setDeleteConfirm(false);
+      }
+      setAnchorEl(el?.currentTarget || null);
+    },
+    [deleteConfirm]
+  );
 
   const renderEvent = useMemo(() => {
     // Check if has custom render event method
@@ -136,8 +139,27 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate = true }: Event
         </ButtonBase>
       </EventItemPaper>
     );
-    // eslint-disable-next-line
-  }, [hasPrev, hasNext, event, canDrag, locale, theme.palette]);
+  }, [
+    eventRenderer,
+    multiday,
+    view,
+    event,
+    showdate,
+    hFormat,
+    locale,
+    theme.palette.primary.main,
+    theme.palette.primary.contrastText,
+    disableViewer,
+    dragProps,
+    canDrag,
+    triggerViewer,
+    hasPrev,
+    PrevArrow,
+    hideDates,
+    hasNext,
+    NextArrow,
+    onEventClick,
+  ]);
 
   return (
     <Fragment>

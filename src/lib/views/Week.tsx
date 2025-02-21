@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, JSX } from "react";
 import { startOfWeek, addDays, eachMinuteOfInterval, endOfDay, startOfDay, set } from "date-fns";
 import { CellRenderedProps, DayHours, DefaultResource } from "../types";
 import { WeekDays } from "./Month";
@@ -69,8 +69,7 @@ const Week = () => {
     } finally {
       triggerLoading(false);
     }
-    // eslint-disable-next-line
-  }, [selectedDate, getRemoteEvents]);
+  }, [triggerLoading, getRemoteEvents, weekStart, weekEnd, handleState]);
 
   useEffect(() => {
     if (getRemoteEvents instanceof Function) {

@@ -86,6 +86,9 @@ const defaultViews = (props: Partial<SchedulerProps>) => {
 };
 
 export const defaultProps = (props: Partial<SchedulerProps>) => {
+  // We're pulling values out of props that we don't want to
+  // pass on, so there are 'unused' ones here.
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   const {
     month,
     week,
@@ -97,6 +100,7 @@ export const defaultProps = (props: Partial<SchedulerProps>) => {
     selectedDate,
     ...otherProps
   } = props;
+  /* eslint-enable @typescript-eslint/no-unused-vars */
   const views = defaultViews(props);
   const defaultView = view || "week";
   const initialView = views[defaultView] ? defaultView : getOneView(views);
