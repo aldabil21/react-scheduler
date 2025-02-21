@@ -14,7 +14,7 @@ const createDate = (
   date.setDate(date.getDate() + days);
   date.setMonth(date.getMonth() + months);
 
-  return new Date(date);
+  return date;
 };
 
 export const EVENTS: ProcessedEvent[] = [
