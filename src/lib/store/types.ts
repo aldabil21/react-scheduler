@@ -10,6 +10,7 @@ export interface SchedulerState extends SchedulerProps {
   selectedEvent?: ProcessedEvent;
   selectedResource?: DefaultResource["assignee"];
   currentDragged?: ProcessedEvent;
+  currentResize?: ProcessedEvent;
   enableAgenda?: boolean;
 }
 
@@ -22,6 +23,7 @@ export interface Store extends SchedulerState {
   handleGotoDay(day: Date): void;
   confirmEvent(event: ProcessedEvent | ProcessedEvent[], action: EventActions): void;
   setCurrentDragged(event?: ProcessedEvent): void;
+  setCurrentResize(event?: ProcessedEvent): void;
   onDrop(
     event: DragEvent<HTMLButtonElement>,
     eventId: string,
@@ -29,4 +31,10 @@ export interface Store extends SchedulerState {
     resourceKey?: string,
     resourceVal?: string | number
   ): void;
+  onResize(
+    ev: DragEvent<HTMLElement>,
+    event: ProcessedEvent,
+    minuteHeight: number
+  ): Date | undefined;
+  onResizeEnd(ev: DragEvent<HTMLElement>, event: ProcessedEvent, minuteHeight: number): void;
 }
