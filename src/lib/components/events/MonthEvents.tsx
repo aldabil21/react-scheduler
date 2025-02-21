@@ -88,7 +88,7 @@ const MonthEvents = ({
             style={{ top: topSpace, fontSize: 11 }}
             onClick={(e) => {
               e.stopPropagation();
-              onViewMore(event.start);
+              onViewMore(today);
             }}
           >
             {`${Math.abs(events.length - i)} ${translations.moreEvents}`}
