@@ -82,6 +82,7 @@
     "react-dom": "^19.0.0",
     "rrule": "^2.8.1",
     "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.24.1",
     "vite": "^6.1.1",
