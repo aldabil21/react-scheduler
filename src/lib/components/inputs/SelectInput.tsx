@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   FormControl,
   FormHelperText,
@@ -58,36 +58,38 @@ const EditorSelect = ({
     errorMsg: errMsg
       ? errMsg
       : required
-      ? translations?.validation?.required || "Required"
-      : undefined,
+        ? translations?.validation?.required || "Required"
+        : undefined,
   });
-
-  useEffect(() => {
-    if (touched) {
-      handleChange(value);
-    }
-    // eslint-disable-next-line
-  }, [touched]);
-  const handleTouched = () => {
+  const handleTouched = useCallback(() => {
     if (!state.touched) {
       setState((prev) => {
         return { ...prev, touched: true, errorMsg: errMsg || prev.errorMsg };
       });
     }
-  };
-  const handleChange = (value: string | any) => {
-    const val = value;
-    let isValid = true;
-    let errorMsg = errMsg;
-    if (required && (multiple ? !val.length : !val)) {
-      isValid = false;
-      errorMsg = errMsg || translations?.validation?.required || "Required";
+  }, [errMsg, state.touched]);
+  const handleChange = useCallback(
+    (value: string | any) => {
+      const val = value;
+      let isValid = true;
+      let errorMsg = errMsg;
+      if (required && (multiple ? !val.length : !val)) {
+        isValid = false;
+        errorMsg = errMsg || translations?.validation?.required || "Required";
+      }
+      setState((prev) => {
+        return { ...prev, touched: true, valid: isValid, errorMsg: errorMsg };
+      });
+      onChange(name, val, isValid);
+    },
+    [errMsg, multiple, name, onChange, required, translations?.validation?.required]
+  );
+
+  useEffect(() => {
+    if (touched) {
+      handleChange(value);
     }
-    setState((prev) => {
-      return { ...prev, touched: true, valid: isValid, errorMsg: errorMsg };
-    });
-    onChange(name, val, isValid);
-  };
+  }, [handleChange, touched, value]);
   return (
     <>
       <FormControl

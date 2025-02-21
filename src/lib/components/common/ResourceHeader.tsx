@@ -33,17 +33,17 @@ const ResourceHeader = ({ resource }: ResourceHeaderProps) => {
         ...(resourceViewMode === "tabs"
           ? {}
           : resourceViewMode === "vertical"
-          ? {
-              display: "block",
-              textAlign: "center",
-              position: "sticky",
-              top: 4,
-            }
-          : {
-              borderColor: theme.palette.grey[300],
-              borderStyle: "solid",
-              borderWidth: 1,
-            }),
+            ? {
+                display: "block",
+                textAlign: "center",
+                position: "sticky",
+                top: 4,
+              }
+            : {
+                borderColor: theme.palette.grey[300],
+                borderStyle: "solid",
+                borderWidth: 1,
+              }),
       }}
       component="div"
     >

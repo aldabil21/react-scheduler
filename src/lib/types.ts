@@ -10,6 +10,7 @@ import { StateItem } from "./views/Editor";
 import { MonthProps } from "./views/Month";
 import { WeekProps } from "./views/Week";
 import type { RRule } from "rrule";
+import type { JSX } from "react";
 
 export type DayHours =
   | 0
