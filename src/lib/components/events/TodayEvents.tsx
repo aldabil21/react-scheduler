@@ -80,7 +80,7 @@ const TodayEvents = ({
                   : "",
             }}
           >
-            <EventItem event={event} />
+            <EventItem event={event} minuteHeight={minuteHeight} />
           </div>
         );
       })}

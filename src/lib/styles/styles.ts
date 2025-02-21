@@ -177,6 +177,7 @@ export const EventItemPaper = styled(Paper)<{ disabled?: boolean }>(({ disabled 
   display: "block",
   cursor: disabled ? "not-allowed" : "pointer",
   overflow: "hidden",
+  position: "relative",
   "& .MuiButtonBase-root": {
     width: "100%",
     height: "100%",
@@ -237,4 +238,14 @@ export const TimeIndicatorBar = styled("div")(({ theme }) => ({
     borderTop: `solid 2px ${theme.palette.error.light}`,
     width: "100%",
   },
+}));
+
+export const DragHandle = styled("div")(({ draggable }) => ({
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  width: "100%",
+  cursor: draggable ? "ns-resize" : "unset",
+  backgroundColor: "rgba(0,0,0,0.0001)",
+  height: "5px",
 }));

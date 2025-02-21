@@ -22,6 +22,7 @@ import {
 } from "../types";
 import { StateEvent } from "../views/Editor";
 import { datetime } from "rrule";
+import { DragEvent } from "react";
 
 export const getOneView = (state: Partial<SchedulerProps>): View => {
   if (state.month) {
@@ -124,6 +125,10 @@ export const calcCellHeight = (tableHeight: number, hoursLength: number) => {
 
 export const differenceInDaysOmitTime = (start: Date, end: Date) => {
   return differenceInDays(endOfDay(addSeconds(end, -1)), startOfDay(start));
+};
+
+export const preventDragEvent = (ev: DragEvent<HTMLElement>) => {
+  ev.preventDefault();
 };
 
 export const convertDateToRRuleDate = (date: Date) => {

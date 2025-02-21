@@ -148,6 +148,19 @@ export const EVENTS: ProcessedEvent[] = [
     }),
     color: "#dc4552",
   },
+  {
+    event_id: 11,
+    title: "Event 11",
+    subtitle: "This event is not resizable",
+    start: new Date(
+      new Date(new Date(new Date().setHours(10)).setMinutes(30)).setDate(new Date().getDate() - 4)
+    ),
+    end: new Date(
+      new Date(new Date(new Date().setHours(12)).setMinutes(30)).setDate(new Date().getDate() - 4)
+    ),
+    admin_id: 1,
+    resizable: false,
+  },
 ];
 
 export const RESOURCES = [
