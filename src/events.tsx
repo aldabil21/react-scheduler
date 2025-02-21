@@ -2,17 +2,18 @@ import { RRule } from "rrule";
 import { ProcessedEvent } from "./lib/types";
 import { convertDateToRRuleDate } from "./lib/helpers/generals";
 
-const createDate = (startHour: number, startMinutes?: number, days?: number, months?: number) => {
-  let date = new Date(new Date().setHours(startHour)).setMinutes(0);
-  if (startMinutes) {
-    date = new Date(date).setMinutes(startMinutes);
-  }
-  if (days) {
-    date = new Date(date).setDate(new Date().getDate() + days);
-  }
-  if (months) {
-    date = new Date(date).setMonth(new Date().getMonth() + months);
-  }
+const createDate = (
+  startHour: number,
+  startMinutes: number = 0,
+  days: number = 0,
+  months: number = 0
+) => {
+  const date = new Date();
+  date.setHours(startHour);
+  date.setMinutes(startMinutes);
+  date.setDate(date.getDate() + days);
+  date.setMonth(date.getMonth() + months);
+
   return new Date(date);
 };
 
