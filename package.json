@@ -8,8 +8,8 @@
   "type": "module",
   "scripts": {
     "start": "vite serve",
-    "build": "vite build --mode production && npm run post:build",
-    "post:build": "node ./scripts/post-pack.js",
+    "build": "vite build --mode production",
+    "postbuild": "node ./scripts/post-pack.js",
     "local:pack": "npm run build && cd dist && npm pack && mv *.tgz ../",
     "format": "prettier --check \"**/*.{js,jsx,ts,tsx,json}\"",
     "format:write": "prettier --write \"**/*.{js,jsx,ts,tsx,json}\"",
