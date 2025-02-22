@@ -12,6 +12,10 @@ export default defineConfig({
       typescript: true,
     }),
   ],
+  server: {
+    port: 3000,
+    host: true,
+  },
   resolve: {
     extensions: [".js", ".ts", ".tsx", ".jsx"],
   },
