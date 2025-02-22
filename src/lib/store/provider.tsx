@@ -215,7 +215,7 @@ export const StoreProvider = ({ children, initial }: Props) => {
       const eventItem = ev.currentTarget.closest("div.rs__event__item") as HTMLDivElement | null;
       if (eventItem) {
         const { top } = eventItem.getBoundingClientRect();
-        const diff = ev.clientY - top;
+        const diff = Math.max(ev.clientY - top, minuteHeight);
         const minutes = diff / minuteHeight;
         eventItem.style.height = `${diff}px`;
         return addMinutes(event.start, minutes);
