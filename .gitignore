@@ -3,6 +3,10 @@ dist
 .vscode
 examples
 
+#yarn
+.yarn
+yarn.lock
+
 # dependencies
 /node_modules
 package-lock.json
