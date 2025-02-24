@@ -28,7 +28,7 @@
       "require": "./dist/index.umd.cjs"
     },
     "./types": {
-      "import": "./dist/types.d.ts"
+      "import": "./dist/index.d.ts"
     }
   },
   "lint-staged": {
