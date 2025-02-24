@@ -1,10 +1,7 @@
 import { DragEvent, useMemo } from "react";
 import { ProcessedEvent } from "../types";
 import useStore from "./useStore";
-
-const img = new Image();
-img.style.pointerEvents = "none";
-img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=";
+import { DRAG_IMAGE } from "../helpers/constants";
 
 const useResizeAttributes = (
   event: ProcessedEvent,
@@ -20,7 +17,7 @@ const useResizeAttributes = (
             onDragStart: (e: DragEvent<HTMLElement>) => {
               e.stopPropagation();
               setCurrentResize(event);
-              e.dataTransfer.setDragImage(img, 0, 0);
+              e.dataTransfer.setDragImage(DRAG_IMAGE, 0, 0);
             },
             onDragEnd: (e: DragEvent<HTMLElement>) => {
               setCurrentResize();
@@ -30,7 +27,8 @@ const useResizeAttributes = (
             onDrag: (e: DragEvent<HTMLElement>) => {
               e.stopPropagation();
               e.preventDefault();
-              onDragMove?.(onResize(e, event, minuteHeight));
+              const date = onResize(e, event, minuteHeight);
+              onDragMove?.(date);
             },
             onDragOver: (e: DragEvent<HTMLElement>) => {
               e.stopPropagation();
