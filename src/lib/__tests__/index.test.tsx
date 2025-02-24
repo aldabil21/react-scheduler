@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { Scheduler } from "..";
+import "@testing-library/jest-dom";
 
 describe("Render scheduler", () => {
   it("Default render", () => {

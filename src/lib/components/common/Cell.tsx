@@ -1,6 +1,7 @@
 import { Button } from "@mui/material";
 import { useCellAttributes } from "../../hooks/useCellAttributes";
 import { CellRenderedProps } from "../../types";
+import { JSX } from "react";
 
 interface CellProps {
   day: Date;

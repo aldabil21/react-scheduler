@@ -22,8 +22,6 @@ export const StoreProvider = ({ children, initial }: Props) => {
       customEditor: initial.customEditor,
       events: initial.events || [],
     }));
-    // Rerender if changed on some props
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initial.onEventDrop, initial.customEditor, initial.events]);
 
   const handleState = (value: SchedulerState[keyof SchedulerState], name: keyof SchedulerState) => {

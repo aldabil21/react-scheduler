@@ -10,7 +10,7 @@ import {
   startOfDay,
   startOfMonth,
 } from "date-fns";
-import { Fragment, useCallback } from "react";
+import { Fragment, JSX, useCallback } from "react";
 import {
   getHourFormat,
   getRecurrencesForDate,
@@ -128,9 +128,11 @@ const MonthTable = ({ daysList, resource, eachWeekStart }: Props) => {
                   eachFirstDayInCalcRow={eachFirstDayInCalcRow}
                   daysList={daysList}
                   onViewMore={(e) => {
-                    onClickMore && typeof onClickMore === "function"
-                      ? onClickMore(e, handleGotoDay)
-                      : handleGotoDay(e);
+                    if (onClickMore && typeof onClickMore === "function") {
+                      onClickMore(e, handleGotoDay);
+                    } else {
+                      handleGotoDay(e);
+                    }
                   }}
                   cellHeight={CELL_HEIGHT}
                 />

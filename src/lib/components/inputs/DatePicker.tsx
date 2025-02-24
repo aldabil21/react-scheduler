@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import DateProvider from "../hoc/DateProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
@@ -36,37 +36,39 @@ const EditorDatePicker = ({
     errorMsg: errMsg
       ? errMsg
       : required
-      ? translations?.validation?.required || "Required"
-      : undefined,
+        ? translations?.validation?.required || "Required"
+        : undefined,
   });
 
   const Picker = type === "date" ? DatePicker : DateTimePicker;
 
   const hasError = state.touched && (error || !state.valid);
 
+  const handleChange = useCallback(
+    (value: string | Date) => {
+      const isValidDate = !isNaN(Date.parse(value as string));
+      const val = typeof value === "string" && isValidDate ? new Date(value) : value;
+      let isValid = true;
+      let errorMsg = errMsg;
+      if (required && !val) {
+        isValid = false;
+        errorMsg = errMsg || translations?.validation?.required || "Required";
+      }
+
+      setState((prev) => {
+        return { ...prev, touched: true, valid: isValid, errorMsg: errorMsg };
+      });
+
+      onChange(name, val as Date);
+    },
+    [errMsg, name, onChange, required, translations?.validation?.required]
+  );
+
   useEffect(() => {
     if (touched) {
       handleChange(value);
     }
-    // eslint-disable-next-line
-  }, [touched]);
-
-  const handleChange = (value: string | Date) => {
-    const isValidDate = !isNaN(Date.parse(value as string));
-    const val = typeof value === "string" && isValidDate ? new Date(value) : value;
-    let isValid = true;
-    let errorMsg = errMsg;
-    if (required && !val) {
-      isValid = false;
-      errorMsg = errMsg || translations?.validation?.required || "Required";
-    }
-
-    setState((prev) => {
-      return { ...prev, touched: true, valid: isValid, errorMsg: errorMsg };
-    });
-
-    onChange(name, val as Date);
-  };
+  }, [handleChange, touched, value]);
 
   return (
     <DateProvider>

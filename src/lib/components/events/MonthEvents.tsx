@@ -1,4 +1,4 @@
-import { Fragment, useMemo } from "react";
+import { Fragment, JSX, useMemo } from "react";
 import {
   closestTo,
   isBefore,

@@ -1,4 +1,4 @@
-import { CSSProperties } from "react";
+import { CSSProperties, JSX } from "react";
 import { Tabs, Tab } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Theme } from "@mui/system";

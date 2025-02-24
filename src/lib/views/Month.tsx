@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, JSX } from "react";
 import { addDays, eachWeekOfInterval, endOfMonth, startOfMonth } from "date-fns";
 import { CellRenderedProps, DayHours, DefaultResource } from "../types";
 import { getResourcedEvents, sortEventsByTheEarliest } from "../helpers/generals";
@@ -63,8 +63,7 @@ const Month = () => {
     } finally {
       triggerLoading(false);
     }
-    // eslint-disable-next-line
-  }, [selectedDate, getRemoteEvents]);
+  }, [triggerLoading, eachWeekStart, daysList.length, getRemoteEvents, handleState]);
 
   useEffect(() => {
     if (getRemoteEvents instanceof Function) {
