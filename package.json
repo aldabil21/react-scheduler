@@ -8,10 +8,9 @@
   "type": "module",
   "scripts": {
     "start": "vite serve",
-    "build": "vite build",
-    "pack": "rm -rf dist && npm run build && npm run post:pack",
-    "local:pack": "npm run pack && cd dist && npm pack && mv *.tgz ../",
-    "post:pack": "node ./scripts/post-pack.js",
+    "build": "vite build --mode production",
+    "postbuild": "node ./scripts/post-pack.js",
+    "local:pack": "npm run build && cd dist && npm pack && mv *.tgz ../",
     "format": "prettier --check \"**/*.{js,jsx,ts,tsx,json}\"",
     "format:write": "prettier --write \"**/*.{js,jsx,ts,tsx,json}\"",
     "lint": "npm run types && eslint .",
@@ -22,6 +21,15 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:ci": "jest --ci"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.umd.cjs"
+    },
+    "./types": {
+      "import": "./dist/types.d.ts"
+    }
   },
   "lint-staged": {
     "**/*.{ts,js,tsx,jsx}": [
@@ -88,7 +96,9 @@
     "typescript-eslint": "^8.24.1",
     "vite": "^6.1.1",
     "vite-plugin-checker": "^0.9.0",
-    "vite-plugin-svgr": "^4.3.0"
+    "vite-plugin-dts": "^4.5.0",
+    "vite-plugin-svgr": "^4.3.0",
+    "vite-tsconfig-paths": "^5.1.4"
   },
   "peerDependencies": {
     "@mui/icons-material": ">=6.0.0",
