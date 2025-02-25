@@ -8,13 +8,13 @@ import { peerDependencies } from "./package.json";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-export default defineConfig((props) => ({
+export default defineConfig(() => ({
   plugins: [
     react(),
     tsconfigPaths({
       configNames: ["tsconfig.json"],
     }),
-    dts({ rollupTypes: true, tsconfigPath: "./tsconfig.build.json" }),
+    dts({ tsconfigPath: "./tsconfig.build.json" }),
   ],
   server: {
     port: 3000,
