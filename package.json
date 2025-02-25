@@ -1,6 +1,6 @@
 {
   "name": "@aldabil/react-scheduler",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "React scheduler component based on Material-UI & date-fns",
   "files": [
     "*"
@@ -23,12 +23,11 @@
     "test:ci": "jest --ci"
   },
   "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.umd.cjs"
-    },
     "./types": {
-      "import": "./dist/index.d.ts"
+      "import": "./types.d.ts"
+    },
+    ".": {
+      "import": "./index.js"
     }
   },
   "lint-staged": {
