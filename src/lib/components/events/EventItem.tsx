@@ -1,15 +1,16 @@
-import { Fragment, MouseEvent, useCallback, useMemo, useState } from "react";
-import { Typography, ButtonBase, useTheme } from "@mui/material";
+import { Fragment, MouseEvent, useCallback, useMemo, useRef, useState } from "react";
+import { Typography, ButtonBase, useTheme, Popper } from "@mui/material";
 import { format } from "date-fns";
 import { ProcessedEvent } from "../../types";
 import ArrowRightRoundedIcon from "@mui/icons-material/ArrowRightRounded";
 import ArrowLeftRoundedIcon from "@mui/icons-material/ArrowLeftRounded";
-import { EventItemPaper } from "../../styles/styles";
+import { DragHandle, EventItemPaper } from "../../styles/styles";
 import { differenceInDaysOmitTime, getHourFormat } from "../../helpers/generals";
 import useStore from "../../hooks/useStore";
 import useDragAttributes from "../../hooks/useDragAttributes";
 import EventItemPopover from "./EventItemPopover";
 import useEventPermissions from "../../hooks/useEventPermissions";
+import useResizeAttributes from "../../hooks/useResizeAttributes";
 
 interface EventItemProps {
   event: ProcessedEvent;
@@ -17,12 +18,27 @@ interface EventItemProps {
   hasPrev?: boolean;
   hasNext?: boolean;
   showdate?: boolean;
+  minuteHeight?: number;
 }
 
-const EventItem = ({ event, multiday, hasPrev, hasNext, showdate = true }: EventItemProps) => {
+const EventItem = ({
+  event,
+  multiday,
+  hasPrev,
+  hasNext,
+  showdate = true,
+  minuteHeight,
+}: EventItemProps) => {
   const { direction, locale, hourFormat, eventRenderer, onEventClick, view, disableViewer } =
     useStore();
+  const dragHandleRef = useRef<HTMLDivElement>(null);
+  const [dragTime, setDragTime] = useState<Date>();
+  const onDragMove = useCallback((time: Date | undefined) => {
+    setDragTime(time);
+  }, []);
+
   const dragProps = useDragAttributes(event);
+  const resizeProps = useResizeAttributes(event, minuteHeight, onDragMove);
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState(false);
   const theme = useTheme();
@@ -32,7 +48,11 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate = true }: Event
   const PrevArrow = direction === "rtl" ? ArrowRightRoundedIcon : ArrowLeftRoundedIcon;
   const hideDates = differenceInDaysOmitTime(event.start, event.end) <= 0 && event.allDay;
 
-  const { canDrag } = useEventPermissions(event);
+  const { canDrag, canResize } = useEventPermissions(event);
+  const resizable = useMemo(
+    () => !!canResize && !!minuteHeight && !multiday,
+    [canResize, minuteHeight, multiday]
+  );
 
   const triggerViewer = useCallback(
     (el?: MouseEvent<Element>) => {
@@ -53,6 +73,7 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate = true }: Event
         return (
           <EventItemPaper key={`${event.start.getTime()}_${event.end.getTime()}_${event.event_id}`}>
             {custom}
+            <DragHandle {...resizeProps} draggable={resizable} ref={dragHandleRef} />
           </EventItemPaper>
         );
       }
@@ -124,9 +145,7 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate = true }: Event
             if (!disableViewer) {
               triggerViewer(e);
             }
-            if (typeof onEventClick === "function") {
-              onEventClick(event);
-            }
+            onEventClick?.(event);
           }}
           focusRipple
           tabIndex={disableViewer ? -1 : 0}
@@ -137,6 +156,7 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate = true }: Event
             {item}
           </div>
         </ButtonBase>
+        <DragHandle {...resizeProps} draggable={resizable} ref={dragHandleRef} />
       </EventItemPaper>
     );
   }, [
@@ -159,6 +179,8 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate = true }: Event
     hasNext,
     NextArrow,
     onEventClick,
+    resizable,
+    resizeProps,
   ]);
 
   return (
@@ -167,6 +189,16 @@ const EventItem = ({ event, multiday, hasPrev, hasNext, showdate = true }: Event
 
       {/* Viewer */}
       <EventItemPopover anchorEl={anchorEl} event={event} onTriggerViewer={triggerViewer} />
+      <Popper
+        open={!!dragTime}
+        role="tooltip"
+        anchorEl={dragHandleRef.current}
+        sx={{ pointerEvents: "none" }}
+      >
+        <Typography variant="caption">
+          {dragTime ? format(dragTime, hFormat, { locale }) : null}
+        </Typography>
+      </Popper>
     </Fragment>
   );
 };

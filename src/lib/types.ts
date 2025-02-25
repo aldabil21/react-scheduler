@@ -63,6 +63,7 @@ interface CalendarEvent {
   editable?: boolean;
   deletable?: boolean;
   draggable?: boolean;
+  resizable?: boolean;
   allDay?: boolean;
   /**
    * @default " "
@@ -296,6 +297,14 @@ export interface SchedulerProps {
     originalEvent: ProcessedEvent
   ): Promise<ProcessedEvent | void>;
   /**
+   * Triggered when event is resized.
+   */
+  onEventResize?(
+    event: DragEvent<HTMLElement>,
+    updatedEvent: ProcessedEvent,
+    originalEvent: ProcessedEvent
+  ): ProcessedEvent | void;
+  /**
    *
    */
   onEventClick?(event: ProcessedEvent): void;
@@ -318,6 +327,11 @@ export interface SchedulerProps {
    * @default true
    */
   draggable?: boolean;
+  /**
+   * If event is resizable, applied to all events globally, overridden by event specific resizable prop
+   * @default true
+   */
+  resizable?: boolean;
   /**
    * Triggered when the `selectedDate` prop changes by navigation date picker or `today` button.
    */

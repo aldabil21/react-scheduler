@@ -2,8 +2,15 @@ import { useMemo } from "react";
 import { ProcessedEvent } from "../types";
 import useStore from "./useStore";
 
-const useEventPermissions = (event: ProcessedEvent) => {
-  const { editable, deletable, draggable } = useStore();
+type UseEventPermissions = {
+  canEdit?: boolean;
+  canDelete?: boolean;
+  canDrag?: boolean;
+  canResize?: boolean;
+};
+
+const useEventPermissions = (event: ProcessedEvent): UseEventPermissions => {
+  const { editable, deletable, draggable, resizable } = useStore();
 
   const canEdit = useMemo(() => {
     // Priority control to event specific editable value
@@ -32,10 +39,22 @@ const useEventPermissions = (event: ProcessedEvent) => {
     return draggable;
   }, [draggable, event.draggable, canEdit]);
 
+  const canResize = useMemo(() => {
+    if (!canEdit) {
+      return;
+    }
+    // Priority control to event specific draggable value
+    if (typeof event.resizable !== "undefined") {
+      return event.resizable;
+    }
+    return resizable;
+  }, [resizable, event.resizable, canEdit]);
+
   return {
     canEdit,
     canDelete,
     canDrag,
+    canResize,
   };
 };
 

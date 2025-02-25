@@ -6,6 +6,7 @@ import {
   filterMultiDaySlot,
   filterTodayEvents,
   getHourFormat,
+  preventDragEvent,
 } from "../../helpers/generals";
 import { MULTI_DAY_EVENT_HEIGHT } from "../../helpers/constants";
 import { DefaultResource, ProcessedEvent } from "../../types";
@@ -119,7 +120,13 @@ const WeekTable = ({
             overflowX: "hidden",
           }}
         >
-          <EventItem event={event} hasPrev={hasPrev} hasNext={hasNext} multiday />
+          <EventItem
+            event={event}
+            hasPrev={hasPrev}
+            hasNext={hasNext}
+            multiday
+            minuteHeight={minutesHeight}
+          />
         </div>
       );
     });
@@ -170,7 +177,12 @@ const WeekTable = ({
               const end = addMinutes(start, step);
               const field = resourceFields.idField;
               return (
-                <span key={ii} className={`rs__cell ${isToday(date) ? "rs__today_cell" : ""}`}>
+                <span
+                  key={ii}
+                  className={`rs__cell ${isToday(date) ? "rs__today_cell" : ""}`}
+                  onDragEnter={preventDragEvent}
+                  onDragOver={preventDragEvent}
+                >
                   {/* Events of each day - run once on the top hour column */}
                   {i === 0 && (
                     <TodayEvents
