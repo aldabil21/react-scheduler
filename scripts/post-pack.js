@@ -1,5 +1,5 @@
-const fs = require("fs");
-const path = require("path");
+import fs from "node:fs";
+import path from "node:path";
 
 const init = async () => {
   try {
@@ -10,18 +10,22 @@ const init = async () => {
     }
 
     // clean up package.json on the fly
-    const package = await fs.promises.readFile(path.join(base, "package.json"), {
+    const pkg = await fs.promises.readFile(path.join(base, "package.json"), {
       encoding: "utf-8",
     });
-    const obj = JSON.parse(package);
+    const obj = JSON.parse(pkg);
     delete obj.scripts;
     delete obj.devDependencies;
     delete obj["lint-staged"];
     obj.homepage = "https://github.com/aldabil21/react-scheduler#readme";
 
-    await fs.promises.writeFile(path.join(base, "dist", "package.json"), JSON.stringify(obj), {
-      encoding: "utf-8",
-    });
+    await fs.promises.writeFile(
+      path.join(base, "dist", "package.json"),
+      JSON.stringify(obj, null, 2),
+      {
+        encoding: "utf-8",
+      }
+    );
   } catch (error) {
     throw error;
   }
