@@ -4,7 +4,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import dts from "vite-plugin-dts";
 import tsconfigPaths from "vite-tsconfig-paths";
-import { peerDependencies } from "./package.json";
+import peerDepsExternal from "rollup-plugin-peer-deps-external";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -15,6 +15,7 @@ export default defineConfig(() => ({
       configNames: ["tsconfig.json"],
     }),
     dts({ tsconfigPath: "./tsconfig.build.json" }),
+    peerDepsExternal(),
   ],
   server: {
     port: 3000,
@@ -30,17 +31,6 @@ export default defineConfig(() => ({
       },
       name: "Scheduler",
       formats: ["es"],
-    },
-    rollupOptions: {
-      external: (path) => {
-        const nodeModules = path.includes("node_modules");
-        const isPeer = Object.keys(peerDependencies).some((dep) => path.startsWith(dep));
-        const isExternal = nodeModules || isPeer;
-        return isExternal;
-      },
-      output: {
-        globals: (path) => path,
-      },
     },
     copyPublicDir: false,
   },
