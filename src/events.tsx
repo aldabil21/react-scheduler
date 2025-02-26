@@ -1,6 +1,5 @@
-import { RRule } from "rrule";
+import { datetime, RRule } from "rrule";
 import { ProcessedEvent } from "./lib/types";
-import { convertDateToRRuleDate } from "./lib/helpers/generals";
 
 export const EVENTS: ProcessedEvent[] = [
   {
@@ -204,3 +203,13 @@ export const generateRandomEvents = (total = 300) => {
 
   return events;
 };
+
+function convertDateToRRuleDate(date: Date) {
+  return datetime(
+    date.getFullYear(),
+    date.getMonth() + 1,
+    date.getDate(),
+    date.getHours(),
+    date.getMinutes()
+  );
+}

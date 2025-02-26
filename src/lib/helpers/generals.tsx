@@ -21,7 +21,6 @@ import {
   SchedulerProps,
 } from "../types";
 import { StateEvent } from "../views/Editor";
-import { datetime } from "rrule";
 
 export const getOneView = (state: Partial<SchedulerProps>): View => {
   if (state.month) {
@@ -124,16 +123,6 @@ export const calcCellHeight = (tableHeight: number, hoursLength: number) => {
 
 export const differenceInDaysOmitTime = (start: Date, end: Date) => {
   return differenceInDays(endOfDay(addSeconds(end, -1)), startOfDay(start));
-};
-
-export const convertDateToRRuleDate = (date: Date) => {
-  return datetime(
-    date.getFullYear(),
-    date.getMonth() + 1,
-    date.getDate(),
-    date.getHours(),
-    date.getMinutes()
-  );
 };
 
 export const convertRRuleDateToDate = (rruleDate: Date) => {
