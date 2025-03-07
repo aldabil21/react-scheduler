@@ -4,22 +4,24 @@ import { useRef } from "react";
 import { SchedulerRef } from "./lib/types";
 import { Link } from "react-router-dom";
 
-function App() {
+const events = EVENTS.slice(3, 6);
+
+function Page1() {
   const calendarRef = useRef<SchedulerRef>(null);
 
   return (
     <>
       <div>
-        <Link to="/1">Go to page 1</Link>
+        <Link to="/">Go to home</Link>
       </div>
 
       <Scheduler
         ref={calendarRef}
-        events={EVENTS}
+        events={events}
         // events={generateRandomEvents(200)}
       />
     </>
   );
 }
 
-export default App;
+export default Page1;

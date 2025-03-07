@@ -88,19 +88,19 @@ const defaultViews = (props: Partial<SchedulerProps>) => {
 export const defaultProps = (props: Partial<SchedulerProps>) => {
   // We're pulling values out of props that we don't want to
   // pass on, so there are 'unused' ones here.
-  /* eslint-disable @typescript-eslint/no-unused-vars */
   const {
-    month,
-    week,
-    day,
     translations,
     resourceFields,
     view,
     agenda,
     selectedDate,
+    resourceViewMode,
+    direction,
+    dialogMaxWidth,
+    hourFormat,
     ...otherProps
   } = props;
-  /* eslint-enable @typescript-eslint/no-unused-vars */
+
   const views = defaultViews(props);
   const defaultView = view || "week";
   const initialView = views[defaultView] ? defaultView : getOneView(views);
@@ -110,33 +110,29 @@ export const defaultProps = (props: Partial<SchedulerProps>) => {
     resourceFields: Object.assign(defaultResourceFields, resourceFields),
     view: initialView,
     selectedDate: getTimeZonedDate(selectedDate || new Date(), props.timeZone),
-    ...Object.assign(
-      {
-        height: 600,
-        navigation: true,
-        disableViewNavigator: false,
-        events: [],
-        fields: [],
-        loading: undefined,
-        customEditor: undefined,
-        onConfirm: undefined,
-        onDelete: undefined,
-        viewerExtraComponent: undefined,
-        resources: [],
-        resourceHeaderComponent: undefined,
-        resourceViewMode: "default",
-        direction: "ltr",
-        dialogMaxWidth: "md",
-        locale: enUS,
-        deletable: true,
-        editable: true,
-        hourFormat: "12",
-        draggable: true,
-        agenda,
-        enableAgenda: typeof agenda === "undefined" || agenda,
-      },
-      otherProps
-    ),
+    height: 600,
+    navigation: true,
+    disableViewNavigator: false,
+    events: [],
+    fields: [],
+    loading: undefined,
+    customEditor: undefined,
+    onConfirm: undefined,
+    onDelete: undefined,
+    viewerExtraComponent: undefined,
+    resources: [],
+    resourceHeaderComponent: undefined,
+    resourceViewMode: resourceViewMode || "default",
+    direction: direction || "ltr",
+    dialogMaxWidth: dialogMaxWidth || "md",
+    locale: enUS,
+    deletable: true,
+    editable: true,
+    hourFormat: hourFormat || "12",
+    draggable: true,
+    agenda,
+    enableAgenda: typeof agenda === "undefined" || agenda,
+    ...otherProps,
   };
 };
 
