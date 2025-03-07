@@ -2,7 +2,7 @@ import react from "eslint-plugin-react";
 import tseslint, { configs as tseslintConfigs } from "typescript-eslint";
 import globals from "globals";
 import js from "@eslint/js";
-import reactHooks from "eslint-plugin-react-hooks";
+import * as reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
 import pluginImport from "eslint-plugin-import";
 import pluginJsxA11y from "eslint-plugin-jsx-a11y";
