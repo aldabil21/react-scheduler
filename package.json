@@ -89,6 +89,7 @@
     "prettier": "^3.5.1",
     "react": ">=19.0.0",
     "react-dom": "^19.0.0",
+    "react-router-dom": "^7.3.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rrule": "^2.8.1",
     "ts-jest": "^29.2.5",
