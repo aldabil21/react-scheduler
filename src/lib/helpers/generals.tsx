@@ -21,7 +21,6 @@ import {
   SchedulerProps,
 } from "../types";
 import { StateEvent } from "../views/Editor";
-import { datetime } from "rrule";
 import { DragEvent } from "react";
 
 export const getOneView = (state: Partial<SchedulerProps>): View => {
@@ -129,16 +128,6 @@ export const differenceInDaysOmitTime = (start: Date, end: Date) => {
 
 export const preventDragEvent = (ev: DragEvent<HTMLElement>) => {
   ev.preventDefault();
-};
-
-export const convertDateToRRuleDate = (date: Date) => {
-  return datetime(
-    date.getFullYear(),
-    date.getMonth() + 1,
-    date.getDate(),
-    date.getHours(),
-    date.getMinutes()
-  );
 };
 
 export const convertRRuleDateToDate = (rruleDate: Date) => {

@@ -69,7 +69,8 @@ const Week = () => {
     } finally {
       triggerLoading(false);
     }
-  }, [triggerLoading, getRemoteEvents, weekStart, weekEnd, handleState]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getRemoteEvents]);
 
   useEffect(() => {
     if (getRemoteEvents instanceof Function) {
