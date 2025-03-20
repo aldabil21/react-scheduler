@@ -1,6 +1,6 @@
 {
   "name": "@aldabil/react-scheduler",
-  "version": "3.0.3",
+  "version": "3.0.5",
   "description": "React scheduler component based on Material-UI & date-fns",
   "files": [
     "*"
@@ -69,6 +69,7 @@
     "@types/jest": "^29.5.14",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
+    "@types/rollup-plugin-peer-deps-external": "^2",
     "@typescript-eslint/parser": "^8.24.1",
     "@vitejs/plugin-react": "^4.3.4",
     "date-fns": ">=4.1.0",
@@ -78,7 +79,7 @@
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-promise": "^7.2.1",
     "eslint-plugin-react": "^7.37.4",
-    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
     "husky": "^9.1.7",
@@ -88,6 +89,8 @@
     "prettier": "^3.5.1",
     "react": ">=19.0.0",
     "react-dom": "^19.0.0",
+    "react-router": "^7.3.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
     "rrule": "^2.8.1",
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
