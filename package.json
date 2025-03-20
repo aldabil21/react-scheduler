@@ -20,15 +20,14 @@
     "pre:commit": "lint-staged",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:ci": "jest --ci",
-    "postinstall": "npm run build"
+    "test:ci": "jest --ci"
   },
   "exports": {
     "./types": {
-      "import": "./dist/types.d.ts"
+      "import": "./types.d.ts"
     },
     ".": {
-      "import": "./dist/index.js"
+      "import": "./index.js"
     }
   },
   "lint-staged": {
