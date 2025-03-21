@@ -2,7 +2,7 @@
 
 [![npm package](https://img.shields.io/npm/v/@wearemothership/react-scheduler/latest.svg)](https://www.npmjs.com/package/@wearemothership/react-scheduler)
 
-Based on the fantastic work of [@aldabil/react-scheduler](https://github.com/aldabil/react-scheduler.git)
+Based on the fantastic work of [@aldabil/react-scheduler](https://github.com/aldabil21/react-scheduler)
 
 > :warning: **Notice**: This component uses `mui`/`emotion`/`date-fns`. if your project is not already using these libs, this component may not be suitable.
 
