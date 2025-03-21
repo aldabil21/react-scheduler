@@ -5,10 +5,9 @@ import { DRAG_IMAGE } from "../helpers/constants";
 
 const useResizeAttributes = (
   event: ProcessedEvent,
-  minuteHeight?: number,
   onDragMove?: (time: Date | undefined) => void
 ) => {
-  const { setCurrentResize, onResize, onResizeEnd } = useStore();
+  const { setCurrentResize, onResize, onResizeEnd, minuteHeight } = useStore();
   const handlers = useMemo(
     () =>
       minuteHeight

@@ -137,9 +137,13 @@ export const StoreProvider = ({ children, initial }: Props) => {
     set((prev) => ({ ...prev, currentResize: event }));
   }, []);
 
+  const setMinuteHeight = useCallback((height?: number) => {
+    set((prev) => ({ ...prev, minuteHeight: height }));
+  }, []);
+
   const onDrop = useCallback(
     async (
-      event: DragEvent<HTMLButtonElement>,
+      event: DragEvent<HTMLElement>,
       eventId: string,
       startTime: Date,
       resKey?: string,
@@ -268,6 +272,7 @@ export const StoreProvider = ({ children, initial }: Props) => {
       confirmEvent,
       setCurrentDragged,
       setCurrentResize,
+      setMinuteHeight,
       onDrop,
       onResize,
       onResizeEnd,
@@ -281,6 +286,7 @@ export const StoreProvider = ({ children, initial }: Props) => {
       onResize,
       setCurrentDragged,
       setCurrentResize,
+      setMinuteHeight,
       state,
       toggleAgenda,
       triggerDialog,

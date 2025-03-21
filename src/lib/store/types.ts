@@ -6,6 +6,7 @@ export type SelectedRange = { start: Date; end: Date };
 
 export interface SchedulerState extends SchedulerProps {
   dialog: boolean;
+  minuteHeight?: number;
   selectedRange?: SelectedRange;
   selectedEvent?: ProcessedEvent;
   selectedResource?: DefaultResource["assignee"];
@@ -24,8 +25,9 @@ export interface Store extends SchedulerState {
   confirmEvent(event: ProcessedEvent | ProcessedEvent[], action: EventActions): void;
   setCurrentDragged(event?: ProcessedEvent): void;
   setCurrentResize(event?: ProcessedEvent): void;
+  setMinuteHeight(height?: number): void;
   onDrop(
-    event: DragEvent<HTMLButtonElement>,
+    event: DragEvent<HTMLElement>,
     eventId: string,
     droppedStartTime: Date,
     resourceKey?: string,

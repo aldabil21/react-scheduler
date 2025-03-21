@@ -32,7 +32,7 @@ type Props = {
   daysList: Date[];
   hours: Date[];
   cellHeight: number;
-  minutesHeight: number;
+  minuteHeight: number;
   resource?: DefaultResource;
   resourcedEvents: ProcessedEvent[];
 };
@@ -41,7 +41,7 @@ const WeekTable = ({
   daysList,
   hours,
   cellHeight,
-  minutesHeight,
+  minuteHeight,
   resourcedEvents,
   resource,
 }: Props) => {
@@ -120,13 +120,7 @@ const WeekTable = ({
             overflowX: "hidden",
           }}
         >
-          <EventItem
-            event={event}
-            hasPrev={hasPrev}
-            hasNext={hasNext}
-            multiday
-            minuteHeight={minutesHeight}
-          />
+          <EventItem event={event} hasPrev={hasPrev} hasNext={hasNext} multiday />
         </div>
       );
     });
@@ -145,6 +139,7 @@ const WeekTable = ({
         {daysList.map((date, i) => (
           <span
             key={i}
+            data-date={date}
             className={`rs__cell rs__header ${isToday(date) ? "rs__today_cell" : ""}`}
             style={{ height: headerHeight }}
           >
@@ -188,7 +183,7 @@ const WeekTable = ({
                     <TodayEvents
                       todayEvents={filterTodayEvents(resourcedEvents, date, timeZone)}
                       today={date}
-                      minuteHeight={minutesHeight}
+                      minuteHeight={minuteHeight}
                       startHour={startHour}
                       endHour={endHour}
                       step={step}

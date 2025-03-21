@@ -67,6 +67,7 @@ const SchedulerComponent = forwardRef<SchedulerRef, unknown>(function SchedulerC
           flexDirection: resourceViewMode === "vertical" ? "column" : undefined,
         }}
         data-testid="grid"
+        id="rs__grid"
       >
         <PositionProvider>{Views}</PositionProvider>
       </Table>

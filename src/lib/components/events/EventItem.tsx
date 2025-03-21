@@ -18,19 +18,19 @@ interface EventItemProps {
   hasPrev?: boolean;
   hasNext?: boolean;
   showdate?: boolean;
-  minuteHeight?: number;
 }
 
-const EventItem = ({
-  event,
-  multiday,
-  hasPrev,
-  hasNext,
-  showdate = true,
-  minuteHeight,
-}: EventItemProps) => {
-  const { direction, locale, hourFormat, eventRenderer, onEventClick, view, disableViewer } =
-    useStore();
+const EventItem = ({ event, multiday, hasPrev, hasNext, showdate = true }: EventItemProps) => {
+  const {
+    direction,
+    locale,
+    hourFormat,
+    eventRenderer,
+    onEventClick,
+    view,
+    disableViewer,
+    minuteHeight,
+  } = useStore();
   const dragHandleRef = useRef<HTMLDivElement>(null);
   const [dragTime, setDragTime] = useState<Date>();
   const onDragMove = useCallback((time: Date | undefined) => {
@@ -38,7 +38,7 @@ const EventItem = ({
   }, []);
 
   const dragProps = useDragAttributes(event);
-  const resizeProps = useResizeAttributes(event, minuteHeight, onDragMove);
+  const resizeProps = useResizeAttributes(event, onDragMove);
   const [anchorEl, setAnchorEl] = useState<Element | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState(false);
   const theme = useTheme();

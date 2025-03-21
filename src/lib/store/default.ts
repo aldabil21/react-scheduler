@@ -152,6 +152,7 @@ export const initialStore = {
   handleGotoDay: () => {},
   confirmEvent: () => {},
   setCurrentDragged: () => {},
+  setMinuteHeight: () => {},
   setCurrentResize: () => {},
   onDrop: () => {},
   onResize: () => undefined,

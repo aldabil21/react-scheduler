@@ -18,11 +18,14 @@ export const useCellAttributes = ({ start, end, resourceKey, resourceVal }: Prop
     setCurrentDragged,
     editable,
     timeZone,
+    view,
   } = useStore();
   const theme = useTheme();
 
   return {
     tabIndex: editable ? 0 : -1,
+    "data-start": start,
+    "data-end": end,
     disableRipple: !editable,
     onClick: () => {
       if (editable) {
@@ -39,22 +42,22 @@ export const useCellAttributes = ({ start, end, resourceKey, resourceVal }: Prop
     },
     onDragOver: (e: DragEvent<HTMLButtonElement>) => {
       e.preventDefault();
-      if (currentDragged) {
+      if (currentDragged && view === "month") {
         e.currentTarget.style.backgroundColor = alpha(theme.palette.secondary.main, 0.3);
       }
     },
     onDragEnter: (e: DragEvent<HTMLButtonElement>) => {
-      if (currentDragged) {
+      if (currentDragged && view === "month") {
         e.currentTarget.style.backgroundColor = alpha(theme.palette.secondary.main, 0.3);
       }
     },
     onDragLeave: (e: DragEvent<HTMLButtonElement>) => {
-      if (currentDragged) {
+      if (currentDragged && view === "month") {
         e.currentTarget.style.backgroundColor = "";
       }
     },
     onDrop: (e: DragEvent<HTMLButtonElement>) => {
-      if (currentDragged && currentDragged.event_id) {
+      if (currentDragged && currentDragged.event_id && view === "month") {
         e.preventDefault();
         e.currentTarget.style.backgroundColor = "";
         const zonedStart = revertTimeZonedDate(start, timeZone);

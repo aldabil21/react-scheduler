@@ -48,7 +48,7 @@ export interface CellRenderedProps {
   onDragOver(e: DragEvent<HTMLButtonElement>): void;
   onDragEnter(e: DragEvent<HTMLButtonElement>): void;
   onDragLeave(e: DragEvent<HTMLButtonElement>): void;
-  onDrop(e: DragEvent<HTMLButtonElement>): void;
+  onDrop(e: DragEvent<HTMLElement>): void;
 }
 interface CalendarEvent {
   event_id: number | string;
@@ -291,7 +291,7 @@ export interface SchedulerProps {
    * Triggered when event is dropped on time slot.
    */
   onEventDrop?(
-    event: DragEvent<HTMLButtonElement>,
+    event: DragEvent<HTMLElement>,
     droppedOn: Date,
     updatedEvent: ProcessedEvent,
     originalEvent: ProcessedEvent
