@@ -13,7 +13,7 @@ timeCell.style.position = "absolute";
 timeCell.style.top = "-20px";
 timeCell.style.width = "100%";
 timeCell.style.textAlign = "center";
-timeCell.style.fontSize = "small";
+timeCell.style.fontSize = "12px";
 
 const findRsCell = (
   bounds: DOMRect,
