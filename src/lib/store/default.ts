@@ -128,6 +128,7 @@ export const defaultProps = (props: Partial<SchedulerProps>) => {
     locale: enUS,
     deletable: true,
     editable: true,
+    resizable: true,
     hourFormat: hourFormat || "12",
     draggable: true,
     agenda,
@@ -151,5 +152,8 @@ export const initialStore = {
   handleGotoDay: () => {},
   confirmEvent: () => {},
   setCurrentDragged: () => {},
+  setCurrentResize: () => {},
   onDrop: () => {},
+  onResize: () => undefined,
+  onResizeEnd: () => {},
 };
