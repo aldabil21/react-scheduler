@@ -5,6 +5,7 @@ import { Button, Popover } from "@mui/material";
 import { format, getMonth, setMonth } from "date-fns";
 import { LocaleArrow } from "../common/LocaleArrow";
 import useStore from "../../hooks/useStore";
+import useArrowDisable from "../../hooks/useArrowDisable";
 
 interface MonthDateBtnProps {
   selectedDate: Date;
@@ -15,6 +16,7 @@ const MonthDateBtn = ({ selectedDate, onChange }: MonthDateBtnProps) => {
   const { locale, navigationPickerProps } = useStore();
   const currentMonth = getMonth(selectedDate);
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const { prevDisabled, nextDisabled } = useArrowDisable();
 
   const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -37,7 +39,12 @@ const MonthDateBtn = ({ selectedDate, onChange }: MonthDateBtnProps) => {
   };
   return (
     <>
-      <LocaleArrow type="prev" onClick={handlePrev} aria-label="previous month" />
+      <LocaleArrow
+        type="prev"
+        onClick={handlePrev}
+        disabled={prevDisabled}
+        aria-label="previous month"
+      />
       <Button style={{ padding: 4 }} onClick={handleOpen} aria-label="selected month">
         {format(selectedDate, "MMMM yyyy", { locale })}
       </Button>
@@ -60,7 +67,12 @@ const MonthDateBtn = ({ selectedDate, onChange }: MonthDateBtnProps) => {
           />
         </DateProvider>
       </Popover>
-      <LocaleArrow type="next" onClick={handleNext} aria-label="next month" />
+      <LocaleArrow
+        type="next"
+        onClick={handleNext}
+        disabled={nextDisabled}
+        aria-label="next month"
+      />
     </>
   );
 };
