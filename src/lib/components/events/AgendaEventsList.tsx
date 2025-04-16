@@ -54,7 +54,13 @@ const AgendaEventsList = ({ day, events }: AgendaEventsListProps) => {
           });
 
           if (typeof eventRenderer === "function") {
-            return eventRenderer({ event, onClick: triggerViewer });
+            return eventRenderer({
+              event,
+              onClick: (e) => {
+                setSelectedEvent(event);
+                triggerViewer(e);
+              },
+            });
           }
 
           return (
