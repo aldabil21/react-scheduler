@@ -4,7 +4,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Grid2,
+  Grid,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
@@ -218,16 +218,16 @@ const Editor = () => {
           {selectedEvent ? translations.form.editTitle : translations.form.addTitle}
         </DialogTitle>
         <DialogContent style={{ overflowX: "hidden" }}>
-          <Grid2 container spacing={2}>
+          <Grid container spacing={2}>
             {Object.keys(state).map((key) => {
               const item = state[key];
               return (
-                <Grid2 key={key} size={{ sm: item.config?.sm, xs: 12 }}>
+                <Grid key={key} size={{ sm: item.config?.sm, xs: 12 }}>
                   {renderInputs(key)}
-                </Grid2>
+                </Grid>
               );
             })}
-          </Grid2>
+          </Grid>
         </DialogContent>
         <DialogActions>
           <Button color="inherit" fullWidth onClick={() => handleClose()}>
