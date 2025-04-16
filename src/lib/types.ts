@@ -48,7 +48,7 @@ export interface CellRenderedProps {
   onDragOver(e: DragEvent<HTMLButtonElement>): void;
   onDragEnter(e: DragEvent<HTMLButtonElement>): void;
   onDragLeave(e: DragEvent<HTMLButtonElement>): void;
-  onDrop(e: DragEvent<HTMLButtonElement>): void;
+  onDrop(e: DragEvent<HTMLElement>): void;
 }
 interface CalendarEvent {
   event_id: number | string;
@@ -63,6 +63,7 @@ interface CalendarEvent {
   editable?: boolean;
   deletable?: boolean;
   draggable?: boolean;
+  resizable?: boolean;
   allDay?: boolean;
   /**
    * @default " "
@@ -290,11 +291,19 @@ export interface SchedulerProps {
    * Triggered when event is dropped on time slot.
    */
   onEventDrop?(
-    event: DragEvent<HTMLButtonElement>,
+    event: DragEvent<HTMLElement>,
     droppedOn: Date,
     updatedEvent: ProcessedEvent,
     originalEvent: ProcessedEvent
   ): Promise<ProcessedEvent | void>;
+  /**
+   * Triggered when event is resized.
+   */
+  onEventResize?(
+    event: DragEvent<HTMLElement>,
+    updatedEvent: ProcessedEvent,
+    originalEvent: ProcessedEvent
+  ): ProcessedEvent | void;
   /**
    *
    */
@@ -318,6 +327,11 @@ export interface SchedulerProps {
    * @default true
    */
   draggable?: boolean;
+  /**
+   * If event is resizable, applied to all events globally, overridden by event specific resizable prop
+   * @default true
+   */
+  resizable?: boolean;
   /**
    * Triggered when the `selectedDate` prop changes by navigation date picker or `today` button.
    */

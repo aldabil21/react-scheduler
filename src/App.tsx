@@ -2,7 +2,7 @@ import { Scheduler } from "./lib";
 import { EVENTS } from "./events";
 import { useRef } from "react";
 import { SchedulerRef } from "./lib/types";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 function App() {
   const calendarRef = useRef<SchedulerRef>(null);

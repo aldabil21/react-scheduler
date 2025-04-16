@@ -27,6 +27,7 @@ const Month = () => {
     getRemoteEvents,
     triggerLoading,
     handleState,
+    setMinuteHeight,
     resources,
     resourceFields,
     fields,
@@ -36,6 +37,9 @@ const Month = () => {
   const { weekStartOn, weekDays } = month!;
   const monthStart = startOfMonth(selectedDate);
   const monthEnd = endOfMonth(selectedDate);
+  useEffect(() => {
+    setMinuteHeight();
+  }, [setMinuteHeight]);
   const eachWeekStart = eachWeekOfInterval(
     {
       start: monthStart,

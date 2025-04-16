@@ -1,6 +1,6 @@
 {
-  "name": "@aldabil/react-scheduler",
-  "version": "3.0.5",
+  "name": "@wearemothership/react-scheduler",
+  "version": "3.1.0",
   "description": "React scheduler component based on Material-UI & date-fns",
   "files": [
     "*"
@@ -40,7 +40,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/aldabil21/react-scheduler.git"
+    "url": "https://github.com/wearemothership/react-scheduler.git"
   },
   "keywords": [
     "react",
@@ -51,7 +51,7 @@
   "author": "Aldabil",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/aldabil21/react-scheduler/issues"
+    "url": "https://github.com/wearemothership/react-scheduler/issues"
   },
   "devDependencies": {
     "@emotion/react": "^11.14.0",
@@ -89,7 +89,7 @@
     "prettier": "^3.5.1",
     "react": ">=19.0.0",
     "react-dom": "^19.0.0",
-    "react-router-dom": "^7.3.0",
+    "react-router": "^7.3.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rrule": "^2.8.1",
     "ts-jest": "^29.2.5",

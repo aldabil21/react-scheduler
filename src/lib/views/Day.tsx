@@ -1,4 +1,4 @@
-import { useEffect, useCallback, Fragment, JSX } from "react";
+import { useEffect, useCallback, Fragment, JSX, useMemo } from "react";
 import { Typography } from "@mui/material";
 import {
   format,
@@ -50,6 +50,7 @@ const Day = () => {
     getRemoteEvents,
     triggerLoading,
     handleState,
+    setMinuteHeight,
     resources,
     resourceFields,
     resourceViewMode,
@@ -63,18 +64,27 @@ const Day = () => {
   } = useStore();
 
   const { startHour, endHour, step, cellRenderer, headRenderer, hourRenderer } = day!;
-  const START_TIME = set(selectedDate, { hours: startHour, minutes: 0, seconds: 0 });
-  const END_TIME = set(selectedDate, { hours: endHour, minutes: -step, seconds: 0 });
-  const hours = eachMinuteOfInterval(
-    {
-      start: START_TIME,
-      end: END_TIME,
-    },
-    { step: step }
-  );
-  const CELL_HEIGHT = calcCellHeight(height, hours.length);
-  const MINUTE_HEIGHT = calcMinuteHeight(CELL_HEIGHT, step);
+
   const hFormat = getHourFormat(hourFormat);
+
+  const [hours, CELL_HEIGHT, MINUTE_HEIGHT, START_TIME, END_TIME] = useMemo(() => {
+    const START_TIME = set(selectedDate, { hours: startHour, minutes: 0, seconds: 0 });
+    const END_TIME = set(selectedDate, { hours: endHour, minutes: -step, seconds: 0 });
+    const hours = eachMinuteOfInterval(
+      {
+        start: START_TIME,
+        end: END_TIME,
+      },
+      { step: step }
+    );
+    const CELL_HEIGHT = calcCellHeight(height, hours.length);
+    const MINUTE_HEIGHT = calcMinuteHeight(CELL_HEIGHT, step);
+    return [hours, CELL_HEIGHT, MINUTE_HEIGHT, START_TIME, END_TIME];
+  }, [endHour, height, selectedDate, startHour, step]);
+
+  useEffect(() => {
+    setMinuteHeight(MINUTE_HEIGHT);
+  }, [MINUTE_HEIGHT, setMinuteHeight]);
 
   const fetchEvents = useCallback(async () => {
     try {
@@ -220,8 +230,8 @@ const Day = () => {
     },
     [
       CELL_HEIGHT,
-      MINUTE_HEIGHT,
       START_TIME,
+      MINUTE_HEIGHT,
       agenda,
       cellRenderer,
       direction,

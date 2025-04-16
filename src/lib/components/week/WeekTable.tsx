@@ -6,6 +6,7 @@ import {
   filterMultiDaySlot,
   filterTodayEvents,
   getHourFormat,
+  preventDragEvent,
 } from "../../helpers/generals";
 import { MULTI_DAY_EVENT_HEIGHT } from "../../helpers/constants";
 import { DefaultResource, ProcessedEvent } from "../../types";
@@ -31,7 +32,7 @@ type Props = {
   daysList: Date[];
   hours: Date[];
   cellHeight: number;
-  minutesHeight: number;
+  minuteHeight: number;
   resource?: DefaultResource;
   resourcedEvents: ProcessedEvent[];
 };
@@ -40,7 +41,7 @@ const WeekTable = ({
   daysList,
   hours,
   cellHeight,
-  minutesHeight,
+  minuteHeight,
   resourcedEvents,
   resource,
 }: Props) => {
@@ -138,6 +139,7 @@ const WeekTable = ({
         {daysList.map((date, i) => (
           <span
             key={i}
+            data-date={date}
             className={`rs__cell rs__header ${isToday(date) ? "rs__today_cell" : ""}`}
             style={{ height: headerHeight }}
           >
@@ -170,13 +172,18 @@ const WeekTable = ({
               const end = addMinutes(start, step);
               const field = resourceFields.idField;
               return (
-                <span key={ii} className={`rs__cell ${isToday(date) ? "rs__today_cell" : ""}`}>
+                <span
+                  key={ii}
+                  className={`rs__cell ${isToday(date) ? "rs__today_cell" : ""}`}
+                  onDragEnter={preventDragEvent}
+                  onDragOver={preventDragEvent}
+                >
                   {/* Events of each day - run once on the top hour column */}
                   {i === 0 && (
                     <TodayEvents
                       todayEvents={filterTodayEvents(resourcedEvents, date, timeZone)}
                       today={date}
-                      minuteHeight={minutesHeight}
+                      minuteHeight={minuteHeight}
                       startHour={startHour}
                       endHour={endHour}
                       step={step}
