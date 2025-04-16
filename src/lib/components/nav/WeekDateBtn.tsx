@@ -6,6 +6,7 @@ import { WeekProps } from "../../views/Week";
 import { LocaleArrow } from "../common/LocaleArrow";
 import { DateCalendar } from "@mui/x-date-pickers";
 import useStore from "../../hooks/useStore";
+import useArrowDisable from "../../hooks/useArrowDisable";
 
 interface WeekDateBtnProps {
   selectedDate: Date;
@@ -19,6 +20,7 @@ const WeekDateBtn = ({ selectedDate, onChange, weekProps }: WeekDateBtnProps) =>
   const { weekStartOn } = weekProps;
   const weekStart = startOfWeek(selectedDate, { weekStartsOn: weekStartOn });
   const weekEnd = endOfWeek(selectedDate, { weekStartsOn: weekStartOn });
+  const { prevDisabled, nextDisabled } = useArrowDisable();
 
   const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -44,7 +46,12 @@ const WeekDateBtn = ({ selectedDate, onChange, weekProps }: WeekDateBtnProps) =>
 
   return (
     <>
-      <LocaleArrow type="prev" onClick={handlePrev} aria-label="previous week" />
+      <LocaleArrow
+        type="prev"
+        onClick={handlePrev}
+        disabled={prevDisabled}
+        aria-label="previous week"
+      />
       <Button style={{ padding: 4 }} onClick={handleOpen} aria-label="selected week">
         {`${format(weekStart, "dd", { locale })} - ${format(weekEnd, "dd MMM yyyy", {
           locale,
@@ -69,7 +76,12 @@ const WeekDateBtn = ({ selectedDate, onChange, weekProps }: WeekDateBtnProps) =>
           />
         </DateProvider>
       </Popover>
-      <LocaleArrow type="next" onClick={handleNext} aria-label="next week" />
+      <LocaleArrow
+        type="next"
+        onClick={handleNext}
+        disabled={nextDisabled}
+        aria-label="next week"
+      />
     </>
   );
 };

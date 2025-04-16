@@ -5,6 +5,7 @@ import { Button, Popover } from "@mui/material";
 import { format, addDays } from "date-fns";
 import { LocaleArrow } from "../common/LocaleArrow";
 import useStore from "../../hooks/useStore";
+import useArrowDisable from "../../hooks/useArrowDisable";
 
 interface DayDateBtnProps {
   selectedDate: Date;
@@ -14,6 +15,7 @@ interface DayDateBtnProps {
 const DayDateBtn = ({ selectedDate, onChange }: DayDateBtnProps) => {
   const { locale, navigationPickerProps } = useStore();
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const { prevDisabled, nextDisabled } = useArrowDisable();
 
   const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -31,13 +33,20 @@ const DayDateBtn = ({ selectedDate, onChange }: DayDateBtnProps) => {
     const prevDay = addDays(selectedDate, -1);
     onChange(prevDay);
   };
+
   const handleNext = () => {
     const nexDay = addDays(selectedDate, 1);
     onChange(nexDay);
   };
+
   return (
     <>
-      <LocaleArrow type="prev" onClick={handlePrev} aria-label="previous day" />
+      <LocaleArrow
+        type="prev"
+        onClick={handlePrev}
+        disabled={prevDisabled}
+        aria-label="previous day"
+      />
       <Button style={{ padding: 4 }} onClick={handleOpen} aria-label="selected date">
         {format(selectedDate, "dd MMMM yyyy", { locale })}
       </Button>
@@ -60,7 +69,7 @@ const DayDateBtn = ({ selectedDate, onChange }: DayDateBtnProps) => {
           />
         </DateProvider>
       </Popover>
-      <LocaleArrow type="next" onClick={handleNext} aria-label="next day" />
+      <LocaleArrow type="next" onClick={handleNext} disabled={nextDisabled} aria-label="next day" />
     </>
   );
 };
