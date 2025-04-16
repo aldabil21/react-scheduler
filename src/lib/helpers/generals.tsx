@@ -139,7 +139,7 @@ export const getRecurrencesForDate = (event: ProcessedEvent, today: Date, timeZo
   const duration = differenceInMilliseconds(event.end, event.start);
   if (event.recurring) {
     return event.recurring
-      ?.between(today, addDays(today, 1), true)
+      ?.between(addDays(today, -1), addDays(today, 1), true)
       .map((d: Date, index: number) => {
         const start = convertRRuleDateToDate(d);
         return {
