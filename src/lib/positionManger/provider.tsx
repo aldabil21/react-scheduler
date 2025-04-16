@@ -2,8 +2,13 @@ import { useEffect, useState } from "react";
 import { PositionManagerState, PositionContext } from "./context";
 import useStore from "../hooks/useStore";
 import { DefaultResource, FieldProps, ProcessedEvent, ResourceFields } from "../types";
-import { getResourcedEvents, sortEventsByTheEarliest } from "../helpers/generals";
+import {
+  getResourcedEvents,
+  sortEventsByTheEarliest,
+  sortEventsByTheLengthest,
+} from "../helpers/generals";
 import { eachDayOfInterval, format } from "date-fns";
+import { View } from "../components/nav/Navigation";
 
 type Props = {
   children: React.ReactNode;
@@ -39,10 +44,13 @@ const setEventPositionsWithResources = (
   events: ProcessedEvent[],
   resources: DefaultResource[],
   rFields: ResourceFields,
-  fields: FieldProps[]
+  fields: FieldProps[],
+  view: View
 ) => {
-  const sorted = sortEventsByTheEarliest(events);
+  const sorted =
+    view === "month" ? sortEventsByTheLengthest(events) : sortEventsByTheEarliest(events);
   const slots: PositionManagerState["renderedSlots"] = {};
+
   if (resources.length) {
     for (const resource of resources) {
       const resourcedEvents = getResourcedEvents(sorted, resource, rFields, fields);
@@ -52,22 +60,27 @@ const setEventPositionsWithResources = (
   } else {
     slots.all = setEventPositions(sorted);
   }
-
   return slots;
 };
 
 export const PositionProvider = ({ children }: Props) => {
-  const { events, resources, resourceFields, fields } = useStore();
+  const { events, resources, resourceFields, fields, view } = useStore();
   const [state, set] = useState<PositionManagerState>({
-    renderedSlots: setEventPositionsWithResources(events, resources, resourceFields, fields),
+    renderedSlots: setEventPositionsWithResources(events, resources, resourceFields, fields, view),
   });
 
   useEffect(() => {
     set((prev) => ({
       ...prev,
-      renderedSlots: setEventPositionsWithResources(events, resources, resourceFields, fields),
+      renderedSlots: setEventPositionsWithResources(
+        events,
+        resources,
+        resourceFields,
+        fields,
+        view
+      ),
     }));
-  }, [events, fields, resourceFields, resources]);
+  }, [events, fields, resourceFields, resources, view]);
 
   const setRenderedSlot = (day: string, eventId: string, position: number, resourceId?: string) => {
     set((prev) => ({
