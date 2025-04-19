@@ -5,12 +5,8 @@ import { DragEvent } from "react";
 import { SelectOption } from "./components/inputs/SelectInput";
 import { View } from "./components/nav/Navigation";
 import { Store } from "./store/types";
-import { DayProps } from "./views/Day";
 import { StateItem } from "./views/Editor";
-import { MonthProps } from "./views/Month";
-import { WeekProps } from "./views/Week";
 import type { RRule } from "rrule";
-import type { JSX } from "react";
 
 export type DayHours =
   | 0
@@ -38,6 +34,37 @@ export type DayHours =
   | 22
   | 23
   | 24;
+
+export type WeekDays = 0 | 1 | 2 | 3 | 4 | 5 | 6;
+
+interface CommonWeekViewProps {
+  weekDays: WeekDays[];
+  weekStartOn: WeekDays;
+  disableGoToDay?: boolean;
+}
+
+interface CommonViewProps {
+  startHour: DayHours;
+  endHour: DayHours;
+  cellRenderer?(props: CellRenderedProps): React.ReactNode;
+  headRenderer?(props: {
+    day: Date;
+    events: ProcessedEvent[];
+    resource?: DefaultResource;
+  }): React.ReactNode;
+  navigation?: boolean;
+  step: number;
+}
+
+export interface MonthProps extends CommonWeekViewProps, CommonViewProps {}
+
+export interface WeekProps extends CommonWeekViewProps, CommonViewProps {
+  hourRenderer?(hour: string): React.ReactNode;
+}
+
+export interface DayProps extends CommonViewProps {
+  hourRenderer?(hour: string): React.ReactNode;
+}
 
 export interface CellRenderedProps {
   day: Date;
@@ -225,7 +252,7 @@ export interface SchedulerProps {
   /**Events to display */
   events: ProcessedEvent[];
   /** Custom event render method */
-  eventRenderer?: (props: EventRendererProps) => JSX.Element | null;
+  eventRenderer?: (props: EventRendererProps) => React.ReactNode | null;
   /**Async function to load remote data with current view data. */
   getRemoteEvents?(params: RemoteQuery): Promise<ProcessedEvent[] | void>;
   /**Custom additional fields with it's settings */
@@ -233,23 +260,23 @@ export interface SchedulerProps {
   /**Table loading state */
   loading?: boolean;
   /** Custom loading component */
-  loadingComponent?: JSX.Element;
+  loadingComponent?: React.ReactNode;
   /**Async function triggered when add/edit event */
   onConfirm?(event: ProcessedEvent, action: EventActions): Promise<ProcessedEvent>;
   /**Async function triggered when delete event */
   onDelete?(deletedId: string | number): Promise<string | number | void>;
   /**Override editor modal */
-  customEditor?(scheduler: SchedulerHelpers): JSX.Element;
+  customEditor?(scheduler: SchedulerHelpers): React.ReactNode;
   /** Custom viewer/popper component. If used, `viewerExtraComponent` & `viewerTitleComponent` will be ignored */
-  customViewer?(event: ProcessedEvent, close: () => void): JSX.Element;
+  customViewer?(event: ProcessedEvent, close: () => void): React.ReactNode;
   /**Additional component in event viewer popper */
   viewerExtraComponent?:
-    | JSX.Element
-    | ((fields: FieldProps[], event: ProcessedEvent) => JSX.Element);
+    | React.ReactNode
+    | ((fields: FieldProps[], event: ProcessedEvent) => React.ReactNode);
   /**Override viewer title component */
-  viewerTitleComponent?(event: ProcessedEvent): JSX.Element;
+  viewerTitleComponent?(event: ProcessedEvent): React.ReactNode;
   /**Override viewer subtitle component */
-  viewerSubtitleComponent?(event: ProcessedEvent): JSX.Element;
+  viewerSubtitleComponent?(event: ProcessedEvent): React.ReactNode;
   /** if true, the viewer popover will be disabled globally */
   disableViewer?: boolean;
   /**Resources array to split event views with resources */
@@ -257,7 +284,7 @@ export interface SchedulerProps {
   /**Map resources fields */
   resourceFields: ResourceFields;
   /**Override header component of resource */
-  resourceHeaderComponent?(resource: DefaultResource): JSX.Element;
+  resourceHeaderComponent?(resource: DefaultResource): React.ReactNode;
   /** Triggered when resource tabs changes */
   onResourceChange?(resource: DefaultResource): void;
   /**Resource header view mode

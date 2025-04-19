@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { format, isSameMonth, getDaysInMonth, isToday } from "date-fns";
 import { AgendaDiv } from "../styles/styles";
-import { ProcessedEvent } from "../types";
+import { DefaultResource, ProcessedEvent } from "../types";
 import useStore from "../hooks/useStore";
 import { Typography } from "@mui/material";
 import { filterTodayAgendaEvents, isTimeZonedToday } from "../helpers/generals";
@@ -10,8 +10,9 @@ import EmptyAgenda from "../components/events/EmptyAgenda";
 
 type Props = {
   events: ProcessedEvent[];
+  resource?: DefaultResource;
 };
-const MonthAgenda = ({ events }: Props) => {
+const MonthAgenda = ({ events, resource }: Props) => {
   const {
     month,
     handleGotoDay,
@@ -46,7 +47,7 @@ const MonthAgenda = ({ events }: Props) => {
           <div key={i} className={`rs__agenda_row ${isToday(day) ? "rs__today_cell" : ""}`}>
             <div className="rs__cell rs__agenda__cell">
               {typeof headRenderer === "function" ? (
-                <div>{headRenderer(day)}</div>
+                <div>{headRenderer({ day, events, resource })}</div>
               ) : (
                 <Typography
                   sx={{ fontWeight: today ? "bold" : "inherit" }}

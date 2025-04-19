@@ -2,11 +2,11 @@ import { useState } from "react";
 import DateProvider from "../hoc/DateProvider";
 import { Button, Popover } from "@mui/material";
 import { endOfWeek, format, startOfWeek, addDays } from "date-fns";
-import { WeekProps } from "../../views/Week";
 import { LocaleArrow } from "../common/LocaleArrow";
 import { DateCalendar } from "@mui/x-date-pickers";
 import useStore from "../../hooks/useStore";
 import useArrowDisable from "../../hooks/useArrowDisable";
+import { WeekProps } from "../../types";
 
 interface WeekDateBtnProps {
   selectedDate: Date;

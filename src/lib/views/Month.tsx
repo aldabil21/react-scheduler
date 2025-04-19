@@ -1,23 +1,11 @@
-import { useEffect, useCallback, JSX } from "react";
+import { useEffect, useCallback } from "react";
 import { addDays, eachWeekOfInterval, endOfMonth, startOfMonth } from "date-fns";
-import { CellRenderedProps, DayHours, DefaultResource } from "../types";
+import { DefaultResource } from "../types";
 import { getResourcedEvents, sortEventsByTheEarliest } from "../helpers/generals";
 import { WithResources } from "../components/common/WithResources";
 import useStore from "../hooks/useStore";
 import { MonthAgenda } from "./MonthAgenda";
 import MonthTable from "../components/month/MonthTable";
-
-export type WeekDays = 0 | 1 | 2 | 3 | 4 | 5 | 6;
-export interface MonthProps {
-  weekDays: WeekDays[];
-  weekStartOn: WeekDays;
-  startHour: DayHours;
-  endHour: DayHours;
-  cellRenderer?(props: CellRenderedProps): JSX.Element;
-  headRenderer?(day: Date): JSX.Element;
-  navigation?: boolean;
-  disableGoToDay?: boolean;
-}
 
 const Month = () => {
   const {
@@ -80,7 +68,7 @@ const Month = () => {
           resourcedEvents = getResourcedEvents(events, resource, resourceFields, fields);
         }
 
-        return <MonthAgenda events={resourcedEvents} />;
+        return <MonthAgenda resource={resource} events={resourcedEvents} />;
       }
 
       return <MonthTable daysList={daysList} eachWeekStart={eachWeekStart} resource={resource} />;

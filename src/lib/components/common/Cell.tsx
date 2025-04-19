@@ -1,7 +1,6 @@
 import { Button } from "@mui/material";
 import { useCellAttributes } from "../../hooks/useCellAttributes";
 import { CellRenderedProps } from "../../types";
-import { JSX } from "react";
 
 interface CellProps {
   day: Date;
@@ -10,8 +9,8 @@ interface CellProps {
   end: Date;
   resourceKey: string;
   resourceVal: string | number;
-  cellRenderer?(props: CellRenderedProps): JSX.Element;
-  children?: JSX.Element;
+  cellRenderer?(props: CellRenderedProps): React.ReactNode;
+  children?: React.ReactNode;
 }
 
 const Cell = ({

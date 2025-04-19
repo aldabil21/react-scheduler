@@ -142,7 +142,7 @@ const WeekTable = ({
             style={{ height: headerHeight }}
           >
             {typeof headRenderer === "function" ? (
-              <div>{headRenderer(date)}</div>
+              <div>{headRenderer({ day: date, events: resourcedEvents, resource })}</div>
             ) : (
               <TodayTypo
                 date={date}

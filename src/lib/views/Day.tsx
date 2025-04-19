@@ -1,4 +1,4 @@
-import { useEffect, useCallback, Fragment, JSX } from "react";
+import { useEffect, useCallback, Fragment } from "react";
 import { Typography } from "@mui/material";
 import {
   format,
@@ -14,7 +14,7 @@ import {
 } from "date-fns";
 import TodayTypo from "../components/common/TodayTypo";
 import EventItem from "../components/events/EventItem";
-import { CellRenderedProps, DayHours, DefaultResource, ProcessedEvent } from "../types";
+import { DefaultResource, ProcessedEvent } from "../types";
 import {
   calcCellHeight,
   calcMinuteHeight,
@@ -30,16 +30,6 @@ import { TableGrid } from "../styles/styles";
 import { MULTI_DAY_EVENT_HEIGHT } from "../helpers/constants";
 import useStore from "../hooks/useStore";
 import { DayAgenda } from "./DayAgenda";
-
-export interface DayProps {
-  startHour: DayHours;
-  endHour: DayHours;
-  step: number;
-  cellRenderer?(props: CellRenderedProps): JSX.Element;
-  headRenderer?(day: Date): JSX.Element;
-  hourRenderer?(hour: string): JSX.Element;
-  navigation?: boolean;
-}
 
 const Day = () => {
   const {
@@ -142,7 +132,7 @@ const Day = () => {
       }
 
       if (agenda) {
-        return <DayAgenda events={resourcedEvents} />;
+        return <DayAgenda resource={resource} events={resourcedEvents} />;
       }
 
       // Equalizing multi-day section height
@@ -163,7 +153,7 @@ const Day = () => {
               style={{ height: headerHeight }}
             >
               {typeof headRenderer === "function" ? (
-                <div>{headRenderer(selectedDate)}</div>
+                <div>{headRenderer({ day: selectedDate, events: resourcedEvents, resource })}</div>
               ) : (
                 <TodayTypo date={selectedDate} locale={locale} />
               )}
