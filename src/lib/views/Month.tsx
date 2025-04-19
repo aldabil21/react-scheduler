@@ -68,7 +68,7 @@ const Month = () => {
           resourcedEvents = getResourcedEvents(events, resource, resourceFields, fields);
         }
 
-        return <MonthAgenda events={resourcedEvents} />;
+        return <MonthAgenda resource={resource} events={resourcedEvents} />;
       }
 
       return <MonthTable daysList={daysList} eachWeekStart={eachWeekStart} resource={resource} />;

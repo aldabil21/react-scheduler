@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { format, isToday } from "date-fns";
 import { AgendaDiv } from "../styles/styles";
-import { ProcessedEvent } from "../types";
+import { DefaultResource, ProcessedEvent } from "../types";
 import useStore from "../hooks/useStore";
 import { Typography } from "@mui/material";
 import { filterTodayAgendaEvents, isTimeZonedToday } from "../helpers/generals";
@@ -10,9 +10,10 @@ import EmptyAgenda from "../components/events/EmptyAgenda";
 
 type Props = {
   daysList: Date[];
+  resource?: DefaultResource;
   events: ProcessedEvent[];
 };
-const WeekAgenda = ({ daysList, events }: Props) => {
+const WeekAgenda = ({ daysList, resource, events }: Props) => {
   const { week, handleGotoDay, locale, timeZone, translations, alwaysShowAgendaDays } = useStore();
   const { disableGoToDay, headRenderer } = week!;
 
@@ -36,7 +37,7 @@ const WeekAgenda = ({ daysList, events }: Props) => {
           <div key={i} className={`rs__agenda_row ${isToday(day) ? "rs__today_cell" : ""}`}>
             <div className="rs__cell rs__agenda__cell">
               {typeof headRenderer === "function" ? (
-                <div>{headRenderer(day)}</div>
+                <div>{headRenderer({ day, events, resource })}</div>
               ) : (
                 <Typography
                   sx={{ fontWeight: today ? "bold" : "inherit" }}

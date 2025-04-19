@@ -48,7 +48,11 @@ interface CommonViewProps {
   startHour: DayHours;
   endHour: DayHours;
   cellRenderer?(props: CellRenderedProps): JSX.Element;
-  headRenderer?(day: Date): JSX.Element;
+  headRenderer?(props: {
+    day: Date;
+    events: ProcessedEvent[];
+    resource?: DefaultResource;
+  }): JSX.Element;
   navigation?: boolean;
   step: number;
 }

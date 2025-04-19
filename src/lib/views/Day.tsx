@@ -132,7 +132,7 @@ const Day = () => {
       }
 
       if (agenda) {
-        return <DayAgenda events={resourcedEvents} />;
+        return <DayAgenda resource={resource} events={resourcedEvents} />;
       }
 
       // Equalizing multi-day section height
@@ -153,7 +153,7 @@ const Day = () => {
               style={{ height: headerHeight }}
             >
               {typeof headRenderer === "function" ? (
-                <div>{headRenderer(selectedDate)}</div>
+                <div>{headRenderer({ day: selectedDate, events: resourcedEvents, resource })}</div>
               ) : (
                 <TodayTypo date={selectedDate} locale={locale} />
               )}

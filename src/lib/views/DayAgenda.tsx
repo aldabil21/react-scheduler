@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { format } from "date-fns";
 import { AgendaDiv } from "../styles/styles";
-import { ProcessedEvent } from "../types";
+import { DefaultResource, ProcessedEvent } from "../types";
 import useStore from "../hooks/useStore";
 import { Typography } from "@mui/material";
 import { filterTodayAgendaEvents } from "../helpers/generals";
@@ -10,8 +10,9 @@ import EmptyAgenda from "../components/events/EmptyAgenda";
 
 type Props = {
   events: ProcessedEvent[];
+  resource?: DefaultResource;
 };
-const DayAgenda = ({ events }: Props) => {
+const DayAgenda = ({ events, resource }: Props) => {
   const { day, locale, selectedDate, translations, alwaysShowAgendaDays } = useStore();
   const { headRenderer } = day!;
 
@@ -28,7 +29,7 @@ const DayAgenda = ({ events }: Props) => {
       <div className="rs__agenda_row rs__today_cell">
         <div className="rs__cell rs__agenda__cell">
           {typeof headRenderer === "function" ? (
-            <div>{headRenderer(selectedDate)}</div>
+            <div>{headRenderer({ day: selectedDate, events, resource })}</div>
           ) : (
             <Typography variant="body2">{format(selectedDate, "dd E", { locale })}</Typography>
           )}

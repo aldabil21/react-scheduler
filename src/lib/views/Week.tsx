@@ -71,7 +71,7 @@ const Week = () => {
     }
 
     if (agenda) {
-      return <WeekAgenda daysList={daysList} events={resourcedEvents} />;
+      return <WeekAgenda daysList={daysList} resource={resource} events={resourcedEvents} />;
     }
 
     return (

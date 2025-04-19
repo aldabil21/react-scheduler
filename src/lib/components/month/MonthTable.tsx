@@ -92,7 +92,9 @@ const MonthTable = ({ daysList, resource, eachWeekStart }: Props) => {
               />
               <Fragment>
                 {typeof headRenderer === "function" ? (
-                  <div style={{ position: "absolute", top: 0 }}>{headRenderer(today)}</div>
+                  <div style={{ position: "absolute", top: 0 }}>
+                    {headRenderer({ day: today, events: resourcedEvents, resource })}
+                  </div>
                 ) : (
                   <Avatar
                     style={{
