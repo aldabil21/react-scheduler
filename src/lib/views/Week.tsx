@@ -1,25 +1,11 @@
-import { useEffect, useCallback, JSX } from "react";
+import { useEffect, useCallback } from "react";
 import { startOfWeek, addDays, eachMinuteOfInterval, endOfDay, startOfDay, set } from "date-fns";
-import { CellRenderedProps, DayHours, DefaultResource } from "../types";
-import { WeekDays } from "./Month";
+import { DefaultResource } from "../types";
 import { calcCellHeight, calcMinuteHeight, getResourcedEvents } from "../helpers/generals";
 import { WithResources } from "../components/common/WithResources";
 import useStore from "../hooks/useStore";
 import { WeekAgenda } from "./WeekAgenda";
 import WeekTable from "../components/week/WeekTable";
-
-export interface WeekProps {
-  weekDays: WeekDays[];
-  weekStartOn: WeekDays;
-  startHour: DayHours;
-  endHour: DayHours;
-  step: number;
-  cellRenderer?(props: CellRenderedProps): JSX.Element;
-  headRenderer?(day: Date): JSX.Element;
-  hourRenderer?(hour: string): JSX.Element;
-  navigation?: boolean;
-  disableGoToDay?: boolean;
-}
 
 const Week = () => {
   const {
