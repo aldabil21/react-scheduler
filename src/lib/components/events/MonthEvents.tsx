@@ -1,4 +1,4 @@
-import { Fragment, JSX, useMemo } from "react";
+import { Fragment, useMemo } from "react";
 import {
   closestTo,
   isBefore,
@@ -45,7 +45,7 @@ const MonthEvents = ({
   const { renderedSlots } = usePosition();
 
   const renderEvents = useMemo(() => {
-    const elements: JSX.Element[] = [];
+    const elements: React.ReactNode[] = [];
 
     for (let i = 0; i < Math.min(events.length, LIMIT + 1); i++) {
       const event = convertEventTimeZone(events[i], timeZone);

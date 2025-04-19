@@ -1,4 +1,4 @@
-import { CSSProperties, JSX } from "react";
+import { CSSProperties } from "react";
 import { Tabs, Tab } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Theme } from "@mui/system";
@@ -63,8 +63,8 @@ const StyledTaps = styled("div")(({ theme }: { theme: Theme }) => ({
 
 export type ButtonTabProps = {
   id: string | number;
-  label: string | JSX.Element;
-  component: JSX.Element;
+  label: string | React.ReactNode;
+  component: React.ReactNode;
 };
 interface ButtonTabsProps {
   tabs: ButtonTabProps[];

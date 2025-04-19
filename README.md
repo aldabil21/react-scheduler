@@ -50,15 +50,15 @@ All props are _optional_
 | view | string. Initial view to load. options: "week", "month", "day". <br> _Default_: "week" (if it's not null)
 | agenda | boolean. Activate agenda view
 | alwaysShowAgendaDays | boolean. if true, day rows without events will be shown
-| month | Object. Month view props. <br> _default_: <pre>{<br>weekDays: [0, 1, 2, 3, 4, 5], <br>weekStartOn: 6, <br>startHour: 9, <br>endHour: 17,<br>cellRenderer?:(props: CellProps) => JSX.Element,<br>navigation: true,<br>disableGoToDay: false<br>}</pre>
-| week | Object. Week view props. <br> _default_: <pre>{ <br>weekDays: [0, 1, 2, 3, 4, 5], <br>weekStartOn: 6, <br>startHour: 9, <br>endHour: 17,<br>step: 60,<br>cellRenderer?:(props: CellProps) => JSX.Element,<br>navigation: true,<br>disableGoToDay: false<br>}</pre>
-| day | Object. Day view props. <br> _default_: <pre>{<br>startHour: 9, <br>endHour: 17, <br>step: 60,<br>cellRenderer?:(props: CellProps) => JSX.Element,<br>hourRenderer?:(hour: string) => JSX.Element,<br>navigation: true<br>}</pre>
+| month | Object. Month view props. <br> _default_: <pre>{<br>weekDays: [0, 1, 2, 3, 4, 5], <br>weekStartOn: 6, <br>startHour: 9, <br>endHour: 17,<br>cellRenderer?:(props: CellProps) => React.ReactNode,<br>navigation: true,<br>disableGoToDay: false<br>}</pre>
+| week | Object. Week view props. <br> _default_: <pre>{ <br>weekDays: [0, 1, 2, 3, 4, 5], <br>weekStartOn: 6, <br>startHour: 9, <br>endHour: 17,<br>step: 60,<br>cellRenderer?:(props: CellProps) => React.ReactNode,<br>navigation: true,<br>disableGoToDay: false<br>}</pre>
+| day | Object. Day view props. <br> _default_: <pre>{<br>startHour: 9, <br>endHour: 17, <br>step: 60,<br>cellRenderer?:(props: CellProps) => React.ReactNode,<br>hourRenderer?:(hour: string) => React.ReactNode,<br>navigation: true<br>}</pre>
 | selectedDate | Date. Initial selected date. <br>_Default_: `new Date()`
 | navigation | boolean. Show/Hide top bar date navigation. <br>_Default_: `true`
 | navigationPickerProps | CalendarPickerProps for top bar date navigation. Ref [CalendarPicker API](https://mui.com/x/api/date-pickers/calendar-picker/#main-content)
 | disableViewNavigator | boolean. Show/Hide top bar date View navigator. <br>_Default_: `false`
 | events | Array of ProcessedEvent. <br>_Default_: [] <br> <pre>type ProcessedEvent = {<br>event*id: number or string;<br>title: string;<br>subtitle?: string;<br>start: Date;<br>end: Date;<br>disabled?: boolean;<br>recurring: RRule;<br>color?: string or "palette.path";<br>textColor?: string or "palette.path";<br>editable?: boolean;<br>deletable?: boolean;<br>draggable?: boolean;<br>allDay?: boolean;<br>agendaAvatar?: React.ReactElement \| string<br>sx?: Mui sx prop<br>} </pre>
-| eventRenderer | Function(event:ProcessedEvent): JSX.Element.<br> A function that overrides the event item render function, see demo \_Custom Event Renderer* below
+| eventRenderer | Function(event:ProcessedEvent): React.ReactNode.<br> A function that overrides the event item render function, see demo \_Custom Event Renderer* below
 | editable | boolean. If `true`, the scheduler cell click will not open the editor, and the event item will not show the edit button, this is applied to all events, and can be overridden in each event property, see `ProcessedEvent` type.
 | deletable | boolean. Whether the event item will show the delete button, this is applied to all events, and can be overridden in each event property, see `ProcessedEvent` type.
 | draggable | boolean. Whether activate drag&drop for the events, this is applied to all events, and can be overridden in each event property, see `ProcessedEvent` type.

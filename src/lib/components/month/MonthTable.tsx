@@ -10,7 +10,7 @@ import {
   startOfDay,
   startOfMonth,
 } from "date-fns";
-import { Fragment, JSX, useCallback } from "react";
+import { Fragment, useCallback } from "react";
 import {
   getHourFormat,
   getRecurrencesForDate,
@@ -60,7 +60,7 @@ const MonthTable = ({ daysList, resource, eachWeekStart }: Props) => {
       if (resource) {
         resourcedEvents = getResourcedEvents(events, resource, resourceFields, fields);
       }
-      const rows: JSX.Element[] = [];
+      const rows: React.ReactNode[] = [];
 
       for (const startDay of eachWeekStart) {
         const cells = weekDays.map((d) => {
